@@ -1,0 +1,88 @@
+#Consideraçoes gerais sobre o projeto de site pessoal. 
+
+** Nome do projeto:  sitesrcds 
+** Objetivo:  Construir um site pessoal. 
+
+## Visão geral
+
+O site utiliza a abordagem SDD (Spec Driven Design) que significa que tudo é construído 
+a partir de arquivos de especificação, tanto a versão inicial quanto melhorias e correções. 
+
+Esta abordagem é implementada através da utilização de um kit disponibilizado pelo GITHUB para esta finalidade chamado "Github Spec Kit" ( ou simplesmente "GSK"). 
+
+Apenas atividades de instalação de ferramentas e configurações do ambiente serão feitas fora das especificações do GSK. 
+
+## Sobre o site 
+O site é composto por uma pagina centralizadora (SPA) na qual será feita e seleção e exibição das demais paginas do projeto. 
+Todas as paginas serão abertas dentro da pagina SPA. 
+
+## Estrutura de pastas
+A pasta raiz do repositório é a "sitesrcds".
+Em seu nivel mais alto a estrutura de pastas irá dividir as informações em 3 grupos:  
+
+- 01 "Pastas e arquivos de infraestrutura"
+Aqui temos pastas e arquivos básicos que se referem a tecnologias que são pré-requisito para o funcionamento do GSK, Node, etc. são elas. 
+As pastas são .astro, .git e node_modules. 
+Os arquivos de infraestrutura são .gitignore, astro.config.mjs, package.json e package-lock.json 
+
+- 02 "Pastas de separação de responsabilidades"
+Aqui temos pastas que vão separar o que se refere a especificações e o que se refere ao conteúdos gerados a partir delas. 
+As pastas são "gsk" (especificações) e "site" (conteudo gerado). 
+
+- 03 "Pasta de documentos"
+A pasta "docs" irá conter documentações sobre o projeto. 
+
+### "Estrutura básica de pastas"
+c:\github\sitesrcds\
+├── .git\                                      [Diretório de controle de versão Git]
+├── .astro\                                    [Diretório de controle da Framework astro]
+├── docs\                                      [Diretório de documentações]
+├── gsk                                        [Pasta com especificações e arquivos de controle do GSK]
+    └── .gemini\                               [Configurações e comandos do assistente Google Gemini]
+    │   └── commands\
+    │       ├── speckit.analyze.toml           [Comando: análise de coerência entre artefatos]
+    │       ├── speckit.checklist.toml         [Comando: checklist de qualidade e requisitos]
+    │       ├── speckit.clarify.toml           [Comando: esclarecimento interativo de dúvidas]
+    │       ├── speckit.constitution.toml      [Comando: criação/atualização da constituição]
+    │       ├── speckit.converge.toml          [Comando: convergência entre spec, plano e código]
+    │       ├── speckit.implement.toml         [Comando: execução e implementação das tarefas]
+    │       ├── speckit.plan.toml              [Comando: geração do plano arquitetural técnico]
+    │       ├── speckit.specify.toml           [Comando: criação da especificação funcional da feature]
+    │       ├── speckit.tasks.toml             [Comando: geração da lista detalhada de tarefas]
+    │       └── speckit.taskstoissues.toml     [Comando: conversão de tarefas em issues no rastreador]
+    └── .specify\                              [Núcleo de templates, scripts e configurações do Spec Kit]
+        ├── .gitignore                         [Regras de exclusão do Git específicas do Spec Kit]
+        ├── init-options.json                  [Opções utilizadas na inicialização do repositório]
+        ├── integration.json                   [Definições da integração ativa (Gemini / PowerShell)]
+        ├── integrations\
+        │   ├── gemini.manifest.json           [Manifesto e hashes dos arquivos da integração Gemini]
+        │   └── speckit.manifest.json          [Manifesto e hashes dos arquivos base do Spec Kit]
+        ├── memory\
+        │   ├── .constitution-template.json    [Metadados da versão do template da constituição]
+        │   └── constitution.md                [Constituição do projeto: princípios e regras técnicas]
+        ├── scripts\
+        │   └── powershell\
+        │       ├── check-prerequisites.ps1    [Verificação de pré-requisitos do ambiente]
+        │       ├── common.ps1                 [Biblioteca de funções auxiliares do PowerShell]
+        │       ├── create-new-feature.ps1     [Automação para criar branches e pastas de features]
+        │       ├── resolve-template.ps1       [Resolução e fallback de templates]
+        │       ├── setup-plan.ps1             [Scaffolding dos arquivos da fase de planejamento]
+        │       └── setup-tasks.ps1            [Scaffolding dos arquivos da fase de tarefas]
+        ├── templates\
+        │   ├── checklist-template.md          [Template para checklists de qualidade de requisitos]
+        │   ├── constitution-template.md       [Template base para elaboração da constituição]
+        │   ├── plan-template.md               [Template para o plano técnico de implementação]
+        │   ├── spec-template.md               [Template para a especificação funcional de features]
+        │   └── tasks-template.md              [Template para listas de tarefas organizadas por User Story]
+        └── workflows\
+            ├── workflow-registry.json         [Registro de workflows disponíveis no Spec Kit]
+            └── speckit\
+                └── workflow.yml               [Definição formal do workflow do ciclo completo]  
+                ├── gsk
+    └── specs\                                 [Configurações e comandos do assistente Google Gemini]
+├── node_modules\                              [Diretório de modulos do Nodejs]
+├── site\                                      [Diretório de arquivos do site gerados a partir das especificações]
+├── .gitignore                                 [Arquivo de configuração do Git]
+├── astro.config.mjs                           [Arquivo de configuração do framework Astro]
+├── package.json                               [Arquivo de controle do NodeJS]
+├── package-lock.json                          [Arquivo de controle do NodeJS]

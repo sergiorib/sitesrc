@@ -1,0 +1,62 @@
+# 1 Configurações basicas pra uso do GSK (Google Spec Kit) 
+
+    ## 1.1 Pré requisitos 
+		- Antigravity 
+		- Git 
+		- GitHub CLI	
+		- Nodejs	
+		- uv/uvx (intaladores) 
+		- GSK 
+			    Instalação ou atualização do GSK: 
+		    		npm install -g @github/spec-kit
+		    		npm install -g npm@12.2.0
+
+	Instalação ou atualização dos pre-requisitos: Antigravity, Git, Github CLI, NodeJS, uv/uvx (instaladores)
+	    ### 1.1.1 Criação da pasta do projeto e inicialização de repositorio
+	    ### 1.1.2 Instalação ou atualização do GSK: 
+		    npm install -g @github/spec-kit
+		    npm install -g npm@12.2.0
+    ## 1.2 Criar a pasta do projeto 
+
+    ## 1.3 Iniciar o repositorio na pasta sitesrc
+	    cd sitesrc	
+	    git init
+	    git branch -M main
+	    gh repo create sitesrc --public --source=. --remote=origin
+	    git commit --allow-empty -m "chore: initial commit"
+	    git push -u origin main
+
+    ## 1.4 Inicializar o GSK
+	    uvx --from git+https://github.com/github/spec-kit.git specify init --here
+		Escolher a opção "gemini (Gemini CLI)"
+
+    ## 1.5 Issue/Commit/push/PR/Issue das configurações iniciais no Github
+		### 1.5.1 Adiciona os arquivos modificados			
+			git switch -c feature/init-spec-kit
+		### 1.5.2 Adiciona os arquivos modificados
+			git add .
+		### 1.5.3. Cria o commit
+			git commit -m "feat: adiciona estrutura do GitHub Spec Kit"
+		### 1.5.4. Envia a branch para o GitHub
+			git push -u origin feature/init-spec-kit
+		### 1.5.5. Cria a Issue e registra seu número
+			gh issue create --title "Inicializar especificações e templates do projeto" --body "Criar a estrutura base de governança e documentação do projeto utilizando o GitHub Spec Kit."
+		### 1.5.6. Cria o Pull Request vinculado à Issue
+			gh pr create --base main --head feature/init-spec-kit --title "feat: inicialização do GitHub Spec Kit" --body "Adiciona estrutura e modelos do GitHub Spec Kit ao projeto. Closes #1"
+		### 1.5.7. Aprovar a issue no GitHub
+			Entrar no GitHub Web e aprovar o PR.
+			Após a aprovação apagar a branch "feature/init-spec-kit". 
+		### 1.5.8 Limpar a branch local  
+			git switch main
+			git pull origin main
+		### 1.5.9 Atualizar a branch Main localmente 
+			git branch -d feature/init-spec-kit
+
+
+
+
+
+
+
+
+        
