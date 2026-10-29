@@ -1,0 +1,147 @@
+===============================================================================================
+= 01 /speckit.constitution 
+===============================================================================================
+Objetivo: 
+Este comando do GSK que cria o arquivo CONSTITUTION.md de acordo com as especificações.
+Deve ser executado dentro do projeto no Agente (Antigravity).
+No Google Spec Kit, o /speckit.constitution é o comando inicial fundamental do projeto: ele estabelece 
+as diretrizes invioláveis, princípios de arquitetura, padrões de código, stack tecnológica e regras 
+de qualidade que regem todas as fases subsequentes.
+O que faz: 
+    Estabelece as regras globais, princípios de arquitetura, padrões de código, stack tecnológica e diretrizes de qualidade do seu projeto.
+Por que rodar: 
+    Preenche o arquivo CONSTITUTION.md (ou equivalente na pasta .specify). Ele serve como a "lei maior" do projeto para que o assistente no 
+    Antigravity não tome decisões de design que violem suas preferências.
+
+Texto do prompt: 
+"
+/speckit.constitution
+
+Estou iniciando o desenvolvimento do meu Portfólio de Data Science (versão 1.0.0) e quero registrar as seguintes diretrizes invioláveis, stack e padrões de arquitetura:
+
+1. STACK TECNOLÓGICA MANDATÓRIA
+- Framework: Astro (utilizado EXCLUSIVAMENTE para estuturação de componentes `.astro`, Layouts, build estático e file-based routing).
+- Estilização: CSS3 Puro / Vanilla CSS (proibida a instalação de Tailwind, Bootstrap ou CSS-in-JS).
+- Interatividade no Navegador: Vanilla JavaScript puro (proibida a instalação de frameworks de UI como React, Vue ou Svelte).
+
+2. ESTRUTURA E SEPARAÇÃO DE PREOCUPAÇÕES
+- Componentes Astro (`.astro`): Utilizados apenas para encapsular marcação HTML estática e estrutura.
+- Todas as paginas ficarão localizadas na pasta `pages/`. 
+- Cada pagina terá seu proprio diretorio, por exemplo, exemplo: `pages/nome_pagina/`.
+- O estilos (css) de cada pagina ficarão em pastas chamadas "css" dentro do diretorio da mesma, por exemplo: `pages/nome_pagina/css/`. 
+- As imagens de cada pagina ficarão de uma pasta chamada `images` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/images/`. 
+- Os codigos JS de cada pagina ficarão de uma pasta chamada `js` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/js/`. 
+- Lógica de UI Client-Side: Scripts em Vanilla JS de cada pagina ficarão organizados exclusivamente na pasta 'js/' da mesma.
+
+3. ARQUITETURA DE DESIGN E UI (Dark Tech Dashboard)
+- Cada pagina rá definir sua arquiteura de design, estilo e etc.
+
+4. REGRAS DE WORKFLOW E AUTOMAÇÃO
+- O versionamento será feito automaticamente de acordo com as diretrizes passadas na especificação das tarefas. 
+- Será usado o git e o github CLI para execução das tarefas de versionamento. 
+
+5. CONVENÇÃO DE NOMENCLATURA DE ESPECIFICAÇÕES (.specify)
+- Todos os arquivos de especificação gerados pelo comando /speckit.specify DEVEM obrigatoriamente seguir o padrão de nomenclatura: `spec-[numero_sequencial]_[nome_da_feature].md` (exemplo: `spec-01_pagina_spa.md`, `spec-02_sobre.md`).
+- As especificações devem ser salvas no diretório `.specify/specs/`.
+
+"
+===============================================================================================
+== 2. /speckit.specify
+===============================================================================================
+O que faz: 
+  Cria a especificação funcional detalhada de uma feature ou tarefa específica.
+Por que rodar: 
+  Em vez de pedir "faça uma tela de login", você roda /speckit.specify Login de Usuários para que o assistente faça as perguntas certas, 
+defina requisitos funcionais, casos de borda e critérios de aceite antes de planejar a solução técnica.
+
+------------------------------------------------------------------------------------------------
+-- 2.1 Criação da pagina SPA
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+"
+/speckit.specify Criar a estrutura da Página Principal SPA (Layout Base, Sidebar e Main Container)
+
+Objetivo: Implementar o layout base da aplicação Single Page Application (SPA), composto por uma Sidebar fixa à esquerda com identidade profissional e navegação, e uma Área de Conteúdo Principal (Main Container) dinâmica à direita, capaz de carregar páginas primárias e subpáginas em cascata de forma transparente, com suporte a navegação por Breadcrumbs.
+
+### 1. CONSIDERAÇÕES GERAIS
+- O nome do arquivo principal da SPA será `spa.astro`.
+- O diretório da página será `pages/spa`.
+
+### 2. LAYOUT GERAL & COMPORTAMENTO
+- O layout deve ocupar 100% da largura e altura disponíveis da janela (100vw / 100vh).
+- Divisão horizontal: Sidebar à esquerda (300px) e Main Container ocupando todo o espaço restante.
+- Estrutura global estável durante a navegação. A troca de item do menu atualiza o conteúdo do Main Container e o estado visual do botão sem recarregar a Sidebar.
+- Os elementos devem ser organizados em componentes isolados e modulares.
+
+### 3. ESTRUTURA DA SIDEBAR
+A Sidebar é dividida em duas regiões verticais:
+- Cabeçalho de Identidade (topo, 275px de altura).
+- Área de Navegação (espaço restante abaixo do cabeçalho).
+
+### 4. CABEÇALHO DE IDENTIDADE
+- Fundo: Imagem `pages/spa/assets/images/profile-bg.png` (`background-size: cover`). Borda na cor `#69C4CE`.
+- Foto de Perfil:
+  * Imagem: `pages/spa/assets/images/profile-photo.png`.
+  * Circular (160px de diâmetro), centralizada, `object-fit: cover`.
+  * Moldura circular com gradiente vertical do topo (`#3893BA`) à base (`#25797F`).
+- Nome Profissional:
+  * Texto: "Sérgio Ribeiro Cerqueira".
+  * Tipografia: `Barlow Condensed`, peso `600`, tamanho `30px`, cor `#FFFFFF`, alinhamento centralizado.
+- Profissão:
+  * Texto: "Cientista de Dados".
+  * Tipografia: `Barlow Condensed`, peso `600`, tamanho `25px`, cor `#FFFFFF`, alinhamento centralizado.
+- Faixa de Contraste dos Textos:
+  * Fundo escuro de cor `#061B2A` com baixa opacidade atrás do nome e profissão para garantir legibilidade sem ocultar a imagem temática do cabeçalho.
+
+### 5. ÁREA DE NAVEGAÇÃO & ITENS DO MENU
+- Fundo do Contêiner de Navegação: Cor `#16222A` com borda `#69C4CE` e imagem de fundo `pages/spa/assets/images/menu-bg.png`.
+- Padrão dos Itens do Menu:
+  * Largura ocupando ~93% da Sidebar, altura de 50px, espaçamento vertical de 16px, cantos arredondados com raio de 20px.
+  * Item Default Selecionado: "Sobre".
+- Mapeamento dos Itens, Ícones e Páginas:
+  1. "Sobre" -> `sobre.astro` | Ícones: `icone-sobre-claro.png` / `icone-sobre-escuro.png`
+  2. "Histórico" -> `historico.astro` | Ícones: `icone-historico-claro.png` / `icone-historico-escuro.png`
+  3. "Formação" -> `formacao.astro` | Ícones: `icone-formacao-claro.png` / `icone-formacao-escuro.png`
+  4. "Portfólio" -> `portfolio.astro` | Ícones: `icone-portfolio-claro.png` / `icone-portfolio-escuro.png`
+  5. "Artigos" -> `artigos.astro` | Ícones: `icone-artigos-claro.png` / `icone-artigos-escuro.png`
+  6. "Contatos" -> `contatos.astro` | Ícones: `icone-contatos-claro.png` / `icone-contatos-escuro.png`
+  *(Nota 1: Os ícones estão localizados no diretório `pages/spa/assets/images/`)*
+  *(Nota 2: Deverá ser criada a página de fallback `pages/spa/default.astro` indicando "Página não encontrada")*.
+  *(Nota 3: Caso a página ou rota requisitada não exista, o sistema deve carregar a página `pages/spa/default.astro` no Main Container)*.
+
+- Estilização por Estado:
+  * Não Selecionado: Fundo `#061B2A`, Borda `#69C4CE`, Texto `#EDF2EE`, Ícone na versão clara.
+  * Selecionado (Ativo): Fundo `#B3CBDB`, Borda `#69C4CE`, Texto `#061B2A`, Ícone na versão escura.
+
+### 6. ÁREA DE CONTEÚDO PRINCIPAL (MAIN CONTAINER)
+- Ocupa a largura restante à direita da Sidebar e 100% da altura disponível.
+- Responsável por carregar visualmente os conteúdos das páginas primárias (`sobre`, `historico`, `formacao`, `portfolio`, `artigos`, `contatos`).
+- Serve como ponto de exibição exclusivo para todas as subpáginas abertas em cascata.
+
+### 7. COMPONENTE DE BREADCRUMBS (NAVEGAÇÃO HIERÁRQUICA)
+- Posicionamento: Localizado no topo da Área de Conteúdo Principal (`Main Container`).
+- Formato Visual: Exibido em linha única horizontal no formato `pagina1 / pagina2 / pagina3` (utilizando barra `/` como separador sutil).
+- Atualização Dinâmica: Atualizado automaticamente pelo roteador da SPA a cada alteração de rota ou nível de profundidade.
+- Interatividade: Todos os níveis da trilha (exceto a página atual no final) devem ser links clicáveis que disparam a navegação SPA de volta ao nível correspondente sem recarregar a página.
+- A presentação do componente deve ser pequena, discreta e totalmente integrada ao design da pagina.  
+
+### 8. COMPORTAMENTO DE NAVEGAÇÃO E ROTEADOR DINÂMICO (SPA)
+
+1. CONTAINER DE INJEÇÃO ÚNICO (SINGLE CONTENT TARGET)
+- O `Main Container` (#main-content ou equivalente) é o ÚNICO ponto de renderização e exibição para todas as páginas primárias e subpáginas em cascata do site.
+- A Sidebar e o Layout Base PERMANECEM ESTÁVEIS e imóveis na tela durante todo o ciclo de vida da sessão. O navegador nunca deve executar um reload completo de página (Full Page Reload) ao navegar.
+
+2. DELEGAÇÃO GLOBAL DE EVENTOS (EVENT DELEGATION)
+- O script de roteamento da SPA deve utilizar delegação de eventos no nível do `document` (`document.addEventListener('click', ...)`).
+- Qualquer clique em elementos de link (`<a>`) com direcionamento interno (URLs relativas ou caminhos sob a estrutura de `pages/`) — seja disparado pelos botões do menu lateral, pela régua de Breadcrumbs ou por elementos interativos em páginas secundárias — DEVE ser interceptado (`e.preventDefault()`).
+
+3. ROTEAMENTO DINÂMICO E DESCOBERTA AUTOMÁTICA DE SUBPÁGINAS
+- O roteador NÃO deve ser restrito a uma lista "hardcoded" contendo apenas os 6 itens do menu principal.
+- Qualquer requisição de rota ou link interno direcionado a subpastas ou arquivos válidos dentro de `pages/` (ex: subpáginas adicionadas manualmente pelo desenvolvedor em `pages/portfolio/projeto-01.astro`) deve ser buscada via requisição assíncrona (Fetch) e injetada no `Main Container`.
+- Se a página requisitada não for encontrada (erro 404/falha de carregamento), o roteador deve exibir o conteúdo do arquivo `pages/spa/default.astro` no `Main Container`.
+
+4. HISTÓRICO E MANUTENÇÃO DO ESTADO VISUAL
+- A aplicação deve registrar e atualizar a URL no navegador utilizando a History API (`window.history.pushState`), garantindo o suporte nativo aos botões "Voltar" e "Avançar" do navegador sem recarregar o layout da SPA.
+- Ao navegar para uma subpágina em cascata (ex: detalhes de um item do portfólio), a Sidebar deve MANTER visualmente selecionado o item do menu primário pai (ex: "Portfólio").
+"
