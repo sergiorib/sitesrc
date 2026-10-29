@@ -46,17 +46,17 @@ Estou iniciando o desenvolvimento do meu Portfólio de Data Science (versão 1.0
 
 "
 ===============================================================================================
-== 2. /speckit.specify
+== 2. Criação da SPA
 ===============================================================================================
+
+------------------------------------------------------------------------------------------------
+-- 2.1 /speckit.specify da pagina SPA
+------------------------------------------------------------------------------------------------
 O que faz: 
   Cria a especificação funcional detalhada de uma feature ou tarefa específica.
 Por que rodar: 
   Em vez de pedir "faça uma tela de login", você roda /speckit.specify Login de Usuários para que o assistente faça as perguntas certas, 
 defina requisitos funcionais, casos de borda e critérios de aceite antes de planejar a solução técnica.
-
-------------------------------------------------------------------------------------------------
--- 2.1 Criação da pagina SPA
-------------------------------------------------------------------------------------------------
 
 Texto do prompt: 
 "
@@ -145,3 +145,40 @@ A Sidebar é dividida em duas regiões verticais:
 - A aplicação deve registrar e atualizar a URL no navegador utilizando a History API (`window.history.pushState`), garantindo o suporte nativo aos botões "Voltar" e "Avançar" do navegador sem recarregar o layout da SPA.
 - Ao navegar para uma subpágina em cascata (ex: detalhes de um item do portfólio), a Sidebar deve MANTER visualmente selecionado o item do menu primário pai (ex: "Portfólio").
 "
+
+------------------------------------------------------------------------------------------------
+-- 2.2 /speckit.plan da pagina SPA
+------------------------------------------------------------------------------------------------
+Texto do prompt: 
+"
+/speckit.plan 
+Gerar o plano de arquitetura técnica para a Página Principal SPA a partir do arquivo .specify/specs/spec-01_pagina_spa.md
+
+Diretrizes para o planejamento:
+- Mapear a criação dos componentes Astro para a Sidebar e o Main Container em  'pages/spa/'.
+- Projetar o script em Vanilla JS (public/assets/js/router.js ou equivalente) com delegação global de eventos para gerenciar o roteamento dinâmico e o fallback para pages/spa/default.astro.
+- Mapear a estrutura do componente de Breadcrumbs e a lógica de atualização da régua de navegação em linha única.
+- Garantir que todos os arquivos CSS necessarios para o funcionamento da pagina fiquem isolados em pages/spa/assets/css/.
+- Garantir que todos os arquivos JS necessarios para o funcionamento da pagina fiquem isolados em pages/spa/assets/js/.
+
+"
+
+------------------------------------------------------------------------------------------------
+-- 2.3 /speckit.tasks da pagina SPA
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+"
+/speckit.tasks 
+Gerar o checklist de tarefas executáveis para a implementação da Página Principal SPA
+
+Diretrizes para a geração das tarefas:
+- Basear-se estritamente na especificação spec-01_pagina_spa.md e no plano técnico gerado pelo /speckit.plan.
+- Quebrar o trabalho em etapas pequenas, sequenciais e testáveis (ex: criação da estrutura de arquivos em pages/spa/, isolamento dos componentes Astro da Sidebar e Main Container, criação dos estilos CSS em public/assets/css/, e implementação do roteador Vanilla JS com delegação de eventos e Breadcrumbs em public/assets/js/).
+- Garantir que cada tarefa do checklist seja clara e direta para que o comando /speckit.implement possa executá-las individualmente sem ambiguidades.
+"
+
+------------------------------------------------------------------------------------------------
+-- 2.4 /speckit.implement da pagina SPA
+------------------------------------------------------------------------------------------------
+
