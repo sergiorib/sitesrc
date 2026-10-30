@@ -1,0 +1,101 @@
+<div id="page-content" class="page-content-wrapper" data-page-id="subpagina-demo" data-page-title="Detalhes do Projeto">
+  <div class="page-header">
+    <h2 class="page-title">Projeto em Destaque: Pipeline End-to-End de IA</h2>
+    <p class="page-subtitle">Exemplo de subpágina dinâmica carregada em cascata na SPA</p>
+  </div>
+
+  <div class="content-body">
+    <p class="intro-paragraph">
+      Esta é uma subpágina demonstrando o carregamento dinâmico no <code>Main Container</code>.
+      Note que o menu pai <strong>Portfólio</strong> permanece selecionado na Sidebar, e a régua de <strong>Breadcrumbs</strong> no topo reflete a navegação em cascata.
+    </p>
+
+    <div class="subpage-box">
+      <h3>Teste de Roteamento Resiliente e Fallback 404</h3>
+      <p>Clique no link abaixo para testar a detecção de rota inexistente e a exibição de <code>default.astro</code>:</p>
+      <div style="margin-top: 16px;">
+        <a href="/spa/rota-inexistente-teste" class="test-btn">Testar Rota 404 Inexistente</a>
+        <a href="/spa/portfolio/" class="test-btn secondary">Voltar para Portfólio</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .page-header {
+    border-bottom: 1px solid rgba(105, 196, 206, 0.3);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-size: 34px;
+    font-weight: 600;
+    color: #69C4CE;
+    margin-bottom: 6px;
+  }
+
+  .page-subtitle {
+    font-size: 18px;
+    color: #B3CBDB;
+  }
+
+  .intro-paragraph {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #EDF2EE;
+    margin-bottom: 24px;
+  }
+
+  .subpage-box {
+    background-color: #16222A;
+    border: 1px solid #69C4CE;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .subpage-box h3 {
+    color: #FFFFFF;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .subpage-box p {
+    color: #EDF2EE;
+    font-size: 16px;
+  }
+
+  .test-btn {
+    display: inline-block;
+    background-color: #061B2A;
+    border: 1px solid #69C4CE;
+    color: #EDF2EE;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .test-btn:hover {
+    background-color: #B3CBDB;
+    color: #061B2A;
+  }
+
+  .test-btn.secondary {
+    border-color: rgba(105, 196, 206, 0.5);
+    background-color: transparent;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -31,10 +31,10 @@ A organização do código fonte deve garantir total isolamento e modularidade p
 - **Componentes Astro (`.astro`)**: Devem ser restritos a encapsular marcação HTML semântica e esqueleto estrutural.
 - **Diretório Raiz de Páginas**: Todas as páginas devem estar obrigatoriamente localizadas na pasta `pages/`.
 - **Isolamento de Recursos por Página**: Cada página deve possuir seu próprio subdiretório dedicado (`pages/<nome_pagina>/`), contendo internamente suas próprias pastas de assets e comportamentos:
-  - `pages/<nome_pagina>/css/`: Folhas de estilo em CSS puro da respectiva página.
-  - `pages/<nome_pagina>/images/`: Imagens e mídias estáticas associadas à página.
-  - `pages/<nome_pagina>/js/`: Scripts em Vanilla JS e lógica de UI client-side restritos à página.
-- **Encapsulamento Client-Side**: Scripts client-side de uma página devem residir exclusivamente na pasta `js/` de seu respectivo diretório.
+  - `pages/<nome_pagina>/assets/css/`: Folhas de estilo em CSS puro da respectiva página.
+  - `pages/<nome_pagina>/assets/images/`: Imagens e mídias estáticas associadas à página.
+  - `pages/<nome_pagina>/assets/js/`: Scripts em Vanilla JS e lógica de UI client-side restritos à página.
+- **Encapsulamento Client-Side**: Scripts client-side de uma página devem residir exclusivamente na pasta `assets/js/` de seu respectivo diretório.
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 A identidade estética e a arquitetura visual de cada página devem ser configuradas individualmente sob a estética Dark Tech Dashboard:

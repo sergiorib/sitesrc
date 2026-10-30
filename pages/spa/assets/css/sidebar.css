@@ -1,0 +1,182 @@
+/* Sidebar Estrutural */
+.sidebar {
+  width: var(--sidebar-width, 300px);
+  min-width: var(--sidebar-width, 300px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid var(--color-border-cyan, #69C4CE);
+  background-color: var(--color-bg-primary, #061B2A);
+  overflow: hidden;
+  user-select: none;
+  z-index: 10;
+}
+
+/* Cabeçalho de Identidade (Topo - 275px) */
+.identity-header {
+  height: var(--identity-header-height, 275px);
+  min-height: var(--identity-header-height, 275px);
+  background-image: url('../images/profile-bg.png');
+  background-size: cover;
+  background-position: center;
+  border-bottom: 2px solid var(--color-border-cyan, #69C4CE);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 12px 10px 12px;
+  position: relative;
+}
+
+.profile-photo-wrapper {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, #3893BA, #25797F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.profile-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.identity-contrast-strip {
+  width: 100%;
+  margin-top: 10px;
+  background-color: rgba(6, 27, 42, 0.85);
+  border-radius: 8px;
+  padding: 4px 8px;
+  text-align: center;
+  backdrop-filter: blur(2px);
+}
+
+.profile-name {
+  font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--color-white, #FFFFFF);
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.profile-role {
+  font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
+  font-weight: 600;
+  font-size: 25px;
+  color: var(--color-white, #FFFFFF);
+  line-height: 1.1;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* Área de Navegação e Menu Lateral */
+.sidebar-nav-container {
+  flex: 1;
+  background-color: var(--color-bg-nav, #16222A);
+  background-image: url('../images/menu-bg.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  overflow-y: auto;
+}
+
+.sidebar-nav-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav-container::-webkit-scrollbar-thumb {
+  background: #25797F;
+  border-radius: 2px;
+}
+
+.nav-items-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Itens de Navegação (Padrão: ~93% largura, 50px altura, 20px border-radius) */
+.nav-item {
+  width: 93%;
+  height: 50px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  text-decoration: none;
+  font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estado Não Selecionado */
+.nav-item:not(.active) {
+  background-color: var(--color-bg-primary, #061B2A);
+  border: 1px solid var(--color-border-cyan, #69C4CE);
+  color: var(--color-text-light, #EDF2EE);
+}
+
+.nav-item:not(.active) .icon-light {
+  display: block;
+}
+
+.nav-item:not(.active) .icon-dark {
+  display: none;
+}
+
+.nav-item:not(.active):hover {
+  background-color: #0c2b42;
+  transform: translateX(2px);
+}
+
+/* Estado Selecionado (Ativo) */
+.nav-item.active {
+  background-color: var(--color-active-bg, #B3CBDB);
+  border: 1px solid var(--color-border-cyan, #69C4CE);
+  color: var(--color-active-text, #061B2A);
+  box-shadow: 0 2px 8px rgba(105, 196, 206, 0.25);
+}
+
+.nav-item.active .icon-light {
+  display: none;
+}
+
+.nav-item.active .icon-dark {
+  display: block;
+}
+
+.nav-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.nav-label {
+  flex: 1;
+  text-align: left;
+}

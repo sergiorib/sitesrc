@@ -1,0 +1,51 @@
+/* Régua de Breadcrumbs (Navegação Hierárquica em Linha Única) */
+.breadcrumbs-bar {
+  width: 100%;
+  padding: 12px 40px;
+  background-color: rgba(6, 27, 42, 0.95);
+  border-bottom: 1px solid rgba(105, 196, 206, 0.2);
+  display: flex;
+  align-items: center;
+  font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+.breadcrumbs-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-link {
+  color: var(--color-border-cyan, #69C4CE);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--color-white, #FFFFFF);
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: rgba(179, 203, 219, 0.4);
+  font-size: 14px;
+}
+
+.breadcrumb-item.current .breadcrumb-current-text {
+  color: rgba(237, 242, 238, 0.7);
+  cursor: default;
+}

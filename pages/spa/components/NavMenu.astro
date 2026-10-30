@@ -1,0 +1,69 @@
+---
+import NavItem from './NavItem.astro';
+
+const items = [
+  {
+    id: 'sobre',
+    label: 'Sobre',
+    targetRoute: '/spa/sobre/',
+    iconLight: '/pages/spa/assets/images/icone-sobre-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-sobre-escuro.png',
+    isActive: true,
+  },
+  {
+    id: 'historico',
+    label: 'Histórico',
+    targetRoute: '/spa/historico/',
+    iconLight: '/pages/spa/assets/images/icone-historico-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-historico-escuro.png',
+    isActive: false,
+  },
+  {
+    id: 'formacao',
+    label: 'Formação',
+    targetRoute: '/spa/formacao/',
+    iconLight: '/pages/spa/assets/images/icone-formacao-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-formacao-escuro.png',
+    isActive: false,
+  },
+  {
+    id: 'portfolio',
+    label: 'Portfólio',
+    targetRoute: '/spa/portfolio/',
+    iconLight: '/pages/spa/assets/images/icone-portfolio-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-portfolio-escuro.png',
+    isActive: false,
+  },
+  {
+    id: 'artigos',
+    label: 'Artigos',
+    targetRoute: '/spa/artigos/',
+    iconLight: '/pages/spa/assets/images/icone-artigos-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-artigos-escuro.png',
+    isActive: false,
+  },
+  {
+    id: 'contatos',
+    label: 'Contatos',
+    targetRoute: '/spa/contatos/',
+    iconLight: '/pages/spa/assets/images/icone-contatos-claro.png',
+    iconDark: '/pages/spa/assets/images/icone-contatos-escuro.png',
+    isActive: false,
+  },
+];
+---
+
+<nav id="sidebar-nav" class="sidebar-nav-container" aria-label="Menu Principal">
+  <div class="nav-items-wrapper">
+    {items.map((item) => (
+      <NavItem
+        id={item.id}
+        label={item.label}
+        targetRoute={item.targetRoute}
+        iconLight={item.iconLight}
+        iconDark={item.iconDark}
+        isActive={item.isActive}
+      />
+    ))}
+  </div>
+</nav>

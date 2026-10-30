@@ -1,0 +1,79 @@
+<div id="page-content" class="page-content-wrapper default-fallback-page" data-page-id="default" data-page-title="Página não encontrada">
+  <div class="fallback-card">
+    <div class="fallback-icon">⚠️</div>
+    <h2 class="fallback-title">Página Não Encontrada (404)</h2>
+    <p class="fallback-message">
+      A rota ou recurso solicitado não foi localizado na estrutura do portfólio.
+    </p>
+    <div class="fallback-actions">
+      <a href="/spa/sobre/" class="fallback-button">
+        &larr; Retornar à Página Inicial (Sobre)
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .default-fallback-page {
+    max-width: 680px;
+    margin: 60px auto 0 auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .fallback-card {
+    background-color: #16222A;
+    border: 2px solid #69C4CE;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .fallback-icon {
+    font-size: 54px;
+    margin-bottom: 16px;
+  }
+
+  .fallback-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #69C4CE;
+    margin-bottom: 12px;
+  }
+
+  .fallback-message {
+    font-size: 18px;
+    color: #EDF2EE;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .fallback-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .fallback-button {
+    display: inline-block;
+    background-color: #061B2A;
+    border: 1px solid #69C4CE;
+    color: #EDF2EE;
+    padding: 12px 28px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .fallback-button:hover {
+    background-color: #B3CBDB;
+    color: #061B2A;
+    box-shadow: 0 2px 12px rgba(105, 196, 206, 0.3);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

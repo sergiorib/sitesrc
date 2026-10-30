@@ -1,0 +1,91 @@
+<div id="page-content" class="page-content-wrapper" data-page-id="artigos" data-page-title="Artigos">
+  <div class="page-header">
+    <h2 class="page-title">Artigos & Publicações</h2>
+    <p class="page-subtitle">Textos técnicos, reflexões e metodologias em Data Science e MLOps</p>
+  </div>
+
+  <div class="content-body articles-list">
+    <article class="article-item">
+      <span class="article-meta">2026 • Machine Learning</span>
+      <h3>Boas Práticas para Estruturação de Single Page Applications com Astro e Vanilla JS</h3>
+      <p>Como construir arquiteturas de dashboard rápidas e sem bloat de frameworks utilizando Vanilla JS e Astro estático.</p>
+    </article>
+
+    <article class="article-item">
+      <span class="article-meta">2025 • MLOps</span>
+      <h3>Estratégias de Monitoramento de Data Drift em Modelos Preditivos</h3>
+      <p>Técnicas quantitativas para detecção de anomalias em distribuições de dados em ambientes produtivos.</p>
+    </article>
+
+    <article class="article-item">
+      <span class="article-meta">2024 • Estatística</span>
+      <h3>Inferência Causal em Testes A/B para Ambientes Digitais</h3>
+      <p>Abordagens robustas para controle de variáveis de confusão e cálculo de significância estatística.</p>
+    </article>
+  </div>
+</div>
+
+<style>
+  .page-content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .page-header {
+    border-bottom: 1px solid rgba(105, 196, 206, 0.3);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #69C4CE;
+    margin-bottom: 6px;
+  }
+
+  .page-subtitle {
+    font-size: 20px;
+    color: #B3CBDB;
+  }
+
+  .articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .article-item {
+    background-color: #16222A;
+    border: 1px solid rgba(105, 196, 206, 0.4);
+    border-radius: 12px;
+    padding: 22px;
+  }
+
+  .article-meta {
+    font-size: 13px;
+    color: #69C4CE;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .article-item h3 {
+    font-size: 22px;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+
+  .article-item p {
+    font-size: 16px;
+    color: #EDF2EE;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
