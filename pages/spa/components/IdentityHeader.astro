@@ -1,0 +1,27 @@
+---
+interface Props {
+  name?: string;
+  role?: string;
+}
+
+const {
+  name = 'Sérgio Ribeiro Cerqueira',
+  role = 'Cientista de Dados',
+} = Astro.props;
+---
+
+<header id="identity-header" class="identity-header">
+  <div class="profile-photo-wrapper">
+    <img
+      src="/pages/spa/assets/images/profile-photo.png"
+      alt={`Foto de perfil de ${name}`}
+      class="profile-photo"
+      width="160"
+      height="160"
+    />
+  </div>
+  <div class="identity-contrast-strip">
+    <h1 class="profile-name">{name}</h1>
+    <p class="profile-role">{role}</p>
+  </div>
+</header>

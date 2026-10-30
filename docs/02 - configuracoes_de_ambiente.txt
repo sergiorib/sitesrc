@@ -31,7 +31,7 @@
 		Escolher a opção "gemini (Gemini CLI)"
 
     ## 1.5 Issue/Commit/push/PR/Issue das configurações iniciais no Github
-		### 1.5.1 Adiciona os arquivos modificados			
+		### 1.5.1 Criação da branch			
 			git switch -c feature/init-spec-kit
 		### 1.5.2 Adiciona os arquivos modificados
 			git add .
@@ -44,8 +44,10 @@
 		### 1.5.6. Cria o Pull Request vinculado à Issue
 			gh pr create --base main --head feature/init-spec-kit --title "feat: inicialização do GitHub Spec Kit" --body "Adiciona estrutura e modelos do GitHub Spec Kit ao projeto. Closes #1"
 		### 1.5.7. Aprovar a issue no GitHub
-			Entrar no GitHub Web e aprovar o PR.
-			Após a aprovação apagar a branch "feature/init-spec-kit". 
+			- Aprova o Pull Request (executado por um revisor autorizado)
+				gh pr review feature/init-spec-kit --approve
+			- Integra o PR à main e exclui as branches após o merge
+				gh pr merge feature/init-spec-kit --squash --delete-branch
 		### 1.5.8 Limpar a branch local  
 			git switch main
 			git pull origin main

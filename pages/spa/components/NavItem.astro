@@ -1,0 +1,46 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  targetRoute: string;
+  iconLight: string;
+  iconDark: string;
+  isActive?: boolean;
+}
+
+const {
+  id,
+  label,
+  targetRoute,
+  iconLight,
+  iconDark,
+  isActive = false,
+} = Astro.props;
+---
+
+<a
+  href={targetRoute}
+  class:list={['nav-item', { active: isActive }]}
+  data-menu-id={id}
+  aria-current={isActive ? 'page' : undefined}
+>
+  <span class="nav-icon-container">
+    <img
+      src={iconLight}
+      alt=""
+      class="nav-icon icon-light"
+      width="24"
+      height="24"
+      aria-hidden="true"
+    />
+    <img
+      src={iconDark}
+      alt=""
+      class="nav-icon icon-dark"
+      width="24"
+      height="24"
+      aria-hidden="true"
+    />
+  </span>
+  <span class="nav-label">{label}</span>
+</a>

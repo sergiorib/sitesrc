@@ -1,0 +1,33 @@
+---
+import Sidebar from './components/Sidebar.astro';
+import MainContainer from './components/MainContainer.astro';
+import SobreContent from './sobre.astro';
+
+import './assets/css/spa-layout.css';
+import './assets/css/sidebar.css';
+import './assets/css/breadcrumbs.css';
+import './assets/css/main-container.css';
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sérgio Ribeiro Cerqueira | Cientista de Dados</title>
+    <meta name="description" content="Portfólio de Data Science de Sérgio Ribeiro Cerqueira" />
+  </head>
+  <body>
+    <div id="spa-layout" class="spa-layout">
+      <Sidebar />
+      <MainContainer>
+        <SobreContent />
+      </MainContainer>
+    </div>
+
+    <!-- Script Client-Side com Roteador Vanilla JS -->
+    <script>
+      import './assets/js/router.js';
+    </script>
+  </body>
+</html>

@@ -28,10 +28,10 @@ Estou iniciando o desenvolvimento do meu Portfólio de Data Science (versão 1.0
 - Componentes Astro (`.astro`): Utilizados apenas para encapsular marcação HTML estática e estrutura.
 - Todas as paginas ficarão localizadas na pasta `pages/`. 
 - Cada pagina terá seu proprio diretorio, por exemplo, exemplo: `pages/nome_pagina/`.
-- O estilos (css) de cada pagina ficarão em pastas chamadas "css" dentro do diretorio da mesma, por exemplo: `pages/nome_pagina/css/`. 
-- As imagens de cada pagina ficarão de uma pasta chamada `images` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/images/`. 
-- Os codigos JS de cada pagina ficarão de uma pasta chamada `js` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/js/`. 
-- Lógica de UI Client-Side: Scripts em Vanilla JS de cada pagina ficarão organizados exclusivamente na pasta 'js/' da mesma.
+- O estilos (css) de cada pagina ficarão em pastas chamadas "css" dentro do diretorio da mesma, por exemplo: `pages/nome_pagina/assets/css/`. 
+- As imagens de cada pagina ficarão de uma pasta chamada `images` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/assets/images/`. 
+- Os codigos JS de cada pagina ficarão de uma pasta chamada `js` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/assets/js/`. 
+- Lógica de UI Client-Side: Scripts em Vanilla JS de cada pagina ficarão organizados exclusivamente na pasta 'assets/js/' da mesma.
 
 3. ARQUITETURA DE DESIGN E UI (Dark Tech Dashboard)
 - Cada pagina rá definir sua arquiteura de design, estilo e etc.
@@ -181,4 +181,15 @@ Diretrizes para a geração das tarefas:
 ------------------------------------------------------------------------------------------------
 -- 2.4 /speckit.implement da pagina SPA
 ------------------------------------------------------------------------------------------------
+
+/speckit.implement 
+Executar as tarefas do checklist para a criação da Página Principal SPA
+
+Instruções para a implementação:
+- Siga estritamente a ordem definida no checklist de tarefas gerado pelo /speckit.tasks.
+- Respeite todas as regras da CONSTITUTION.md (Astro + Vanilla CSS e Vanilla JS puro, sem bibliotecas de UI externas).
+- Crie a estrutura de arquivos e componentes em pages/spa/ (incluindo spa.astro, componentes isolados, imagens e a página de fallback default.astro).
+- Implemente o roteador em Vanilla JS com delegação global de eventos e suporte à régua de Breadcrumbs em linha única.
+- Atualize o status de cada tarefa no arquivo de tasks à medida que forem concluídas.
+
 

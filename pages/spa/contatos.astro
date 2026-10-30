@@ -1,0 +1,88 @@
+<div id="page-content" class="page-content-wrapper" data-page-id="contatos" data-page-title="Contatos">
+  <div class="page-header">
+    <h2 class="page-title">Contatos & Redes Profissionais</h2>
+    <p class="page-subtitle">Canais diretos para contato, consultoria e colaborações</p>
+  </div>
+
+  <div class="content-body contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">📧</div>
+      <h3>E-mail</h3>
+      <p>sergio.cerqueira@datascience.dev</p>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-icon">💼</div>
+      <h3>LinkedIn</h3>
+      <p>linkedin.com/in/sergio-ribeiro-cerqueira</p>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-icon">🐙</div>
+      <h3>GitHub</h3>
+      <p>github.com/sergio-cerqueira</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .page-header {
+    border-bottom: 1px solid rgba(105, 196, 206, 0.3);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #69C4CE;
+    margin-bottom: 6px;
+  }
+
+  .page-subtitle {
+    font-size: 20px;
+    color: #B3CBDB;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .contact-card {
+    background-color: #16222A;
+    border: 1px solid rgba(105, 196, 206, 0.4);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .contact-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .contact-card h3 {
+    font-size: 22px;
+    color: #69C4CE;
+    margin-bottom: 6px;
+  }
+
+  .contact-card p {
+    font-size: 16px;
+    color: #EDF2EE;
+    word-break: break-all;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
