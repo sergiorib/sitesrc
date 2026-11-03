@@ -1,0 +1,282 @@
+/* Estilos para a Página "Sobre mim" (sobre.astro) */
+
+.sobre-page {
+  background: linear-gradient(to bottom, #16222A 0%, #3A6073 100%);
+  min-height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.info-panel {
+  background: linear-gradient(to bottom, #DAEBF2 0%, #A8CCD9 100%);
+  border: 1px solid #0381B0;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.panel-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: #000000;
+  text-align: left;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.about-bio-text {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 22px;
+  color: #4A5B61;
+  line-height: 1.5;
+  text-align: justify;
+  margin: 0;
+}
+
+.skills-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.skills-panel-header .panel-title {
+  margin-bottom: 0;
+}
+
+/* Legenda de Estrelas */
+.legend-details {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #0381B0;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  max-width: 320px;
+}
+
+.legend-summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #2D4A22;
+  user-select: none;
+}
+
+.legend-content {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid #C5E1A5;
+  padding-top: 6px;
+}
+
+.legend-item {
+  font-size: 13px;
+  color: #263238;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Consolas', monospace;
+}
+
+.legend-stars {
+  color: #2D4A22;
+  font-weight: bold;
+}
+
+/* Divisões de Habilidades */
+.skill-division {
+  margin-bottom: 20px;
+}
+
+.division-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #1F382B;
+  border-bottom: 2px solid #0381B0;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+  margin-top: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.skills-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.hard-skills-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.soft-skills-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.skill-card {
+  background: linear-gradient(to right, #FFEFBA 0%, #FFFFFF 100%);
+  border: 1px solid #0381B0;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.soft-skill-card {
+  background: linear-gradient(to right, #C6E9BC 0%, #FFFFFF 100%);
+}
+
+.category-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #386312;
+  margin-bottom: 10px;
+  margin-top: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.tech-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.tech-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #000000;
+  margin-left: 6px;
+}
+
+/* Grupos e Sub-grupos Colapsáveis */
+.skill-group-details {
+  border: 1px dashed rgba(3, 129, 176, 0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.skill-group-summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1F382B;
+  user-select: none;
+  list-style: none;
+}
+
+.skill-group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.skill-group-summary::before {
+  content: '▶';
+  font-size: 10px;
+  margin-right: 6px;
+  transition: transform 0.2s ease;
+  color: #0381B0;
+}
+
+.skill-group-details[open] > .skill-group-summary::before {
+  transform: rotate(90deg);
+}
+
+.skill-sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 16px;
+  margin-top: 6px;
+  border-left: 2px solid rgba(3, 129, 176, 0.2);
+}
+
+.star-rating-container {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-icon {
+  width: 13px;
+  height: 13px;
+}
+
+.star-icon.active polygon {
+  fill: #2D4A22;
+  stroke: #2D4A22;
+}
+
+.star-icon.inactive polygon {
+  fill: transparent;
+  stroke: #CCCCCC;
+  stroke-width: 1.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .hard-skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .sobre-page {
+    padding: 12px;
+  }
+  .hard-skills-grid,
+  .soft-skills-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .about-bio-text {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .panel-title {
+    font-size: 28px;
+  }
+  .skills-panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .legend-details {
+    width: 100%;
+    max-width: none;
+  }
+}

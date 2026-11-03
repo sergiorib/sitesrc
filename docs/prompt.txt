@@ -1,0 +1,110 @@
+gemini --model gemini-3.5-flash-lite /speckit.specify "
+Criar a Página 'formacao' (`formacao.astro`)
+Objetivo: Implementar a interface da página 'formacao', integrada dinamicamente dentro do `Main Container` da SPA.
+### 1. Layout Geral e Área de Conteúdo Principal
+**1.1 Considerações Gerais**
+- O conteúdo descrito nesta especificação representa a página 'Formação Acadêmica, Treinamentos e Idiomas' e deve ser renderizado no Main Container (Área de Conteúdo Principal) da aplicação SPA.
+- Nome da página: `formacao.astro`
+- Caminho do componente da página: `pages/formacao`
+- Caminho dos assets (imagens e arquivos locais): `pages/formacao/assets`
+- A página deve ocupar 100% da largura e da altura disponíveis no Main Container da SPA sem efetuar recarregamento completo (navegação dinâmica via History API).
+- **Cor de Fundo da Aplicação/Main Container (`.main-container`):** Gradiente vertical suave partindo de `#16222A` no topo (0%) até `#3A6073` na base (100%).
+- **Espaçamento e Alinhamento do Container:** Padding de `20px`, com disposição flexível centralizada horizontalmente (`display: flex; justify-content: center; align-items: flex-start`).
+
+**1.2 Estilização do Painel Principal (`.panel-container`)**
+- O painel container da seção engloba todo o conteúdo da página e deve seguir as seguintes diretrizes:
+  - **Largura máxima:** `1200px` (largura total da área útil).
+  - **Fundo:** Gradiente vertical suave partindo de `#DAEBF2` no topo (0%) até `#A8CCD9` na base (100%).
+  - **Borda:** Linha contínua fina de `1px solid #0381B0`.
+  - **Cantos arredondados:** Raio de curvatura de `10px`.
+  - **Efeito visual de profundidade:** Sombra interna encastrada de `inset 0px 0px 12px rgba(0, 0, 0, 0.25)`.
+  - **Espaçamento interno (Padding):** `20px` em todos os lados.
+  - **Estrutura interna:** Disposição em coluna (`display: flex; flex-direction: column`).
+
+---
+
+### 2. Cabeçalho e Título da Página (`.page-title`)
+
+- **Texto a ser exibido:** 'Formação Acadêmica, Treinamentos e Idiomas'
+- **Família tipográfica:** `Barlow Condensed` (sans-serif).
+- **Peso da fonte:** `700` (Bold).
+- **Tamanho da fonte:** `32px` em resoluções Desktop.
+- **Cor do texto:** `#000000`.
+- **Alinhamento:** Alinhado à esquerda (`text-align: left`).
+- **Margem inferior:** `16px` de espaçamento em relação aos cards.
+
+---
+
+### 3. Cards de Formação (`.cards-wrapper` e `.education-card`)
+
+**3.1 Disposição dos Cards**
+- Os cards de formação são organizados verticalmente em uma pilha (`display: flex; flex-direction: column`).
+- **Espaçamento vertical (`gap`):** `12px` de distância entre cada card.
+
+**3.2 Estilização dos Cards Individuais (`.education-card`)**
+- **Dimensões:** Largura total de 100% do espaço útil do container principal.
+- **Fundo:** Gradiente horizontal suave partindo de `#FFF8D6` à esquerda (0%) até `#FFFFFF` à direita (100%).
+- **Borda:** `1px solid #0381B0`.
+- **Cantos arredondados:** `border-radius: 10px`.
+- **Efeito de Sombra (Drop Shadow):** `0px 4px 6px rgba(0, 0, 0, 0.1)`.
+- **Padding interno:** `20px` nas partes superior/inferior e `16px` nas laterais (`20px 16px`).
+- **Alinhamento interno:** Elementos centralizados em coluna (`display: flex; flex-direction: column; align-items: center; justify-content: center`).
+
+**3.3 Conteúdo Interno do Card**
+
+Cada card (`<article class='education-card'>`) contém três elementos sobrepostos verticalmente:
+
+1. **Logotipo da Instituição (`.institution-logo`):**
+   * Posicionamento centralizado no topo.
+   * Regras de ajuste: `max-width: 100%`, `height: auto`, `object-fit: contain`.
+   * Diretório de busca de arquivos: `pages/formacao/assets/images/`.
+
+2. **Título do Curso / Grau Acadêmico (`.course-title`):**
+   * Tipografia: `Barlow Condensed` (sans-serif), peso `700` (Bold).
+   * Tamanho da fonte: `24px`.
+   * Cor do texto: `#000000`.
+   * Alinhamento: Centralizado (`text-align: center`).
+   * Espaçamento: Margem superior de `8px` e margem inferior de `10px`.
+
+3. **Badge do Período / Datas (`.period-badge`):**
+   * Formato visual: Elemento em formato pílula (`display: inline-block`).
+   * Background: Gradiente vertical suave partindo de `#FFFFFF` (0%) até `#EFEFEF` (100%).
+   * Borda: `1px solid #0381B0`.
+   * Arredondamento: Pílula completa (`border-radius: 20px`).
+   * Sombra projetada: `0px 2px 4px rgba(0, 0, 0, 0.15)`.
+   * Padding interno: `4px` superior/inferior e `16px` lateral (`4px 16px`).
+   * Tipografia: Monoespaçada (`Consolas`, `Courier New`, `monospace`), peso `600` (Semibold).
+   * Tamanho da fonte: `20px`.
+   * Cor do texto: `#1A2B32`.
+   * Formatação do texto: Caixa alta (`text-transform: uppercase`).
+
+---
+
+### 4. Itens e Conteúdos Exibidos
+
+- **Card 1: Ciência de Dados**
+  - Logotipo: `logo-estacio.png`
+  - Título do Curso: 'Superior em Ciência de Dados'
+  - Texto da Badge de Período: 'JAN 2024 a JUN 2026'
+
+- **Card 2: Análise e Desenvolvimento de Sistemas**
+  - Logotipo: `logo-estacio-uniradial.png` (Alt: 'Logo Estácio UniRadial')
+  - Título do Curso: 'Superior em Análise e Desenvolvimento de Sistemas'
+  - Texto da Badge de Período: 'JAN 2013 a DEZ 2016'
+
+---
+
+### 5. Diretrizes de Responsividade & Arquitetura
+
+**5.1 Regras de Arquitetura & Stack**
+- Implementação em **Astro**, **Vanilla CSS** e **Vanilla JS** puros, mantendo conformidade com o `CONSTITUTION.md` e sem dependências de frameworks CSS externos (como Tailwind).
+
+**5.2 Ajustes por Quebra de Tela (Breakpoints)**
+- **Tablet (768px a 1023px):**
+  - O padding interno dos cards (`.education-card`) reduz para `16px`.
+- **Mobile (< 767px):**
+  - O padding interno do painel principal (`.panel-container`) reduz para `16px`.
+  - O título da página (`.page-title`) reduz a fonte para `26px`.
+  - O título dos cursos (`.course-title`) reduz a fonte para `26px`.
+  - A badge de período (`.period-badge`) ajusta a fonte para `12px` e o padding interno para `4px 12px`.
+"

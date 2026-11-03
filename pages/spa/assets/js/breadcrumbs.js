@@ -6,7 +6,6 @@ const SEGMENT_LABELS = {
   spa: 'Início',
   sobre: 'Sobre',
   historico: 'Histórico',
-  formacao: 'Formação',
   portfolio: 'Portfólio',
   artigos: 'Artigos',
   contatos: 'Contatos',
@@ -21,36 +20,41 @@ const SEGMENT_LABELS = {
  * @returns {Array<{ label: string, url: string|null, isCurrent: boolean }>}
  */
 export function parseBreadcrumbs(pathname, customTitle = null) {
-  // Limpar e quebrar em segmentos
-  const cleanPath = pathname.replace(/^\/+|\/+$/g, '');
+  // Limpar e quebrar em segmentos, evitando barras duplicadas
+  const cleanPath = pathname.replace(/^\/+|\/+$/g, '').replace(/\/+/g, '/');
   const rawSegments = cleanPath.split('/').filter(Boolean);
 
-  // Filtrar segmentos de prefixo 'pages' ou 'spa' se desejado para manter limpo
-  const segments = rawSegments.filter((seg) => seg !== 'pages');
-
-  // Caso esteja na raiz da SPA
-  if (segments.length === 0 || (segments.length === 1 && segments[0] === 'spa')) {
-    return [{ label: 'Sobre', url: null, isCurrent: true }];
-  }
+  // Filtrar segmentos de prefixo 'pages' ou 'spa'
+  const segments = rawSegments.filter((seg) => seg !== 'pages' && seg !== 'spa');
 
   const breadcrumbs = [];
-  let accumulatedPath = '/pages';
+  const isAtRoot = segments.length === 0;
 
-  segments.forEach((seg, index) => {
-    accumulatedPath += `/${seg}`;
-    const isLast = index === segments.length - 1;
-    let label = SEGMENT_LABELS[seg] || seg.replace(/[-_]/g, ' ');
-
-    if (isLast && customTitle) {
-      label = customTitle;
-    }
-
-    breadcrumbs.push({
-      label: label.charAt(0).toUpperCase() + label.slice(1),
-      url: isLast ? null : accumulatedPath,
-      isCurrent: isLast,
-    });
+  // O primeiro elo é sempre "Início" apontando para a raiz '/spa'
+  breadcrumbs.push({
+    label: 'Início',
+    url: isAtRoot ? null : '/spa',
+    isCurrent: isAtRoot,
   });
+
+  if (!isAtRoot) {
+    let accumulatedPath = '/spa';
+    segments.forEach((seg, index) => {
+      accumulatedPath += `/${seg}`;
+      const isLast = index === segments.length - 1;
+      let label = SEGMENT_LABELS[seg] || seg.replace(/[-_]/g, ' ');
+
+      if (isLast && customTitle) {
+        label = customTitle;
+      }
+
+      breadcrumbs.push({
+        label: label.charAt(0).toUpperCase() + label.slice(1),
+        url: isLast ? null : accumulatedPath,
+        isCurrent: isLast,
+      });
+    });
+  }
 
   return breadcrumbs;
 }

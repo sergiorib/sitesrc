@@ -1,0 +1,380 @@
+---
+import SkillCard from './SkillCard.astro';
+
+const hardSkillsCards = [
+  {
+    title: 'DESENVOLVIMENTO',
+    skills: [
+      {
+        name: 'Python',
+        icon: '/pages/sobre/assets/images/icon-python.png',
+        children: [
+          {
+            name: 'Fundamentos',
+            children: [
+              { name: 'Modularização', stars: 5 },
+              { name: 'OOP', stars: 4 },
+              { name: 'Estruturas de dados e algoritmos', stars: 4 },
+              { name: 'Tratamento de exceções', stars: 5 },
+              { name: 'Paralelismo e concorrência', stars: 4 },
+              { name: 'Programação funcional', stars: 3 }
+            ]
+          },
+          { name: 'Testes automatizados', stars: 3 },
+          {
+            name: 'Manipulação de dados',
+            children: [
+              { name: 'Pandas', stars: 5 },
+              { name: 'NumPy', stars: 5 },
+              { name: 'Polars', stars: 4 },
+              { name: 'Dask', stars: 3 },
+              { name: 'PyArrow', stars: 4 }
+            ]
+          },
+          {
+            name: 'Ciencia e matemáticas',
+            children: [
+              { name: 'SciPy', stars: 4 },
+              { name: 'SymPy', stars: 3 }
+            ]
+          },
+          {
+            name: 'Visualização',
+            children: [
+              { name: 'Matplotlib', stars: 4 },
+              { name: 'Seaborn', stars: 3 },
+              { name: 'Plotly', stars: 4 }
+            ]
+          },
+          { name: 'Interfaces de dados', children: [{ name: 'Streamlit', stars: 3 }] },
+          { name: 'Dev. de APIs', children: [{ name: 'FastAPI', stars: 3 }] },
+          {
+            name: 'Web scraping',
+            children: [
+              { name: 'Beautiful Soup', stars: 4 },
+              { name: 'Selenium', stars: 4 }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'SQL',
+        icon: '/pages/sobre/assets/images/icon-sql.png',
+        children: [
+          { name: 'Consultas avançadas', stars: 5 },
+          { name: 'Joins e subconsultas', stars: 5 },
+          { name: 'CTEs e consultas recursivas', stars: 5 },
+          { name: 'Window Functions', stars: 5 },
+          { name: 'Views e Materialized Views', stars: 4 },
+          { name: 'Stored Procedures e Functions', stars: 4 },
+          { name: 'Triggers', stars: 4 },
+          { name: 'Transações e controle de concorrência', stars: 4 },
+          { name: 'Otimização de consultas', stars: 4 },
+          { name: 'Índices e planos de execução', stars: 4 },
+          { name: 'SQL analítico', stars: 4 }
+        ]
+      },
+      { name: 'PL/SQL', stars: 4 },
+      { name: 'T-SQL', stars: 4 },
+      {
+        name: 'Linguagem R',
+        icon: '/pages/sobre/assets/images/icon-r.png',
+        children: [
+          { name: 'Programação estatística', stars: 3 },
+          {
+            name: 'Manipulação de dados',
+            children: [
+              { name: 'dplyr', stars: 3 },
+              { name: 'tidyr', stars: 3 },
+              { name: 'data.table', stars: 3 }
+            ]
+          },
+          {
+            name: 'Visualização',
+            children: [
+              { name: 'ggplot2', stars: 3 },
+              { name: 'Shiny', stars: 2 }
+            ]
+          },
+          { name: 'Modelagem estatística', stars: 3 },
+          { name: 'R Markdown / Quarto', stars: 3 }
+        ]
+      },
+      {
+        name: 'Versionamento',
+        children: [
+          { name: 'GitHub', stars: 5 },
+          { name: 'Bitbucket', stars: 4 }
+        ]
+      },
+      {
+        name: 'Conceitos gerais',
+        children: [
+          { name: 'Clean Code', stars: 4 },
+          { name: 'SOLID', stars: 3 },
+          { name: 'Design Patterns', stars: 4 },
+          { name: 'Arquitetura em camadas', stars: 4 },
+          { name: 'Modularização', stars: 5 },
+          { name: 'Documentação de código', stars: 4 },
+          { name: 'Testes unitários', stars: 3 },
+          { name: 'Testes de integração', stars: 2 },
+          { name: 'Testes de contrato', stars: 2 },
+          { name: 'CI/CD', stars: 4 },
+          { name: 'Versionamento semântico', stars: 5 },
+          { name: 'Gerenciamento de dependências', stars: 5 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'BANCOS DE DADOS',
+    skills: [
+      {
+        name: 'Relacionais',
+        children: [
+          { name: 'SQL Server', stars: 3 },
+          { name: 'Oracle', stars: 3 },
+          { name: 'MySQL', stars: 4 },
+          { name: 'PostgreSQL', stars: 4 }
+        ]
+      },
+      {
+        name: 'Time series',
+        children: [
+          { name: 'InfluxDB', stars: 3 },
+          { name: 'Graphite', stars: 3 },
+          { name: 'Prometheus', stars: 2 }
+        ]
+      },
+      {
+        name: 'NoSQL',
+        children: [
+          { name: 'MongoDB', stars: 4 },
+          { name: 'DocumentDB', stars: 2 }
+        ]
+      },
+      {
+        name: 'Key-Value',
+        children: [
+          { name: 'Redis', stars: 3 },
+          { name: 'DynamoDB', stars: 2 }
+        ]
+      },
+      {
+        name: 'Analiticos',
+        children: [
+          { name: 'BigQuery', stars: 3 },
+          { name: 'RedShift', stars: 4 },
+          { name: 'Snowflake', stars: 3 },
+          { name: 'DuckDB', stars: 5 }
+        ]
+      },
+      { name: 'Colunar', children: [{ name: 'Cassandra', stars: 3 }] },
+      { name: 'Grafos', children: [{ name: 'Neo4j', stars: 3 }] }
+    ]
+  },
+  {
+    title: 'ANÁLISE DE DADOS E BI',
+    skills: [
+      { name: 'Análise Exploratória (EDA)', stars: 4 },
+      { name: 'Business Intelligence (BI)', stars: 5 },
+      { name: 'Storytelling com Dados', stars: 4 },
+      { name: 'KPIs e OKRs', stars: 5 },
+      {
+        name: 'Análises Especializadas',
+        children: [
+          { name: 'Séries Temporais', stars: 4 },
+          { name: 'Forecasting', stars: 3 },
+          {
+            name: 'Customer Lifetime Cycle (CLI)',
+            children: [
+              { name: 'Analise de Cohort', stars: 4 },
+              { name: 'Lifetime Value (LTV)', stars: 4 },
+              { name: 'Analise de Churn', stars: 4 },
+              { name: 'Segmentação RFM', stars: 4 },
+              { name: 'Análise de Funil', stars: 4 }
+            ]
+          },
+          { name: 'Análise Redes Sociais (ARS)', stars: 3 },
+          { name: 'Análise Operacional (SLA e OTIF)', stars: 3 }
+        ]
+      },
+      { name: 'testes A/B', stars: 3 },
+      {
+        name: 'Ferramentas',
+        children: [
+          { name: 'Power BI', stars: 5 },
+          { name: 'Tableau', stars: 3 },
+          { name: 'Grafana', stars: 4 },
+          { name: 'Excel', stars: 5 }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'ENGENHARIA DE DADOS',
+    skills: [
+      { name: 'ETL / ELT', stars: 5 },
+      { name: 'Modelagem de Dados', stars: 5 },
+      { name: 'Data Lakes', stars: 4 },
+      { name: 'Arquitetura Medalhão', stars: 4 },
+      { name: 'dbt', stars: 4 },
+      { name: 'Apache Spark', stars: 4 },
+      { name: 'Databricks', stars: 4 },
+      { name: 'Apache Airflow', stars: 3 },
+      { name: 'Delta Lake', stars: 4 },
+      { name: 'Data Lineage', stars: 3 },
+      { name: 'N8N', stars: 4 }
+    ]
+  },
+  {
+    title: 'CLOUD E INFRAESTRUTURA',
+    skills: [
+      {
+        name: 'Fundamentos para Dados',
+        children: [
+          { name: 'Armazenamento vs. Computação (Desacoplamento)', stars: 3 },
+          { name: 'Data Lake, Data Warehouse e Lakehouse na nuvem', stars: 3 },
+          { name: 'FinOps (Monitoramento de custos)', stars: 3 }
+        ]
+      },
+      {
+        name: 'Amazon Web Services (AWS)',
+        children: [
+          { name: 'S3', stars: 3 },
+          { name: 'Glue', stars: 3 },
+          { name: 'Athena', stars: 3 },
+          { name: 'Redshift', stars: 3 },
+          { name: 'Lambda', stars: 3 }
+        ]
+      },
+      {
+        name: 'Google Cloud Platform (GCP)',
+        children: [
+          { name: 'BigQuery', stars: 3 },
+          { name: 'Cloud Storage (GCS)', stars: 3 },
+          { name: 'Cloud Composer', stars: 3 },
+          { name: 'Dataflow / Pub/Sub', stars: 3 }
+        ]
+      },
+      {
+        name: 'Microsoft Azure',
+        children: [
+          { name: 'Azure Databricks', stars: 3 },
+          { name: 'Azure Data Factory (ADF)', stars: 3 },
+          { name: 'Azure Data Lake Storage (ADLS Gen2)', stars: 3 },
+          { name: 'Microsoft Fabric / Synapse', stars: 3 }
+        ]
+      },
+      { name: 'DataOps', children: [{ name: 'Terraform', stars: 3 }] }
+    ]
+  },
+  {
+    title: 'INTELIGÊNCIA ARTIFICIAL',
+    skills: [
+      { name: 'IA aplicada a Dados', stars: 4 },
+      { name: 'Engenharia de Prompts', stars: 4 },
+      { name: 'IA aplicada à Programação', stars: 4 },
+      { name: 'IA aplicada à Documentação Técnica', stars: 4 },
+      { name: 'SDD (Spec-Driven Development)', stars: 4 },
+      { name: 'MCP (Model Context Protocol)', stars: 3 }
+    ]
+  },
+  {
+    title: 'INFRAESTRUTURA',
+    skills: [
+      { name: 'Linux', stars: 4 },
+      { name: 'Windows Server', stars: 2 },
+      { name: 'SSH', stars: 5 },
+      { name: 'Shell Script', stars: 4 }
+    ]
+  },
+  {
+    title: 'METODOLOGIAS E FERRAMENTAS',
+    skills: [
+      { name: 'Scrum', stars: 3 },
+      { name: 'CRISP-DM', stars: 4 },
+      { name: 'Jira', stars: 3 },
+      { name: 'Draw.io', stars: 4 },
+      { name: 'Figma', stars: 3 },
+      { name: 'Swagger', stars: 3 },
+      { name: 'Postman', stars: 4 }
+    ]
+  }
+];
+
+const softSkillsCards = [
+  {
+    title: 'ANÁLISE E PENSAMENTO ESTRATÉGICO',
+    skills: [
+      { name: 'Pensamento Analítico', stars: 4 },
+      { name: 'Visão Estratégica de Negócio', stars: 4 },
+      { name: 'Capacidade de Análise Crítica', stars: 4 },
+      { name: 'Visão Sistêmica', stars: 4 },
+      { name: 'Tomada de Decisão Orientada por Dados', stars: 4 }
+    ]
+  },
+  {
+    title: 'COMUNICAÇÃO E RELACIONAMENTO',
+    skills: [
+      { name: 'Comunicação com Stakeholders', stars: 4 },
+      { name: 'Trabalho em Equipe', stars: 5 },
+      { name: 'Colaboração Interdisciplinar', stars: 3 },
+      { name: 'Compartilhamento de Conhecimento', stars: 3 }
+    ]
+  },
+  {
+    title: 'LIDERANÇA E GESTÃO',
+    skills: [
+      { name: 'Liderança Técnica', stars: 3 },
+      { name: 'Gestão de Projetos', stars: 2 },
+      { name: 'Organização e Planejamento', stars: 4 },
+      { name: 'Orientação a Resultados', stars: 4 }
+    ]
+  },
+  {
+    title: 'RESOLUÇÃO DE PROBLEMAS E ADAPTABILIDADE',
+    skills: [
+      { name: 'Resolução de Problemas', stars: 5 },
+      { name: 'Adaptabilidade', stars: 5 },
+      { name: 'Aprendizado Contínuo', stars: 5 },
+      { name: 'Autonomia', stars: 4 },
+      { name: 'Pensamento Estruturado', stars: 5 }
+    ]
+  }
+];
+---
+
+<section class="info-panel skills-panel">
+  <div class="skills-panel-header">
+    <h2 class="panel-title">Habilidades</h2>
+    <details class="legend-details">
+      <summary class="legend-summary">Legenda de Estrelas</summary>
+      <div class="legend-content">
+        <div class="legend-item"><span class="legend-stars">★☆☆☆☆</span> — Conhecimento conceitual</div>
+        <div class="legend-item"><span class="legend-stars">★★☆☆☆</span> — Prática básica</div>
+        <div class="legend-item"><span class="legend-stars">★★★☆☆</span> — Uso em projetos pessoais</div>
+        <div class="legend-item"><span class="legend-stars">★★★★☆</span> — Uso em projetos profissionais</div>
+        <div class="legend-item"><span class="legend-stars">★★★★★</span> — Domínio teórico e prático</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="skill-division">
+    <h3 class="division-title">Hard-Skills</h3>
+    <div class="skills-grid hard-skills-grid">
+      {hardSkillsCards.map((card) => (
+        <SkillCard title={card.title} skills={card.skills} type="hard" />
+      ))}
+    </div>
+  </div>
+
+  <div class="skill-division">
+    <h3 class="division-title">Soft-Skills</h3>
+    <div class="skills-grid soft-skills-grid">
+      {softSkillsCards.map((card) => (
+        <SkillCard title={card.title} skills={card.skills} type="soft" />
+      ))}
+    </div>
+  </div>
+</section>

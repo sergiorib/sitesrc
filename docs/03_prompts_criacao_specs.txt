@@ -1,0 +1,418 @@
+===============================================================================================
+= 01 /speckit.constitution 
+===============================================================================================
+Objetivo: 
+Este comando do GSK que cria o arquivo CONSTITUTION.md de acordo com as especificações.
+Deve ser executado dentro do projeto no Agente (Antigravity).
+No Google Spec Kit, o /speckit.constitution é o comando inicial fundamental do projeto: ele estabelece 
+as diretrizes invioláveis, princípios de arquitetura, padrões de código, stack tecnológica e regras 
+de qualidade que regem todas as fases subsequentes.
+O que faz: 
+    Estabelece as regras globais, princípios de arquitetura, padrões de código, stack tecnológica e diretrizes de qualidade do seu projeto.
+Por que rodar: 
+    Preenche o arquivo CONSTITUTION.md (ou equivalente na pasta .specify). Ele serve como a 'lei maior' do projeto para que o assistente no 
+    Antigravity não tome decisões de design que violem suas preferências.
+
+Texto do prompt: 
+"
+/speckit.constitution
+
+Estou iniciando o desenvolvimento do meu Portfólio de Data Science (versão 1.0.0) e quero registrar as seguintes diretrizes invioláveis, stack e padrões de arquitetura:
+
+1. STACK TECNOLÓGICA MANDATÓRIA
+- Framework: Astro (utilizado EXCLUSIVAMENTE para estuturação de componentes `.astro`, Layouts, build estático e file-based routing).
+- Estilização: CSS3 Puro / Vanilla CSS (proibida a instalação de Tailwind, Bootstrap ou CSS-in-JS).
+- Interatividade no Navegador: Vanilla JavaScript puro (proibida a instalação de frameworks de UI como React, Vue ou Svelte).
+
+2. ESTRUTURA E SEPARAÇÃO DE PREOCUPAÇÕES
+- Componentes Astro (`.astro`): Utilizados apenas para encapsular marcação HTML estática e estrutura.
+- Todas as paginas ficarão localizadas na pasta `pages/`. 
+- Cada pagina terá seu proprio diretorio, por exemplo, exemplo: `pages/nome_pagina/`.
+- O estilos (css) de cada pagina ficarão em pastas chamadas 'css' dentro do diretorio da mesma, por exemplo: `pages/nome_pagina/assets/css/`. 
+- As imagens de cada pagina ficarão de uma pasta chamada `images` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/assets/images/`. 
+- Os codigos JS de cada pagina ficarão de uma pasta chamada `js` dentro do diretório da mesma, por exemplo: `pages/nome_pagina/assets/js/`. 
+- Lógica de UI Client-Side: Scripts em Vanilla JS de cada pagina ficarão organizados exclusivamente na pasta 'assets/js/' da mesma.
+
+3. ARQUITETURA DE DESIGN E UI (Dark Tech Dashboard)
+- Cada pagina rá definir sua arquiteura de design, estilo e etc.
+
+4. REGRAS DE WORKFLOW E AUTOMAÇÃO
+- O versionamento será feito automaticamente de acordo com as diretrizes passadas na especificação das tarefas. 
+- Será usado o git e o github CLI para execução das tarefas de versionamento. 
+
+5. CONVENÇÃO DE NOMENCLATURA DE ESPECIFICAÇÕES (.specify)
+- Todos os arquivos de especificação gerados pelo comando /speckit.specify DEVEM obrigatoriamente seguir o padrão de nomenclatura: `spec-[numero_sequencial]_[nome_da_feature].md` (exemplo: `spec-01_spa.md`, `spec-02_sobre.md`).
+- As especificações devem ser salvas no diretório `.specify/specs/`.
+
+"
+===============================================================================================
+== 2. Criação da SPA
+===============================================================================================
+
+------------------------------------------------------------------------------------------------
+-- 2.1 /speckit.specify da pagina SPA
+------------------------------------------------------------------------------------------------
+O que faz: 
+  Cria a especificação funcional detalhada de uma feature ou tarefa específica.
+Por que rodar: 
+  Em vez de pedir 'faça uma tela de login', você roda /speckit.specify Login de Usuários para que o assistente faça as perguntas certas, 
+defina requisitos funcionais, casos de borda e critérios de aceite antes de planejar a solução técnica.
+
+Texto do prompt: 
+"
+/speckit.specify Criar a estrutura da Página Principal SPA (Layout Base, Sidebar e Main Container)
+
+Objetivo: Implementar o layout base da aplicação Single Page Application (SPA), composto por uma Sidebar fixa à esquerda com identidade profissional e navegação, e uma Área de Conteúdo Principal (Main Container) dinâmica à direita, capaz de carregar páginas primárias e subpáginas em cascata de forma transparente, com suporte a navegação por Breadcrumbs.
+
+### 1. CONSIDERAÇÕES GERAIS
+- O nome do arquivo principal da SPA será `spa.astro`.
+- O diretório da página será `pages/spa`.
+
+### 2. LAYOUT GERAL & COMPORTAMENTO
+- O layout deve ocupar 100% da largura e altura disponíveis da janela (100vw / 100vh).
+- Divisão horizontal: Sidebar à esquerda (300px) e Main Container ocupando todo o espaço restante.
+- Estrutura global estável durante a navegação. A troca de item do menu atualiza o conteúdo do Main Container e o estado visual do botão sem recarregar a Sidebar.
+- Os elementos devem ser organizados em componentes isolados e modulares.
+
+### 3. ESTRUTURA DA SIDEBAR
+A Sidebar é dividida em duas regiões verticais:
+- Cabeçalho de Identidade (topo, 275px de altura).
+- Área de Navegação (espaço restante abaixo do cabeçalho).
+
+### 4. CABEÇALHO DE IDENTIDADE
+- Fundo: Imagem `pages/spa/assets/images/profile-bg.png` (`background-size: cover`). Borda na cor `#69C4CE`.
+- Foto de Perfil:
+  * Imagem: `pages/spa/assets/images/profile-photo.png`.
+  * Circular (160px de diâmetro), centralizada, `object-fit: cover`.
+  * Moldura circular com gradiente vertical do topo (`#3893BA`) à base (`#25797F`).
+- Nome Profissional:
+  * Texto: 'Sérgio Ribeiro Cerqueira'.
+  * Tipografia: `Barlow Condensed`, peso `600`, tamanho `30px`, cor `#FFFFFF`, alinhamento centralizado.
+- Profissão:
+  * Texto: 'Cientista de Dados'.
+  * Tipografia: `Barlow Condensed`, peso `600`, tamanho `25px`, cor `#FFFFFF`, alinhamento centralizado.
+- Faixa de Contraste dos Textos:
+  * Fundo escuro de cor `#061B2A` com baixa opacidade atrás do nome e profissão para garantir legibilidade sem ocultar a imagem temática do cabeçalho.
+
+### 5. ÁREA DE NAVEGAÇÃO & ITENS DO MENU
+- Fundo do Contêiner de Navegação: Cor `#16222A` com borda `#69C4CE` e imagem de fundo `pages/spa/assets/images/menu-bg.png`.
+- Padrão dos Itens do Menu:
+  * Largura ocupando ~93% da Sidebar, altura de 50px, espaçamento vertical de 16px, cantos arredondados com raio de 20px.
+  * Item Default Selecionado: 'Sobre'.
+- Mapeamento dos Itens, Ícones e Páginas:
+  1. 'Sobre' -> `sobre.astro` | Ícones: `icone-sobre-claro.png` / `icone-sobre-escuro.png`
+  2. 'Histórico' -> `historico.astro` | Ícones: `icone-historico-claro.png` / `icone-historico-escuro.png`
+  3. 'Formação' -> `formacao.astro` | Ícones: `icone-formacao-claro.png` / `icone-formacao-escuro.png`
+  4. 'Portfólio' -> `portfolio.astro` | Ícones: `icone-portfolio-claro.png` / `icone-portfolio-escuro.png`
+  5. 'Artigos' -> `artigos.astro` | Ícones: `icone-artigos-claro.png` / `icone-artigos-escuro.png`
+  6. 'Contatos' -> `contatos.astro` | Ícones: `icone-contatos-claro.png` / `icone-contatos-escuro.png`
+  *(Nota 1: Os ícones estão localizados no diretório `pages/spa/assets/images/`)*
+  *(Nota 2: Deverá ser criada a página de fallback `pages/spa/default.astro` indicando 'Página não encontrada')*.
+  *(Nota 3: Caso a página ou rota requisitada não exista, o sistema deve carregar a página `pages/spa/default.astro` no Main Container)*.
+
+- Estilização por Estado:
+  * Não Selecionado: Fundo `#061B2A`, Borda `#69C4CE`, Texto `#EDF2EE`, Ícone na versão clara.
+  * Selecionado (Ativo): Fundo `#B3CBDB`, Borda `#69C4CE`, Texto `#061B2A`, Ícone na versão escura.
+
+### 6. ÁREA DE CONTEÚDO PRINCIPAL (MAIN CONTAINER)
+- Ocupa a largura restante à direita da Sidebar e 100% da altura disponível.
+- Responsável por carregar visualmente os conteúdos das páginas primárias (`sobre`, `historico`, `formacao`, `portfolio`, `artigos`, `contatos`).
+- Serve como ponto de exibição exclusivo para todas as subpáginas abertas em cascata.
+
+### 7. COMPONENTE DE BREADCRUMBS (NAVEGAÇÃO HIERÁRQUICA)
+- Posicionamento: Localizado no topo da Área de Conteúdo Principal (`Main Container`).
+- Formato Visual: Exibido em linha única horizontal no formato `pagina1 / pagina2 / pagina3` (utilizando barra `/` como separador sutil).
+- Atualização Dinâmica: Atualizado automaticamente pelo roteador da SPA a cada alteração de rota ou nível de profundidade.
+- Interatividade: Todos os níveis da trilha (exceto a página atual no final) devem ser links clicáveis que disparam a navegação SPA de volta ao nível correspondente sem recarregar a página.
+- A presentação do componente deve ser pequena, discreta e totalmente integrada ao design da pagina.  
+
+### 8. COMPORTAMENTO DE NAVEGAÇÃO E ROTEADOR DINÂMICO (SPA)
+
+1. CONTAINER DE INJEÇÃO ÚNICO (SINGLE CONTENT TARGET)
+- O `Main Container` (#main-content ou equivalente) é o ÚNICO ponto de renderização e exibição para todas as páginas primárias e subpáginas em cascata do site.
+- A Sidebar e o Layout Base PERMANECEM ESTÁVEIS e imóveis na tela durante todo o ciclo de vida da sessão. O navegador nunca deve executar um reload completo de página (Full Page Reload) ao navegar.
+
+2. DELEGAÇÃO GLOBAL DE EVENTOS (EVENT DELEGATION)
+- O script de roteamento da SPA deve utilizar delegação de eventos no nível do `document` (`document.addEventListener('click', ...)`).
+- Qualquer clique em elementos de link (`<a>`) com direcionamento interno (URLs relativas ou caminhos sob a estrutura de `pages/`) — seja disparado pelos botões do menu lateral, pela régua de Breadcrumbs ou por elementos interativos em páginas secundárias — DEVE ser interceptado (`e.preventDefault()`).
+
+3. ROTEAMENTO DINÂMICO E DESCOBERTA AUTOMÁTICA DE SUBPÁGINAS
+- O roteador NÃO deve ser restrito a uma lista 'hardcoded' contendo apenas os 6 itens do menu principal.
+- Qualquer requisição de rota ou link interno direcionado a subpastas ou arquivos válidos dentro de `pages/` (ex: subpáginas adicionadas manualmente pelo desenvolvedor em `pages/portfolio/projeto-01.astro`) deve ser buscada via requisição assíncrona (Fetch) e injetada no `Main Container`.
+- Se a página requisitada não for encontrada (erro 404/falha de carregamento), o roteador deve exibir o conteúdo do arquivo `pages/spa/default.astro` no `Main Container`.
+
+4. HISTÓRICO E MANUTENÇÃO DO ESTADO VISUAL
+- A aplicação deve registrar e atualizar a URL no navegador utilizando a History API (`window.history.pushState`), garantindo o suporte nativo aos botões 'Voltar' e 'Avançar' do navegador sem recarregar o layout da SPA.
+- Ao navegar para uma subpágina em cascata (ex: detalhes de um item do portfólio), a Sidebar deve MANTER visualmente selecionado o item do menu primário pai (ex: 'Portfólio').
+"
+
+------------------------------------------------------------------------------------------------
+-- 2.2 /speckit.plan da pagina SPA
+------------------------------------------------------------------------------------------------
+Texto do prompt: 
+"
+/speckit.plan 
+Gerar o plano de arquitetura técnica para a Página Principal SPA a partir do arquivo .specify/specs/spec-01_spa.md
+
+Diretrizes para o planejamento:
+- Mapear a criação dos componentes Astro para a Sidebar e o Main Container em  'pages/spa/'.
+- Projetar o script em Vanilla JS (pages/spa/assets/js/router.js ou equivalente) com delegação global de eventos para gerenciar o roteamento dinâmico e o fallback para pages/spa/default.astro.
+- Mapear a estrutura do componente de Breadcrumbs e a lógica de atualização da régua de navegação em linha única.
+- Garantir que todos os arquivos CSS necessarios para o funcionamento da pagina fiquem isolados em pages/spa/assets/css/.
+- Garantir que todos os arquivos JS necessarios para o funcionamento da pagina fiquem isolados em pages/spa/assets/js/.
+
+"
+
+------------------------------------------------------------------------------------------------
+-- 2.3 /speckit.tasks da pagina SPA
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+"
+/speckit.tasks 
+Gerar o checklist de tarefas executáveis para a implementação da Página Principal SPA
+
+Diretrizes para a geração das tarefas:
+- Basear-se estritamente na especificação spec-01_spa.md e no plano técnico gerado pelo /speckit.plan.
+- Quebrar o trabalho em etapas pequenas, sequenciais e testáveis (ex: criação da estrutura de arquivos em pages/spa/, isolamento dos componentes Astro da Sidebar e Main Container, criação dos estilos CSS em pages/spa/assets/css/, e implementação do roteador Vanilla JS com delegação de eventos e Breadcrumbs em pages/spa/assets/js/).
+- Garantir que cada tarefa do checklist seja clara e direta para que o comando /speckit.implement possa executá-las individualmente sem ambiguidades.
+"
+
+------------------------------------------------------------------------------------------------
+-- 2.4 /speckit.implement da pagina SPA
+------------------------------------------------------------------------------------------------
+"
+/speckit.implement 
+Executar as tarefas do checklist para a criação da Página Principal SPA
+
+Instruções para a implementação:
+- Siga estritamente a ordem definida no checklist de tarefas gerado pelo /speckit.tasks.
+- Respeite todas as regras da CONSTITUTION.md (Astro + Vanilla CSS e Vanilla JS puro, sem bibliotecas de UI externas).
+- Crie a estrutura de arquivos e componentes em pages/spa/ (incluindo spa.astro, componentes isolados, imagens e a página de fallback default.astro).
+- Implemente o roteador em Vanilla JS com delegação global de eventos e suporte à régua de Breadcrumbs em linha única.
+- Atualize o status de cada tarefa no arquivo de tasks à medida que forem concluídas.
+"
+===============================================================================================
+== 3. Criação da SOBRE
+===============================================================================================
+
+------------------------------------------------------------------------------------------------
+-- 3.1 /speckit.specify da pagina SOBRE
+------------------------------------------------------------------------------------------------
+
+O que faz: 
+   Cria a especificação funcional detalhada de uma feature ou tarefa específica.
+Por que rodar: 
+   Em vez de pedir 'faça uma tela de login', você roda /speckit.specify Login de Usuários para que o assistente faça as perguntas certas, 
+defina requisitos funcionais, casos de borda e critérios de aceite antes de planejar a solução técnica.
+
+Texto do prompt: 
+"
+/speckit.specify 
+Criar a estrutura e estilização da Página 'Sobre mim' (`sobre.astro`)
+
+Objetivo: Implementar a interface da página 'Sobre mim', dividida em dois painéis principais ('Sobre mim' e 'Habilidades'), exibindo dados profissionais, categorias de habilidades técnicas e uma classificação por estrelas para cada tecnologia, integrada dinamicamente dentro do `Main Container` da SPA.
+
+### 1. CONSIDERAÇÕES GERAIS E ESTRUTURA DE PASTA
+- **Nome do arquivo da página:** `sobre.astro`
+- **Diretório da página:** `pages/sobre/` 
+- **Renderização:** O conteúdo deve ser injetado e exibido exclusivamente dentro do `Main Container` da aplicação SPA.
+- **Dimensões e Fundo do Container:** 
+  - Ocupa 100% da largura e altura disponíveis no `Main Container`.
+  - Cor de fundo global da área: Gradiente vertical suave partindo de `#16222A` no topo até `#3A6073` na base.
+
+### 2. ESTILIZAÇÃO DOS PAINÉIS PRINCIPAIS (CONTAINERS)
+A página possui 2 painéis verticais ('Sobre mim' e 'Habilidades') que compartilham o mesmo padrão visual de contêiner:
+- **Fundo do Card/Painel:** Gradiente vertical suave partindo de `#DAEBF2` no topo até `#A8CCD9` na base.
+- **Borda:** Linha contínua fina na cor `#0381B0`.
+- **Cantos arredondados:** Raio de curvatura suave (10px).
+- **Efeito de Profundidade:** Sombra interna/borda escura suave nas extremidades (efeito encastrado).
+- **Padding interno:** `10px` em todos os lados.
+- **Margem inferior:** Espaçamento de `10px` entre o Painel Superior e o Painel Inferior.
+
+---
+
+### 3. SEÇÃO 'SOBRE MIM' (PAINEL SUPERIOR)
+
+#### 3.1 Título da Seção
+- **Texto:** 'Sobre mim'
+- **Tipografia:** `Barlow Condensed`, peso `700` (Bold), tamanho `32px`, cor `#000000`.
+- **Alinhamento:** Esquerda.
+- **Margem inferior:** `10px`.
+
+#### 3.2 Conteúdo Textual
+- **Texto:** 'Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tomada de decisões data-driven. Experiência na concepção e escala de soluções analíticas em ambientes corporativos e Fortune 500, traduzindo dados brutos em vantagem competitiva e alto retorno financeiro.'
+- **Tipografia:** Fonte estilo monoespaçada/terminal (`Courier New`, `Consolas` ou equivalente).
+- **Tamanho:** `16px`, cor `#4A5B61`, altura de linha (`line-height`) `1.5`.
+- **Alinhamento:** Justificado.
+
+---
+
+### 4. SEÇÃO 'HABILIDADES' (PAINEL INFERIOR)
+
+#### 4.1 Título da Seção
+- **Texto:** 'Habilidades'
+- **Tipografia:** `Barlow Condensed`, peso `700` (Bold), tamanho `32px`, cor `#000000`.
+- **Alinhamento:** Esquerda com margem inferior de `10px`.
+
+#### 4.2 Disposição e Estrutura dos Cards de Habilidades
+- **Layout Desktop (≥ 1024px):** Organizados em grid/flex horizontal de **3 colunas paralelas** com larguras idênticas e espaçamento (`gap`) de `10px`.
+- **Estilo de cada Card Individual:**
+  - Largura proporcional (33.3% menos gaps).
+  - Fundo: Gradiente horizontal suave partindo de `#FFEFBA` na esquerda/topo até `#FFFFFF` na direita.
+  - Borda: Linha contínua fina na cor `#0381B0`.
+  - Cantos arredondados: Raio de 10px.
+  - Padding interno: `16px`.
+
+#### 4.3 Conteúdo Interno do Card e Regras de Habilidades
+- **Títulos de Categoria:**
+  - Tipografia: `Barlow Condensed`, peso `700` (Bold), tamanho `16px`, cor `#386312`.
+  - Margem inferior: `10px`.
+- **Linhas da Lista de Ferramentas:**
+  - Disposição: Layout flexível em linha contendo Ícone + Nome + Rating de Estrelas com espaçamento vertical de `12px` entre itens.
+  - **Ícone:** Dimensão de `18px x 18px`, localizado em `pages/sobre/assets/images/` (ex: `icon-tensorflow.png`, `icon-python.png`, etc.).
+  - **Nome/Rótulo:** `Barlow Condensed` ou mono, peso `600` (Semibold), tamanho `15px`, cor `#000000`, espaçamento de `8px` à direita do ícone.
+  - **Classificação por Estrelas (Rating):**
+    - Alinhado à extremidade direita (`margin-left: auto`) com **5 estrelas** no total.
+    - Estrela Ativa: Cor verde-escura militar (`#2D4A22`).
+    - Estrela Inativa: Contorno/vazia na cor cinza claro (`#CCCCCC`).
+
+#### 4.4 Mapeamento dos Cards e Tecnologias
+
+1. **Card 1: MACHINE LEARNING & DEEP LEARNING**
+   - TensorFlow: 4 estrelas ativas / 1 inativa
+   - PyTorch: 3 estrelas ativas / 2 inativas
+   - Scikit-Learn: 5 estrelas ativas / 0 inativas
+   - XGBoost: 3 estrelas ativas / 2 inativas
+
+2. **Card 2: PROGRAMAÇÃO**
+   - Python: 5 estrelas ativas / 0 inativas
+   - SQL: 5 estrelas ativas / 0 inativas
+   - R: 3 estrelas ativas / 2 inativas
+   - DAX: 3 estrelas ativas / 2 inativas
+   - JavaScript: 2 estrelas ativas / 3 inativas
+
+3. **Card 3: [CATEGORIA ADICIONAL / RESERVA DE GRID]**
+   - Espaço reservado para manter o alinhamento de 3 colunas em resoluções desktop conforme a especificação do grid.
+
+---
+
+### 5. RESPONSIVIDADE
+- **Desktop (≥ 1024px):** 3 colunas de cards de habilidades lado a lado.
+- **Tablet (768px a 1023px):** Transição responsiva para 2 colunas ou empilhamento vertical suave.
+- **Mobile (< 768px):**
+  - Ajuste do texto do painel 'Sobre mim' para `14px`–`15px`.
+  - Cards de Habilidades transicionam para **1 única coluna** empilhada verticalmente com `gap` de `16px`.
+  - Alinhamento flexível mantido (estrelas sempre encostadas à direita).
+"
+
+------------------------------------------------------------------------------------------------
+-- 3.2 /speckit.plan da pagina SOBRE
+------------------------------------------------------------------------------------------------
+Texto do prompt: 
+"
+/speckit.plan 
+Gerar o plano de arquitetura técnica para a Página 'Sobre mim' a partir do arquivo .specify/specs/spec-02_sobre.md
+
+Diretrizes para o planejamento:
+- Mapear a criação do componente/página em pages/sobre/sobre.astro e a organização dos seus estilos em sobre/assets/css/sobre.css.
+- Estruturar a composição em dois painéis principais ('Sobre mim' e 'Habilidades') mantendo o isolamento de componentes.
+- Projetar o grid responsivo para a seção de habilidades (3 colunas em desktop, empilhamento em mobile) e os estilos de gradientes especificados.
+- Planejar a lógica do componente de estrelas (Rating de 1 a 5) com exibição flexível e alinhamento à direita.
+- Garantir compatibilidade com o roteador SPA (navegação assíncrona, interceptação de cliques e atualização da régua de Breadcrumbs).'
+
+------------------------------------------------------------------------------------------------
+-- 3.3 /speckit.tasks da pagina SOBRE
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+"
+/speckit.tasks Gerar o checklist de tarefas executáveis para a implementação da Página 'Sobre mim'
+
+Diretrizes para a geração das tarefas:
+- Basear-se estritamente na especificação spec-02_sobre.md e no plano técnico recém-gerado pelo /speckit.plan.
+- Quebrar o trabalho em etapas atômicas, sequenciais e testáveis (ex: criação do arquivo pages/sobre/sobre.astro, estruturação dos painéis 'Sobre mim' e 'Habilidades', estilização CSS em pages/sobre/assets/css/ com gradientes, bordas e sombras internas, e a implementação do grid responsivo de 3 colunas e do rating de 5 estrelas).
+- Garantir que cada tarefa do checklist seja clara para que a execução via /speckit.implement ocorra sem ambiguidades.
+"
+
+------------------------------------------------------------------------------------------------
+-- 3.4 /speckit.implement da pagina SOBRE
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+'
+/speckit.implement Executar as tarefas do checklist para a criação e estilização da Página 'Sobre mim'
+
+Instruções para a implementação:
+- Siga estritamente a ordem das tarefas definidas no checklist gerado pelo /speckit.tasks para a spec-02_sobre.md.
+- Respeite todas as regras contidas na CONSTITUTION.md (código limpo em Astro, CSS puro/Vanilla em pages/sobre/assets/css/ e sem bibliotecas de UI externas).
+- Construa o arquivo pages/sobre/sobre.astro e seus componentes de forma totalmente compatível com o roteador da SPA (injeção no Main Container e atualização da régua de Breadcrumbs).
+- Implemente os gradientes de fundo, bordas na cor #0381B0, sombras internas encastradas, o grid responsivo de 3 colunas e a classificação dinâmica/estática de 5 estrelas por tecnologia.
+- Atualize o status de cada tarefa no arquivo de tasks à medida que forem concluídas no repositório.
+'
+
+===============================================================================================
+== 4. Criação da SOBRE
+===============================================================================================
+
+------------------------------------------------------------------------------------------------
+-- 4.1 /speckit.plan da pagina formacao
+------------------------------------------------------------------------------------------------
+
+O que faz: 
+   Cria a especificação funcional detalhada de uma feature ou tarefa específica.
+Por que rodar: 
+   Em vez de pedir 'faça uma tela de login', você roda /speckit.specify Login de Usuários para que o assistente faça as perguntas certas, 
+defina requisitos funcionais, casos de borda e critérios de aceite antes de planejar a solução técnica.
+
+Comando: 
+gemini --model gemini-3.5-flash-lite "Atue estritamente sob as regras da CONSTITUTION.md do projeto. Execute o /speckit.specify criando/atualizando a especificação da página de Formação.
+
+REGRAS OBRIGATÓRIAS DE DESTINO E ESTRUTURA:
+1. O arquivo final DEVE ser salvo exclusivamente no caminho: .specify\specs\spec-04_formacao.md
+2. Se for necessária a criação de pasta de contexto da spec, salve estritamente em: .specify\specs\spec-04_formacao\
+3. NÃO crie em hipótese alguma diretórios chamados 'specs/' ou subpastas como '001-create-formacao-page/' na raiz do projeto.
+
+DETALHAMENTO DA ESPECIFICAÇÃO (ESPEC-04):
+- Nome da página: formacao.astro (Componente: pages/formacao, Assets: pages/formacao/assets)
+- Roteamento: Renderizado 100% no Main Container da SPA via History API (sem reload).
+- Container (.main-container): Gradiente vertical (#16222A a #3A6073), padding 20px, flex centralizado.
+- Painel (.panel-container): Max-width 1200px, gradiente vertical (#DAEBF2 a #A8CCD9), borda 1px solid #0381B0, border-radius 10px, box-shadow inset 0px 0px 12px rgba(0,0,0,0.25), padding 20px.
+- Título (.page-title): 'Formação Acadêmica, Treinamentos e Idiomas', Barlow Condensed 700 bold, 32px (Desktop), cor #000000, margin-bottom 16px.
+- Cards (.cards-wrapper / .education-card): Stack vertical (gap 12px), largura 100%, gradiente horizontal (#FFF8D6 a #FFFFFF), borda 1px solid #0381B0, border-radius 10px, drop shadow 0px 4px 6px rgba(0,0,0,0.1), padding 20px 16px, alinhamento flex-column center.
+- Elementos Internos do Card:
+  1. Logo (.institution-logo): max-width 100%, object-fit contain, busca em 'pages/formacao/assets/images/'.
+  2. Título (.course-title): Barlow Condensed 700 bold, 24px, cor #000000, margin top 8px / bottom 10px.
+  3. Badge (.period-badge): inline-block, gradiente vertical (#FFFFFF a #EFEFEF), borda 1px solid #0381B0, border-radius 20px, shadow 0px 2px 4px rgba(0,0,0,0.15), padding 4px 16px, fonte monoespaçada (Consolas/Courier New) 600 semibold 20px, uppercase.
+- Cards Exibidos:
+  - Card 1: Logo 'logo-estacio.png', Título 'Superior em Ciência de Dados', Período 'JAN 2024 a JUN 2026'.
+  - Card 2: Logo 'logo-estacio-uniradial.png' (Alt: 'Logo Estácio UniRadial'), Título 'Superior em Análise e Desenvolvimento de Sistemas', Período 'JAN 2013 a DEZ 2016'.
+- Responsividade:
+  - Tablet (768px a 1023px): Padding do card reduz para 16px.
+  - Mobile (< 767px): Padding do painel reduz para 16px, title 26px, course-title 26px, badge 12px (padding 4px 12px)."
+
+  ------------------------------------------------------------------------------------------------
+-- 4.2 /speckit.plan da pagina CONTEUDO
+------------------------------------------------------------------------------------------------
+Texto do prompt: 
+'
+
+'
+
+------------------------------------------------------------------------------------------------
+-- 4.3 /speckit.tasks da pagina CONTEUDO
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+'
+
+'
+
+------------------------------------------------------------------------------------------------
+-- 4.4 /speckit.implement da pagina CONTEUDO
+------------------------------------------------------------------------------------------------
+
+Texto do prompt: 
+'
+
+'

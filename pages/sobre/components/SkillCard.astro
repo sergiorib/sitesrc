@@ -1,0 +1,14 @@
+---
+import SkillItemRow from './SkillItemRow.astro';
+
+const { title, skills = [], type = 'hard' } = Astro.props;
+---
+
+<div class={`skill-card ${type === 'soft' ? 'soft-skill-card' : 'hard-skill-card'}`}>
+  <h3 class="category-title">{title}</h3>
+  <div class="skills-list">
+    {skills.map((skill) => (
+      <SkillItemRow item={skill} />
+    ))}
+  </div>
+</div>
