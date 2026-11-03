@@ -1,0 +1,11 @@
+---
+const { activeCount = 0, total = 5 } = Astro.props;
+---
+
+<div class="star-rating-container" aria-label={`Avaliação: ${activeCount} de ${total} estrelas`}>
+  {Array.from({ length: total }).map((_, index) => (
+    <svg class={`star-icon ${index < activeCount ? 'active' : 'inactive'}`} viewBox="0 0 24 24">
+      <polygon points="12,2 15,8.5 22,9.3 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.3 9,8.5" />
+    </svg>
+  ))}
+</div>

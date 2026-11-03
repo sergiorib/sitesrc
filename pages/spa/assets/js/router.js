@@ -21,7 +21,6 @@ const ROUTE_PARENT_MAP = {
   '/pages/spa/portfolio': 'portfolio',
   '/pages/spa/artigos': 'artigos',
   '/pages/spa/contatos': 'contatos',
-  '/pages/spa/subpagina-demo': 'portfolio',
   '/spa': 'sobre',
   '/': 'sobre',
 };
@@ -128,8 +127,13 @@ class SPARouter {
    */
   normalizeFetchUrl(url) {
     let clean = url.split('?')[0].split('#')[0];
+    clean = clean.replace(/\/+/g, '/');
     if (clean.startsWith('/pages/')) {
       clean = clean.replace('/pages/', '/');
+    }
+    // Mapear rota raiz ('/' ou '/spa') para a view inicial padrão (sobre.astro)
+    if (clean === '/' || clean === '/spa' || clean === '/spa/') {
+      clean = '/spa/sobre/';
     }
     if (!clean.endsWith('/')) {
       clean += '/';
@@ -164,6 +168,16 @@ class SPARouter {
       const htmlText = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');
+
+      // Extrair e injetar estilos/links do <head> do documento carregado para garantir renderização correta
+      const incomingHeadStyles = doc.querySelectorAll('head link[rel="stylesheet"], head style');
+      document.querySelectorAll('style[data-spa-dynamic], link[data-spa-dynamic]').forEach(el => el.remove());
+
+      incomingHeadStyles.forEach(styleEl => {
+        const cloned = styleEl.cloneNode(true);
+        cloned.setAttribute('data-spa-dynamic', 'true');
+        document.head.appendChild(cloned);
+      });
 
       // Extrair o contêiner de conteúdo #page-content ou o corpo
       const incomingContent = doc.getElementById('page-content') || doc.body;

@@ -1,0 +1,43 @@
+---
+import StarRating from './StarRating.astro';
+
+const { item } = Astro.props;
+
+function getStars(node) {
+  if (!node) return 0;
+  if (typeof node.stars === 'number') return node.stars;
+  if (node.children && Array.isArray(node.children) && node.children.length > 0) {
+    const childStars = node.children.map(c => getStars(c));
+    const sum = childStars.reduce((a, b) => a + b, 0);
+    return Math.floor(sum / childStars.length);
+  }
+  return 0;
+}
+
+const computedStars = getStars(item);
+const hasChildren = item && item.children && Array.isArray(item.children) && item.children.length > 0;
+const itemName = item && item.name ? item.name : '';
+const itemIcon = item && item.icon ? item.icon : null;
+const itemStars = item && typeof item.stars === 'number' ? item.stars : computedStars;
+---
+
+{hasChildren ? (
+  <details class="skill-group-details">
+    <summary class="skill-group-summary">
+      {itemIcon && <img src={itemIcon} alt={itemName} class="tech-icon" width="18" height="18" />}
+      <span class="tech-name">{itemName}</span>
+      <StarRating activeCount={computedStars} />
+    </summary>
+    <div class="skill-sub-list">
+      {item.children.map((child) => (
+        <Astro.self item={child} />
+      ))}
+    </div>
+  </details>
+) : (
+  <div class="skill-row">
+    {itemIcon && <img src={itemIcon} alt={itemName} class="tech-icon" width="18" height="18" />}
+    <span class="tech-name">{itemName}</span>
+    <StarRating activeCount={itemStars} />
+  </div>
+)}

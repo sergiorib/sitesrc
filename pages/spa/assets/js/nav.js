@@ -21,15 +21,7 @@ export const NAV_ITEMS = [
     iconDark: '/spa/assets/images/icone-historico-escuro.png',
     isDefault: false,
   },
-  {
-    id: 'formacao',
-    label: 'Formação',
-    targetFile: 'formacao.astro',
-    targetRoute: '/spa/formacao',
-    iconLight: '/spa/assets/images/icone-formacao-claro.png',
-    iconDark: '/spa/assets/images/icone-formacao-escuro.png',
-    isDefault: false,
-  },
+
   {
     id: 'portfolio',
     label: 'Portfólio',

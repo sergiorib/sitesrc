@@ -35,6 +35,7 @@ A organização do código fonte deve garantir total isolamento e modularidade p
   - `pages/<nome_pagina>/assets/images/`: Imagens e mídias estáticas associadas à página.
   - `pages/<nome_pagina>/assets/js/`: Scripts em Vanilla JS e lógica de UI client-side restritos à página.
 - **Encapsulamento Client-Side**: Scripts client-side de uma página devem residir exclusivamente na pasta `assets/js/` de seu respectivo diretório.
+- **Padrão de Páginas SPA (`pages/spa/`)**: Toda página da Single Page Application localizada em `pages/spa/<pagina>.astro` DEVE conter explicitamente o elemento contêiner raiz com `id="page-content"` e importar diretamente a sua respectiva folha de estilos (`pages/<pagina>/assets/css/<pagina>.css`) ou blocos de estilo embutidos, garantindo que o roteador client-side (*router.js*) carregue o HTML e os estilos associados sem perda de renderização visual.
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 A identidade estética e a arquitetura visual de cada página devem ser configuradas individualmente sob a estética Dark Tech Dashboard:
@@ -47,7 +48,7 @@ O ciclo de vida do repositório deve ser transparente, automatizado e rastreáve
 
 ### V. Convenção de Nomenclatura de Especificações (.specify)
 A rastreabilidade dos ciclos de especificação conduzidos via Spec-Kit é obrigatória e padronizada:
-- **Padrão de Nomenclatura**: Todos os arquivos de especificação gerados a partir do comando `/speckit.specify` DEVEM obrigatoriamente seguir o padrão de nomenclatura `spec-[numero_sequencial]_[nome_da_feature].md` (exemplo: `spec-01_pagina_spa.md`, `spec-02_sobre.md`).
+- **Padrão de Nomenclatura**: Todos os arquivos de especificação gerados a partir do comando `/speckit.specify` DEVEM obrigatoriamente seguir o padrão de nomenclatura `spec-[numero_sequencial]_[nome_da_feature].md` (exemplo: `spec-01_spa.md`, `spec-02_sobre.md`).
 - **Localização Obrigatória**: Todas as especificações devem ser armazenadas estritamente no diretório `.specify/specs/`.
 
 ## Diretrizes de Qualidade e Desempenho
