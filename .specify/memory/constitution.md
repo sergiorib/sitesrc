@@ -35,7 +35,7 @@ A organização do código fonte deve garantir total isolamento e modularidade p
   - `pages/<nome_pagina>/assets/images/`: Imagens e mídias estáticas associadas à página.
   - `pages/<nome_pagina>/assets/js/`: Scripts em Vanilla JS e lógica de UI client-side restritos à página.
 - **Encapsulamento Client-Side**: Scripts client-side de uma página devem residir exclusivamente na pasta `assets/js/` de seu respectivo diretório.
-- **Padrão de Páginas SPA (`pages/spa/`)**: Toda página da Single Page Application localizada em `pages/spa/<pagina>.astro` DEVE conter explicitamente o elemento contêiner raiz com `id="page-content"` e importar diretamente a sua respectiva folha de estilos (`pages/<pagina>/assets/css/<pagina>.css`) ou blocos de estilo embutidos, garantindo que o roteador client-side (*router.js*) carregue o HTML e os estilos associados sem perda de renderização visual.
+- **Padrão de Páginas SPA (`pages/spa/`)**: Toda página da Single Page Application localizada em `pages/spa/<pagina>.astro` DEVE conter explicitamente o elemento contêiner raiz com `id="page-content"` e importar obrigatoriamente a sua respectiva folha de estilos diretamente no **frontmatter do Astro** (ex: `import '../<pagina>/assets/css/<pagina>.css';`), sendo terminantemente proibido o uso de tags HTML `<link>` estáticas no corpo do documento. Isso garante que o Vite processe, agrupe e localize corretamente os estilos durante o build estático e na navegação dinâmica via roteador SPA.
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 A identidade estética e a arquitetura visual de cada página devem ser configuradas individualmente sob a estética Dark Tech Dashboard:
