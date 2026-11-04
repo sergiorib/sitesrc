@@ -1,0 +1,298 @@
+---
+import './assets/css/artigos.css';
+import './assets/js/artigos.js';
+---
+
+<div id="page-content" class="page-content-wrapper" data-page-id="artigos" data-page-title="Artigos técnicos">
+  <div class="app">
+    <!-- Cabeçalho -->
+    <header>
+      <h1>Artigos técnicos</h1>
+      <p class="intro">Seleciona o tema.</p>
+      <div class="rule"></div>
+    </header>
+
+    <!-- Área de Conteúdo Principal -->
+    <main class="workspace">
+      <div class="topic-columns">
+
+        <!-- COLUNA ESQUERDA (Grupos 1 a 6) -->
+        <div class="column">
+
+          <!-- Grupo 1: Análise de dados e BI (Aberto por padrão) -->
+          <div class="topic-group open">
+            <button class="group-toggle" aria-expanded="true">
+              <span class="group-icon">▥</span>
+              <span class="group-name">Análise de dados e BI</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/series_temporais"><span class="leaf-bullet">•</span>Séries temporais</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/graficos"><span class="leaf-bullet">•</span>Gráficos</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/kpis"><span class="leaf-bullet">•</span>KPIs</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 2: Engenharia de dados -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">⚙</span>
+              <span class="group-name">Engenharia de dados</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/pipelines"><span class="leaf-bullet">•</span>Pipelines</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 3: Machine Learning -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">☧</span>
+              <span class="group-name">Machine Learning</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/modelo_otimizacao"><span class="leaf-bullet">•</span>Modelos de otimização</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/sistemas_recomendacao"><span class="leaf-bullet">•</span>Sistemas de Recomendação</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/aprendizado_reforco"><span class="leaf-bullet">•</span>Aprendizado por Reforço</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 4: Deep Learning -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">✣</span>
+              <span class="group-name">Deep Learning</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/redes_neurais_artificiais"><span class="leaf-bullet">•</span>Redes Neurais Artificiais (ANN)</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/processamento_linguagem_natural"><span class="leaf-bullet">•</span>Processamento de Linguagem Natural (NLP)</a>
+              </div>
+
+              <!-- Subgrupo -->
+              <div class="subgroup">
+                <button class="subgroup-toggle" aria-expanded="false">
+                  <span class="subgroup-marker">›</span>
+                  <span class="subgroup-name">Redes Neurais Recorrentes</span>
+                  <span class="chevron">›</span>
+                </button>
+                <div class="subgroup-children">
+                  <div class="leaf-list">
+                    <a href="#" class="leaf" data-url="/spa/artigos/rnn"><span class="leaf-bullet">•</span>RNN</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/lstm"><span class="leaf-bullet">•</span>LSTM</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/gru"><span class="leaf-bullet">•</span>GRU</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 5: IA -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">◼</span>
+              <span class="group-name">IA</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/agentes"><span class="leaf-bullet">•</span>Agentes</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/transformers_ia_generativa"><span class="leaf-bullet">•</span>Transformers e IA Generativa</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/prompt_patterns"><span class="leaf-bullet">•</span>Prompt patterns</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/gsk"><span class="leaf-bullet">•</span>GSK</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 6: Nuvem -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">☁</span>
+              <span class="group-name">Nuvem</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <!-- Subgrupo GCP -->
+              <div class="subgroup">
+                <button class="subgroup-toggle" aria-expanded="false">
+                  <span class="subgroup-marker">›</span>
+                  <span class="subgroup-name">GCP</span>
+                  <span class="chevron">›</span>
+                </button>
+                <div class="subgroup-children">
+                  <div class="leaf-list">
+                    <a href="#" class="leaf" data-url="/spa/artigos/gcp_armazenamento_dados"><span class="leaf-bullet">•</span>Armazenamento de dados</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/gcp_integracao_processamento"><span class="leaf-bullet">•</span>Integração e processamento</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/gcp_data_warehouse_analise"><span class="leaf-bullet">•</span>Data warehouse e análise</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Subgrupo AWS -->
+              <div class="subgroup">
+                <button class="subgroup-toggle" aria-expanded="false">
+                  <span class="subgroup-marker">›</span>
+                  <span class="subgroup-name">AWS</span>
+                  <span class="chevron">›</span>
+                </button>
+                <div class="subgroup-children">
+                  <div class="leaf-list">
+                    <a href="#" class="leaf" data-url="/spa/artigos/aws_armazenamento_dados"><span class="leaf-bullet">•</span>Armazenamento de dados</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/aws_integracao_processamento"><span class="leaf-bullet">•</span>Integração e processamento</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/aws_data_warehouse_analise"><span class="leaf-bullet">•</span>Data warehouse e análise</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Subgrupo AZURE -->
+              <div class="subgroup">
+                <button class="subgroup-toggle" aria-expanded="false">
+                  <span class="subgroup-marker">›</span>
+                  <span class="subgroup-name">AZURE</span>
+                  <span class="chevron">›</span>
+                </button>
+                <div class="subgroup-children">
+                  <div class="leaf-list">
+                    <a href="#" class="leaf" data-url="/spa/artigos/azure_armazenamento_dados"><span class="leaf-bullet">•</span>Armazenamento de dados</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/azure_integracao_processamento"><span class="leaf-bullet">•</span>Integração e processamento</a>
+                    <a href="#" class="leaf" data-url="/spa/artigos/azure_data_warehouse_analise"><span class="leaf-bullet">•</span>Data warehouse e análise</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLUNA DIREITA (Grupos 7 a 13) -->
+        <div class="column">
+
+          <!-- Grupo 7: Conceitos -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">☧</span>
+              <span class="group-name">Conceitos</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/arquitetura_medalhao"><span class="leaf-bullet">•</span>Arquitetura medalhão</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/big_data"><span class="leaf-bullet">•</span>Big Data</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/etl_elt"><span class="leaf-bullet">•</span>ETL/ELT</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 8: Apresentação -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">▥</span>
+              <span class="group-name">Apresentação</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/power_bi"><span class="leaf-bullet">•</span>Power BI</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/tableau"><span class="leaf-bullet">•</span>Tableau</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 9: Linguagens -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">‹›</span>
+              <span class="group-name">Linguagens</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/python"><span class="leaf-bullet">•</span>Python</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/r"><span class="leaf-bullet">•</span>R</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/sql"><span class="leaf-bullet">•</span>SQL</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 10: Databases e formatos de dados -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">▤</span>
+              <span class="group-name">Databases e formatos de dados</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/sql_server"><span class="leaf-bullet">•</span>SQL Server</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/oracle"><span class="leaf-bullet">•</span>Oracle</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/mysql"><span class="leaf-bullet">•</span>MySQL</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/postgresql"><span class="leaf-bullet">•</span>PostgreSQL</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/parquet"><span class="leaf-bullet">•</span>Parquet</a>
+                <a href="#" class="leaf" data-url="/spa/artigos/delta_lake"><span class="leaf-bullet">•</span>Delta Lake</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 11: Plataformas -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">±</span>
+              <span class="group-name">Plataformas</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/databricks"><span class="leaf-bullet">•</span>Databricks</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 12: Matemática -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">∑</span>
+              <span class="group-name">Matemática</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/estatistica"><span class="leaf-bullet">•</span>Estatística</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grupo 13: Outros -->
+          <div class="topic-group">
+            <button class="group-toggle" aria-expanded="false">
+              <span class="group-icon">☆</span>
+              <span class="group-name">Outros</span>
+              <span class="chevron">›</span>
+            </button>
+            <div class="group-children">
+              <div class="leaf-list">
+                <a href="#" class="leaf" data-url="/spa/artigos/github"><span class="leaf-bullet">•</span>GitHub</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+      <p>© 2026 — Portfólio de Dados</p>
+      <p class="footer-motto">ANALISAR <span>/</span> CONSTRUIR <span>/</span> EVOLUIR</p>
+    </footer>
+  </div>
+</div>
