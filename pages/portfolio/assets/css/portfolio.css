@@ -1,0 +1,167 @@
+/* 1.1 Contêiner Principal e Estilos Globais do Portfólio */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap');
+
+.portfolio-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #DAEBF2 0%, #A8CCD9 100%);
+  border: 3px solid #0381B0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.25);
+  font-family: Arial, sans-serif;
+  color: #000000;
+}
+
+/* 2.1 Título da Página */
+.portfolio-wrapper .page-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #000000;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+/* 2.2 Painel de Filtros por Categoria */
+.filter-panel {
+  background: linear-gradient(180deg, #2C4855 0%, #1E333D 100%);
+  border: 1px solid #0381B0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Estilização dos Botões de Filtro (Pills) */
+.filter-pill {
+  background: transparent;
+  border: 1px solid #6DA2B7;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-pill:hover {
+  border-color: #22D3EE;
+}
+
+/* Estado Ativo / Selecionado */
+.filter-pill.active {
+  background-color: rgba(34, 211, 238, 0.15);
+  border-color: #22D3EE;
+  color: #22D3EE;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+}
+
+/* 3. Seções de Categorias de Projetos */
+.category-section {
+  margin-bottom: 24px;
+}
+
+.category-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #000000;
+  margin-bottom: 12px;
+}
+
+/* Grid de Cards (Default: 3 colunas para Desktop) */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* 4. Componente Card de Projeto Individual */
+.project-card {
+  background: linear-gradient(180deg, #FFEFBA 0%, #FFFFFF 60%);
+  border: 1px solid #0381B0;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 4.2 Estrutura Interna do Card */
+.card-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+
+.card-description {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  color: #4A5B61;
+  line-height: 1.4;
+  text-align: justify;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 4.4 Tags de Tecnologias / Competências */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  background-color: #E2F0D9;
+  border: 1px solid #386312;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* 5. Responsividade */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .portfolio-wrapper .page-title {
+    font-size: 28px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-wrapper {
+    padding: 16px;
+  }
+}

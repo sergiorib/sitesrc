@@ -449,20 +449,42 @@ Execute o /speckit.implement para o spec-03_historico.
 == 4. Criação da pagina de Artigos
 ===============================================================================================
 
-gemini --model gemini-3.5-flash-lite "Gere uma especificação no padrão do GSK para implementar a pagina 'artigos.astro'. 
-O arquivo de especificação a serem gerados serão os seguintes: 
-1 - 'C:/github/sitesrc/.specify/specs/spec-artigos.md'. 
-2 - 'C:/github/sitesrc/.specify/specs/spec-artigos/spec.md'.
+gemini --model gemini-3.5-flash-lite "Leia o arquivo 'C:/Sergio/Anotacoes/projeto_site_pessoal/especificacoes_design_paginas/Exemplos/exemplo_06_pagina_artigos.html' e use como referencia para  
+ gerar uma especificação no padrão do GSK para implementar a pagina 'artigos.astro'. 
+Extraia cada detalhe do arquivo de referencia e transforme em especificações GSK para a pagina de artigos. 
+As especificações da pagina de historico devem refletir fielmente o design do html de exemplo, mas deve ser informado que que o css, javascript e imagens devem ficar em seus respectivos arquivos separados."
+A pagina de portfolio deverá ser integrada para exibição dentro da SPA. 
+Os arquivos de especificação a serem gerados serão os seguintes: 
+1 - 'C:/github/sitesrc/.specify/specs/spec-06-artigos.md'. 
+2 - 'C:/github/sitesrc/.specify/specs/spec-06-artigos/spec.md'.
 Gerar instruções para localização dos arquivos conforme abaixo:  
-1 - A pagina a ser gerada será a 'pages/artigos.md'. 
+1 - A pagina a ser gerada será a 'pages/artigos/artigos.astro'. 
 2 - Os arquivos css, js e imagens devem ficar respectivamente nos diretorios 'pages/artigos/assets/css', pages/artigos/assets/js', 'pages/artigos/assets/images'.
-Os detalhes da especificação da pagina devem ser retirados do arquivo html de referencia'C:/Sergio/Anotacoes/projeto_site_pessoal/especificacoes_design_paginas/Exemplos/exemplo_06_pagina_artigos.html'. 
-Extraia cada detalhe do arquivo de referencia e transforme em especificações GSK para a pagina de artigos. As especificações da pagina de historico devem refletir fielmente o design do html de exemplo, mas deve ser informado que que o css, javascript e imagens devem ficar em seus respectivos arquivos separados."
-A pagina de historico deverá ser integrada para exibição dentro da SPA. 
-Será chamada pelo menu 'Artigos' da SPA e deve ser integrada aos BreadCrumbs da mesma.
+Será chamada pelo menu 'Artigos' da SPA e deve ser integrada aos BreadCrumbs da mesma."
 
 Execute o /speckit.plan e o /speckit.tasks para o spec-artigos. 
-Execute o /speckit.implement para o spec-artigos. 
+Execute o /speckit.implement para o spec-06-artigos. 
 
 
 'C:/github/sitesrc/.specify/specs/spec-artigos.md' e 'C:/github/sitesrc/.specify/specs/spec-artigos/spec.md'.
+
+
+===============================================================================================
+== 4. Criação da pagina de portfolio
+===============================================================================================
+
+gemini --model gemini-3.5-flash-lite "Leia o arquivo 'C:/Sergio/Anotacoes/projeto_site_pessoal/especificacoes_design_paginas/Exemplos/exemplo_05_pagina_portfolio.html' e use como arquivo de referencia para gerar uma especificação no padrão do GSK para implementar a pagina 'portfolio.astro'. 
+Extraia cada detalhe do arquivo de referencia e transforme em especificações GSK para a pagina de portfolio. 
+As especificações da pagina de portfolio devem refletir fielmente o design do html de exemplo, mas deve ser informado que que o css, javascript e imagens devem ficar em seus respectivos arquivos separados."
+A pagina de historico deverá ser integrada para exibição dentro da SPA. 
+Os arquivos de especificação a serem gerados serão os seguintes: 
+1 - 'C:/github/sitesrc/.specify/specs/spec-05-portfolio.md'. 
+2 - 'C:/github/sitesrc/.specify/specs/spec-05-portfolio/spec.md'.
+Gerar instruções para localização dos arquivos conforme abaixo:  
+1 - A pagina a ser gerada será a 'pages/portfolio/portfolio.astro'. 
+2 - Os arquivos css, js e imagens devem ficar respectivamente nos diretorios 'pages/portfolio/assets/css', pages/portfolio/assets/js', 'pages/portfolio/assets/images'.
+Será chamada pelo menu 'portfolio' da SPA e deve ser integrada aos BreadCrumbs da mesma.
+
+Execute o /speckit.plan e o /speckit.tasks para o spec-portfolio. 
+Execute o /speckit.implement para o spec-05-portfolio. 
+

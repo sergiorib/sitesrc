@@ -1,127 +1,161 @@
+---
+import '../portfolio/assets/css/portfolio.css';
+import '../portfolio/assets/js/portfolio.js';
+---
+
 <div id="page-content" class="page-content-wrapper" data-page-id="portfolio" data-page-title="Portfólio">
-  <div class="page-header">
-    <h2 class="page-title">Projetos & Portfólio</h2>
-    <p class="page-subtitle">Casos práticos de modelagem, inteligência artificial e análise de dados</p>
-  </div>
+  <main class="portfolio-wrapper">
 
-  <div class="content-body projects-grid">
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag">Machine Learning</span>
-        <span class="tag">NLP</span>
-      </div>
-      <h3>Análise de Sentimentos em Grande Escala</h3>
-      <p>Pipeline completo de processamento de linguagem natural com LLMs e classificação preditiva em tempo real.</p>
-      <a href="/spa/subpagina-demo/" class="project-link">Ver detalhes do projeto &rarr;</a>
-    </div>
+    <!-- 2.1 Título Principal da Página -->
+    <h1 class="page-title">Portfólio de Projetos</h1>
 
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag">Visão Computacional</span>
-        <span class="tag">PyTorch</span>
-      </div>
-      <h3>Detecção de Anomalias Industriais</h3>
-      <p>Redes neurais convolucionais para inspeção óptica e detecção automatizada de defeitos em tempo real.</p>
-      <a href="/spa/subpagina-demo/" class="project-link">Ver detalhes do projeto &rarr;</a>
-    </div>
+    <!-- 2.2 Painel de Filtros por Categoria -->
+    <nav class="filter-panel">
+      <button class="filter-pill active">Análise de dados e BI</button>
+      <button class="filter-pill">Machine Learning</button>
+      <button class="filter-pill">Deep Learning</button>
+      <button class="filter-pill">Engenharia de Dados</button>
+      <button class="filter-pill">Séries Temporais</button>
+      <button class="filter-pill">Processamento de Linguagem Natural (NLP)</button>
+      <button class="filter-pill">Inteligência Artificial</button>
+      <button class="filter-pill">Outros Projetos</button>
+    </nav>
 
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="tag">Time Series</span>
-        <span class="tag">Forecasting</span>
+    <!-- 3.1 Seção "Análise de dados e BI" -->
+    <section class="category-section">
+      <h2 class="category-title">Análise de dados e BI</h2>
+      <div class="project-grid">
+
+        <!-- Card 1 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/1E333D/FFFFFF?text=Dashboard+Analytics" alt="Thumb Projeto 1">
+            <h3 class="card-title">Projeto 1</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/2C4855/FFFFFF?text=BI+Performance" alt="Thumb Projeto 2">
+            <h3 class="card-title">Projeto 2</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/0381B0/FFFFFF?text=Data+Governance" alt="Thumb Projeto 3">
+            <h3 class="card-title">Projeto 3</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
       </div>
-      <h3>Previsão de Demanda e Estoque</h3>
-      <p>Modelos avançados de séries temporais para otimização de cadeia de suprimentos e minimização de rupturas.</p>
-      <a href="/spa/subpagina-demo/" class="project-link">Ver detalhes do projeto &rarr;</a>
-    </div>
-  </div>
+    </section>
+
+    <!-- 3.2 Seção "Análise de Machine Learning" -->
+    <section class="category-section">
+      <h2 class="category-title">Análise de Machine Learning</h2>
+      <div class="project-grid">
+
+        <!-- Card 1 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/1E333D/22D3EE?text=ML+Model" alt="Thumb ML 1">
+            <h3 class="card-title">Projeto 1</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/2C4855/22D3EE?text=Predictive+Analysis" alt="Thumb ML 2">
+            <h3 class="card-title">Projeto 2</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="project-card">
+          <div>
+            <img class="card-cover" src="https://via.placeholder.com/640x360/0381B0/22D3EE?text=AI+Pipeline" alt="Thumb ML 3">
+            <h3 class="card-title">Projeto 3</h3>
+            <p class="card-description">
+              Atuação sólida na intersecção entre modelagem matemática rigorosa, Machine Learning e liderança técnica para tom
+            </p>
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Análise Descritiva</span>
+            <span class="tag-pill">Modelagem Dimensional</span>
+            <span class="tag-pill">PowerBI</span>
+            <span class="tag-pill">SQL</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">Storytelling</span>
+            <span class="tag-pill">CLA</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
 </div>
-
-<style>
-  .page-content-wrapper {
-    max-width: 960px;
-    margin: 0 auto;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-
-  .page-header {
-    border-bottom: 1px solid rgba(105, 196, 206, 0.3);
-    padding-bottom: 16px;
-    margin-bottom: 24px;
-  }
-
-  .page-title {
-    font-size: 36px;
-    font-weight: 600;
-    color: #69C4CE;
-    margin-bottom: 6px;
-  }
-
-  .page-subtitle {
-    font-size: 20px;
-    color: #B3CBDB;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
-
-  .project-card {
-    background-color: #16222A;
-    border: 1px solid rgba(105, 196, 206, 0.4);
-    border-radius: 12px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .project-tags {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .tag {
-    font-size: 12px;
-    color: #69C4CE;
-    background-color: rgba(56, 147, 186, 0.2);
-    border: 1px solid #69C4CE;
-    border-radius: 10px;
-    padding: 2px 8px;
-    font-weight: 600;
-  }
-
-  .project-card h3 {
-    font-size: 22px;
-    color: #FFFFFF;
-    margin-bottom: 8px;
-  }
-
-  .project-card p {
-    font-size: 16px;
-    color: #EDF2EE;
-    line-height: 1.5;
-    margin-bottom: 16px;
-  }
-
-  .project-link {
-    color: #69C4CE;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-
-  .project-link:hover {
-    color: #FFFFFF;
-    text-decoration: underline;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
