@@ -21,9 +21,9 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 **Purpose**: Criação da estrutura completa de diretórios e organização dos assets estáticos para a página de Portfólio.
 
-- [ ] T001 Criar a estrutura completa de pastas do módulo em `pages/portfolio/` (`assets/css/`, `assets/js/`, `assets/images/`)
-- [ ] T002 [P] Criar a folha de estilo em `pages/portfolio/assets/css/portfolio.css` com as definições de gradientes, painel de filtros, cards de projeto, tags e tipografia (Barlow Condensed, Consolas)
-- [ ] T003 [P] Criar o script client-side em `pages/portfolio/assets/js/portfolio.js` para controle de filtragem interativa por categorias (pills)
+- [x] T001 Criar a estrutura completa de pastas do módulo em `pages/portfolio/` (`assets/css/`, `assets/js/`, `assets/images/`)
+- [x] T002 [P] Criar a folha de estilo em `pages/portfolio/assets/css/portfolio.css` com as definições de gradientes, painel de filtros, cards de projeto, tags e tipografia (Barlow Condensed, Consolas)
+- [x] T003 [P] Criar o script client-side em `pages/portfolio/assets/js/portfolio.js` para controle de filtragem interativa por categorias (pills)
 
 ---
 
@@ -33,7 +33,7 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 **⚠️ CRITICAL**: A casca da página e o invólucro do contêiner principal devem existir antes da integração das User Stories.
 
-- [ ] T004 Criar a página mestre em `pages/portfolio/portfolio.astro` e garantir a compatibilidade em `pages/spa/portfolio.astro` com o contêiner raiz `#page-content`, atributos `data-page-id="portfolio"` e `data-page-title="Portfólio"`
+- [x] T004 Criar a página mestre em `pages/portfolio/portfolio.astro` e garantir a compatibilidade em `pages/spa/portfolio.astro` com o contêiner raiz `#page-content`, atributos `data-page-id="portfolio"` e `data-page-title="Portfólio"`
 
 **Checkpoint**: Base e casca estrutural configuradas. As User Stories podem ser implementadas.
 
@@ -47,8 +47,8 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 ### Implementation for User Story 1
 
-- [ ] T005 [P] [US1] Implementar os estilos do cabeçalho (`.page-title`) e painel de filtros (`.filter-panel`, `.filter-pill`) em `pages/portfolio/assets/css/portfolio.css`
-- [ ] T006 [US1] Implementar a marcação HTML do título e do painel de filtros com as 8 pills em `pages/portfolio/portfolio.astro`
+- [x] T005 [P] [US1] Implementar os estilos do cabeçalho (`.page-title`) e painel de filtros (`.filter-panel`, `.filter-pill`) em `pages/portfolio/assets/css/portfolio.css`
+- [x] T006 [US1] Implementar a marcação HTML do título e do painel de filtros com as 8 pills em `pages/portfolio/portfolio.astro`
 
 **Checkpoint**: MVP do cabeçalho e painel de filtros concluído.
 
@@ -62,8 +62,8 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 ### Implementation for User Story 2
 
-- [ ] T007 [P] [US2] Implementar os estilos das seções de categoria (`.category-section`, `.category-title`), grids (`.project-grid`), cards (`.project-card`, `.card-cover`, `.card-title`, `.card-description`) e tags (`.tag-tags`, `.tag-pill`) em `pages/portfolio/assets/css/portfolio.css`
-- [ ] T008 [US2] Implementar a marcação HTML das seções de categoria e cards de projetos em `pages/portfolio/portfolio.astro`
+- [x] T007 [P] [US2] Implementar os estilos das seções de categoria (`.category-section`, `.category-title`), grids (`.project-grid`), cards (`.project-card`, `.card-cover`, `.card-title`, `.card-description`) e tags (`.tag-tags`, `.tag-pill`) em `pages/portfolio/assets/css/portfolio.css`
+- [x] T008 [US2] Implementar a marcação HTML das seções de categoria e cards de projetos em `pages/portfolio/portfolio.astro`
 
 **Checkpoint**: Seções de projetos e cards estilizados e estruturados.
 
@@ -77,7 +77,7 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 ### Implementation for User Story 3
 
-- [ ] T009 [P] [US3] Implementar media queries em `pages/portfolio/assets/css/portfolio.css` para transformar `.project-grid` em 2 colunas (`repeat(2, 1fr)`) em tablets e 1 coluna (`1fr`) em dispositivos móveis
+- [x] T009 [P] [US3] Implementar media queries em `pages/portfolio/assets/css/portfolio.css` para transformar `.project-grid` em 2 colunas (`repeat(2, 1fr)`) em tablets e 1 coluna (`1fr`) em dispositivos móveis
 
 **Checkpoint**: Layout responsivo verificado em desktop, tablet e mobile.
 
@@ -87,5 +87,12 @@ description: "Lista de tarefas executáveis para a implementação da Página 'P
 
 **Purpose**: Registrar a página no roteador SPA e validar a integridade da implementação.
 
-- [ ] T010 Registrar a página de portfólio em `pages/spa/portfolio.astro` importando os estilos e scripts correspondentes para injeção sem recarregamento no `#page-content-host`
-- [ ] T011 Realizar testes finais de validação visual e interativa da página de Portfólio.
+- [x] T010 Registrar a página de portfólio em `pages/spa/portfolio.astro` importando os estilos e scripts correspondentes para injeção sem recarregamento no `#page-content-host`
+- [x] T011 Realizar testes finais de validação visual e interativa da página de Portfólio.
+
+---
+
+## Phase 7: Convergence (Codebase Sync & Verification)
+
+- [x] T012 Verificar a integridade e paridade entre o código-fonte em `pages/portfolio/` e as especificações GSK (`spec-05_portfolio`).
+- [x] T013 Validar o build de produção estático do Astro cobrindo todas as rotas sem erros de compilação ou incompatibilidades de SSR.
