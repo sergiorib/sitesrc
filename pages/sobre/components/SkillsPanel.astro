@@ -7,7 +7,7 @@ const hardSkillsCards = [
     skills: [
       {
         name: 'Python',
-        icon: '/pages/sobre/assets/images/icon-python.png',
+        icon: '/pages/sobre/assets/images/python_verde.svg',
         children: [
           {
             name: 'Fundamentos',
@@ -59,7 +59,7 @@ const hardSkillsCards = [
       },
       {
         name: 'SQL',
-        icon: '/pages/sobre/assets/images/icon-sql.png',
+        icon: '/pages/sobre/assets/images/sql.svg',
         children: [
           { name: 'Consultas avançadas', stars: 5 },
           { name: 'Joins e subconsultas', stars: 5 },
@@ -71,14 +71,14 @@ const hardSkillsCards = [
           { name: 'Transações e controle de concorrência', stars: 4 },
           { name: 'Otimização de consultas', stars: 4 },
           { name: 'Índices e planos de execução', stars: 4 },
-          { name: 'SQL analítico', stars: 4 }
+          { name: 'SQL analítico', stars: 4 },
+          { name: 'PL/SQL', stars: 4 },
+          { name: 'T-SQL', stars: 4 }
         ]
       },
-      { name: 'PL/SQL', stars: 4 },
-      { name: 'T-SQL', stars: 4 },
       {
         name: 'Linguagem R',
-        icon: '/pages/sobre/assets/images/icon-r.png',
+        icon: '/pages/sobre/assets/images/r.svg',
         children: [
           { name: 'Programação estatística', stars: 3 },
           {
@@ -102,6 +102,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Versionamento',
+        icon: '/pages/sobre/assets/images/git.svg',
         children: [
           { name: 'GitHub', stars: 5 },
           { name: 'Bitbucket', stars: 4 }
@@ -109,6 +110,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Conceitos gerais',
+        icon: '/pages/sobre/assets/images/conceito.svg',
         children: [
           { name: 'Clean Code', stars: 4 },
           { name: 'SOLID', stars: 3 },
@@ -131,6 +133,7 @@ const hardSkillsCards = [
     skills: [
       {
         name: 'Relacionais',
+        icon: '/pages/sobre/assets/images/database.svg',
         children: [
           { name: 'SQL Server', stars: 3 },
           { name: 'Oracle', stars: 3 },
@@ -140,6 +143,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Time series',
+        icon: '/pages/sobre/assets/images/database.svg',
         children: [
           { name: 'InfluxDB', stars: 3 },
           { name: 'Graphite', stars: 3 },
@@ -148,6 +152,7 @@ const hardSkillsCards = [
       },
       {
         name: 'NoSQL',
+        icon: '/pages/sobre/assets/images/database.svg',
         children: [
           { name: 'MongoDB', stars: 4 },
           { name: 'DocumentDB', stars: 2 }
@@ -155,6 +160,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Key-Value',
+        icon: '/pages/sobre/assets/images/database.svg',
         children: [
           { name: 'Redis', stars: 3 },
           { name: 'DynamoDB', stars: 2 }
@@ -162,6 +168,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Analiticos',
+        icon: '/pages/sobre/assets/images/database.svg',
         children: [
           { name: 'BigQuery', stars: 3 },
           { name: 'RedShift', stars: 4 },
@@ -169,19 +176,20 @@ const hardSkillsCards = [
           { name: 'DuckDB', stars: 5 }
         ]
       },
-      { name: 'Colunar', children: [{ name: 'Cassandra', stars: 3 }] },
-      { name: 'Grafos', children: [{ name: 'Neo4j', stars: 3 }] }
+      { name: 'Colunar', icon: '/pages/sobre/assets/images/database.svg', children: [{ name: 'Cassandra', stars: 3 }] },
+      { name: 'Grafos', icon: '/pages/sobre/assets/images/database.svg', children: [{ name: 'Neo4j', stars: 3 }] }
     ]
   },
   {
     title: 'ANÁLISE DE DADOS E BI',
     skills: [
-      { name: 'Análise Exploratória (EDA)', stars: 4 },
-      { name: 'Business Intelligence (BI)', stars: 5 },
-      { name: 'Storytelling com Dados', stars: 4 },
-      { name: 'KPIs e OKRs', stars: 5 },
+      { name: 'Análise Exploratória (EDA)', icon: '/pages/sobre/assets/images/analise.svg', stars: 4 },
+      { name: 'Business Intelligence (BI)', icon: '/pages/sobre/assets/images/analise.svg', stars: 5 },
+      { name: 'Storytelling com Dados', icon: '/pages/sobre/assets/images/analise.svg', stars: 4 },
+      { name: 'KPIs e OKRs', icon: '/pages/sobre/assets/images/analise.svg', stars: 5 },
       {
         name: 'Análises Especializadas',
+        icon: '/pages/sobre/assets/images/analise.svg',
         children: [
           { name: 'Séries Temporais', stars: 4 },
           { name: 'Forecasting', stars: 3 },
@@ -199,9 +207,10 @@ const hardSkillsCards = [
           { name: 'Análise Operacional (SLA e OTIF)', stars: 3 }
         ]
       },
-      { name: 'testes A/B', stars: 3 },
+      { name: 'testes A/B', icon: '/pages/sobre/assets/images/analise.svg', stars: 3 },
       {
         name: 'Ferramentas',
+        icon: '/pages/sobre/assets/images/analise.svg',
         children: [
           { name: 'Power BI', stars: 5 },
           { name: 'Tableau', stars: 3 },
@@ -214,17 +223,17 @@ const hardSkillsCards = [
   {
     title: 'ENGENHARIA DE DADOS',
     skills: [
-      { name: 'ETL / ELT', stars: 5 },
-      { name: 'Modelagem de Dados', stars: 5 },
-      { name: 'Data Lakes', stars: 4 },
-      { name: 'Arquitetura Medalhão', stars: 4 },
-      { name: 'dbt', stars: 4 },
-      { name: 'Apache Spark', stars: 4 },
-      { name: 'Databricks', stars: 4 },
-      { name: 'Apache Airflow', stars: 3 },
-      { name: 'Delta Lake', stars: 4 },
-      { name: 'Data Lineage', stars: 3 },
-      { name: 'N8N', stars: 4 }
+      { name: 'ETL / ELT', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 5 },
+      { name: 'Modelagem de Dados', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 5 },
+      { name: 'Data Lakes', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'Arquitetura Medalhão', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'dbt', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'Apache Spark', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'Databricks', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'Apache Airflow', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 3 },
+      { name: 'Delta Lake', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 },
+      { name: 'Data Lineage', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 3 },
+      { name: 'N8N', icon: '/pages/sobre/assets/images/engenharia.svg', stars: 4 }
     ]
   },
   {
@@ -232,6 +241,7 @@ const hardSkillsCards = [
     skills: [
       {
         name: 'Fundamentos para Dados',
+        icon: '/pages/sobre/assets/images/cloud.svg',
         children: [
           { name: 'Armazenamento vs. Computação (Desacoplamento)', stars: 3 },
           { name: 'Data Lake, Data Warehouse e Lakehouse na nuvem', stars: 3 },
@@ -240,6 +250,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Amazon Web Services (AWS)',
+        icon: '/pages/sobre/assets/images/cloud.svg',
         children: [
           { name: 'S3', stars: 3 },
           { name: 'Glue', stars: 3 },
@@ -250,6 +261,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Google Cloud Platform (GCP)',
+        icon: '/pages/sobre/assets/images/cloud.svg',
         children: [
           { name: 'BigQuery', stars: 3 },
           { name: 'Cloud Storage (GCS)', stars: 3 },
@@ -259,6 +271,7 @@ const hardSkillsCards = [
       },
       {
         name: 'Microsoft Azure',
+        icon: '/pages/sobre/assets/images/cloud.svg',
         children: [
           { name: 'Azure Databricks', stars: 3 },
           { name: 'Azure Data Factory (ADF)', stars: 3 },
@@ -266,39 +279,39 @@ const hardSkillsCards = [
           { name: 'Microsoft Fabric / Synapse', stars: 3 }
         ]
       },
-      { name: 'DataOps', children: [{ name: 'Terraform', stars: 3 }] }
+      { name: 'DataOps', icon: '/pages/sobre/assets/images/cloud.svg', children: [{ name: 'Terraform', stars: 3 }] }
     ]
   },
   {
     title: 'INTELIGÊNCIA ARTIFICIAL',
     skills: [
-      { name: 'IA aplicada a Dados', stars: 4 },
-      { name: 'Engenharia de Prompts', stars: 4 },
-      { name: 'IA aplicada à Programação', stars: 4 },
-      { name: 'IA aplicada à Documentação Técnica', stars: 4 },
-      { name: 'SDD (Spec-Driven Development)', stars: 4 },
-      { name: 'MCP (Model Context Protocol)', stars: 3 }
+      { name: 'IA aplicada a Dados', icon: '/pages/sobre/assets/images/ia.svg', stars: 4 },
+      { name: 'Engenharia de Prompts', icon: '/pages/sobre/assets/images/ia.svg', stars: 4 },
+      { name: 'IA aplicada à Programação', icon: '/pages/sobre/assets/images/ia.svg', stars: 4 },
+      { name: 'IA aplicada à Documentação Técnica', icon: '/pages/sobre/assets/images/ia.svg', stars: 4 },
+      { name: 'SDD (Spec-Driven Development)', icon: '/pages/sobre/assets/images/ia.svg', stars: 4 },
+      { name: 'MCP (Model Context Protocol)', icon: '/pages/sobre/assets/images/ia.svg', stars: 3 }
     ]
   },
   {
     title: 'INFRAESTRUTURA',
     skills: [
-      { name: 'Linux', stars: 4 },
-      { name: 'Windows Server', stars: 2 },
-      { name: 'SSH', stars: 5 },
-      { name: 'Shell Script', stars: 4 }
+      { name: 'Linux', icon: '/pages/sobre/assets/images/linux.svg', stars: 4 },
+      { name: 'Windows Server', icon: '/pages/sobre/assets/images/windows.svg', stars: 2 },
+      { name: 'SSH', icon: '/pages/sobre/assets/images/ssh.svg', stars: 5 },
+      { name: 'Shell Script', icon: '/pages/sobre/assets/images/shell.svg', stars: 4 }
     ]
   },
   {
     title: 'METODOLOGIAS E FERRAMENTAS',
     skills: [
-      { name: 'Scrum', stars: 3 },
-      { name: 'CRISP-DM', stars: 4 },
-      { name: 'Jira', stars: 3 },
-      { name: 'Draw.io', stars: 4 },
-      { name: 'Figma', stars: 3 },
-      { name: 'Swagger', stars: 3 },
-      { name: 'Postman', stars: 4 }
+      { name: 'Scrum', icon: '/pages/sobre/assets/images/tool.svg', stars: 3 },
+      { name: 'CRISP-DM', icon: '/pages/sobre/assets/images/tool.svg', stars: 4 },
+      { name: 'Jira', icon: '/pages/sobre/assets/images/tool.svg', stars: 3 },
+      { name: 'Draw.io', icon: '/pages/sobre/assets/images/tool.svg', stars: 4 },
+      { name: 'Figma', icon: '/pages/sobre/assets/images/tool.svg', stars: 3 },
+      { name: 'Swagger', icon: '/pages/sobre/assets/images/tool.svg', stars: 3 },
+      { name: 'Postman', icon: '/pages/sobre/assets/images/tool.svg', stars: 4 }
     ]
   }
 ];
@@ -307,39 +320,39 @@ const softSkillsCards = [
   {
     title: 'ANÁLISE E PENSAMENTO ESTRATÉGICO',
     skills: [
-      { name: 'Pensamento Analítico', stars: 4 },
-      { name: 'Visão Estratégica de Negócio', stars: 4 },
-      { name: 'Capacidade de Análise Crítica', stars: 4 },
-      { name: 'Visão Sistêmica', stars: 4 },
-      { name: 'Tomada de Decisão Orientada por Dados', stars: 4 }
+      { name: 'Pensamento Analítico', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Visão Estratégica de Negócio', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Capacidade de Análise Crítica', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Visão Sistêmica', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Tomada de Decisão Orientada por Dados', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 }
     ]
   },
   {
     title: 'COMUNICAÇÃO E RELACIONAMENTO',
     skills: [
-      { name: 'Comunicação com Stakeholders', stars: 4 },
-      { name: 'Trabalho em Equipe', stars: 5 },
-      { name: 'Colaboração Interdisciplinar', stars: 3 },
-      { name: 'Compartilhamento de Conhecimento', stars: 3 }
+      { name: 'Comunicação com Stakeholders', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Trabalho em Equipe', icon: '/pages/sobre/assets/images/brain.svg', stars: 5 },
+      { name: 'Colaboração Interdisciplinar', icon: '/pages/sobre/assets/images/brain.svg', stars: 3 },
+      { name: 'Compartilhamento de Conhecimento', icon: '/pages/sobre/assets/images/brain.svg', stars: 3 }
     ]
   },
   {
     title: 'LIDERANÇA E GESTÃO',
     skills: [
-      { name: 'Liderança Técnica', stars: 3 },
-      { name: 'Gestão de Projetos', stars: 2 },
-      { name: 'Organização e Planejamento', stars: 4 },
-      { name: 'Orientação a Resultados', stars: 4 }
+      { name: 'Liderança Técnica', icon: '/pages/sobre/assets/images/brain.svg', stars: 3 },
+      { name: 'Gestão de Projetos', icon: '/pages/sobre/assets/images/brain.svg', stars: 2 },
+      { name: 'Organização e Planejamento', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Orientação a Resultados', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 }
     ]
   },
   {
     title: 'RESOLUÇÃO DE PROBLEMAS E ADAPTABILIDADE',
     skills: [
-      { name: 'Resolução de Problemas', stars: 5 },
-      { name: 'Adaptabilidade', stars: 5 },
-      { name: 'Aprendizado Contínuo', stars: 5 },
-      { name: 'Autonomia', stars: 4 },
-      { name: 'Pensamento Estruturado', stars: 5 }
+      { name: 'Resolução de Problemas', icon: '/pages/sobre/assets/images/brain.svg', stars: 5 },
+      { name: 'Adaptabilidade', icon: '/pages/sobre/assets/images/brain.svg', stars: 5 },
+      { name: 'Aprendizado Contínuo', icon: '/pages/sobre/assets/images/brain.svg', stars: 5 },
+      { name: 'Autonomia', icon: '/pages/sobre/assets/images/brain.svg', stars: 4 },
+      { name: 'Pensamento Estruturado', icon: '/pages/sobre/assets/images/brain.svg', stars: 5 }
     ]
   }
 ];
