@@ -159,3 +159,11 @@ Como visitante navegando pela SPA, desejo que a página "Sobre mim" carregue ins
 - O projeto segue estritamente a Constituição v1.0.0: Astro para estruturação estática, CSS3 Puro / Vanilla CSS (sem frameworks utilitários) e Vanilla JS nativo.
 - Os ícones de tecnologias (18x18px) estão organizados no diretório de assets da página em `pages/sobre/assets/images/`.
 - As fontes `Barlow Condensed` e fontes monoespaçada de sistema (`Consolas`, `Courier New`, `monospace`) estão disponíveis no ambiente do navegador.
+
+## Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/sobre/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../sobre/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/sobre/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/sobre/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/sobre/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.

@@ -1,107 +1,77 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Estrutura e Conteúdo Integral da Página "Histórico"
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
+**Branch**: `spec-03_historico` | **Date**: 2026-11-09 | **Spec**: [spec.md](./spec.md)
 
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
-
-**Note**: This template is filled in by the `/speckit.plan` command; its definition describes the execution workflow.
+**Input**: Feature specification from `.specify/specs/spec-03_historico/spec.md`
 
 ## Summary
 
-[Extract from feature spec: primary requirement + technical approach from research]
+Implementação e refinamento integral da página "Histórico Profissional" (`historico.astro` e versão SPA `spa/historico.astro`), exibindo 5 experiências profissionais estruturadas com cards estilizados, badges informativas, descrições detalhadas e stack tecnológica em conformidade estrita com a Constituição do projeto e a arquitetura SPA.
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
+**Language/Version**: JavaScript (ES6+), HTML5, CSS3 / Astro 5+
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Primary Dependencies**: Astro, Vanilla CSS, Vanilla JavaScript
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Storage**: N/A (Static structured data)
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Testing**: Build validation (`npm run build`) and SPA integration test
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Target Platform**: Web browsers (SPA client-side router)
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Project Type**: Static web application (Astro SSG + SPA)
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Performance Goals**: Page render time < 150ms
 
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Constraints**: Pure CSS3 / Vanilla JS (No Tailwind, no external UI frameworks)
 
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
-
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: 1 page component + 1 SPA component + isolated CSS/assets + 5 professional experience records
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **I. Stack Tecnológica Mandatória (Astro + Vanilla)**: PASS. Utiliza Astro para SSG/componentes, CSS puro e Vanilla JS. Sem Tailwind ou frameworks reativos.
+- **II. Estrutura de Páginas e Separação de Preocupações**: PASS. Organizado estritamente em `pages/historico/` com assets isolados e `pages/spa/historico.astro` com contêiner `#page-content`.
+- **III. Arquitetura de Design e UI**: PASS. Estética Dark Tech Dashboard respeitada com CSS3 puro.
+- **IV. Regras de Workflow, Versionamento e Automação**: PASS. Conforme com especificações Spec-Kit.
+- **V. Convenção de Nomenclatura de Especificações**: PASS. Nomenclatura correta em `.specify/specs/spec-03_historico/`.
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
-├── plan.md              # This file (/speckit.plan command output)
-├── research.md          # Phase 0 output (/speckit.plan command)
-├── data-model.md        # Phase 1 output (/speckit.plan command)
-├── quickstart.md        # Phase 1 output (/speckit.plan command)
-├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+.specify/specs/spec-03_historico/
+├── plan.md              # This file
+├── research.md          # Phase 0 output
+├── data-model.md        # Phase 1 output
+├── quickstart.md        # Phase 1 output
+├── contracts/           # Phase 1 output (ui-contracts.md)
+└── tasks.md             # Phase 2 output
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+pages/
+├── historico.md
+├── historico/
+│   ├── historico.astro
+│   └── assets/
+│       ├── css/
+│       │   └── historico.css
+│       └── images/
+│           ├── logo_frete.png
+│           ├── logo_verity.png
+│           ├── logo_arezzo.png
+│           └── logo_cvc.png
+└── spa/
+    └── historico.astro
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Single-project web application adhering to the page isolation pattern `pages/<modulo>/` and `pages/spa/<modulo>.astro`.
 
 ## Complexity Tracking
 
@@ -109,5 +79,4 @@ directories captured above]
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| N/A | N/A | N/A |

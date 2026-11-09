@@ -100,3 +100,11 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de artigos
 - **SC-002**: 100% dos elementos visuais e comportamentais extraídos de `exemplo_06_pagina_artigos.html` (13 grupos temáticos, subgrupos, acordeão, seleção com `✓` e redirecionamento) são reproduzidos fielmente.
 - **SC-003**: A separação de assets (CSS em `pages/artigos/assets/css/artigos.css`, JS em `pages/artigos/assets/js/artigos.js`, e imagens em `pages/artigos/assets/images/`) está estritamente implementada.
 - **SC-004**: O design responsivo adapta perfeitamente as colunas e espaçamentos em viewports de tablet e mobile.
+
+## Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/artigos/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../artigos/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/artigos/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/artigos/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/artigos/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.

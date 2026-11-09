@@ -2,112 +2,176 @@
 import '../historico/assets/css/historico.css';
 ---
 
-<div id="page-content" class="page-content-wrapper" data-page-id="historico" data-page-title="Histórico">
-  <main class="main-container">
-    
-    <!-- 2. Título da Página -->
-    <h1 class="page-title">Histórico Profissional</h1>
+<div
+  id="page-content"
+  class="page-content-wrapper historico-page"
+  data-page-id="historico"
+  data-page-title="Histórico"
+>
+  <div class="panel-container">
+    <h2 class="page-title">Histórico Profissional</h2>
 
-    <!-- 4.2 Experiência 1: Cientista de Dados Sênior -->
-    <article class="experience-card">
-      <img src="https://via.placeholder.com/150x40/003366/FFFFFF?text=DataCorp" alt="Logo Empresa" class="company-logo">
-      <h2 class="job-title">Cientista de Dados Sênior</h2>
-
-      <div class="info-badges">
-        <span class="badge">Ciência de Dados & IA</span>
-        <span class="badge">2023 - Presente</span>
-        <span class="badge">Atual</span>
-        <span class="badge">Remoto</span>
+    <div class="experiences-wrapper">
+      <!-- Experiência 1: Frete.com -->
+      <div class="experience-card">
+        <div class="company-logo-container">
+          <img src="/pages/historico/assets/images/logo_frete.png" alt="Frete.com" class="company-logo" />
+        </div>
+        <h3 class="job-title">Analista de BI</h3>
+        <div class="info-badges">
+          <span class="badge">maio 2025 a março 2026</span>
+          <span class="badge">10 meses</span>
+          <span class="badge">PJ</span>
+          <span class="badge">Remoto</span>
+          <span class="badge">Logística</span>
+        </div>
+        <p class="job-description">
+          Em parceria com a equipe de dados do cliente, conduzi a reestruturação dos processos de extração, transformação e carga (ETL) oriundos de diversas fontes. Ao substituir processos manuais por pipelines automatizados e implementar validações rigorosas de qualidade, conseguimos reduzir o tempo de preparação dos dados em 80%. O impacto direto dessa nova arquitetura foi elevar a maturidade da área de planejamento, permitindo que a equipe dedicasse seu tempo a análises preditivas e direcionamento estratégico do negócio.
+        </p>
+        <div class="tech-stack-block">
+          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
+          <div class="tech-shields">
+            <span class="tech-shield hard">Microsoft SQL Server</span>
+            <span class="tech-shield hard">Python</span>
+            <span class="tech-shield hard">DuckDB</span>
+            <span class="tech-shield hard">n8n</span>
+            <span class="tech-shield hard">dbt</span>
+            <span class="tech-shield hard">API REST (Consumo)</span>
+            <span class="tech-shield hard">Postman</span>
+            <span class="tech-shield hard">Swagger</span>
+            <span class="tech-shield hard">Microsoft Excel</span>
+            <span class="tech-shield hard">Drawio</span>
+            <span class="tech-shield hard">SCRUM</span>
+            <span class="tech-shield hard">Github</span>
+          </div>
+        </div>
       </div>
 
-      <p class="job-description">
-        Liderança de projetos analíticos ponta a ponta, modelagem estatística preditiva e arquitetura de inteligência artificial. Atuação na concepção e escala de soluções analíticas, traduzindo dados brutos em vantagem competitiva e alto retorno financeiro.
-      </p>
-
-      <div class="tech-stack-block">
-        <div class="tech-stack-title">Stack tecnológica e habilidades</div>
-        <ul class="tech-list">
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233776AB'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='12' fill='white' text-anchor='middle' font-weight='bold'>PY</text></svg>" alt="Python" class="tech-icon">
-            <span>Python</span>
-          </li>
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6F00'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='12' fill='white' text-anchor='middle' font-weight='bold'>TF</text></svg>" alt="TensorFlow" class="tech-icon">
-            <span>TensorFlow</span>
-          </li>
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300758F'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='10' fill='white' text-anchor='middle' font-weight='bold'>SQL</text></svg>" alt="SQL" class="tech-icon">
-            <span>SQL</span>
-          </li>
-        </ul>
-      </div>
-    </article>
-
-    <!-- 4.3 Experiência 2: Engenheiro de Machine Learning -->
-    <article class="experience-card">
-      <img src="https://via.placeholder.com/150x40/4A154B/FFFFFF?text=MLOps+Tech" alt="Logo MLOps" class="company-logo">
-      <h2 class="job-title">Engenheiro de Machine Learning</h2>
-
-      <div class="info-badges">
-        <span class="badge">MLOps & Infra</span>
-        <span class="badge">2020 - 2023</span>
-        <span class="badge">3 Anos</span>
-        <span class="badge">Híbrido</span>
-      </div>
-
-      <p class="job-description">
-        Implementação de pipelines de MLOps, automação de inferência em tempo real e monitoramento de modelos em produção. Garantia de escalabilidade, confiabilidade e reatividade de sistemas inteligentes em ambientes de alta criticidade.
-      </p>
-
-      <div class="tech-stack-block">
-        <div class="tech-stack-title">Stack tecnológica e habilidades</div>
-        <ul class="tech-list">
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233776AB'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='12' fill='white' text-anchor='middle' font-weight='bold'>PY</text></svg>" alt="Python" class="tech-icon">
-            <span>Python</span>
-          </li>
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23239120'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='12' fill='white' text-anchor='middle' font-weight='bold'>ML</text></svg>" alt="MLOps" class="tech-icon">
-            <span>MLOps</span>
-          </li>
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E24329'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='12' fill='white' text-anchor='middle' font-weight='bold'>GL</text></svg>" alt="GitLab" class="tech-icon">
-            <span>GitLab CI</span>
-          </li>
-        </ul>
-      </div>
-    </article>
-
-    <!-- 4.4 Experiência 3: Analista de Dados & BI -->
-    <article class="experience-card">
-      <img src="https://via.placeholder.com/150x40/003366/FFFFFF?text=Analytics+BI" alt="Logo BI" class="company-logo">
-      <h2 class="job-title">Analista de Dados & BI</h2>
-
-      <div class="info-badges">
-        <span class="badge">Business Intelligence</span>
-        <span class="badge">2017 - 2020</span>
-        <span class="badge">3 Anos</span>
-        <span class="badge">Presencial</span>
+      <!-- Experiência 2: Verity Consultoria em Tecnologia -->
+      <div class="experience-card">
+        <div class="company-logo-container">
+          <img src="/pages/historico/assets/images/logo_verity.png" alt="Verity Consultoria em Tecnologia" class="company-logo" />
+        </div>
+        <h3 class="job-title">Analista de BI</h3>
+        <div class="info-badges">
+          <span class="badge">março 2023 a março 2025</span>
+          <span class="badge">2 anos</span>
+          <span class="badge">CLT</span>
+          <span class="badge">Remoto</span>
+          <span class="badge">Seguros</span>
+        </div>
+        <p class="job-description">
+          Atuei na modelagem de dados e arquitetura de integração em projeto estratégico para uma seguradora de grande porte, visando o lançamento de um novo produto de seguro agrícola. O grande desafio superado foi traduzir regras de negócio complexas em um modelo de dados robusto que garantisse a comunicação fluida entre os sistemas legados da companhia e as APIs de um parceiro internacional. O produto foi implantado em produção com sucesso, destravando a entrada da empresa em um novo e altamente rentável segmento de mercado.
+        </p>
+        <div class="tech-stack-block">
+          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
+          <div class="tech-shields">
+            <span class="tech-shield hard">Progress 4GL</span>
+            <span class="tech-shield hard">SQL</span>
+            <span class="tech-shield hard">Excel</span>
+            <span class="tech-shield hard">Integração com APIS</span>
+            <span class="tech-shield hard">Swagger</span>
+            <span class="tech-shield hard">Postman</span>
+            <span class="tech-shield hard">DrawIO</span>
+            <span class="tech-shield hard">Jira</span>
+            <span class="tech-shield hard">Scrum</span>
+            <span class="tech-shield hard">Bitbucket</span>
+            <span class="tech-shield hard">Service Now</span>
+            <span class="tech-shield soft">Análise de Sistema</span>
+            <span class="tech-shield soft">Modelagem de dados</span>
+          </div>
+        </div>
       </div>
 
-      <p class="job-description">
-        Mineração de dados, modelagem dimensional e desenvolvimento de dashboards avançados para suporte à decisão executiva. Transformação de requisitos de negócios em indicadores de desempenho claros e acionáveis.
-      </p>
-
-      <div class="tech-stack-block">
-        <div class="tech-stack-title">Stack tecnológica e habilidades</div>
-        <ul class="tech-list">
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300758F'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='10' fill='white' text-anchor='middle' font-weight='bold'>SQL</text></svg>" alt="SQL" class="tech-icon">
-            <span>SQL</span>
-          </li>
-          <li class="tech-item">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F2C94C'><rect width='24' height='24' rx='4'/><text x='12' y='16' font-size='10' fill='white' text-anchor='middle' font-weight='bold'>BI</text></svg>" alt="PowerBI" class="tech-icon">
-            <span>Power BI</span>
-          </li>
-        </ul>
+      <!-- Experiência 3: Arezzo&Co -->
+      <div class="experience-card">
+        <div class="company-logo-container">
+          <img src="/pages/historico/assets/images/logo_arezzo.png" alt="Arezzo&Co" class="company-logo" />
+        </div>
+        <h3 class="job-title">Analista de dados</h3>
+        <div class="info-badges">
+          <span class="badge">janeiro 2021 a outubro 2022</span>
+          <span class="badge">1 ano e 6 meses</span>
+          <span class="badge">PJ</span>
+          <span class="badge">Remoto</span>
+          <span class="badge">Varejo</span>
+        </div>
+        <p class="job-description">
+          Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.
+        </p>
+        <div class="tech-stack-block">
+          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
+          <div class="tech-shields">
+            <span class="tech-shield hard">Databricks</span>
+            <span class="tech-shield hard">SQL</span>
+            <span class="tech-shield hard">PySpark</span>
+            <span class="tech-shield hard">Delta Lake</span>
+            <span class="tech-shield hard">Power BI</span>
+            <span class="tech-shield hard">Python</span>
+            <span class="tech-shield hard">Excel</span>
+            <span class="tech-shield hard">Git</span>
+          </div>
+        </div>
       </div>
-    </article>
 
-  </main>
+      <!-- Experiência 4: CVC Viagens e Turismo -->
+      <div class="experience-card">
+        <div class="company-logo-container">
+          <img src="/pages/historico/assets/images/logo_cvc.png" alt="CVC Viagens e Turismo" class="company-logo" />
+        </div>
+        <h3 class="job-title">Especialista em TI</h3>
+        <div class="info-badges">
+          <span class="badge">janeiro 2018 a janeiro 2021</span>
+          <span class="badge">3 anos</span>
+          <span class="badge">CLT</span>
+          <span class="badge">Presencial</span>
+          <span class="badge">e-commerce de turismo</span>
+        </div>
+        <p class="job-description">
+          Coordenei por 2 anos e meio equipe de TI de sustentação de ERP financeiro (Oracle EBS) na qual implementei rotina de apuração de indicadores operacionais para identificar gargalos sistêmicos e propor planos de ação que resultou em ganho significativo de tempo em atendimentos e redução dos custos de suporte em mais de 60%. Desenvolvi painéis analíticos (Grafana) e soluções de observabilidade cruzando dados de vendas com métricas de infraestrutura em nuvem (AWS CloudWatch) para alimentar sistemas internos de observabilidade (Zabbix). Também fui responsável por apurar e disponibilizar indicadores de disponibilidade do site e preparar o material para apresentações executivas.
+        </p>
+        <div class="tech-stack-block">
+          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
+          <div class="tech-shields">
+            <span class="tech-shield hard">SQL Server</span>
+            <span class="tech-shield hard">Oracle</span>
+            <span class="tech-shield hard">Excel</span>
+            <span class="tech-shield hard">C#</span>
+            <span class="tech-shield hard">Databricks</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experiência 5: Submarino (varejo e turismo) e B2W Digital -->
+      <div class="experience-card">
+        <div class="company-logo-container">
+          <img src="/pages/historico/assets/images/logo_submarino.png" alt="Submarino e B2W Digital" class="company-logo" />
+        </div>
+        <h3 class="job-title">Analista de dados</h3>
+        <div class="info-badges">
+          <span class="badge">janeiro 2015 a dezembro 2017</span>
+          <span class="badge">3 anos</span>
+          <span class="badge">PJ</span>
+          <span class="badge">Presencial</span>
+          <span class="badge">ecommerce</span>
+        </div>
+        <p class="job-description">
+          Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.
+        </p>
+        <div class="tech-stack-block">
+          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
+          <div class="tech-shields">
+            <span class="tech-shield hard">Databricks</span>
+            <span class="tech-shield hard">SQL</span>
+            <span class="tech-shield hard">PySpark</span>
+            <span class="tech-shield hard">Delta Lake</span>
+            <span class="tech-shield hard">Power BI</span>
+            <span class="tech-shield hard">Python</span>
+            <span class="tech-shield hard">Excel</span>
+            <span class="tech-shield hard">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

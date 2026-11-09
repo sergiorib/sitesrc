@@ -105,3 +105,11 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 - **SC-002**: 100% dos elementos visuais (gradientes, bordas, sombras e tipografia Barlow Condensed / monoespaçada) obedecem rigorosamente às especificações de design.
 - **SC-003**: A página apresenta as 3 seções ('Acadêmica', 'Idiomas' e 'Treinamentos') com seus respectivos títulos e cards de exemplo em Idiomas e Treinamentos.
 - **SC-004**: O design responsivo adapta perfeitamente os paddings e tamanhos de fonte em viewports de tablet e mobile sem quebras de layout.
+
+## Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/formacao/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../formacao/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/formacao/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/formacao/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/formacao/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.

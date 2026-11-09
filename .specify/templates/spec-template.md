@@ -129,3 +129,15 @@
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+
+## Asset Resolution Convention (SPA Pages)
+
+<!--
+  MANDATORY RULE FOR SPA MODULES (`pages/<modulo>/`):
+  When adding images, logos, icons, or static media in page modules:
+  1. DO NOT use relative paths (e.g., `./assets/...` or `../modulo/assets/...`), as they fail when resolved dynamically by the SPA router in nested routes (e.g., `/spa/<modulo>/`).
+  2. ALWAYS use absolute paths based on the Astro static server root: `/pages/<modulo>/assets/images/<filename>`.
+  3. Ensure the asset file physically exists in `pages/<modulo>/assets/images/`.
+  4. Validate rendering and bundling by running `npm run build` upon completion.
+-->
+

@@ -1,191 +1,179 @@
-/* ========================================================================== */
-/* Estilos da Página Histórico Profissional (Ref: exemplo_03_pagina_historico.html) */
-/* ========================================================================== */
+/* Estilos para a Página "Histórico" (historico.astro / spa/historico.astro) */
 
-.page-content-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeIn 0.3s ease-in-out;
+.historico-page {
+  background: linear-gradient(to bottom, #16222A 0%, #3A6073 100%);
+  min-height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* 1. Layout Geral e Main Container */
-.main-container {
-    width: 100%;
-    max-width: 1200px;
-    min-height: 100vh;
-    background: linear-gradient(180deg, #16222A 0%, #3A6073 100%);
-    border: 1px solid #0381B0;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    padding: 16px;
-    box-sizing: border-box;
+.panel-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* 2. Título da Página */
 .page-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 32px;
-    color: #FFFFFF;
-    text-align: left;
-    margin-bottom: 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 16px;
+  text-align: left;
 }
 
-/* 3. Card de Experiência Profissional */
+.experiences-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
 .experience-card {
-    background: linear-gradient(180deg, #DAEBF2 0%, #A8CCD9 100%);
-    border: 1px solid #0381B0;
-    border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-    padding: 20px 24px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #0381B0;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-.experience-card:last-child {
-    margin-bottom: 0;
+.company-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-/* 3.2 Cabeçalho da Empresa e Cargo */
 .company-logo {
-    display: block;
-    margin: 0 auto 12px auto;
-    height: 40px;
-    width: auto;
-    object-fit: contain;
+  height: 100px;
+  width: auto;
+  object-fit: contain;
 }
 
 .job-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: #000000;
-    text-align: center;
-    margin-bottom: 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  color: #000000;
+  text-align: center;
+  margin: 0 0 16px 0;
 }
 
-/* 3.3 Informações Gerais (Badges) */
 .info-badges {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
 }
 
 .badge {
-    background: linear-gradient(180deg, #FFFDEB 0%, #FFF9D2 100%);
-    border: 1px solid #0381B0;
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-family: 'Barlow Condensed', monospace;
-    font-weight: 600;
-    font-size: 14px;
-    color: #000000;
-    white-space: nowrap;
+  background: linear-gradient(to bottom, #FFFDEB 0%, #FFF9D2 100%);
+  border: 1px solid #0381B0;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 3.4 Descrição das Atividades e Conquistas */
 .job-description {
-    font-family: 'Courier New', Consolas, monospace;
-    font-size: 16px;
-    font-weight: 800;
-    color: #0a0c0c;
-    line-height: 1.5;
-    text-align: justify;
-    margin-top: 16px;
-    margin-bottom: 16px;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0a0c0c;
+  line-height: 1.5;
+  text-align: justify;
+  margin: 0 0 20px 0;
 }
 
-/* 3.5 Bloco "Stack tecnológica e habilidades" */
 .tech-stack-block {
-    background: linear-gradient(180deg, #FFFDEB 0%, #FFF8D6 100%);
-    border: 1px solid #0381B0;
-    border-radius: 6px;
-    padding: 12px 16px;
+  background: linear-gradient(to bottom, #DAEBF2 0%, #A8CCD9 100%);
+  border: 1px solid #0381B0;
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-sizing: border-box;
 }
 
 .tech-stack-title {
-    font-family: 'Courier New', Consolas, monospace;
-    font-weight: 700;
-    font-size: 13px;
-    color: #386312;
-    margin-bottom: 8px;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1b5e20;
+  margin: 0 0 12px 0;
 }
 
-.tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.tech-shields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.tech-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Courier New', Consolas, monospace;
-    font-size: 12px;
-    font-weight: 600;
-    color: #000000;
+.tech-shield {
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 12px;
+  display: inline-block;
 }
 
-.tech-icon {
-    width: 16px;
-    height: 16px;
-    object-fit: contain;
+.tech-shield.hard {
+  background-color: #5E718D;
+  color: #FFFFFF;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+.tech-shield.soft {
+  background-color: #3CA296;
+  color: #FFFFFF;
 }
 
-/* 5. Responsividade */
-/* Tablet (768px a 1023px) */
+/* Responsividade - Tablets (768px a 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
-    .info-badges {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    .badge {
-        flex: 1 1 calc(50% - 10px);
-        text-align: center;
-    }
+  .info-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-/* Mobile (< 768px) */
+/* Responsividade - Mobile (< 767px) */
 @media (max-width: 767px) {
-    .page-title {
-        font-size: 24px;
-    }
-
-    .experience-card {
-        padding: 12px;
-    }
-
-    .company-logo {
-        height: 32px;
-    }
-
-    .info-badges {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-
-    .badge {
-        padding: 6px 8px;
-        font-size: 12px;
-        text-align: center;
-        white-space: normal;
-    }
-
-    .job-description {
-        font-size: 13px;
-    }
+  .historico-page {
+    padding: 10px;
+  }
+  .page-title {
+    font-size: 24px;
+  }
+  .experience-card {
+    padding: 12px;
+  }
+  .company-logo {
+    height: 80px;
+  }
+  .job-title {
+    font-size: 28px;
+  }
+  .job-description {
+    font-size: 18px;
+  }
+  .tech-stack-title {
+    font-size: 18px;
+  }
+  .tech-shield {
+    font-size: 16px;
+  }
+  .info-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
