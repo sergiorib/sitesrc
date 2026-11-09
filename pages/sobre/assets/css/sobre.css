@@ -38,6 +38,10 @@
   margin: 0;
 }
 
+.about-bio-text + .about-bio-text {
+  margin-top: 15px;
+}
+
 .skills-panel-header {
   display: flex;
   justify-content: space-between;

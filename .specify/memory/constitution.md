@@ -35,7 +35,12 @@ A organização do código fonte deve garantir total isolamento e modularidade p
   - `pages/<nome_pagina>/assets/images/`: Imagens e mídias estáticas associadas à página.
   - `pages/<nome_pagina>/assets/js/`: Scripts em Vanilla JS e lógica de UI client-side restritos à página.
 - **Encapsulamento Client-Side**: Scripts client-side de uma página devem residir exclusivamente na pasta `assets/js/` de seu respectivo diretório.
-- **Padrão de Páginas SPA (`pages/spa/`)**: Toda página da Single Page Application localizada em `pages/spa/<pagina>.astro` DEVE conter explicitamente o elemento contêiner raiz com `id="page-content"` e importar obrigatoriamente a sua respectiva folha de estilos diretamente no **frontmatter do Astro** (ex: `import '../<pagina>/assets/css/<pagina>.css';`), sendo terminantemente proibido o uso de tags HTML `<link>` estáticas no corpo do documento. Isso garante que o Vite processe, agrupe e localize corretamente os estilos durante o build estático e na navegação dinâmica via roteador SPA.
+- **Padrão de Páginas SPA (`pages/spa/`)**: Toda página da Single PageApplication localizada em `pages/spa/<pagina>.astro` DEVE conter explicitamente o elemento contêiner raiz com `id="page-content"` e importar obrigatoriamente a sua respectiva folha de estilos diretamente no **frontmatter do Astro** (ex: `import '../<pagina>/assets/css/<pagina>.css';`), sendo terminantemente proibido o uso de tags HTML `<link>` estáticas no corpo do documento. Isso garante que o Vite processe, agrupe e localize corretamente os estilos durante o build estático e na navegação dinâmica via roteador SPA.
+- **Convenção de Resolução de Assets (`pages/<modulo>/`)**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/<modulo>/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../modulo/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/<modulo>/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/<modulo>/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/<modulo>/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 A identidade estética e a arquitetura visual de cada página devem ser configuradas individualmente sob a estética Dark Tech Dashboard:

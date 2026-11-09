@@ -81,3 +81,11 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de portfó
 - **SC-002**: 100% dos elementos visuais e comportamentais extraídos de `exemplo_05_pagina_portfolio.html` (filtros, categorias, cards, tags e fontes Barlow Condensed) são reproduzidos fielmente.
 - **SC-003**: A separação de assets (CSS em `pages/portfolio/assets/css/portfolio.css`, JS em `pages/portfolio/assets/js/portfolio.js`, e imagens em `pages/portfolio/assets/images/`) está estritamente implementada.
 - **SC-004**: O design responsivo adapta perfeitamente os grids em desktop, tablet e mobile.
+
+## Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/portfolio/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../portfolio/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/portfolio/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/portfolio/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/portfolio/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.

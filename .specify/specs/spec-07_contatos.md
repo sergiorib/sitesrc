@@ -112,3 +112,11 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de contato
 - **SC-002**: 100% dos elementos visuais especificados em `meus_contatos.html` (variáveis CSS, gradientes radiais/lineares, grid de 2 colunas, ícones SVG e tipografia Barlow Condensed) são reproduzidos fielmente.
 - **SC-003**: Todos os 6 cards de contato e redes sociais encontram-se funcionais, acessíveis via teclado e com links corretos.
 - **SC-004**: O design responsivo adapta perfeitamente o grid em tablets e smartphones (< 720px) sem quebras de layout.
+
+## Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/contatos/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../contatos/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/contatos/`).
+  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/contatos/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/contatos/assets/images/`).
+  4. **Valide a renderização** executando `npm run build` ao finalizar.
