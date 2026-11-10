@@ -22,7 +22,7 @@ A página é 100% desacoplada, modular e integrada na SPA via History API sem re
 **Testing**: Cenários de validação end-to-end e testes visuais de gradientes, tipografia (Barlow Condensed e Inter), ícones SVG e responsividade (Desktop, Tablet, Mobile < 720px).  
 **Target Platform**: Navegadores Web Modernos (Evergreen Browsers).  
 **Project Type**: Submódulo de Página de SPA em Astro SSG.  
-**Performance Goals**: Tempo de renderização/injeção < 150ms no `#page-content-host`; zero layout shift.  
+**Performance Goals**: Tempo de renderização/injeção < 150ms diretamente no container `.contacts-page`; zero layout shift.  
 **Constraints**: Gradiente global de fundo (`#142b36` a `#31596a`); grid de 2 colunas em desktop e 1 coluna em mobile; 100% de isolamento de assets sob `pages/contatos/`.  
 **Scale/Scope**: 1 página principal (`contatos.astro`), 1 folha de estilo CSS pura (`contatos.css`), ícones SVG embutidos ou em `pages/contatos/assets/images/`.
 
@@ -70,7 +70,7 @@ pages/
 ```
 
 **Structure Decision**:
-A organização modular em `pages/contatos/` assegura o isolamento completo de escopo sem afetar outras páginas. A página `contatos.astro` renderiza o layout estrutural e carrega o arquivo `contatos.css`, sendo importada em `pages/spa/contatos.astro` juntamente com a folha de estilo `contatos.css` para garantir o correto empacotamento de estilos (bundling) no build estático e injeção dinâmica no `#page-content-host` da SPA.
+A organização modular em `pages/contatos/` assegura o isolamento completo de escopo sem afetar outras páginas. A página `contatos.astro` renderiza o layout estrutural e carrega o arquivo `contatos.css`, sendo importada em `pages/spa/contatos.astro` juntamente com a folha de estilo `contatos.css` para garantir o correto empacotamento de estilos (bundling) no build estático e injeção dinâmica diretamente no container `.contacts-page` da SPA.
 
 ---
 

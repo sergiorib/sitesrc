@@ -80,10 +80,10 @@ description: "Lista de tarefas executáveis para a implementação da Página 'M
 
 **Goal**: Assegurar que a página `contatos.astro` seja carregada dinamicamente na SPA sem recarregamento de página, mantendo a Sidebar e atualizando os Breadcrumbs.
 
-**Independent Test**: Clicar na opção de Contatos na Sidebar e verificar a injeção instantânea no `#page-content-host` com os atributos data corretos (`data-page-id="contatos"` e `data-page-title="Meus Contatos"`).
+**Independent Test**: Clicar na opção de Contatos na Sidebar e verificar a injeção instantânea diretamente no container `.contacts-page` com os atributos data corretos (`data-page-id="contatos"` e `data-page-title="Meus Contatos"`).
 
 ### Implementation for User Story 3
 
-- [x] T011 [US3] Validar e registrar a página `contatos.astro` no roteador do sistema (`router.js`) para carregamento assíncrono no `#page-content-host` com atualização automática dos Breadcrumbs
+- [x] T011 [US3] Validar e registrar a página `contatos.astro` no roteador do sistema (`router.js`) para carregamento assíncrono diretamente no container `.contacts-page` com atualização automática dos Breadcrumbs
 - [x] T012 [US3] Importar a folha de estilo `contatos.css` em `pages/spa/contatos.astro` para garantir o empacotamento e aplicação de estilos ao ser carregada no ambiente SPA.
 - [x] T013 [US3] Encapsular o bloco `<style>` ou importação em `pages/spa/contatos.astro` para permitir que o roteador SPA capture e injete os conteúdos e estilos via `innerHTML` sem perda de formatação.

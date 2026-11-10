@@ -22,7 +22,7 @@ Como recrutador, gestor técnico ou visitante do portfólio, desejo visualizar o
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário navega para a página de Contatos na SPA, **When** o conteúdo é carregado no Main Container (`#page-content-host`), **Then** o painel ocupa 100% da largura com gradiente radial e linear (`#142b36` a `#31596a`), borda arredondada de 14px.
+1. **Given** que o usuário navega para a página de Contatos na SPA, **When** o conteúdo é carregado diretamente no container `.contacts-page`, **Then** o painel ocupa 100% da largura com gradiente radial e linear (`#142b36` a `#31596a`), borda arredondada de 14px.
 2. **Given** o cabeçalho da página, **When** inspecionado, **Then** exibe o *eyebrow* "Canais de contato" com letra maiuscula, espaçamento `letter-spacing: .18em`, cor `--cyan-soft` (`#8eddeb`) e o título principal "Meus Contatos" em `Barlow Condensed` Bold 32px.
 
 ---
@@ -60,11 +60,11 @@ Como visitante navegando pela SPA, desejo que a página "Contatos" carregue inst
 
 **Why this priority**: Assegura a consistência de navegação Single Page Application estabelecida na arquitetura mestre.
 
-**Independent Test**: Navegar para "Contatos" a partir de qualquer outra página da SPA. Verificar se o roteador injeta o conteúdo no `#page-content-host` e atualiza a régua de breadcrumbs para exibir `Contatos` sem full reload.
+**Independent Test**: Navegar para "Contatos" a partir de qualquer outra página da SPA. Verificar se o roteador injeta o conteúdo diretamente no container `.contacts-page` e atualiza a régua de breadcrumbs para exibir `Contatos` sem full reload.
 
 **Acceptance Scenarios**:
 
-1. **Given** a navegação via clique no menu da Sidebar ou link interno, **When** a rota `/spa/contatos/` é requisitada, **Then** o script de roteamento SPA intercepta o evento e injeta o contêiner da página dentro do `#page-content-host`.
+1. **Given** a navegação via clique no menu da Sidebar ou link interno, **When** a rota `/spa/contatos/` é requisitada, **Then** o script de roteamento SPA intercepta o evento e injeta o conteúdo diretamente no container `.contacts-page`.
 2. **Given** a injeção do conteúdo, **When** a renderização se completa, **Then** a régua de Breadcrumbs no topo do Main Container exibe o nó `Contatos` como ativo e a Sidebar mantém o item "Contatos" selecionado.
 
 ---
@@ -93,7 +93,7 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de contato
   - Folha de estilos isolada: `pages/contatos/assets/css/contatos.css`
   - Scripts de UI client-side: `pages/contatos/assets/js/contatos.js`
   - Diretório de imagens/ícones: `pages/contatos/assets/images/`
-- **FR-002**: A página DEVE ser injetada e renderizada 100% dentro do Main Container (`#page-content-host`) da SPA via History API sem full reload.
+- **FR-002**: A página DEVE ser injetada e renderizada 100% diretamente no container `.contacts-page` da SPA via History API sem full reload.
 - **FR-003**: O contêiner raiz da página (`.contacts-page`) DEVE utilizar posicionamento relativo, `min-height: 100vh`, padding responsivo (`clamp(28px, 5vw, 62px) clamp(24px, 5.2vw, 76px)`), gradientes radiais/lineares (`#142b36`, `#244653`, `#31596a`) e border-radius de 14px.
 - **FR-004**: O cabeçalho deve conter um *eyebrow* em maiúsculas (`Canais de contato`) na cor `--cyan-soft` com barra indicativa e o título `h1` "Meus Contatos" em tipografia `Barlow Condensed`, peso 700 bold, 32px, cor `#ffffff`.
 - **FR-005**: A grade de contatos (`.contact-grid`) DEVE possuir 2 colunas paralelas em desktop (`repeat(2, minmax(0, 1fr))`) com `gap: 14px`.
@@ -108,14 +108,14 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de contato
 
 ## Success Criteria *(measurable)*
 
-- **SC-001**: O tempo de renderização da página de Contatos no Main Container é inferior a 150ms.
+- **SC-001**: O tempo de renderização da página de Contatos diretamente no container `.contacts-page` é inferior a 150ms.
 - **SC-002**: 100% dos elementos visuais especificados em `meus_contatos.html` (variáveis CSS, gradientes radiais/lineares, grid de 2 colunas, ícones SVG e tipografia Barlow Condensed) são reproduzidos fielmente.
 - **SC-003**: Todos os 6 cards de contato e redes sociais encontram-se funcionais, acessíveis via teclado e com links corretos.
 - **SC-004**: O design responsivo adapta perfeitamente o grid em tablets e smartphones (< 720px) sem quebras de layout.
 
 ## Asset Resolution Convention (SPA Pages)
 
-- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/contatos/`:
+- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML diretamente no container `.contacts-page` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/contatos/`:
   1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../contatos/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/contatos/`).
   2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/contatos/assets/images/<arquivo>`).
   3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/contatos/assets/images/`).
