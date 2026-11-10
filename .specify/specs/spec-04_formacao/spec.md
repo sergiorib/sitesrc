@@ -6,25 +6,25 @@
 
 **Status**: Draft
 
-**Input**: User description: "Criar a especificação da página de Formação (`formacao.astro`) com painel container estilizado, título em Barlow Condensed ('Formação'), 3 seções ('Acadêmica', 'Idiomas', 'Treinamentos') com títulos correspondentes, e cards de exemplo em 'Idiomas' e 'Treinamentos', além de badges em fonte monoespaçada e design responsivo e integrada dinamicamente dentro do Main Container da SPA.."
+**Input**: User description: "Criar a página de Formação (`formacao.astro`) com título em Barlow Condensed ('Formação'), 3 seções ('Acadêmica', 'Idiomas', 'Treinamentos') com títulos correspondentes, cada seção terá cards especificos representando as respectivas formações de cada secao, estes terão um logo centralizado, o título da formação e badges em fonte monoespaçada, A pagina deve ter design responsivo e estar integrada dinamicamente diretamente dentro do Main Container da SPA."
 
 ---
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Visualização do Painel Principal e Título da Página de Formação (Priority: P1)
+### User Story 1 - Visualização e Título da Página de Formação (Priority: P1)
 
-Como recrutador ou visitante do portfólio, desejo visualizar o painel principal de Formação com título em destaque, para identificar rapidamente as qualificações, idiomas e treinamentos de Sérgio Ribeiro Cerqueira.
+Como recrutador ou visitante do portfólio, desejo visualizar a página de Formação com título em destaque diretamente no `.main-container`, para identificar rapidamente as qualificações, idiomas e treinamentos de Sérgio Ribeiro Cerqueira.
 
-**Why this priority**: Estabelece o contêiner estrutural e a identidade visual da página de formação dentro da SPA.
+**Why this priority**: Estabelece o arranjo estrutural e a identidade visual da página de formação diretamente no contêiner principal da SPA.
 
-**Independent Test**: Acessar a rota da página "Formação" na SPA. Verificar se o painel (`.panel-container`) é renderizado com largura máxima de 1200px, gradiente vertical de `#DAEBF2` a `#A8CCD9`, borda `1px solid #0381B0`, border-radius 10px, box-shadow interna e padding de 20px, exibindo o título "Formação" em Barlow Condensed 700 bold (32px no desktop, cor `#000000`, margin-bottom 16px).
+**Independent Test**: Acessar a rota da página "Formação" na SPA. Verificar se o conteúdo é renderizado diretamente no `.main-container`, exibindo o título "Formação" em Barlow Condensed 700 bold (32px no desktop, cor `#000000`, margin-bottom 16px).
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário navega para a página de Formação na SPA, **When** o conteúdo é carregado no Main Container (`#page-content-host`), **Then** o contêiner principal exibe o gradiente vertical de `#16222A` a `#3A6073`, com padding de 20px e layout centralizado.
-2. **Given** o painel da página (`.panel-container`), **When** inspecionado, **Then** apresenta `max-width: 1200px`, gradiente vertical (`#DAEBF2` a `#A8CCD9`), borda `1px solid #0381B0`, `border-radius: 10px`, `box-shadow: inset 0px 0px 12px rgba(0,0,0,0.25)` e `padding: 20px`.
-3. **Given** o título da página (`.page-title`), **When** renderizado, **Then** exibe "Formação" em fonte `Barlow Condensed`, peso 700 bold, tamanho 32px, cor `#000000` e `margin-bottom: 16px`.
+1. **Given** que o usuário navega para a página de Formação na SPA, **When** o conteúdo é carregado no Main Container (`#page-content-host`), **Then** o contêiner principal (`.main-container`) exibe o gradiente vertical de #16222A a #3A6073, com padding de 20px, layout centralizado e as seções renderizadas diretamente nele.
+2. **Given** o `.main-container`, **When** inspecionado, **Then** abriga diretamente as seções e cards de formação com largura máxima de 1200px e espaçamento adequado.
+3. **Given** o título da página (`.page-title`), **When** renderizado, **Then** exibe "Formação" em fonte `Barlow Condensed`, peso 700 bold, tamanho 32px, cor #000000 e `margin-bottom: 16px`.
 
 ---
 
@@ -34,15 +34,16 @@ Como gestor ou avaliador técnico, desejo examinar as 3 seções da página ('Ac
 
 **Why this priority**: Apresenta de forma estruturada as credenciais acadêmicas, proficiência em idiomas e treinamentos do profissional.
 
-**Independent Test**: Verificar se a página possui 3 seções ('Acadêmica', 'Idiomas', 'Treinamentos'), cada uma com um título correspondente, e cards contendo títulos e badges em fonte monoespaçada.
+**Independent Test**: Verificar se a página possui 3 seções ('Acadêmica', 'Idiomas', 'Treinamentos'), cada uma com um título correspondente, e cards contendo títulos e badges em fonte monoespaçada renderizados diretamente no `.main-container`.
 
 **Acceptance Scenarios**:
 
-1. **Given** o painel principal, **When** renderizado, **Then** exibe três seções distintas: 'Acadêmica', 'Idiomas' e 'Treinamentos'.
-2. **Given** cada seção, **When** renderizada, **Then** apresenta um título correspondente (`.section-title`) em fonte `Barlow Condensed`, peso 700 bold.
-3. **Given** a seção 'Acadêmica', **When** exibida, **Then** contém os cards de formação acadêmica (ex: Ciência de Dados, Análise e Desenvolvimento de Sistemas) com logos institucionais, títulos de curso e badges de período.
-4. **Given** a seção 'Idiomas', **When** exibida, **Then** contém cards de exemplo para idiomas (ex: Inglês, Espanhol) com títulos e badges de proficiência.
-5. **Given** a seção 'Treinamentos', **When** exibida, **Then** contém cards de exemplo para treinamentos (ex: Python Avançado para Machine Learning, Arquitetura de Microsserviços e Cloud) com títulos e badges de conclusão/ano.
+1. **Given** o `.main-container`, **When** renderizado, **Then** exibe três seções distintas diretamente em seu escopo: 'Acadêmica', 'Idiomas' e 'Treinamentos'.
+2. **Given** o título da página (`.page-title`), **When** renderizado, **Then** exibe "Formação" em fonte `Barlow Condensed`, peso 700 bold, tamanho 32px, cor `#ffffff` e margem inferior de 16px.
+3. **Given** cada seção, **When** renderizada, **Then** apresenta um título correspondente (`.section-title`) em fonte `Barlow Condensed`, tamanho 28px, peso 700 bold.
+4. **Given** a seção 'Acadêmica', **When** exibida, **Then** contém os cards de formação acadêmica com logos institucionais, títulos de curso e badges de período. Esta seção apresenta até 2 cards por linha. 
+5. **Given** a seção 'Idiomas', **When** exibida, **Then** contém cards de exemplo para idiomas com títulos e badges de proficiência. Esta seçao apresenta até 3 cards por linha. 
+6. **Given** a seção 'Treinamentos', **When** exibida, **Then** contém cards de exemplo para treinamentos com títulos e badges de conclusão/ano. esta seção apresenta até 3 cards por linha . 
 
 ---
 
@@ -73,7 +74,7 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 **Acceptance Scenarios**:
 
 1. **Given** visualização em Tablet (768px a 1023px), **When** a viewport é aplicada, **Then** o padding do card é ajustado para 16px.
-2. **Given** visualização em Mobile (< 767px), **When** a viewport é aplicada, **Then** o padding do painel reduz para 16px, o `.page-title` ajusta para 26px, o `.course-title` ajusta para 26px, e a `.period-badge` ajusta para 12px com padding de 4px 12px.
+2. **Given** visualização em Mobile (< 767px), **When** a viewport é aplicada, **Then** o padding do contêiner principal reduz para 16px, o `.page-title` ajusta para 26px, o `.course-title` ajusta para 26px, e a `.period-badge` ajusta para 12px com padding de 4px 12px.
 
 ---
 
@@ -83,19 +84,40 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 
 - **FR-001**: O sistema DEVE fornecer a página `formacao.astro` localizada em `pages/formacao/`, com seus assets em `pages/formacao/assets/` (imagens em `pages/formacao/assets/images/` e estilos em `pages/formacao/assets/css/`).
 - **FR-002**: A página DEVE ser renderizada 100% dentro do Main Container (`#page-content-host`) da SPA via History API, sem recarregamento de página.
-- **FR-003**: O contêiner pai da página (`.main-container`) DEVE possuir gradiente vertical de `#16222A` a `#3A6073`, padding de 20px e display flex centralizado.
-- **FR-004**: O painel container (`.panel-container`) DEVE ter `max-width: 1200px`, gradiente vertical de `#DAEBF2` a `#A8CCD9`, borda `1px solid #0381B0`, `border-radius: 10px`, `box-shadow: inset 0px 0px 12px rgba(0,0,0,0.25)`, e `padding: 20px`.
+- **FR-003**: O contêiner pai da página (`.main-container`) DEVE possuir gradiente vertical de #16222A a #3A6073, padding de 20px e display flex centralizado.
+- **FR-004**: O conteúdo da página (título, seções e cards) DEVE ser renderizado diretamente dentro do `.main-container`, com largura máxima recomendada de 1200px e espaçamento adequado.
 - **FR-005**: O título principal da página (`.page-title`) DEVE exibir o texto "Formação" em tipografia `Barlow Condensed`, peso 700 bold, tamanho 32px (Desktop), cor `#000000`, e `margin-bottom: 16px`.
 - **FR-006**: A página DEVE conter exatamente 3 seções chamadas: 'Acadêmica', 'Idiomas' e 'Treinamentos', cada uma com um título correspondente (`.section-title`).
-- **FR-007**: O wrapper de cards (`.cards-wrapper`) e os cards individuais DEVEM ser dispostos em stack vertical com `gap: 12px`, largura 100%, gradiente horizontal de `#FFF8D6` a `#FFFFFF`, borda `1px solid #0381B0`, `border-radius: 10px`, `box-shadow: 0px 4px 6px rgba(0,0,0,0.1)`, `padding: 20px 16px`.
-- **FR-008**: A seção 'Idiomas' DEVE conter cards de exemplo (ex: Inglês, Espanhol) com badges de nível em fonte monoespaçada uppercase.
-- **FR-009**: A seção 'Treinamentos' DEVE conter cards de exemplo (ex: Python Avançado para Machine Learning, Arquitetura de Microsserviços e Cloud) com badges em fonte monoespaçada uppercase.
-- **FR-010**: A logo institucional (`.institution-logo`) DEVE ter `max-width: 100%`, `object-fit: contain`, carregada a partir de `pages/formacao/assets/images/`.
-- **FR-011**: O título do curso/item (`.course-title`) DEVE utilizar `Barlow Condensed`, peso 700 bold, tamanho 24px, cor `#000000`, e margens `margin: 8px 0 10px 0`.
-- **FR-012**: A badge de período/nível (`.period-badge`) DEVE ser `inline-block`, com gradiente vertical de `#FFFFFF` a `#EFEFEF`, borda `1px solid #0381B0`, `border-radius: 20px`, `box-shadow: 0px 2px 4px rgba(0,0,0,0.15)`, `padding: 4px 16px`, fonte monoespaçada (`Consolas`/`Courier New`), peso 600 semibold, 20px, e texto em UPPERCASE.
-- **FR-013**: Em resoluções Tablet (768px a 1023px), o padding do card DEVE ser reduzido para 16px.
-- **FR-014**: Em resoluções Mobile (< 767px), o padding do painel DEVE ser 16px, `.page-title` 26px, `.course-title` 26px, e `.period-badge` 12px com padding de 4px 12px.
-- **FR-015**: O elemento raiz de conteúdo DEVE conter `id="page-content"`, `data-page-id="formacao"` e `data-page-title="Formação"`.
+- **FR-007**: O wrapper de cards (`.cards-wrapper`) e os cards individuais DEVEM ser dispostos em stack vertical com `gap: 12px`, largura 100%, gradiente horizontal de #FFF8D6 a #FFFFFF, borda `1px solid #0381B0`, `border-radius: 10px`, `box-shadow: 0px 4px 6px rgba(0,0,0,0.1)`, `padding: 20px 16px`.
+- **FR-008**: A seção 'Idiomas' DEVE conter os seguintes cards badges, em fonte monoespaçada uppercase: 
+  - ***Formação 1***
+    - Logo: 'pages/formacao/assets/images/logo-estacio.png'
+    - Nome: 'Superior em Ciência de Dados'
+    - Badge(texto): '2024 a 2026' 
+  - ***Formação 2***
+    - Logo: 'pages/formacao/assets/images/logo-estacio-uniradial.png'
+    - Nome: 'Superior em Análise e Desenvolvimento de Sistemas'
+    - Badge(texto): '2013 a 2016' 
+- **FR-009**: A seção 'Idiomas' DEVE conter os seguintes cards badges:  
+  - ***Idioma 1***
+    - Logo: 'pages/formacao/assets/images/logo-ingles.png'
+    - Nome: 'Inglês - Intermediário'
+    - Badge: Não exibir nenhuma badge. 
+  - ***Idioma 2***
+    - Logo: 'pages/formacao/assets/images/logo-espanhol.png'
+    - Nome: 'Espanhol - Avançado'
+    - Badge: Não exibir nenhuma badge.
+- **FR-010**: A seção 'Treinamentos' DEVE conter cards de exemplo (ex: Python Avançado para Machine Learning, Arquitetura de Microsserviços e Cloud) com badges em fonte monoespaçada uppercase.
+  - ***Treinamento 1***
+    - Logo: 'pages/formacao/assets/images/logo-enap.png'
+    - Nome: 'Estatística Descritiva, Probabilidades e Técnicas de Amostragem'
+    - Badge: '2024' 
+- **FR-011**: A logo institucional (`.institution-logo`) DEVE ter `max-width: 100%`, `object-fit: contain`, carregada a partir de `pages/formacao/assets/images/`.
+- **FR-012**: O título do curso/item (`.course-title`) DEVE utilizar `Barlow Condensed`, peso 700 bold, tamanho 24px, cor `#000000`, e margens `margin: 8px 0 10px 0`.
+- **FR-013**: A badge de período/nível (`.period-badge`) DEVE ser `inline-block`, com gradiente vertical de `#FFFFFF` a `#EFEFEF`, borda `1px solid #0381B0`, `border-radius: 20px`, `box-shadow: 0px 2px 4px rgba(0,0,0,0.15)`, `padding: 4px 16px`, fonte monoespaçada (`Consolas`/`Courier New`), peso 600 semibold, 20px, e texto em UPPERCASE.
+- **FR-014**: Em resoluções Tablet (768px a 1023px), o padding do card DEVE ser reduzido para 16px.
+- **FR-015**: Em resoluções Mobile (< 767px), o padding do `.main-container` DEVE ser 16px, `.page-title` 26px, `.course-title` 26px, e `.period-badge` 12px com padding de 4px 12px.
+- **FR-016**: O elemento raiz de conteúdo DEVE conter `id="page-content"`, `data-page-id="formacao"` e `data-page-title="Formação"`.
 
 ---
 
