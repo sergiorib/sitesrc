@@ -1,32 +1,24 @@
 # Implementation Plan: Estrutura e Estilização da Página "Meus Contatos" (`contatos.astro`)
 
-**Branch**: `07-contatos` | **Date**: 2026-11-03 | **Spec**: [.specify/specs/spec-07_contatos/spec.md](./spec.md)
+**Branch**: `07-contatos` | **Date**: 2026-11-11 | **Spec**: [.specify/specs/spec-07_contatos/spec.md](./spec.md)
 
 **Input**: Feature specification from `.specify/specs/spec-07_contatos/spec.md`
 
----
-
 ## Summary
 
-Implementar a página "Meus Contatos" (`pages/contatos/contatos.astro`), estruturada com contêiner principal `.contacts-page`, gradientes radiais/lineares (`#142b36`, `#244653`, `#31596a`), barra *eyebrow* ("Canais de contato") e título principal `h1` ("Meus Contatos") em tipografia `Barlow Condensed` 700 bold. A página exibe um grid responsivo de **6 cards interativos** (Telefone/WhatsApp, E-mail, LinkedIn, GitHub, Portfólio e Site Pessoal), extraídos de `meus_contatos.html`, contendo ícones em SVG (`48x48px`), rótulos em maiúsculas, valores em `Barlow Condensed` (24px) e setas de navegação com transição suave no hover.
-
-A página é 100% desacoplada, modular e integrada na SPA via History API sem recarregamento completo de página, garantindo atendimento estrito aos requisitos funcionais e sob a Constituição do projeto (Astro + CSS3 puro).
-
----
+Implementar a página "Meus Contatos" (`contatos.astro`), exibindo os canais de comunicação profissional (Telefone/WhatsApp, E-mail, LinkedIn e GitHub) em um painel executivo com gradiente, título estilizado em `Barlow Condensed` e uma grade responsiva com cards interativos. A página integra-se perfeitamente à Single Page Application (`/spa/contatos/`), mantendo isolamento estrito de estilos e conformidade com a Constituição v1.0.0.
 
 ## Technical Context
 
-**Language/Version**: Astro (componentes `.astro`), HTML5 Semântico, CSS3 Puro / Vanilla CSS.  
-**Primary Dependencies**: Astro (apenas para build estático e estrutura de componentes). Zero dependências de UI externas (sem React, Vue, Svelte, Tailwind, Bootstrap ou CSS-in-JS).  
-**Storage**: N/A (conteúdo estático).  
-**Testing**: Cenários de validação end-to-end e testes visuais de gradientes, tipografia (Barlow Condensed e Inter), ícones SVG e responsividade (Desktop, Tablet, Mobile < 720px).  
-**Target Platform**: Navegadores Web Modernos (Evergreen Browsers).  
-**Project Type**: Submódulo de Página de SPA em Astro SSG.  
-**Performance Goals**: Tempo de renderização/injeção < 150ms diretamente no container `.contacts-page`; zero layout shift.  
-**Constraints**: Gradiente global de fundo (`#142b36` a `#31596a`); grid de 2 colunas em desktop e 1 coluna em mobile; 100% de isolamento de assets sob `pages/contatos/`.  
-**Scale/Scope**: 1 página principal (`contatos.astro`), 1 folha de estilo CSS pura (`contatos.css`), ícones SVG embutidos ou em `pages/contatos/assets/images/`.
-
----
+**Language/Version**: Astro (componentes `.astro`), HTML5 Semântico, CSS3 Puro / Vanilla CSS, ECMAScript 2022+ (Vanilla JS).  
+**Primary Dependencies**: Astro (estritamente para SSG e marcação). Zero dependências de runtime de terceiros (sem Tailwind, Bootstrap, React, Vue).  
+**Storage**: N/A (dados estáticos definidos no componente Astro).  
+**Testing**: Cenários de validação end-to-end descritos em [quickstart.md](./quickstart.md), testes de responsividade em grade (< 720px e < 380px) e verificação de build estático.  
+**Target Platform**: Navegadores Web Modernos (Chrome, Firefox, Edge, Safari).  
+**Project Type**: Módulo SPA / Página Estática Astro.  
+**Performance Goals**: Carregamento instantâneo (< 150ms em navegação SPA); zero layout shift; renderização fluida em dispositivos móveis e desktop.  
+**Constraints**: Estética Dark Tech Dashboard com paleta de gradientes azuis/ciano, tipografia `Barlow Condensed`, e isolamento de assets em `pages/contatos/`.  
+**Scale/Scope**: 1 componente de página (`contatos.astro`), 1 folha de estilos (`contatos.css`), 4 cards interativos de contato estruturados.
 
 ## Constitution Check
 
@@ -34,15 +26,13 @@ A página é 100% desacoplada, modular e integrada na SPA via History API sem re
 
 | Princípio Constitucional | Exigência | Conformidade no Plano | Status |
 |---|---|---|---|
-| **I. Stack Tecnológica Mandatória** | Astro exclusivo para `.astro`/SSG; CSS3 puro (sem Tailwind/Bootstrap); Vanilla JS nativo | Utilização de componente `.astro` limpo e CSS puro com variáveis e gradientes nativos. | **PASS** |
-| **II. Estrutura e Separação de Preocupações** | Páginas em `pages/`; cada página com subdiretórios próprios de `css/`, `images/`, `js/` | Todo o código reside em `pages/contatos/`, com estilos em `pages/contatos/assets/css/` e assets em `pages/contatos/assets/images/`. | **PASS** |
-| **III. Arquitetura de Design e UI** | Cada página define sua arquitetura de design em CSS puro | Paleta, gradientes, ícones SVG e tipografia Barlow Condensed implementados em `contatos.css`. | **PASS** |
-| **IV. Workflow e Automação** | Git e GitHub CLI (`gh`) para versionamento e automação | Branch `07-contatos` e commits atômicos estruturados. | **PASS** |
-| **V. Convenção de Nomenclatura Spec-Kit** | Padrão `spec-[numero]_[nome].md` salvo em `.specify/specs/` | Especificação registrada em `.specify/specs/spec-07_contatos.md` e `.specify/specs/spec-07_contatos/spec.md`. | **PASS** |
+| **I. Stack Tecnológica Mandatória** | Astro exclusivo para `.astro`/SSG; CSS3 puro (sem Tailwind/Bootstrap); Vanilla JS puro (sem React/Vue/Svelte) | Apenas Astro `.astro`, CSS vanilla puro e sem dependências externas. | **PASS** |
+| **II. Estrutura e Separação de Preocupações** | Páginas em `pages/`; cada página com subdiretórios próprios de `css/`, `images/`, `js/` | Todos os arquivos da feature residem estritamente em `pages/contatos/` com subdiretórios `assets/css/` e `assets/images/`. | **PASS** |
+| **III. Arquitetura de Design e UI** | Cada página define sua arquitetura de design sob Dark Tech Dashboard em CSS puro | Estilos e gradientes encapsulados em `contatos.css`. | **PASS** |
+| **IV. Workflow e Automação** | Git e GitHub CLI (`gh`) para versionamento e automação | Branch `07-contatos` e commits estruturados. | **PASS** |
+| **V. Convenção de Nomenclatura Spec-Kit** | Padrão `spec-[numero]_[nome].md` salvo em `.specify/specs/` | Especificação salva em `.specify/specs/spec-07_contatos/spec.md`. | **PASS** |
 
 *Resultado do Gate*: **TODOS OS GATES CONSTITUCIONAIS APROVADOS (5/5)**.
-
----
 
 ## Project Structure
 
@@ -50,35 +40,26 @@ A página é 100% desacoplada, modular e integrada na SPA via History API sem re
 
 ```text
 .specify/specs/spec-07_contatos/
-├── spec.md              # Especificação funcional completa
-├── plan.md              # Este plano de arquitetura técnica
-└── tasks.md             # Tarefas de implementação (geradas via /speckit.tasks)
+├── spec.md              # Especificação funcional
+├── plan.md              # Este plano técnico
+├── research.md          # Fase 0: Pesquisa arquitetural
+├── data-model.md        # Fase 1: Modelo de entidades (contatos)
+├── quickstart.md        # Fase 1: Guia de validação E2E
+├── contracts/           # Fase 1: Contratos de UI
+│   └── ui-contracts.md
+└── tasks.md             # Fase 2: Backlog (gerado via /speckit.tasks)
 ```
 
 ### Source Code (repository root)
 
 ```text
 pages/
-├── contatos/
-│   ├── contatos.astro                  # Página principal exportando #page-content
-│   └── assets/
-│       ├── css/
-│       │   └── contatos.css            # Estilos CSS3 puros isolados da página
-│       └── images/                     # Ícones ou assets gráficos opcionais
-└── spa/
-    └── contatos.astro                  # Wrapper SPA importando contatos.astro e contatos.css
+└── contatos/
+    ├── contatos.astro          # Componente Astro principal da página de contatos
+    └── assets/
+        ├── css/
+        │   └── contatos.css    # Estilos isolados em CSS puro
+        └── images/             # Ícones e mídias da página de contatos
 ```
 
-**Structure Decision**:
-A organização modular em `pages/contatos/` assegura o isolamento completo de escopo sem afetar outras páginas. A página `contatos.astro` renderiza o layout estrutural e carrega o arquivo `contatos.css`, sendo importada em `pages/spa/contatos.astro` juntamente com a folha de estilo `contatos.css` para garantir o correto empacotamento de estilos (bundling) no build estático e injeção dinâmica diretamente no container `.contacts-page` da SPA.
-
----
-
-## Complexity Tracking
-
-> *Nenhuma complexidade adicional ou violação constitucional identificada.*
-
-| Tópico | Abordagem Selecionada | Alternativa Mais Complexa Rejeitada |
-|---|---|---|
-| Estilização de Cards e Grid | CSS3 Grid (`repeat(2, minmax(0, 1fr))`) e Flexbox | Frameworks utilitários CSS ou bibliotecas de UI externas |
-| Ícones e Vetores | SVGs inline encapsulados com stroke em `--cyan-soft` | Arquivos de fontes de ícones externas ou dependências npm |
+**Structure Decision**: A implementação segue rigorosamente o padrão modular por página estabelecido no projeto (`pages/contatos/`), garantindo desacoplamento total.
