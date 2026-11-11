@@ -5,8 +5,8 @@ description: "Lista de tarefas executáveis para a implementação da Página 'M
 # Tasks: Estrutura e Estilização da Página "Meus Contatos" (`contatos.astro`)
 
 **Input**: Documentos de design de `.specify/specs/spec-07_contatos/`  
-**Prerequisites**: [spec.md](./spec.md), [plan.md](./plan.md)  
-**Tests**: Validação visual e de integração guiada por [spec.md](./spec.md)  
+**Prerequisites**: [spec.md](./spec.md), [plan.md](./plan.md), [research.md](./research.md), [data-model.md](./data-model.md), [contracts/ui-contracts.md](./contracts/ui-contracts.md), [quickstart.md](./quickstart.md)  
+**Tests**: Validação visual e de integração guiada por [quickstart.md](./quickstart.md)  
 **Organization**: Tarefas agrupadas por fases de infraestrutura, fundamentação e User Stories para execução e validação incrementais.
 
 ## Formato: `- [x] [ID] [P?] [Story?] Descrição com caminho de arquivo`
@@ -19,71 +19,80 @@ description: "Lista de tarefas executáveis para a implementação da Página 'M
 
 ## Phase 1: Setup (Infraestrutura Compartilhada)
 
-**Purpose**: Criação da estrutura de diretórios e organização dos assets estáticos (estilos e imagens/ícones) da página de Contatos.
+**Purpose**: Criação da estrutura de diretórios e inicialização dos assets estáticos da página "Meus Contatos".
 
-- [x] T001 Criar a estrutura completa de pastas do módulo em `pages/contatos/` (`assets/css/`, `assets/images/`, `assets/js/`)
-- [x] T002 [P] Criar a folha de estilo base em `pages/contatos/assets/css/contatos.css` com as variáveis CSS de cores (`--cyan`, `--cyan-soft`, `--navy`, `--panel`, `--line`, `--text`, `--muted`), gradientes radiais/lineares e estilos globais
+- [x] T001 Criar a estrutura completa de pastas do módulo em `pages/contatos/` (`assets/css/`, `assets/images/`)
+- [x] T002 [P] Inicializar os ícones gráficos SVG dos contatos (Telefone, E-mail, LinkedIn, GitHub) em `pages/contatos/assets/images/`
+- [x] T003 [P] Criar a folha de estilo base em `pages/contatos/assets/css/contatos.css` com as variáveis CSS de cores, gradientes, bordas e regras do painel executivo
 
 ---
 
 ## Phase 2: Foundational (Pré-Requisitos Estruturais Bloqueantes)
 
-**Purpose**: Construção da página mestre e estrutura de layout base.
+**Purpose**: Construção do contêiner raiz da página e estrutura base de layout.
 
-**⚠️ CRITICAL**: A casca da página e o invólucro do contêiner principal devem existir antes da integração das User Stories.
+- [x] T004 Criar o componente Astro principal da seção em `pages/contatos/contatos.astro` com o contêiner raiz `id="page-content"`, atributos `data-page-id="contatos"` e `data-page-title="Meus Contatos"`, e importação da folha de estilos `contatos.css`
 
-- [x] T003 Criar a página mestre da seção em `pages/contatos/contatos.astro` com o contêiner raiz `#page-content`, atributos `data-page-id="contatos"` e `data-page-title="Meus Contatos"`, importação da folha de estilos `contatos.css` e gradiente de fundo global da página de contatos
+**Checkpoint**: Base estrutural configurada.
 
 ---
 
-## Phase 3: User Story 1 - Visualização do Cabeçalho e Eyebrow de Contatos (Priority: P1) 🎯 MVP
+## Phase 3: User Story 1 - Visualização do Cabeçalho e Painel de Contatos (Priority: P1) 🎯 MVP
 
-**Goal**: Exibir o contêiner principal `.contacts-page`, a barra *eyebrow* ("Canais de contato") com traço indicador em `--cyan`, e o título principal `h1` "Meus Contatos" em `Barlow Condensed` 700 bold (32px, cor `#ffffff`).
-
-**Independent Test**: Acessar a rota da página de Contatos e verificar se o cabeçalho, eyebrow e título `h1` são renderizados com precisão nas cores, gradientes e tipografia Barlow Condensed.
+**Goal**: Exibir a página de contatos com o contêiner `.contacts-page` (fundo em gradiente radial/linear `#142b36` a `#31596a`, bordas arredondadas de 14px, padding responsivo) e o título "Meus Contatos" em tipografia `Barlow Condensed` Bold 32px cor `#ffffff`.
 
 ### Implementation for User Story 1
 
-- [x] T004 [P] [US1] Implementar os estilos do contêiner `.contacts-page` e do cabeçalho em `pages/contatos/assets/css/contatos.css` aplicando gradientes radiais/lineares, borda arredondada de 14px e padding responsivo (`clamp`)
-- [x] T005 [US1] Implementar o componente de *eyebrow* ("Canais de contato") e o título `h1` "Meus Contatos" em `pages/contatos/contatos.astro` e estilizar em `contatos.css` com fonte `Barlow Condensed`, peso 700 bold, tamanho 32px e cor `#ffffff`
+- [x] T005 [P] [US1] Implementar os estilos do contêiner `.contacts-page` e do cabeçalho `h1` em `pages/contatos/assets/css/contatos.css` aplicando tipografia `Barlow Condensed` Bold 32px (`#ffffff`)
+- [x] T006 [US1] Integrar a marcação semântica do cabeçalho e container principal em `pages/contatos/contatos.astro`
+
+**Checkpoint**: MVP do cabeçalho e painel executivo concluído.
 
 ---
 
-## Phase 4: User Story 2 - Exibição dos 6 Cards de Contatos e Redes Profissionais (Priority: P1)
+## Phase 4: User Story 2 - Renderização Dinâmica dos Cards de Contato (Priority: P1)
 
-**Goal**: Organizar os 6 cartões interativos (Telefone/WhatsApp, E-mail, LinkedIn, GitHub, Portfólio e Site Pessoal) em grade `.contact-grid` de 2 colunas, contendo ícones SVG (`48x48px`), rótulos em maiúsculas, valores em `Barlow Condensed` (24px) e setas de navegação.
-
-**Independent Test**: Validar se a grade `.contact-grid` exibe os 6 cards com gradientes, bordas, ícones SVG e animações de hover corretas.
+**Goal**: Exibir a grade de cards de contato (`.contact-grid`) renderizando dinamicamente os 4 canais cadastrados (Telefone/WhatsApp, E-mail, LinkedIn, GitHub), aplicando cards individuais (`.contact-card`) com gradiente linear, borda ciano translúcida, hover state (`transform: translateY(-3px)` e borda `--cyan`), contêineres de ícone (`.icon-wrap`), rótulos, valores em `Barlow Condensed` e links com indicador `↗`.
 
 ### Implementation for User Story 2
 
-- [x] T006 [P] [US2] Implementar a grade `.contact-grid` em `pages/contatos/assets/css/contatos.css` com layout de 2 colunas (`repeat(2, minmax(0, 1fr))`) e `gap: 14px`
-- [x] T007 [P] [US2] Estilizar os cards individuais (`.contact-card`), contêineres de ícones (`.icon-wrap`), rótulos (`.label`), valores (`.value`), detalhes (`.detail`) e setas de navegação (`.arrow`) com efeitos de hover (`transform: translateY(-3px)`)
-- [x] T008 [US2] Inserir no `pages/contatos/contatos.astro` os 6 cards de contato com seus respectivos SVGs, links de destino (`tel:`, `mailto:`, URLs externas) e textos especificados em `meus_contatos.html`
+- [x] T007 [P] [US2] Implementar os estilos da grade `.contact-grid` e dos cards `.contact-card` em `pages/contatos/assets/css/contatos.css` com gradientes, bordas, estados de hover e tipografia (`Barlow Condensed` 600, 30px)
+- [x] T008 [US2] Declarar a coleção de dados dos 4 canais de contato (Telefone/WhatsApp, E-mail, LinkedIn, GitHub) no frontmatter de `pages/contatos/contatos.astro` conforme o modelo definido em `data-model.md` e FR-007
+- [x] T009 [US2] Implementar a renderização dinâmica baseada em loop Astro para gerar os cards de contato contendo ícone SVG, rótulo, valor, detalhe opcional, link funcional e seta indicativa (`↗`) em `pages/contatos/contatos.astro`
+
+**Checkpoint**: Grade de contatos integrada dinamicamente com os 4 canais oficiais.
 
 ---
 
-## Phase 5: User Story 4 - Adaptabilidade Responsiva para Tablets e Dispositivos Móveis (Priority: P2)
+## Phase 5: User Story 3 - Integração SPA e Navegação sem Recarregamento (Priority: P2)
 
-**Goal**: Garantir que o layout de contatos se ajuste perfeitamente a viewports mobile e tablets (< 720px) com empilhamento de coluna única (`grid-template-columns: 1fr`).
-
-**Independent Test**: Testar em viewports mobile (< 720px e < 380px) validando o rearranjo da grade para 1 coluna e ajuste de padding e tamanhos.
-
-### Implementation for User Story 4
-
-- [x] T009 [P] [US4] Implementar media query para Tablet / Mobile (`@media (max-width: 720px)`) em `contatos.css` ajustando a grade para 1 coluna (`1fr`), espaçamento de 11px e padding do contêiner
-- [x] T010 [US4] Implementar media query para telas ultra-estreitas (`@media (max-width: 380px)`) ajustando dimensões dos ícones e tamanhos de fonte dos valores para 18px
-
----
-
-## Phase 6: User Story 3 - Integração SPA e Navegação sem Recarregamento (Priority: P2)
-
-**Goal**: Assegurar que a página `contatos.astro` seja carregada dinamicamente na SPA sem recarregamento de página, mantendo a Sidebar e atualizando os Breadcrumbs.
-
-**Independent Test**: Clicar na opção de Contatos na Sidebar e verificar a injeção instantânea diretamente no container `.contacts-page` com os atributos data corretos (`data-page-id="contatos"` e `data-page-title="Meus Contatos"`).
+**Goal**: Assegurar que a página `pages/contatos/contatos.astro` seja carregada e injetada dinamicamente no container `.contacts-page` da SPA via History API / fetch client-side, atualizando o Breadcrumbs e o estado da Sidebar.
 
 ### Implementation for User Story 3
 
-- [x] T011 [US3] Validar e registrar a página `contatos.astro` no roteador do sistema (`router.js`) para carregamento assíncrono diretamente no container `.contacts-page` com atualização automática dos Breadcrumbs
-- [x] T012 [US3] Importar a folha de estilo `contatos.css` em `pages/spa/contatos.astro` para garantir o empacotamento e aplicação de estilos ao ser carregada no ambiente SPA.
-- [x] T013 [US3] Encapsular o bloco `<style>` ou importação em `pages/spa/contatos.astro` para permitir que o roteador SPA capture e injete os conteúdos e estilos via `innerHTML` sem perda de formatação.
+- [x] T010 [US3] Integrar a rota `/spa/contatos/` ao roteador SPA (`router.js`) garantindo interceptação de cliques e carregamento assíduo
+- [x] T011 [US3] Validar a captura dos atributos `id="page-content"`, `data-page-id="contatos"` e `data-page-title="Meus Contatos"` pelo roteador SPA para atualização automática da régua de Breadcrumbs e seleção na Sidebar
+
+**Checkpoint**: Integração SPA validada para a rota de contatos.
+
+---
+
+## Phase 6: User Story 4 - Adaptabilidade Responsiva (Priority: P2)
+
+**Goal**: Garantir que a grade de contatos e a tipografia se ajustem à largura da tela, exibindo 2 colunas em desktop (≥ 720px) e 1 coluna em mobile (< 720px), com redimensionamento de ícones (42x42px) em viewports < 380px.
+
+### Implementation for User Story 4
+
+- [x] T012 [P] [US4] Implementar as media queries em `pages/contatos/assets/css/contatos.css` para breakpoints de 720px (grid 1 coluna) e 380px (escala de ícones e tipografia)
+
+**Checkpoint**: Layout responsivo testado em desktop, tablet e dispositivos móveis.
+
+---
+
+## Phase 7: Polish & Cross-Cutting Concerns
+
+**Purpose**: Verificação de conformidade visual, compilação de assets e auditoria constitucional.
+
+- [x] T013 [P] Verificar a conformidade estrita de caminhos absolutos de assets (`/pages/contatos/assets/images/...`) conforme a convenção SPA
+- [x] T014 Executar a validação completa de build estático (`npm run build`) para garantir zero erros de compilação
+- [x] T015 Validar todos os cenários E2E descritos em `quickstart.md`
