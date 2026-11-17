@@ -1,205 +1,245 @@
-/* Estilização da Página Portfólio - Dark Tech & Data Science Cohesive Theme */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500&display=swap');
 
-/* Reset de margens em página isolada */
-html, body {
-  margin: 0;
-  padding: 0;
-}
+/* ==========================================================================
+   Página "Portfólio" — spec-05_portfolio
+   Todos os seletores são escopados por classes da página (sem regras globais).
+   ========================================================================== */
 
+/* ---------- Contêiner da página ---------- */
 .portfolio-page-wrapper {
-  background: linear-gradient(to bottom, #DAEBF2, #A8CCD9);
   min-height: 100%;
-  padding-bottom: 60px;
-  font-family: 'Inter', sans-serif;
-  color: #333333;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(to bottom, #DAEBF2, #A8CCD9);
+  box-sizing: border-box;
 }
 
-/* Header Fixo no Topo */
+.portfolio-page-wrapper *,
+.portfolio-page-wrapper *::before,
+.portfolio-page-wrapper *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Cabeçalho fixo ---------- */
 .portfolio-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(to bottom, #2C4855, #1E333D);
-  padding: 20px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom, #DAEBF2, #CFE4EE);
+  padding: 16px 20px 14px;
+  box-shadow: 0 4px 10px rgba(30, 51, 61, 0.15);
 }
 
 .portfolio-title {
+  margin: 0 0 12px;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 36px;
   font-weight: 700;
-  color: #FFFFFF;
-  margin: 0 0 16px 0;
-  letter-spacing: 0.5px;
+  font-size: 36px;
+  line-height: 1.1;
+  color: #000000;
 }
 
-/* Área de Seleção de Categorias */
 .category-selection {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, #2C4855, #1E333D);
 }
 
 .selection-button {
   display: inline-flex;
   align-items: center;
-  padding: 8px 14px;
-  border-radius: 20px;
-  color: #FFFFFF;
-  font-size: 14px;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.1);
+  min-height: 34px;
+  padding: 6px 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
   text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .selection-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #22D3EE;
-  color: #22D3EE;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.selection-button:focus-visible {
+  outline: 2px solid #22D3EE;
+  outline-offset: 2px;
 }
 
 .selection-button.active {
-  font-size: 16px;
   color: #22D3EE;
+  font-size: 16px;
   background: rgba(34, 211, 238, 0.2);
-  border: 1px solid #22D3EE;
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+  border-color: #22D3EE;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
 }
 
-/* Corpo Principal e Seções de Categoria */
+/* ---------- Corpo e seções ---------- */
 .portfolio-body {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  flex: 1;
+  padding: 8px 20px 40px;
 }
 
-/* Scroll margin configurado com folga para que o cabeçalho sticky nunca cubra o título */
 .category-section {
   scroll-margin-top: 185px;
+  padding-top: 24px;
 }
 
-.category-title {
+/* Escopo reforçado: sobre.css (carregado no shell da SPA) também define .category-title */
+.portfolio-page-wrapper .category-title {
+  margin: 0 0 14px;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px;
   font-weight: 700;
+  font-size: 24px;
   color: #1E333D;
-  margin: 0 0 16px 0;
-  border-bottom: 2px solid #0381B0;
-  padding-bottom: 8px;
-  display: inline-block;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
-/* Grade de Projetos (CSS Grid) */
+/* ---------- Grade de cards ---------- */
 .project-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-@media (min-width: 768px) {
-  .project-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Card de Projeto */
 .project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
   background: linear-gradient(to bottom, #FFEFBA, #FFFFFF);
   border: 1px solid #0381B0;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(3, 129, 176, 0.2);
-  border-color: #22D3EE;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
 }
 
 .project-image-wrap {
-  width: 100%;
-  height: 180px;
-  border-radius: 8px;
+  display: block;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #E2F0D9;
+  cursor: pointer;
+  background: #1E333D;
 }
 
 .project-image {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.project-card:hover .project-image {
-  transform: scale(1.03);
+.project-image-wrap:hover .project-image {
+  transform: scale(1.02);
 }
 
 .project-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-grow: 1;
+  flex: 1;
+  padding: 14px 16px 8px;
 }
 
 .project-name {
+  margin: 0 0 8px;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px;
   font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
   color: #000000;
-  margin: 0;
+}
+
+.project-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-link:hover {
+  color: #0381B0;
 }
 
 .project-resume {
+  margin: 0;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
+  line-height: 1.5;
   color: #333333;
-  margin: 0;
-  line-height: 1.4;
-  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Lista de Habilidades / Tags */
+/* ---------- Tags de habilidades ---------- */
 .habilities-list {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: auto;
-  padding-top: 8px;
+  padding: 8px 16px 16px;
+}
+
+.hability-tag-HS,
+.hability-tag-SS {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  background: #E2F0D9;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .hability-tag-HS {
   color: #386312;
-  font-size: 12px;
-  font-weight: 600;
-  background-color: #E2F0D9;
-  border: 1px solid #386312;
-  padding: 3px 8px;
-  border-radius: 12px;
+  border-color: #386312;
 }
 
 .hability-tag-SS {
   color: #4B7725;
-  font-size: 12px;
-  font-weight: 600;
-  background-color: #E2F0D9;
-  border: 1px solid #497225;
-  padding: 3px 8px;
-  border-radius: 12px;
+  border-color: #497225;
+}
+
+/* ---------- Responsividade ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .project-grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .portfolio-header {
+    padding: 12px;
+  }
+
+  .portfolio-body {
+    padding: 4px 12px 32px;
+  }
+
+  .category-selection {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }

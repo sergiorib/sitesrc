@@ -64,7 +64,7 @@ class SPARouter {
    * Sincroniza o estado inicial de menu e breadcrumbs
    */
   syncInitialState(pathname) {
-    const activeMenuId = this.resolveParentMenu(pathname);
+    const activeMenuId = this.resolveMenuFor(pathname, document.getElementById('page-content'));
     setActiveNavItem(activeMenuId);
     updateBreadcrumbsDOM(pathname);
   }
@@ -88,6 +88,21 @@ class SPARouter {
     }
 
     return 'sobre';
+  }
+
+  /**
+   * Resolve o item de menu ativo considerando o atributo data-parent-route
+   * do fragmento carregado (ex.: páginas de projeto do portfólio → '/portfolio').
+   */
+  resolveMenuFor(url, contentEl) {
+    const parentRoute = contentEl ? contentEl.getAttribute('data-parent-route') : null;
+    if (parentRoute) {
+      const segment = parentRoute.replace(/^\/+|\/+$/g, '').split('/').pop();
+      if (segment) {
+        return this.resolveParentMenu(`/spa/${segment}`);
+      }
+    }
+    return this.resolveParentMenu(url);
   }
 
   /**
@@ -134,7 +149,7 @@ class SPARouter {
 
     const headerEl = document.querySelector('.portfolio-header');
     const headerHeight = headerEl ? headerEl.offsetHeight : 140;
-    const headerOffset = headerHeight + 20;
+    const headerOffset = headerHeight + 35;
 
     if (this.contentHost) {
       const elementRect = targetElement.getBoundingClientRect();
@@ -267,7 +282,7 @@ class SPARouter {
       this.currentPath = fetchUrl;
 
       // Sincronizar Breadcrumbs e estado do menu da Sidebar
-      const parentMenuId = this.resolveParentMenu(url);
+      const parentMenuId = this.resolveMenuFor(url, this.contentHost.querySelector('#page-content'));
       setActiveNavItem(parentMenuId);
       updateBreadcrumbsDOM(url, pageTitle);
 

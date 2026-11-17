@@ -1,112 +1,112 @@
-# Tasks: Estrutura e Estilização da Página "Portfólio" ('portfolio.astro')
+# Tasks: Estrutura e Estilização da Página "Portfólio" (`portfolio.astro`)
 
-**Input**: Design documents from `.specify/specs/spec-05_portfolio/`
+**Input**: Documentos de design em `.specify/specs/spec-05_portfolio/`
 
-**Prerequisites**: plan.md, spec.md, research.md, data-model.md, quickstart.md
+**Prerequisites**: [plan.md](./plan.md), [spec.md](./spec.md), [contracts/ui-contracts.md](./contracts/ui-contracts.md)
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+**Status**: Implementado em 2026-11-17 (ver notas de validação ao final).
 
-## Format: `[ID] [P?] [Story] Description`
+**Tests**: A spec não pede testes automatizados; a validação é feita por `npm run build` e pelo roteiro manual da Fase 6.
 
-- **[P]**: Can run in parallel (different files, no dependencies)
-- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
-- Include exact file paths in descriptions
+**Organization**: Fases em ordem de dependência (Estrutura/Assets → Markup Astro → Estilização CSS → Interatividade JS → Validação/Build). Cada tarefa indica a User Story atendida.
 
----
+## Format: `[ID] [P?] [Story] Descrição — arquivo alvo`
 
-## Phase 1: Setup (Shared Infrastructure)
-
-**Purpose**: Project initialization and directory structure creation
-
-- [X] T001 Create portfolio directory structure in pages/portfolio/ and subdirectories per implementation plan
-- [X] T002 [P] Verify presence of required static image assets in pages/portfolio/assets/images/ (projeto_CLA.avif, projeto_pipeline1.avif)
+- **[P]**: Pode rodar em paralelo (arquivos diferentes, sem dependência pendente)
+- **[Story]**: User Story da spec (US1 cabeçalho/navegação, US2 grids/categorias, US3 navegação SPA de projetos, US4 mobile)
 
 ---
 
-## Phase 2: Foundational (Blocking Prerequisites)
+## Fase 1: Estrutura e Assets
 
-**Purpose**: Core infrastructure and template setup for the portfolio page
+**Purpose**: Garantir diretórios e arquivos físicos exigidos pela Constituição II e pela §2.1 da spec.
 
-- [X] T003 Create base Astro page structure in pages/portfolio/portfolio.astro with frontmatter and imports
-- [X] T004 [P] Create base CSS stylesheet in pages/portfolio/assets/css/portfolio.css following Dark Tech Dashboard / portfolio color palette
-- [X] T005 [P] Create base JavaScript file in pages/portfolio/assets/js/portfolio.js
+- [X] T001 Criar os diretórios `pages/portfolio/assets/css/` e `pages/portfolio/assets/js/` (se ausentes) — `pages/portfolio/assets/`
+- [X] T002 [P] Confirmar a existência física de `projeto_CLA.avif` e `projeto_pipeline1.avif` — `pages/portfolio/assets/images/`
+- [X] T003 [P] [US3] Confirmar que `AES1.html` expõe `#page-content` com `data-page-id="portfolio-project-aes1"`, `data-page-title` e `data-parent-route="/portfolio"` (sem alteração esperada) — `pages/portfolio/projetos/AES1/AES1.html`
+- [X] T004 [P] [US3] Confirmar que `pagina_teste.html` é carregável pelo fallback `<body>` do roteador (sem alteração; registrar o uso de Tailwind CDN como pendência constitucional) — `pages/portfolio/projetos/testes/pagina_teste.html`
 
-**Checkpoint**: Foundation ready - user story implementation can now begin
-
----
-
-## Phase 3: User Story 1 - Fixed Header & Category Navigation (Priority: P1) 🎯 MVP
-
-**Goal**: Implement a fixed header at the top with category selection buttons pointing to category section anchors.
-
-**Independent Test**: Verify fixed header remains at the top during scrolling and clicking selection buttons smoothly scrolls to the respective category section anchors without jumping or resetting in SPA.
-
-### Implementation for User Story 1
-
-- [X] T006 [US1] Implement fixed header container and page title ('Portfólio de Projetos') in pages/portfolio/portfolio.astro
-- [X] T007 [US1] Implement category selection buttons (`selection_button`) with data anchors in pages/portfolio/portfolio.astro
-- [X] T008 [US1] Style fixed header and selection buttons in pages/portfolio/assets/css/portfolio.css (gradient `#2C4855` to `#1E333D`, active state ciano `#22D3EE`)
-- [X] T009 [US1] Implement client-side scroll observer and click handlers in pages/portfolio/assets/js/portfolio.js to highlight active category buttons and smoothly scroll
-
-**Checkpoint**: User Story 1 (Fixed Header & Navigation) fully functional and testable independently
+**Checkpoint**: Estrutura e assets presentes.
 
 ---
 
-## Phase 4: User Story 2 - Project Grid & Interactive Cards (Priority: P2)
+## Fase 2: Markup Astro
 
-**Goal**: Implement category sections and interactive project cards with images, summaries, and skill tags using CSS Grid strictly for the categories specified with cards in Section 2.4.
+**Purpose**: Fragmento SPA com dados declarados no frontmatter e árvore DOM do contrato C-2.
 
-**Independent Test**: Verify projects are displayed in responsive 2-column grids strictly for bi-analytics (1 card) and data-engineering (2 cards), while the other 5 categories display only their headers.
+- [X] T005 [US2] Declarar no frontmatter os tipos `Skill`, `Project`, `Category` e o array `categories` com as 7 categorias na ordem da §2.4 (projetos só em `bi-analytics` (1) e `data-engineering` (2), paths absolutos POSIX) — `pages/portfolio/portfolio.astro`
+- [X] T006 [US1] Renderizar a raiz `div#page-content.page-content-wrapper.portfolio-page-wrapper` com `data-page-id="portfolio"` e `data-page-title="Portfólio de Projetos"` — `pages/portfolio/portfolio.astro`
+- [X] T007 [US1] Renderizar `header.portfolio-header` com `h1.portfolio-title` e `nav.category-selection[aria-label]` contendo 7 `a.selection-button[href="#section-<id>"]` (primeiro com `.active`), sem `data-spa-link` — `pages/portfolio/portfolio.astro`
+- [X] T008 [US2] Renderizar `main.portfolio-body` com 7 `section.category-section#section-<id>` + `h2.category-title`, gerando `div.project-grid` apenas quando `projects.length > 0` — `pages/portfolio/portfolio.astro`
+- [X] T009 [US2] Renderizar cada `article.project-card` com `.project-image-wrap` (link) > `img.project-image[alt][loading="lazy"][width][height]`, `.project-content` > `h3.project-name > a.project-link` + `p.project-resume`, e `.habilities-list` com `span.hability-tag-HS`/`span.hability-tag-SS` — `pages/portfolio/portfolio.astro`
+- [X] T010 [US3] Aplicar a regra de links: `href` iniciado por `https://` recebe `target="_blank" rel="noopener noreferrer"`; links internos ficam sem `target` para o roteador interceptar — `pages/portfolio/portfolio.astro`
+- [X] T011 [P] Criar o wrapper SPA que importa `../portfolio/assets/css/portfolio.css` no frontmatter e renderiza `<PortfolioContent />` — `pages/spa/portfolio.astro`
 
-### Implementation for User Story 2
-
-- [X] T010 [P] [US2] Implement all 7 category sections (`category_section`, `category_title`) in pages/portfolio/portfolio.astro (rendering only titles for empty categories)
-- [X] T011 [P] [US2] Implement `project_grid` and `project_card` elements strictly for projects specified in Section 2.4 (1 card in bi-analytics, 2 in data-engineering, total: 3 cards) with absolute asset paths (`/pages/portfolio/assets/images/...`) in pages/portfolio/portfolio.astro
-- [X] T012 [P] [US2] Implement `habilities_list` and skill tags (`hability_tag_HS`, `hability_tag_SS`) for the 3 specified project cards in pages/portfolio/portfolio.astro
-- [X] T013 [US2] Style project cards, gradients, borders, shadows, and 2-column CSS Grid in pages/portfolio/assets/css/portfolio.css
-- [X] T014 [US2] Style hard skill and soft skill tags in pages/portfolio/assets/css/portfolio.css
-
-**Checkpoint**: User Story 2 (Project Grid & Cards) fully functional and testable independently
+**Checkpoint**: Página renderiza estrutura completa (sem estilo/JS) em `/spa/portfolio/`.
 
 ---
 
-## Phase 5: User Story 3 - SPA Integration & Project Link Routing (Priority: P3)
+## Fase 3: Estilização CSS
 
-**Goal**: Ensure project cards link correctly to project subpages and integrate seamlessly with the SPA router (`#page-content-host`).
+**Purpose**: Tokens da §3 e responsividade da §4, todos escopados por classes da página (SC-004).
 
-**Independent Test**: Verify clicking a project card loads the project subpage via SPA fetch without full page reload, maintaining `#page-content` and data attributes.
+- [X] T012 [US1] Adicionar `@import` do Google Fonts (`Barlow Condensed` 600/700, `Inter` 400/500) no topo e estilizar `.portfolio-page-wrapper` (gradiente `#DAEBF2→#A8CCD9`, `min-height:100%`, flex coluna, sem `overflow`) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T013 [US1] Estilizar `.portfolio-header` (`position:sticky; top:0; z-index:100`, fundo opaco), `.portfolio-title` (Barlow 700, 36px, `#000000`) e `.category-selection` (gradiente `#2C4855→#1E333D`, flex wrap) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T014 [US1] Estilizar `.selection-button` (padrão translúcido, 14px, `text-decoration:none`) e `.selection-button.active` (`#22D3EE`, 16px, bg `rgba(34,211,238,.2)`, glow `0 0 8px rgba(34,211,238,.4)`) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T015 [US2] Estilizar `.category-section` (`scroll-margin-top:185px`) e `.category-title` (Barlow 700, 24px, `#1E333D`) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T016 [US2] Estilizar `.project-grid` (`grid; repeat(2,1fr); gap:20px`) e `.project-card` (gradiente `#FFEFBA→#FFFFFF`, borda `#0381B0`, raio 12px, sombra; hover `translateY(-4px)` + sombra realçada) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T017 [US2] Estilizar `.project-image-wrap` (`aspect-ratio:16/9`, `overflow:hidden`, `cursor:pointer`), `.project-image` (`object-fit:cover`, hover `scale(1.02)`), `.project-name`, `.project-link`, `.project-resume` (Inter 14px `#333`, clamp 3 linhas) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T018 [US2] Estilizar `.habilities-list`, `.hability-tag-HS` (`#386312` / bg `#E2F0D9`) e `.hability-tag-SS` (texto `#4B7725`, borda `#497225`) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T019 [US4] Adicionar breakpoints: `768–1023px` → `gap:16px`; `<768px` → `1fr`, `gap:12px`, padding 12px, `.category-selection` com wrap/scroll horizontal interno e sem overflow global — `pages/portfolio/assets/css/portfolio.css`
+- [X] T020 [P] [US1] Confirmar (sem alterar) que `.page-content-host:has(.portfolio-page-wrapper)` aplica `padding-top:0` e mantém laterais de 40px — `pages/spa/assets/css/main-container.css`
 
-### Implementation for User Story 3
-
-- [X] T015 [US3] Configure project links (`project_link`) pointing to project subpages (e.g., `/pages/portfolio/projetos/AES1/AES1.html`) in pages/portfolio/portfolio.astro
-- [X] T016 [US3] Ensure SPA router link interception attributes (`data-spa-link`) are correctly applied in pages/portfolio/portfolio.astro
-- [X] T017 [US3] Verify sample project subpage structure at pages/portfolio/projetos/AES1/AES1.html with `#page-content` and metadata attributes
-- [X] T018 [US3] Test client-side navigation between portfolio and project subpages
-
-**Checkpoint**: All user stories independently functional and integrated with SPA router
-
----
-
-## Phase 6: Polish & Cross-Cutting Concerns
-
-**Purpose**: Final verification, build testing, and quickstart validation
-
-- [X] T019 [P] Perform code cleanup and formatting across pages/portfolio/ files
-- [X] T020 Run `npm run build` to validate Astro static build and asset bundling
-- [X] T021 Execute quickstart.md validation steps
+**Checkpoint**: Visual conforme §3/§4 em desktop, tablet e mobile.
 
 ---
 
-## Dependencies & Execution Order
+## Fase 4: Interatividade JS
 
-### Phase Dependencies
-- **Setup (Phase 1)**: No dependencies
-- **Foundational (Phase 2)**: Depends on Setup completion
-- **User Stories (Phase 3+)**: Depend on Foundational phase completion (can proceed sequentially P1 → P2 → P3)
-- **Polish (Final Phase)**: Depends on all user stories being complete
+**Purpose**: Contrato C-4 do plano e FR-003.x da spec.
 
-### Parallel Opportunities
-- T001 and T002 can run in parallel.
-- T003, T004, and T005 can run in parallel.
-- T010, T011, and T012 can run in parallel.
-- T019 can run in parallel.
+- [X] T021 [US1] Implementar `initPortfolioNavigation()` com retorno antecipado sem `.portfolio-page-wrapper` e idempotência via `wrapper.dataset.listenerAttached` — `pages/portfolio/assets/js/portfolio.js`
+- [X] T022 [US1] Implementar o clique em `.selection-button`: `preventDefault()`, troca de `.active`, rolagem suave em `#page-content-host` (ou `window` em modo isolado) com offset `header.offsetHeight + 35`, e `history.pushState(history.state, '', '#section-<id>')` — `pages/portfolio/assets/js/portfolio.js`
+- [X] T023 [US1] Implementar o scroll-spy com `IntersectionObserver` (`rootMargin: -160px 0px -40% 0px`), suspenso ~600ms após clique e desconectado/recriado a cada re-inicialização (FR-003.4) — `pages/portfolio/assets/js/portfolio.js`
+- [X] T024 [US1] Tratar o hash inicial (`#section-*`): aplicar `.active` e rolar após `requestAnimationFrame` — `pages/portfolio/assets/js/portfolio.js`
+- [X] T025 [US1] Implementar o bootstrap (`DOMContentLoaded`/execução imediata, `pageshow`, `spa:page-loaded` registrados uma única vez via `window.__portfolioNavBound`) e `export function GET()` retornando `{ module: 'portfolio' }` — `pages/portfolio/assets/js/portfolio.js`
+- [X] T026 [US1] Importar o script como `?raw` e emitir `<script is:inline type="module" set:html={portfolioScript} />` dentro de `#page-content` — `pages/portfolio/portfolio.astro`
+- [X] T027 [US1] Ajustar `scrollToAnchor()` para usar folga `+35` em vez de `+20` (FR-005.1a) — `pages/spa/assets/js/router.js`
+- [X] T028 [US3] Após injetar o fragmento em `navigateTo()`, se `#page-content[data-parent-route]` existir, usar seu segmento para `setActiveNavItem()` (FR-005.1b) — `pages/spa/assets/js/router.js`
+
+**Checkpoint**: Navegação por categorias, scroll-spy e menu ativo em páginas de projeto funcionando.
+
+---
+
+## Fase 5: Validação e Build
+
+- [X] T029 Executar `npm run build` (e `npx astro check`, se disponível) sem erros — raiz do projeto
+- [X] T030 [US2] Na SPA (`npm run dev` → `/spa` → Portfólio), verificar 7 `.category-section` e exatamente 3 `.project-card` (SC-002) — `/spa/portfolio/`
+- [X] T031 [US1] Clicar em cada `.selection-button` e verificar `.active`, título da categoria visível abaixo do header, hash na URL, sem refetch de rota e sem volta ao topo; repetir em modo isolado (SC-003) — `/spa/portfolio/`
+- [X] T032 [US3] Clicar na capa e no título do card CLA → `AES1` injetado no host com `pushState` e menu "Portfólio" ativo; capa do Pipeline → nova aba; card de teste → `pagina_teste` no host — `/spa/portfolio/`
+- [X] T033 [US4] Viewport 375px: grade em 1 coluna, sem scroll horizontal global — `/spa/portfolio/`
+- [X] T034 Navegar Portfólio → Sobre → Portfólio 3× e confirmar que cada clique em `.selection-button` dispara um único handler (idempotência) — `/spa/portfolio/`
+
+---
+
+## Dependências e Execução
+
+- Fase 1 → Fase 2 → Fase 3 → Fase 4 → Fase 5.
+- T011, T020 e as verificações T002–T004 são independentes ([P]).
+- T026 depende de T021–T025; T027–T028 (roteador global) podem ser feitos em paralelo com T021–T025, mas afetam todas as páginas: validar Sobre/Histórico/Formação/Contatos em T029–T034.
+- **MVP**: Fases 1–3 + T021–T027 entregam US1 e US2; T028 completa US3.
+- **Fora do escopo** (plano, R-01): os assets em `/pages/...` não são copiados para `dist/` no build atual.
+
+---
+
+## Notas de Validação (2026-11-17)
+
+- `npm run build`: sem erros. `npx astro check` não executado (`@astrojs/check` não instalado).
+- SPA (desktop): 7 seções, 3 cards; 7/7 botões com `.active` correto, título visível abaixo do header, 1 `pushState` por clique; idempotente após 3 ciclos Portfólio ↔ Sobre; sem erros de console.
+- US3: AES1 injetado sem reload, menu "Portfólio" ativo, breadcrumbs corretos, `history.back()` restaura o portfólio; links externos com `target="_blank"`; `pagina_teste` injetada via fallback `<body>`.
+- US4: no shell a 375px, grade em 1 coluna, gap/padding 12px e barra de categorias com rolagem horizontal. **Pendência do shell (spec-01)**: a sidebar mantém 300px no mobile e o `#page-content-host` fica com ~80px em todas as páginas.
+- Colisão de CSS encontrada: `sobre.css` define `.category-title` globalmente (carregado no shell); neutralizada em `portfolio.css` com `.portfolio-page-wrapper .category-title`.
+- Regressão: Sobre, Histórico, Formação e Contatos carregam com menu ativo correto após as mudanças no `router.js`.

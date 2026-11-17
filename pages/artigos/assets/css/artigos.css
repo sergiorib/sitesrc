@@ -1,74 +1,88 @@
-/* Estilos da Página de Artigos */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto+Condensed:wght@300;400;700&display=swap');
 
-body {
-  min-height: 100vh;
+/* ==========================================================================
+   Página "Artigos técnicos" — spec-06_artigos
+   Todas as regras são escopadas por .artigos-page (sem estilos em body/html).
+   ========================================================================== */
+
+/* ---------- Base da página ---------- */
+.artigos-page {
   background: radial-gradient(circle at 50% 20%, #102636 0%, #070e14 100%);
   background-attachment: fixed;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   line-height: 1.5;
   color: #e2f1f8;
-  display: flex;
-  justify-content: center;
+  border-radius: 12px;
+  overflow-x: hidden;
 }
 
-.app {
+.artigos-page,
+.artigos-page *,
+.artigos-page *::before,
+.artigos-page *::after {
+  box-sizing: border-box;
+}
+
+.artigos-page .app {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
   padding: 32px 36px;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-header h1 {
+/* ---------- Cabeçalho ---------- */
+.artigos-page header h1 {
+  margin: 0;
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
   font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.2;
   color: #ffffff;
   text-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
 }
 
-header .intro {
+.artigos-page .intro {
+  max-width: 760px;
+  margin: 10px 0 20px;
   font-size: 15px;
   font-weight: 300;
   color: #88a9bc;
-  max-width: 760px;
-  margin: 10px 0 20px;
 }
 
-header .rule {
+.artigos-page .rule {
   height: 1px;
-  background: linear-gradient(90deg, #00e5ff 0%, rgba(0, 229, 255, 0.15) 60%, transparent 100%);
   margin-bottom: 28px;
+  background: linear-gradient(90deg, #00e5ff 0%, rgba(0, 229, 255, 0.15) 60%, transparent 100%);
 }
 
-main.workspace {
+/* ---------- Área de trabalho e colunas ---------- */
+.artigos-page .workspace {
   flex: 1;
 }
 
-.topic-columns {
+.artigos-page .topic-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   align-items: start;
 }
 
-.column {
+.artigos-page .column {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
-.topic-group {
+/* ---------- Card de grupo (acordeão) ---------- */
+.artigos-page .topic-group {
   background: rgba(10, 25, 38, 0.75);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 229, 255, 0.25);
   border-radius: 18px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -76,140 +90,157 @@ main.workspace {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.topic-group:hover {
+.artigos-page .topic-group:hover {
   border-color: rgba(0, 229, 255, 0.45);
 }
 
-.topic-group.open {
+.artigos-page .topic-group.open {
   border-color: #00e5ff;
   box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
 }
 
-.group-toggle {
+.artigos-page .group-toggle {
   width: 100%;
   min-height: 54px;
   padding: 14px 18px;
-  background: transparent;
-  border: none;
   display: flex;
   align-items: center;
-  cursor: pointer;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
   text-align: left;
+  cursor: pointer;
 }
 
-.group-icon {
-  color: #00e5ff;
-  font-size: 18px;
+.artigos-page .group-toggle:focus-visible,
+.artigos-page .subgroup-toggle:focus-visible,
+.artigos-page .leaf:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 2px;
+}
+
+.artigos-page .group-icon {
   width: 24px;
   flex-shrink: 0;
+  text-align: center;
+  font-size: 18px;
+  color: #00e5ff;
 }
 
-.group-name {
+.artigos-page .group-name {
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   font-size: 17px;
   color: #e2f1f8;
 }
 
-.chevron {
+.artigos-page .chevron {
   margin-left: auto;
-  color: #88a9bc;
   font-size: 18px;
+  line-height: 1;
+  color: #88a9bc;
   transition: transform 0.2s ease, color 0.2s ease;
-  display: inline-block;
 }
 
-.topic-group.open > .group-toggle .chevron,
-.subgroup.open > .subgroup-toggle .chevron {
+.artigos-page .topic-group.open > .group-toggle .chevron,
+.artigos-page .subgroup.open > .subgroup-toggle .chevron {
   transform: rotate(90deg);
   color: #00e5ff;
 }
 
-.group-children {
+/* ---------- Áreas recolhíveis ---------- */
+.artigos-page .group-children,
+.artigos-page .subgroup-children {
   display: none;
+}
+
+.artigos-page .topic-group.open > .group-children,
+.artigos-page .subgroup.open > .subgroup-children {
+  display: block;
+}
+
+.artigos-page .group-children {
   background: rgba(4, 12, 18, 0.3);
   border-top: 1px solid rgba(0, 229, 255, 0.1);
   padding: 6px 14px 14px 18px;
 }
 
-.topic-group.open > .group-children {
-  display: block;
+/* ---------- Subgrupos ---------- */
+.artigos-page .subgroup {
+  margin-top: 6px;
 }
 
-.subgroup {
-  margin: 8px 0;
-}
-
-.subgroup-toggle {
+.artigos-page .subgroup-toggle {
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+  padding: 8px 16px;
   background: transparent;
   border: 1px solid rgba(0, 229, 255, 0.15);
   border-radius: 50px;
   color: #88a9bc;
+  font: inherit;
   font-size: 14px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
+  text-align: left;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.subgroup-toggle:hover {
+.artigos-page .subgroup-toggle:hover {
   background: rgba(20, 48, 70, 0.85);
   color: #e2f1f8;
   border-color: rgba(0, 229, 255, 0.25);
 }
 
-.subgroup-marker {
-  margin-right: 8px;
+.artigos-page .subgroup-marker {
+  color: #00e5ff;
 }
 
-.subgroup-children {
-  display: none;
-  border-left: 2px solid rgba(0, 229, 255, 0.2);
+.artigos-page .subgroup-children {
+  margin-top: 6px;
   margin-left: 14px;
   padding-left: 14px;
-  margin-top: 6px;
+  border-left: 2px solid rgba(0, 229, 255, 0.2);
 }
 
-.subgroup.open > .subgroup-children {
-  display: block;
-}
-
-.leaf-list {
+/* ---------- Artigos (.leaf) ---------- */
+.artigos-page .leaf-list {
   display: flex;
   flex-direction: column;
 }
 
-.leaf {
+.artigos-page .leaf {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 4px 0;
+  padding: 9px 16px;
   background: rgba(12, 30, 44, 0.6);
   border: 1px solid rgba(0, 229, 255, 0.15);
   border-radius: 50px;
   color: #b0d3e5;
   font-size: 14px;
   letter-spacing: 0.02em;
-  padding: 9px 16px;
-  margin: 4px 0;
   text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.leaf-bullet {
+.artigos-page .leaf-bullet {
   color: #00e5ff;
 }
 
-.leaf:hover {
+.artigos-page .leaf:hover {
   transform: translateX(3px);
   background: rgba(20, 50, 72, 0.9);
   border-color: #00e5ff;
   color: #ffffff;
 }
 
-.leaf.selected {
+.artigos-page .leaf.selected {
   background: #dbeaf0;
   border-color: #ffffff;
   color: #091a24;
@@ -217,50 +248,51 @@ main.workspace {
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
-.leaf.selected .leaf-bullet {
+.artigos-page .leaf.selected .leaf-bullet {
   color: #091a24;
 }
 
-.check-mark {
+.artigos-page .check-mark {
   margin-left: auto;
   font-weight: bold;
 }
 
-footer {
+/* ---------- Rodapé ---------- */
+.artigos-page footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   margin-top: 48px;
   padding-top: 20px;
   border-top: 1px solid rgba(0, 229, 255, 0.15);
 }
 
-footer p {
-  color: #88a9bc;
+.artigos-page footer p {
+  margin: 0;
   font-size: 12px;
+  color: #88a9bc;
 }
 
-.footer-motto {
-  letter-spacing: 0.05em;
-}
-
-.footer-motto span {
+.artigos-page .footer-motto span {
+  margin: 0 4px;
   color: #00e5ff;
   font-weight: bold;
-  margin: 0 4px;
 }
 
+/* ---------- Responsividade ---------- */
 @media (max-width: 850px) {
-  .app {
+  .artigos-page .app {
     padding: 24px 20px;
   }
 
-  .topic-columns {
+  .artigos-page .topic-columns {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 540px) {
-  footer {
+  .artigos-page footer {
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
