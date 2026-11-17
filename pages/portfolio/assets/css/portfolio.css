@@ -1,167 +1,205 @@
-/* 1.1 Contêiner Principal e Estilos Globais do Portfólio */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap');
+/* Estilização da Página Portfólio - Dark Tech & Data Science Cohesive Theme */
 
-.portfolio-wrapper {
-  width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #DAEBF2 0%, #A8CCD9 100%);
-  border: 3px solid #0381B0;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.25);
-  font-family: Arial, sans-serif;
-  color: #000000;
+/* Reset de margens em página isolada */
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-/* 2.1 Título da Página */
-.portfolio-wrapper .page-title {
+.portfolio-page-wrapper {
+  background: linear-gradient(to bottom, #DAEBF2, #A8CCD9);
+  min-height: 100%;
+  padding-bottom: 60px;
+  font-family: 'Inter', sans-serif;
+  color: #333333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Fixo no Topo */
+.portfolio-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, #2C4855, #1E333D);
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.portfolio-title {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
   font-size: 36px;
-  color: #000000;
-  text-align: left;
-  margin-bottom: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
 }
 
-/* 2.2 Painel de Filtros por Categoria */
-.filter-panel {
-  background: linear-gradient(180deg, #2C4855 0%, #1E333D 100%);
-  border: 1px solid #0381B0;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 20px;
+/* Área de Seleção de Categorias */
+.category-selection {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
 }
 
-/* Estilização dos Botões de Filtro (Pills) */
-.filter-pill {
-  background: transparent;
-  border: 1px solid #6DA2B7;
+.selection-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
   border-radius: 20px;
-  padding: 6px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
   color: #FFFFFF;
-  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-decoration: none;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
-.filter-pill:hover {
-  border-color: #22D3EE;
-}
-
-/* Estado Ativo / Selecionado */
-.filter-pill.active {
-  background-color: rgba(34, 211, 238, 0.15);
+.selection-button:hover {
+  background: rgba(255, 255, 255, 0.2);
   border-color: #22D3EE;
   color: #22D3EE;
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
 }
 
-/* 3. Seções de Categorias de Projetos */
+.selection-button.active {
+  font-size: 16px;
+  color: #22D3EE;
+  background: rgba(34, 211, 238, 0.2);
+  border: 1px solid #22D3EE;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
+
+/* Corpo Principal e Seções de Categoria */
+.portfolio-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Scroll margin configurado com folga para que o cabeçalho sticky nunca cubra o título */
 .category-section {
-  margin-bottom: 24px;
+  scroll-margin-top: 185px;
 }
 
 .category-title {
   font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
   font-weight: 700;
-  font-size: 28px;
-  color: #000000;
-  margin-bottom: 12px;
+  color: #1E333D;
+  margin: 0 0 16px 0;
+  border-bottom: 2px solid #0381B0;
+  padding-bottom: 8px;
+  display: inline-block;
 }
 
-/* Grid de Cards (Default: 3 colunas para Desktop) */
+/* Grade de Projetos (CSS Grid) */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
-/* 4. Componente Card de Projeto Individual */
-.project-card {
-  background: linear-gradient(180deg, #FFEFBA 0%, #FFFFFF 60%);
-  border: 1px solid #0381B0;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* 4.2 Estrutura Interna do Card */
-.card-cover {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.card-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: #000000;
-  text-align: center;
-  margin-top: 8px;
-  margin-bottom: 6px;
-}
-
-.card-description {
-  font-family: 'Consolas', 'Courier New', monospace;
-  font-size: 13px;
-  color: #4A5B61;
-  line-height: 1.4;
-  text-align: justify;
-  margin-bottom: 12px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 4.4 Tags de Tecnologias / Competências */
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.tag-pill {
-  background-color: #E2F0D9;
-  border: 1px solid #386312;
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 600;
-  font-size: 11px;
-  color: #000000;
-  white-space: nowrap;
-}
-
-/* 5. Responsividade */
-@media (max-width: 1023px) and (min-width: 768px) {
+@media (min-width: 768px) {
   .project-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 767px) {
-  .portfolio-wrapper .page-title {
-    font-size: 28px;
-  }
+/* Card de Projeto */
+.project-card {
+  background: linear-gradient(to bottom, #FFEFBA, #FFFFFF);
+  border: 1px solid #0381B0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(3, 129, 176, 0.2);
+  border-color: #22D3EE;
+}
 
-  .portfolio-wrapper {
-    padding: 16px;
-  }
+.project-image-wrap {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #E2F0D9;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.03);
+}
+
+.project-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.project-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.project-resume {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #333333;
+  margin: 0;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+/* Lista de Habilidades / Tags */
+.habilities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.hability-tag-HS {
+  color: #386312;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #E2F0D9;
+  border: 1px solid #386312;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.hability-tag-SS {
+  color: #4B7725;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #E2F0D9;
+  border: 1px solid #497225;
+  padding: 3px 8px;
+  border-radius: 12px;
 }

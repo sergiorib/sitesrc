@@ -16,6 +16,13 @@
   outline: none;
 }
 
+/* Limite superior sem gap vertical para portfolio, mantendo as margens laterais seguras contra sobreposição do menu */
+.page-content-host:has(.portfolio-page-wrapper) {
+  padding-top: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 /* Scrollbar dedicada Dark Tech */
 .page-content-host::-webkit-scrollbar {
   width: 8px;

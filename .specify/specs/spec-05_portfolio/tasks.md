@@ -1,98 +1,112 @@
----
-description: "Lista de tarefas executáveis para a implementação da Página 'Portfólio'"
----
+# Tasks: Estrutura e Estilização da Página "Portfólio" ('portfolio.astro')
 
-# Tasks: Estrutura e Estilização da Página "Portfólio" (`portfolio.astro`)
+**Input**: Design documents from `.specify/specs/spec-05_portfolio/`
 
-**Input**: Documentos de design de `.specify/specs/spec-05_portfolio/`  
-**Prerequisites**: [spec.md](./spec.md), [plan.md](./plan.md)  
-**Tests**: Validação visual e interativa guiada por [spec.md](./spec.md)  
-**Organization**: Tarefas agrupadas por fases de infraestrutura, fundamentação e User Stories para execução e validação incrementais.
+**Prerequisites**: plan.md, spec.md, research.md, data-model.md, quickstart.md
 
-## Formato: `- [x] [ID] [P?] [Story?] Descrição com caminho de arquivo`
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
-- **[P]**: Tarefa executável em paralelo (arquivos distintos, sem dependências de bloqueio)
-- **[Story]**: Rótulo da User Story correspondente (`[US1]`, `[US2]`, `[US3]`)
-- Todos os caminhos de arquivos são explícitos e isolados em `pages/portfolio/` conforme a arquitetura da SPA.
+## Format: `[ID] [P?] [Story] Description`
+
+- **[P]**: Can run in parallel (different files, no dependencies)
+- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
+- Include exact file paths in descriptions
 
 ---
 
-## Phase 1: Setup (Infraestrutura Compartilhada)
+## Phase 1: Setup (Shared Infrastructure)
 
-**Purpose**: Criação da estrutura completa de diretórios e organização dos assets estáticos para a página de Portfólio.
+**Purpose**: Project initialization and directory structure creation
 
-- [x] T001 Criar a estrutura completa de pastas do módulo em `pages/portfolio/` (`assets/css/`, `assets/js/`, `assets/images/`)
-- [x] T002 [P] Criar a folha de estilo em `pages/portfolio/assets/css/portfolio.css` com as definições de gradientes, painel de filtros, cards de projeto, tags e tipografia (Barlow Condensed, Consolas)
-- [x] T003 [P] Criar o script client-side em `pages/portfolio/assets/js/portfolio.js` para controle de filtragem interativa por categorias (pills)
-
----
-
-## Phase 2: Foundational (Pré-Requisitos Estruturais Bloqueantes)
-
-**Purpose**: Construção da página mestre e estrutura de layout base.
-
-**⚠️ CRITICAL**: A casca da página e o invólucro do contêiner principal devem existir antes da integração das User Stories.
-
-- [x] T004 Criar a página mestre em `pages/portfolio/portfolio.astro` e garantir a compatibilidade em `pages/spa/portfolio.astro` com o contêiner raiz `#page-content`, atributos `data-page-id="portfolio"` e `data-page-title="Portfólio"`
-
-**Checkpoint**: Base e casca estrutural configuradas. As User Stories podem ser implementadas.
+- [X] T001 Create portfolio directory structure in pages/portfolio/ and subdirectories per implementation plan
+- [X] T002 [P] Verify presence of required static image assets in pages/portfolio/assets/images/ (projeto_CLA.avif, projeto_pipeline1.avif)
 
 ---
 
-## Phase 3: User Story 1 - Visualização do Cabeçalho e Painel de Filtros (Pills) do Portfólio (Priority: P1) 🎯 MVP
+## Phase 2: Foundational (Blocking Prerequisites)
 
-**Goal**: Exibir o título principal ("Portfólio de Projetos") em fonte `Barlow Condensed` e o painel de filtros (`.filter-panel`) com 8 botões interativos (pills) com estado `.active`.
+**Purpose**: Core infrastructure and template setup for the portfolio page
 
-**Independent Test**: Acessar a página de Portfólio e verificar se o título e o painel de filtros são renderizados com exatidão estética.
+- [X] T003 Create base Astro page structure in pages/portfolio/portfolio.astro with frontmatter and imports
+- [X] T004 [P] Create base CSS stylesheet in pages/portfolio/assets/css/portfolio.css following Dark Tech Dashboard / portfolio color palette
+- [X] T005 [P] Create base JavaScript file in pages/portfolio/assets/js/portfolio.js
+
+**Checkpoint**: Foundation ready - user story implementation can now begin
+
+---
+
+## Phase 3: User Story 1 - Fixed Header & Category Navigation (Priority: P1) 🎯 MVP
+
+**Goal**: Implement a fixed header at the top with category selection buttons pointing to category section anchors.
+
+**Independent Test**: Verify fixed header remains at the top during scrolling and clicking selection buttons smoothly scrolls to the respective category section anchors without jumping or resetting in SPA.
 
 ### Implementation for User Story 1
 
-- [x] T005 [P] [US1] Implementar os estilos do cabeçalho (`.page-title`) e painel de filtros (`.filter-panel`, `.filter-pill`) em `pages/portfolio/assets/css/portfolio.css`
-- [x] T006 [US1] Implementar a marcação HTML do título e do painel de filtros com as 8 pills em `pages/portfolio/portfolio.astro`
+- [X] T006 [US1] Implement fixed header container and page title ('Portfólio de Projetos') in pages/portfolio/portfolio.astro
+- [X] T007 [US1] Implement category selection buttons (`selection_button`) with data anchors in pages/portfolio/portfolio.astro
+- [X] T008 [US1] Style fixed header and selection buttons in pages/portfolio/assets/css/portfolio.css (gradient `#2C4855` to `#1E333D`, active state ciano `#22D3EE`)
+- [X] T009 [US1] Implement client-side scroll observer and click handlers in pages/portfolio/assets/js/portfolio.js to highlight active category buttons and smoothly scroll
 
-**Checkpoint**: MVP do cabeçalho e painel de filtros concluído.
+**Checkpoint**: User Story 1 (Fixed Header & Navigation) fully functional and testable independently
 
 ---
 
-## Phase 4: User Story 2 - Exibição das Seções de Categorias e Cards de Projetos (Priority: P1)
+## Phase 4: User Story 2 - Project Grid & Interactive Cards (Priority: P2)
 
-**Goal**: Implementar as seções de categorias de projetos e o grid responsivo de 3 colunas (`.project-grid`) contendo cards detalhados (`.project-card`) com imagens de capa, títulos, descrições truncadas em 3 linhas e tags de tecnologias (`.tag-pill`).
+**Goal**: Implement category sections and interactive project cards with images, summaries, and skill tags using CSS Grid strictly for the categories specified with cards in Section 2.4.
 
-**Independent Test**: Verificar se as seções de categoria e os cards exibem corretamente capas, textos, truncamento e tags.
+**Independent Test**: Verify projects are displayed in responsive 2-column grids strictly for bi-analytics (1 card) and data-engineering (2 cards), while the other 5 categories display only their headers.
 
 ### Implementation for User Story 2
 
-- [x] T007 [P] [US2] Implementar os estilos das seções de categoria (`.category-section`, `.category-title`), grids (`.project-grid`), cards (`.project-card`, `.card-cover`, `.card-title`, `.card-description`) e tags (`.tag-tags`, `.tag-pill`) em `pages/portfolio/assets/css/portfolio.css`
-- [x] T008 [US2] Implementar a marcação HTML das seções de categoria e cards de projetos em `pages/portfolio/portfolio.astro`
+- [X] T010 [P] [US2] Implement all 7 category sections (`category_section`, `category_title`) in pages/portfolio/portfolio.astro (rendering only titles for empty categories)
+- [X] T011 [P] [US2] Implement `project_grid` and `project_card` elements strictly for projects specified in Section 2.4 (1 card in bi-analytics, 2 in data-engineering, total: 3 cards) with absolute asset paths (`/pages/portfolio/assets/images/...`) in pages/portfolio/portfolio.astro
+- [X] T012 [P] [US2] Implement `habilities_list` and skill tags (`hability_tag_HS`, `hability_tag_SS`) for the 3 specified project cards in pages/portfolio/portfolio.astro
+- [X] T013 [US2] Style project cards, gradients, borders, shadows, and 2-column CSS Grid in pages/portfolio/assets/css/portfolio.css
+- [X] T014 [US2] Style hard skill and soft skill tags in pages/portfolio/assets/css/portfolio.css
 
-**Checkpoint**: Seções de projetos e cards estilizados e estruturados.
+**Checkpoint**: User Story 2 (Project Grid & Cards) fully functional and testable independently
 
 ---
 
-## Phase 5: User Story 3 - Adaptabilidade Responsiva para Tablets e Dispositivos Móveis (Priority: P2)
+## Phase 5: User Story 3 - SPA Integration & Project Link Routing (Priority: P3)
 
-**Goal**: Garantir que o layout da página de portfólio se ajuste perfeitamente a viewports de tablet (2 colunas) e mobile (1 coluna).
+**Goal**: Ensure project cards link correctly to project subpages and integrate seamlessly with the SPA router (`#page-content-host`).
 
-**Independent Test**: Testar em viewports menores que 1023px e 768px verificando o redimensionamento do grid e espaçamentos.
+**Independent Test**: Verify clicking a project card loads the project subpage via SPA fetch without full page reload, maintaining `#page-content` and data attributes.
 
 ### Implementation for User Story 3
 
-- [x] T009 [P] [US3] Implementar media queries em `pages/portfolio/assets/css/portfolio.css` para transformar `.project-grid` em 2 colunas (`repeat(2, 1fr)`) em tablets e 1 coluna (`1fr`) em dispositivos móveis
+- [X] T015 [US3] Configure project links (`project_link`) pointing to project subpages (e.g., `/pages/portfolio/projetos/AES1/AES1.html`) in pages/portfolio/portfolio.astro
+- [X] T016 [US3] Ensure SPA router link interception attributes (`data-spa-link`) are correctly applied in pages/portfolio/portfolio.astro
+- [X] T017 [US3] Verify sample project subpage structure at pages/portfolio/projetos/AES1/AES1.html with `#page-content` and metadata attributes
+- [X] T018 [US3] Test client-side navigation between portfolio and project subpages
 
-**Checkpoint**: Layout responsivo verificado em desktop, tablet e mobile.
-
----
-
-## Phase 6: Integração SPA e Validação Final
-
-**Purpose**: Registrar a página no roteador SPA e validar a integridade da implementação.
-
-- [x] T010 Registrar a página de portfólio em `pages/spa/portfolio.astro` importando os estilos e scripts correspondentes para injeção sem recarregamento no `#page-content-host`
-- [x] T011 Realizar testes finais de validação visual e interativa da página de Portfólio.
+**Checkpoint**: All user stories independently functional and integrated with SPA router
 
 ---
 
-## Phase 7: Convergence (Codebase Sync & Verification)
+## Phase 6: Polish & Cross-Cutting Concerns
 
-- [x] T012 Verificar a integridade e paridade entre o código-fonte em `pages/portfolio/` e as especificações GSK (`spec-05_portfolio`).
-- [x] T013 Validar o build de produção estático do Astro cobrindo todas as rotas sem erros de compilação ou incompatibilidades de SSR.
+**Purpose**: Final verification, build testing, and quickstart validation
+
+- [X] T019 [P] Perform code cleanup and formatting across pages/portfolio/ files
+- [X] T020 Run `npm run build` to validate Astro static build and asset bundling
+- [X] T021 Execute quickstart.md validation steps
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+- **Setup (Phase 1)**: No dependencies
+- **Foundational (Phase 2)**: Depends on Setup completion
+- **User Stories (Phase 3+)**: Depend on Foundational phase completion (can proceed sequentially P1 → P2 → P3)
+- **Polish (Final Phase)**: Depends on all user stories being complete
+
+### Parallel Opportunities
+- T001 and T002 can run in parallel.
+- T003, T004, and T005 can run in parallel.
+- T010, T011, and T012 can run in parallel.
+- T019 can run in parallel.

@@ -3,6 +3,7 @@
 **Feature Branch**: `01-pagina-spa`
 
 **Created**: 2026-10-29
+**Updated**: 2026-11-16
 
 **Status**: Draft
 
@@ -110,8 +111,9 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 - **FR-013**: O sistema de roteamento client-side DEVE implementar delegação global de eventos (`document.addEventListener('click', ...)`) para interceptar cliques em links (`<a>`) internos sob a estrutura `pages/`, cancelando o reload padrão com `e.preventDefault()`.
 - **FR-014**: O roteador DEVE ser dinâmico e capaz de carregar assincronamente páginas e subpáginas adicionadas dentro de `pages/` (ex: subpáginas de portfólio), sem depender de listas estritamente restritas aos 6 itens do menu.
 - **FR-015**: Ao navegar para uma subpágina aninhada em cascata, o sistema DEVE manter o item de menu primário pai visualmente selecionado na Sidebar.
-- **FR-016**: O sistema DEVE sincronizar o histórico de navegação com a History API (`window.history.pushState` e evento `popstate`), permitindo pleno funcionamento dos botões nativos de "Voltar" e "Avançar" do navegador.
+- **FR-016**: O sistema DEVE sincronizar o histórico de navegação com a History API (`window.history.pushState` e evento `popstate`), permitindo pleno funcionamento dos botões nativos de "Voltar" e "Avançar" do navegador. O ouvinte de `popstate` DEVE distinguir navegação entre rotas (`pathname`) de navegação por fragmento/âncora (`hash`) na mesma página. Quando o `pathname` não for alterado, o roteador NÃO DEVE recarregar o conteúdo da página nem resetar o scroll para o topo (`scrollTop = 0`), devendo apenas acionar a rolagem suave até a âncora especificada dentro do Main Container `#page-content-host`.
 - **FR-017**: O sistema DEVE fornecer o arquivo de fallback `pages/spa/default.astro` indicando "Página não encontrada" e renderizá-lo dentro do Main Container sempre que uma rota interna solicitada for inválida ou inexistente (erro 404).
+- **FR-018**: O roteador SPA DEVE executar tags `<script>` presentes nos fragmentos HTML injetados via `innerHTML` através de re-criação dinâmica de nós (`executeIncomingScripts`), e disparar o evento customizado `window.dispatchEvent(new CustomEvent('spa:page-loaded', ...))` garantindo que a interatividade e os listeners dos módulos carregados sejam devidamente inicializados após a injeção do fragmento.
 
 ---
 
@@ -134,7 +136,7 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 - **SC-002**: A alternância entre quaisquer seções primárias ou subpáginas ocorre em menos de 300ms a partir do clique do usuário, sem qualquer oscilação visual (*layout shift* ou recarregamento total da tela).
 - **SC-003**: 100% das tentativas de navegação via links internos sob `pages/` preservam a Sidebar estável e sem recarregamento da janela (*zero full page reloads*).
 - **SC-004**: 100% das rotas internas inexistentes ou inválidas exibem a página de fallback padronizada `pages/spa/default.astro` no Main Container sem travar a interface da aplicação.
-- **SC-005**: 100% das interações com os botões "Voltar" e "Avançar" do navegador restauram fidedignamente o estado do conteúdo e o estado visual do menu e breadcrumbs correspondentes.
+- **SC-005**: 100% das interações com os botões "Voltar" e "Avançar" do navegador restauram fidedignamente o estado do conteúdo e o estado visual do menu e breadcrumbs correspondentes, preservando âncoras internas e posições de scroll sem recargas indevidas da rota.
 - **SC-006**: A interface permanece perfeitamente enquadrada em 100% da viewport (100vw e 100vh) em qualquer resolução de tela desktop, mantendo a Sidebar fixa em 300px de largura e o Main Container com barra de rolagem interna dedicada quando o conteúdo exceder a altura visível.
 
 ---
