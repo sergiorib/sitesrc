@@ -2,7 +2,7 @@
 
 **Feature Branch**: '05-portfolio'  
 **Created**: 2026-11-05  
-**Updated**: 2026-11-16  
+**Updated**: 2026-11-17  
 **Status**: Proposto / Planejado  
 
 **Input**: User description: "Criar a pagina que servirá de portal para seleção dos projetos do meu portfólio pessoal de Ciencia de dados. Cada projeto terá um card interativo no qual será exibida uma imagem e outras informações resumidas. O card do projeto servirá de link para a pagina específica de cada projeto. 
@@ -48,14 +48,16 @@ Toda página ou subpágina situada sob `/pages/portfolio/projetos/**` DEVE segui
 1. **Contêiner Raiz Obrigatório**: O documento da subpágina deve expor o elemento `#page-content` contendo:
    - `id="page-content"`
    - `data-page-id="portfolio-project-<slug>"` (ex: `data-page-id="portfolio-project-aes1"`)
-   - `data-titulo_pagina="<Título do Projeto>"`
-   - `data-parent-route="/portfolio"` (permite botão "Voltar ao Portfólio" via SPA).
+   - `data-page-title="<Título do Projeto>"`
+   - `data-parent-route="/portfolio"` (permite botão "Voltar ao Portfólio" via SPA e é lido pelo roteador para manter o item "Portfólio" ativo no menu lateral).
 2. **Interceptação de Cliques**:
-   - Links internos nas imagens de capa (`project_image-wrap[href^="/"]` ou `.card-cover-wrap[href^="/"]`) e links internos dentro das páginas de projeto que apontem para rotas sob `/pages/portfolio/projetos/` devem receber o atributo `data-spa-link` (ou serem capturados pelo listener delegado da SPA).
+   - Links internos nas imagens de capa e nos títulos dos cards (`.project-image-wrap[href^="/"]`, `.project-link[href^="/"]`) e links internos dentro das páginas de projeto que apontem para rotas sob `/pages/portfolio/projetos/` são capturados pelo listener delegado global do roteador SPA, sem necessidade de atributo adicional (`data-spa-link` não é utilizado).
    - Ao acionar o link, o roteador SPA faz o `fetch` do documento alvo, extrai o nó `#page-content` (bem como folhas de estilo/scripts específicos declarados no fragmento), injeta no `#page-content-host` e atualiza a URL via `history.pushState()`.
 3. **Fallback / Encapsulamento para HTML Estático Legado**: Caso uma página em `/pages/portfolio/projetos/<slug>/<arquivo>.html` seja um documento HTML completo sem a estrutura modular Astro, o loader da SPA deve extrair automaticamente o conteúdo de `<body>` (ou envolver em um `<div id="page-content">`) mantendo a renderização dentro de `#page-content-host`.
 
 ### 2.3 Descrição dos Elementos da Página
+
+> **Convenção de nomenclatura**: os nomes abaixo (snake_case) são nomes lógicos. As classes CSS correspondentes usam kebab-case conforme `contracts/ui-contracts.md` (ex.: `selection_button` → `.selection-button`, `category_section` → `.category-section`, `project_image-wrap` → `.project-image-wrap`, `hability_tag_HS` → `.hability-tag-HS`).
 
 - `page`: Representa a página como um todo.
 - `header`: Área de cabeçalho no topo da página.
@@ -169,7 +171,7 @@ portfolio.astro
     - Tamanho da fonte: `14px`
     - Cor do fundo: `rgba(255, 255, 255, 0.1)` (Branco translúcido)
     - Cor da borda: `rgba(255, 255, 255, 0.2)`
-  - **Estado Ativo (`.selection_button.active`)**:
+  - **Estado Ativo (`.selection-button.active`)**:
     - Cor do texto: `#22D3EE` (Ciano)
     - Tamanho da fonte: `16px`
     - Cor do fundo: `rgba(34, 211, 238, 0.2)`
@@ -317,14 +319,15 @@ Como usuário acessando por smartphone, desejo que o layout de portfólio se aju
 ### 6.1. Integração SPA, Subpáginas de Projetos & DOM
 
 - **FR-001**: A página de Portfólio, bem como **todas as páginas e subpáginas abertas através dos links nas imagens dos projetos**, DEVEM ser injetadas e renderizadas 100% dentro do Main Container (`#page-content-host`) da SPA via History API sem full page reload.
-- **FR-002**: O elemento raiz do fragmento HTML da página principal DEVE conter obrigatoriamente os atributos `id="page-content"`, `data-page-id="portfolio"` e `data-titulo_pagina="Portfólio"`. As páginas filhas em `/pages/portfolio/projetos/**` DEVEM seguir o mesmo padrão (`id="page-content"`, `data-page-id`, `data-titulo_pagina`) ou serem normalizadas pelo interceptador SPA ao serem carregadas em `#page-content-host`.
+- **FR-002**: O elemento raiz do fragmento HTML da página principal DEVE conter obrigatoriamente os atributos `id="page-content"`, `data-page-id="portfolio"` e `data-page-title="Portfólio de Projetos"`. As páginas filhas em `/pages/portfolio/projetos/**` DEVEM seguir o mesmo padrão (`id="page-content"`, `data-page-id`, `data-page-title`) ou serem normalizadas pelo interceptador SPA ao serem carregadas em `#page-content-host`.
 
 ### 6.2. Lógica de Seleção de Categorias, Alinhamento Superior e Âncoras Internas
 
 - **FR-003**: O contêiner principal da SPA (`#page-content-host`) DEVE aplicar `padding-top: 0` quando a página de portfólio estiver ativa, garantindo que o cabeçalho (`.portfolio-header`) comece exatamente no limite superior da área de exibição sem gap vertical, enquanto preserva `padding-left: 40px` e `padding-right: 40px` para evitar sobreposição com o menu lateral (sidebar) e menu da SPA no lado esquerdo. O script de comportamento do portfólio (`portfolio.js` / `<script is:inline>`) DEVE escutar os cliques nos elementos `selection_button`, interceptar a ação padrão (`e.preventDefault()`), atualizar o estado visual ativo (`active`) para o `selection_button` clicado e acionar a rolagem suave até o link interno definido em `selection_anchor` / `category_anchor`. A rolagem suave DEVE compensar dinamicamente a altura total do cabeçalho fixo com respiro de segurança (`scroll-margin-top: 185px` e offset dinâmico de `header.offsetHeight + 35px`), assegurando que o cabeçalho sticky nunca cubra ou encubra o título da categoria (`category_title`), funcionando no contêiner `#page-content-host` da SPA e via `window.scrollTo` em modo isolado.
-- **FR-003.1**: **Idempotência e Ciclo de Vida de Scripts na SPA**: O script de inicialização (`initPortfolioNavigation`) deve ser idempotente (usando marcadores como `dataset.listenerAttached`), utilizar a diretiva `<script is:inline>` no fragmento Astro para ser preservado no build estático e responder tanto aos eventos nativos (`DOMContentLoaded`, `pageshow`) quanto ao evento de navegação da SPA (`spa:page-loaded`), além de re-execução controlada pelo roteador SPA (`executeIncomingScripts`).
+- **FR-003.1**: **Idempotência e Ciclo de Vida de Scripts na SPA**: O script de inicialização (`initPortfolioNavigation`) deve ser idempotente (usando marcadores como `dataset.listenerAttached`), ter seu código-fonte em `pages/portfolio/assets/js/portfolio.js` (Constituição II) e ser emitido dentro do fragmento via `import portfolioScript from './assets/js/portfolio.js?raw'` + `<script is:inline type="module" set:html={portfolioScript} />`, para ser preservado no build estático e responder tanto aos eventos nativos (`DOMContentLoaded`, `pageshow`) quanto ao evento de navegação da SPA (`spa:page-loaded`), além de re-execução controlada pelo roteador SPA (`executeIncomingScripts`).
 - **FR-003.2**: **Estabilidade da Navegação por Âncoras**: A sincronização de fragmentos na URL via `history.pushState(null, '', targetId)` NÃO DEVE disparar o recarregamento de rota do roteador SPA. Quando ocorrer `popstate` sem alteração de `pathname`, o roteador deve manter o conteúdo atual e apenas ajustar a rolagem para a âncora solicitada.
 - **FR-003.3**: **Conformidade Estrita com a Seção 2.4**: A página DEVE conter cards de projetos exclusivamente nas categorias detalhadas na Seção 2.4 (`bi-analytics` e `data-engineering`). Categorias sem projetos cadastrados na especificação não devem renderizar `project_grid` nem cards mockados.
+- **FR-003.4**: **Sincronização do Estado Ativo na Rolagem (scroll-spy)**: Um `IntersectionObserver` (root = `#page-content-host` na SPA ou viewport em modo isolado; `rootMargin: -160px 0px -40% 0px`) em conjunto com um listener de `scroll` limitado por `requestAnimationFrame`, DEVE atualizar a classe `.active` do `.selection-button` correspondente à última `.category-section` cujo topo já alcançou a linha logo abaixo do cabeçalho fixo (`header` + 35px). Após um clique em `selection_button`, a seleção permanece travada (mínimo ~600ms) até a próxima interação de rolagem do usuário (`wheel`, `touchmove`, `keydown`). Observador e listeners devem ser desconectados/recriados a cada re-inicialização do script.
 
 ### 6.3. Convenções de Resolução de Assets e Links
 
@@ -334,6 +337,7 @@ Como usuário acessando por smartphone, desejo que o layout de portfólio se aju
   3. **Garantir que os arquivos existam fisicamente** nos diretórios correspondentes.
   4. **Validar a renderização** executando `npm run build` ao finalizar.
 - **FR-005**: **Normalização de Rotas de Subpáginas com Extensão `.html`**: O roteador SPA global (`router.js`) DEVE normalizar URLs de requisição provenientes de links internos que contenham extensões estáticas (`.html` ou `.htm`), removendo-as antes de realizar o `fetch` (`normalizeFetchUrl`), de forma a mapear corretamente as rotas geradas pelo build estático do Astro (ex: `/pages/portfolio/projetos/AES1/AES1.html` resolvido para `/portfolio/projetos/AES1/AES1/`), evitando erros 404 durante a navegação aninhada.
+- **FR-005.1**: **Ajustes no Roteador SPA (`router.js`)**: (a) `scrollToAnchor()` DEVE usar a mesma folga do portfólio (`header.offsetHeight + 35px`); (b) após injetar um fragmento que declare `data-parent-route`, o roteador DEVE usar o segmento desse atributo (ex.: `/portfolio` → `portfolio`) para definir o item ativo do menu lateral.
 
 ---
 

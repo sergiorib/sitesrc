@@ -1,197 +1,121 @@
 ---
-import './assets/css/portfolio.css';
+/**
+ * Página "Portfólio" — spec-05_portfolio
+ * Fragmento SPA injetado em #page-content-host (ver .specify/specs/spec-05_portfolio/).
+ */
+import portfolioScript from './assets/js/portfolio.js?raw';
+
+type Skill = { label: string; kind: 'HS' | 'SS' };
+type Project = { name: string; resume: string; link: string; image: string; skills: Skill[] };
+type Category = { id: string; title: string; projects: Project[] };
+
+const hs = (label: string): Skill => ({ label, kind: 'HS' });
+
+// Ordem e conteúdo estritamente conforme a §2.4 da spec.
+// Apenas 'bi-analytics' (1 card) e 'data-engineering' (2 cards) possuem projetos.
+const categories: Category[] = [
+  {
+    id: 'bi-analytics',
+    title: 'Análise de Dados e BI',
+    projects: [
+      {
+        name: 'Customer Lifecycle Analytics (CLA)',
+        resume: 'Projeto de análise CLA completa (RFM, LTV, Cohort, CAC e Churn) em um contexto de e-commerce de cosméticos.',
+        link: '/pages/portfolio/projetos/AES1/AES1.html',
+        image: '/pages/portfolio/assets/images/projeto_CLA.avif',
+        skills: [hs('PowerBI'), hs('Python'), hs('SQL'), hs('DuckDB')],
+      },
+    ],
+  },
+  { id: 'machine-learning', title: 'Machine Learning', projects: [] },
+  { id: 'deep-learning', title: 'Deep Learning', projects: [] },
+  {
+    id: 'data-engineering',
+    title: 'Engenharia de Dados',
+    projects: [
+      {
+        name: 'Pipeline de dados de Transações de Fintech',
+        resume: 'Projeto de criação de uma pipeline utilizando uma arquitetura do tipo MDS (Modern Data Stack).',
+        link: 'https://github.com/sergiorib/cla-omnibox/blob/main/README.md',
+        image: '/pages/portfolio/assets/images/projeto_pipeline1.avif',
+        skills: [hs('Apache Airflow'), hs('Delta Lake'), hs('Spark'), hs('DBT'), hs('Python')],
+      },
+      {
+        name: 'Projeto de teste',
+        resume: 'Projeto apenas para teste da especificação.',
+        link: '/pages/portfolio/projetos/testes/pagina_teste.html',
+        image: '/pages/portfolio/assets/images/projeto_CLA.avif',
+        skills: [hs('Tecnologia 1'), hs('Tecnologia 2'), hs('Tecnologia 3'), hs('Tecnologia 4')],
+      },
+    ],
+  },
+  { id: 'cloud-devops', title: 'Cloud & MLOps', projects: [] },
+  { id: 'gen-ai', title: 'IA Generativa & LLMs', projects: [] },
+  { id: 'stat-modeling', title: 'Modelagem Estatística', projects: [] },
+];
+
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
+const linkAttrs = (href: string) =>
+  isExternal(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 ---
 
-<div id="page-content" class="page-content-wrapper portfolio-page-wrapper" data-page-id="portfolio" data-page-title="Portfólio de Projetos">
-  <!-- Header Fixo no Topo -->
+<div
+  id="page-content"
+  class="page-content-wrapper portfolio-page-wrapper"
+  data-page-id="portfolio"
+  data-page-title="Portfólio de Projetos"
+>
   <header class="portfolio-header">
     <h1 class="portfolio-title">Portfólio de Projetos</h1>
-    <nav class="category-selection" aria-label="Categorias do Portfólio">
-      <a href="#section-bi-analytics" class="selection-button active" data-spa-link="false">Análise de Dados e BI</a>
-      <a href="#section-machine-learning" class="selection-button" data-spa-link="false">Machine Learning</a>
-      <a href="#section-deep-learning" class="selection-button" data-spa-link="false">Deep Learning</a>
-      <a href="#section-data-engineering" class="selection-button" data-spa-link="false">Engenharia de Dados</a>
-      <a href="#section-cloud-devops" class="selection-button" data-spa-link="false">Cloud & MLOps</a>
-      <a href="#section-gen-ai" class="selection-button" data-spa-link="false">IA Generativa & LLMs</a>
-      <a href="#section-stat-modeling" class="selection-button" data-spa-link="false">Modelagem Estatística</a>
+    <nav class="category-selection" aria-label="Categorias do portfólio">
+      {categories.map((category, index) => (
+        <a
+          href={`#section-${category.id}`}
+          class:list={['selection-button', { active: index === 0 }]}
+          data-section={`section-${category.id}`}
+        >
+          {category.title}
+        </a>
+      ))}
     </nav>
   </header>
 
-  <!-- Corpo Principal com as Seções de Categorias -->
   <main class="portfolio-body">
-
-    <!-- Seção 1: Análise de Dados e BI -->
-    <section id="section-bi-analytics" class="category-section">
-      <h2 class="category-title">Análise de Dados e BI</h2>
-      <div class="project-grid">
-        <a href="/pages/portfolio/projetos/AES1/AES1.html" class="project-card">
-          <div class="project-image-wrap">
-            <img src="/pages/portfolio/assets/images/projeto_CLA.avif" alt="Customer Lifecycle Analytics (CLA)" class="project-image" />
+    {categories.map((category) => (
+      <section id={`section-${category.id}`} class="category-section">
+        <h2 class="category-title">{category.title}</h2>
+        {category.projects.length > 0 && (
+          <div class="project-grid">
+            {category.projects.map((project) => (
+              <article class="project-card">
+                <a href={project.link} class="project-image-wrap" aria-label={project.name} {...linkAttrs(project.link)}>
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    class="project-image"
+                    loading="lazy"
+                    width="640"
+                    height="360"
+                  />
+                </a>
+                <div class="project-content">
+                  <h3 class="project-name">
+                    <a href={project.link} class="project-link" {...linkAttrs(project.link)}>{project.name}</a>
+                  </h3>
+                  <p class="project-resume">{project.resume}</p>
+                </div>
+                <div class="habilities-list">
+                  {project.skills.map((skill) => (
+                    <span class={`hability-tag-${skill.kind}`}>{skill.label}</span>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
-          <div class="project-content">
-            <h3 class="project-name">Customer Lifecycle Analytics (CLA)</h3>
-            <p class="project-resume">Projeto de análise CLA completa (RFM, LTV, Cohort, CAC e Churn) em um contexto de e-commerce de cosméticos.</p>
-            <div class="habilities-list">
-              <span class="hability-tag-HS">PowerBI</span>
-              <span class="hability-tag-HS">Python</span>
-              <span class="hability-tag-HS">SQL</span>
-              <span class="hability-tag-HS">DuckDB</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Seção 2: Machine Learning (Sem projetos no momento) -->
-    <section id="section-machine-learning" class="category-section">
-      <h2 class="category-title">Machine Learning</h2>
-    </section>
-
-    <!-- Seção 3: Deep Learning (Sem projetos no momento) -->
-    <section id="section-deep-learning" class="category-section">
-      <h2 class="category-title">Deep Learning</h2>
-    </section>
-
-    <!-- Seção 4: Engenharia de Dados -->
-    <section id="section-data-engineering" class="category-section">
-      <h2 class="category-title">Engenharia de Dados</h2>
-      <div class="project-grid">
-        <a href="https://github.com/sergiorib/cla-omnibox/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="project-card">
-          <div class="project-image-wrap">
-            <img src="/pages/portfolio/assets/images/projeto_pipeline1.avif" alt="Pipeline de dados de Transações de Fintech" class="project-image" />
-          </div>
-          <div class="project-content">
-            <h3 class="project-name">Pipeline de dados de Transações de Fintech</h3>
-            <p class="project-resume">Projeto de criação de uma pipeline utilizando uma arquitetura do tipo MDS (Modern Data Stack).</p>
-            <div class="habilities-list">
-              <span class="hability-tag-HS">Apache Airflow</span>
-              <span class="hability-tag-HS">Delta Lake</span>
-              <span class="hability-tag-HS">Spark</span>
-              <span class="hability-tag-HS">DBT</span>
-              <span class="hability-tag-HS">Python</span>
-            </div>
-          </div>
-        </a>
-
-        <a href="/pages/portfolio/projetos/testes/pagina_teste.html" class="project-card">
-          <div class="project-image-wrap">
-            <img src="/pages/portfolio/assets/images/projeto_CLA.avif" alt="Projeto de teste" class="project-image" />
-          </div>
-          <div class="project-content">
-            <h3 class="project-name">Projeto de teste</h3>
-            <p class="project-resume">Projeto apenas para teste da especificação.</p>
-            <div class="habilities-list">
-              <span class="hability-tag-HS">Tecnologia 1</span>
-              <span class="hability-tag-HS">Tecnologia 2</span>
-              <span class="hability-tag-HS">Tecnologia 3</span>
-              <span class="hability-tag-HS">Tecnologia 4</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Seção 5: Cloud & MLOps (Sem projetos no momento) -->
-    <section id="section-cloud-devops" class="category-section">
-      <h2 class="category-title">Cloud & MLOps</h2>
-    </section>
-
-    <!-- Seção 6: IA Generativa & LLMs (Sem projetos no momento) -->
-    <section id="section-gen-ai" class="category-section">
-      <h2 class="category-title">IA Generativa & LLMs</h2>
-    </section>
-
-    <!-- Seção 7: Modelagem Estatística (Sem projetos no momento) -->
-    <section id="section-stat-modeling" class="category-section">
-      <h2 class="category-title">Modelagem Estatística</h2>
-    </section>
-
+        )}
+      </section>
+    ))}
   </main>
 
-  <script is:inline>
-    function initPortfolioNavigation() {
-      const buttons = document.querySelectorAll('.selection-button');
-      const sections = document.querySelectorAll('.category-section');
-      const contentHost = document.getElementById('page-content-host') || document.querySelector('.page-content-host');
-
-      if (!buttons.length || !sections.length) return;
-
-      buttons.forEach(btn => {
-        if (btn.dataset.listenerAttached === 'true') return;
-        btn.dataset.listenerAttached = 'true';
-
-        btn.addEventListener('click', (e) => {
-          const targetId = btn.getAttribute('href');
-          if (targetId && targetId.startsWith('#')) {
-            e.preventDefault();
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-              buttons.forEach(b => b.classList.remove('active'));
-              btn.classList.add('active');
-
-              if (typeof history !== 'undefined' && history.pushState) {
-                history.pushState(null, '', targetId);
-              }
-
-              const headerEl = document.querySelector('.portfolio-header');
-              const headerHeight = headerEl ? headerEl.offsetHeight : 140;
-              const headerOffset = headerHeight + 35;
-
-              if (contentHost) {
-                const elementRect = targetElement.getBoundingClientRect();
-                const hostRect = contentHost.getBoundingClientRect();
-                const scrollTopTarget = elementRect.top - hostRect.top + contentHost.scrollTop - headerOffset;
-
-                contentHost.scrollTo({
-                  top: Math.max(0, scrollTopTarget),
-                  behavior: 'smooth'
-                });
-              } else {
-                const elementRect = targetElement.getBoundingClientRect();
-                const scrollTopTarget = window.scrollY + elementRect.top - headerOffset;
-                window.scrollTo({
-                  top: Math.max(0, scrollTopTarget),
-                  behavior: 'smooth'
-                });
-              }
-            }
-          }
-        });
-      });
-
-      const observerOptions = {
-        root: contentHost || null,
-        rootMargin: '-185px 0px -40% 0px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            buttons.forEach(btn => {
-              const href = btn.getAttribute('href');
-              if (href === `#${id}`) {
-                btn.classList.add('active');
-              } else {
-                btn.classList.remove('active');
-              }
-            });
-          }
-        });
-      }, observerOptions);
-
-      sections.forEach(sec => observer.observe(sec));
-    }
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('spa:page-loaded', initPortfolioNavigation);
-    }
-
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      initPortfolioNavigation();
-    } else {
-      document.addEventListener('DOMContentLoaded', initPortfolioNavigation);
-    }
-  </script>
+  <script is:inline type="module" set:html={portfolioScript}></script>
 </div>
