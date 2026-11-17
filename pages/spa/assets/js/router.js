@@ -32,6 +32,7 @@ class SPARouter {
   constructor() {
     this.contentHost = null;
     this.isNavigating = false;
+    this.currentPath = null;
   }
 
   /**
@@ -48,7 +49,15 @@ class SPARouter {
 
     // Sincronizar estado inicial
     const initialPath = window.location.pathname;
+    this.currentPath = this.normalizeFetchUrl(initialPath);
     this.syncInitialState(initialPath);
+
+    // Se houver âncora na carga inicial da SPA, rolar suavemente até ela
+    if (window.location.hash) {
+      setTimeout(() => {
+        this.scrollToAnchor(window.location.hash);
+      }, 100);
+    }
   }
 
   /**
@@ -115,11 +124,72 @@ class SPARouter {
   }
 
   /**
+   * Rola suavemente até um elemento identificado por hash/âncora
+   */
+  scrollToAnchor(hash) {
+    if (!hash) return;
+    const cleanId = hash.startsWith('#') ? hash.slice(1) : hash;
+    const targetElement = document.getElementById(cleanId);
+    if (!targetElement) return;
+
+    const headerEl = document.querySelector('.portfolio-header');
+    const headerHeight = headerEl ? headerEl.offsetHeight : 140;
+    const headerOffset = headerHeight + 20;
+
+    if (this.contentHost) {
+      const elementRect = targetElement.getBoundingClientRect();
+      const hostRect = this.contentHost.getBoundingClientRect();
+      const scrollTopTarget = elementRect.top - hostRect.top + this.contentHost.scrollTop - headerOffset;
+
+      this.contentHost.scrollTo({
+        top: Math.max(0, scrollTopTarget),
+        behavior: 'smooth'
+      });
+    } else {
+      const elementRect = targetElement.getBoundingClientRect();
+      const scrollTopTarget = window.scrollY + elementRect.top - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, scrollTopTarget),
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  /**
+   * Executa tags <script> inseridas dinamicamente via innerHTML
+   */
+  executeIncomingScripts(container) {
+    if (!container) return;
+    const scripts = container.querySelectorAll('script');
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement('script');
+      Array.from(oldScript.attributes).forEach(attr => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
+
+  /**
    * Trata o evento popstate (botões Voltar/Avançar do navegador)
    */
-  handlePopState() {
-    const targetUrl = window.location.pathname;
-    this.navigateTo(targetUrl, { pushState: false });
+  handlePopState(event) {
+    const currentPathname = window.location.pathname;
+    const currentHash = window.location.hash;
+    const normalizedTarget = this.normalizeFetchUrl(currentPathname);
+
+    // Se o pathname não mudou, foi apenas navegação por âncora/hash interna
+    if (this.currentPath && normalizedTarget === this.currentPath) {
+      if (currentHash) {
+        this.scrollToAnchor(currentHash);
+      } else if (this.contentHost) {
+        this.contentHost.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    this.navigateTo(currentPathname + currentHash, { pushState: false });
   }
 
   /**
@@ -131,6 +201,8 @@ class SPARouter {
     if (clean.startsWith('/pages/')) {
       clean = clean.replace('/pages/', '/');
     }
+    // Remover extensões como .html ou .htm antes de normalizar o trailing slash
+    clean = clean.replace(/\.html?$/i, '');
     // Mapear rota raiz ('/' ou '/spa') para a view inicial padrão (sobre.astro)
     if (clean === '/' || clean === '/spa' || clean === '/spa/') {
       clean = '/spa/sobre/';
@@ -154,6 +226,7 @@ class SPARouter {
       }
 
       const fetchUrl = this.normalizeFetchUrl(url);
+      const urlHash = url.includes('#') ? ('#' + url.split('#')[1]) : (window.location.hash || '');
       let response = await fetch(fetchUrl);
 
       // Tentar URL original caso a normalizada falhe
@@ -191,6 +264,7 @@ class SPARouter {
 
       // Injetar novo conteúdo no alvo único (#page-content-host)
       this.contentHost.innerHTML = incomingContent.outerHTML;
+      this.currentPath = fetchUrl;
 
       // Sincronizar Breadcrumbs e estado do menu da Sidebar
       const parentMenuId = this.resolveParentMenu(url);
@@ -202,8 +276,22 @@ class SPARouter {
         window.history.pushState({ url, parentMenuId }, '', url);
       }
 
-      // Rolar o Main Container para o topo
-      this.contentHost.scrollTop = 0;
+      // Re-executar scripts contidos no fragmento injetado para garantir interatividade
+      this.executeIncomingScripts(this.contentHost);
+
+      // Notificar módulos clientes sobre carregamento da página SPA
+      window.dispatchEvent(new CustomEvent('spa:page-loaded', {
+        detail: { url, pageTitle }
+      }));
+
+      // Rolar para a âncora especificada ou para o topo do Main Container
+      if (urlHash) {
+        requestAnimationFrame(() => {
+          this.scrollToAnchor(urlHash);
+        });
+      } else {
+        this.contentHost.scrollTop = 0;
+      }
     } catch (error) {
       console.warn(`[SPARouter] Falha ao carregar rota "${url}". Acionando fallback 404.`, error);
       await this.loadFallback(url, pushState);
@@ -225,6 +313,7 @@ class SPARouter {
 
         if (this.contentHost && fallbackContent) {
           this.contentHost.innerHTML = fallbackContent.outerHTML;
+          this.currentPath = FALLBACK_URL;
           updateBreadcrumbsDOM(failedUrl, 'Página não encontrada');
 
           if (pushState) {
@@ -248,6 +337,7 @@ class SPARouter {
           </div>
         </div>
       `;
+      this.currentPath = FALLBACK_URL;
       updateBreadcrumbsDOM(failedUrl, 'Página não encontrada');
     }
   }

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Teste • Status do Ambiente</title>
+    <!-- Carregando Tailwind CSS para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Inter do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Configuração básica do Tailwind para suporte a tema e fonte padrão
+        tailwind.config = {
+            darkMode: 'media', // Adapta-se automaticamente ao modo claro/escuro do sistema
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-emerald-500/20 selection:text-emerald-600 transition-colors duration-300">
+
+    <!-- Cabeçalho Superior -->
+    <header class="w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <!-- Ícone de Terminal / Servidor -->
+                <div class="w-8 h-8 rounded-lg bg-slate-900 dark:bg-emerald-500/10 border border-slate-800 dark:border-emerald-500/30 flex items-center justify-center text-white dark:text-emerald-400 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                    </svg>
+                </div>
+                <span class="font-semibold text-sm sm:text-base tracking-tight">Ambiente de Homologação</span>
+            </div>
+            
+            <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                HTTP 200 OK
+            </span>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal Centralizado -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
+        <div class="w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-200/60 dark:shadow-black/40 border border-slate-200/80 dark:border-slate-800 overflow-hidden transition-all">
+            
+            <!-- Seção Superior do Card: Status Principal -->
+            <div class="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-800/80 text-center">
+                <!-- Badge com pulso luminoso -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm font-medium mb-5">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    Página de Teste Ativa
+                </div>
+
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+                    Olá, Mundo! Servidor Online.
+                </h1>
+                <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                    Se você está visualizando esta página, a configuração do servidor web, DNS e entrega de arquivos estáticos está funcionando perfeitamente.
+                </p>
+            </div>
+
+            <!-- Seção de Diagnóstico do Sistema/Navegador -->
+            <div class="p-6 sm:p-8 bg-slate-50/50 dark:bg-slate-900/50 space-y-4">
+                <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Diagnóstico do Cliente & Ambiente
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Card Data e Hora -->
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>Data e Hora Local</span>
+                        </div>
+                        <p id="datetime-display" class="font-mono text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            Carregando...
+                        </p>
+                    </div>
+
+                    <!-- Card Resolução de Tela -->
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            <span>Resolução / Viewport</span>
+                        </div>
+                        <p id="resolution-display" class="font-mono text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            Calculando...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card User-Agent -->
+                <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                            <span>User-Agent do Navegador</span>
+                        </div>
+                        <button id="copy-ua-btn" type="button" class="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer" title="Copiar User-Agent">
+                            Copiar
+                        </button>
+                    </div>
+                    <p id="user-agent-display" class="font-mono text-xs text-slate-600 dark:text-slate-300 break-all leading-relaxed">
+                        Detectando...
+                    </p>
+                </div>
+
+                <!-- Área de Teste Interativo JS -->
+                <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <button id="test-js-btn" type="button" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-medium text-sm shadow-sm active:scale-[0.98] transition-all cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        Testar Evento JavaScript
+                    </button>
+
+                    <!-- Caixa de Feedback Visual (Substitui o alert) -->
+                    <div id="js-feedback" class="hidden w-full sm:w-auto flex-grow items-center justify-center sm:justify-end gap-2 text-xs font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-3.5 py-2 rounded-xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span id="js-feedback-text">JS Executado com sucesso!</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Rodapé Discreto -->
+    <footer class="w-full py-5 text-center text-xs text-slate-400 dark:text-slate-600">
+        <p>Página de verificação estática • Sem dependências externas pesadas</p>
+    </footer>
+
+    <!-- Lógica JavaScript de Diagnóstico e Interatividade -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referências aos elementos do DOM
+            const datetimeEl = document.getElementById('datetime-display');
+            const resolutionEl = document.getElementById('resolution-display');
+            const userAgentEl = document.getElementById('user-agent-display');
+            const testBtn = document.getElementById('test-js-btn');
+            const feedbackBox = document.getElementById('js-feedback');
+            const feedbackText = document.getElementById('js-feedback-text');
+            const copyUaBtn = document.getElementById('copy-ua-btn');
+
+            let clickCount = 0;
+
+            /**
+             * Atualiza a data e hora local formatada para pt-BR a cada segundo
+             */
+            function updateDateTime() {
+                try {
+                    const now = new Date();
+                    const formattedDate = now.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    const formattedTime = now.toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                    datetimeEl.textContent = `${formattedDate} às ${formattedTime}`;
+                } catch (error) {
+                    datetimeEl.textContent = 'Erro ao obter data';
+                    console.error('Erro ao formatar data/hora:', error);
+                }
+            }
+
+            /**
+             * Atualiza as dimensões da tela e da área visível (viewport)
+             */
+            function updateResolution() {
+                try {
+                    const screenW = window.screen.width;
+                    const screenH = window.screen.height;
+                    const viewW = window.innerWidth;
+                    const viewH = window.innerHeight;
+                    resolutionEl.textContent = `${viewW}x${viewH} (Tela: ${screenW}x${screenH})`;
+                } catch (error) {
+                    resolutionEl.textContent = 'Indisponível';
+                }
+            }
+
+            /**
+             * Exibe o User-Agent do navegador atual
+             */
+            function loadUserAgent() {
+                userAgentEl.textContent = navigator.userAgent || 'User-Agent não identificado';
+            }
+
+            // Inicialização dos dados
+            updateDateTime();
+            updateResolution();
+            loadUserAgent();
+
+            // Intervalo para manter o relógio em tempo real
+            setInterval(updateDateTime, 1000);
+
+            // Atualiza a resolução caso a janela seja redimensionada
+            window.addEventListener('resize', updateResolution);
+
+            // Evento do botão de teste interativo
+            testBtn.addEventListener('click', () => {
+                clickCount++;
+                const timestamp = new Date().toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+
+                feedbackBox.classList.remove('hidden');
+                feedbackBox.classList.add('flex');
+                feedbackText.textContent = `Evento #${clickCount} OK (${timestamp})`;
+
+                // Pequeno efeito visual de destaque no card de feedback
+                feedbackBox.classList.add('ring-2', 'ring-emerald-500/40');
+                setTimeout(() => {
+                    feedbackBox.classList.remove('ring-2', 'ring-emerald-500/40');
+                }, 300);
+            });
+
+            // Evento para copiar o User-Agent para a área de transferência
+            copyUaBtn.addEventListener('click', () => {
+                const textToCopy = userAgentEl.textContent;
+                const tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const originalText = copyUaBtn.textContent;
+                    copyUaBtn.textContent = 'Copiado!';
+                    copyUaBtn.classList.add('text-emerald-600', 'dark:text-emerald-400', 'font-medium');
+                    
+                    setTimeout(() => {
+                        copyUaBtn.textContent = originalText;
+                        copyUaBtn.classList.remove('text-emerald-600', 'dark:text-emerald-400', 'font-medium');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Falha ao copiar texto:', err);
+                } finally {
+                    document.body.removeChild(tempInput);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
