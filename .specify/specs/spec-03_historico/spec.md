@@ -79,12 +79,15 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout do histór
 
 **Why this priority**: Garante usabilidade impecável em viewports mobile e tablets.
 
-**Independent Test**: Reduzir a largura da viewport para resoluções mobile (< 767px) e tablet. Verificar se o layout se adapta perfeitamente.
+**Independent Test**: Reduzir a largura da viewport para resoluções mobile (< 768px) e tablet. Verificar se o layout se adapta perfeitamente.
 
 **Acceptance Scenarios**:
 
 1. **Given** visualização em Tablet (768px a 1023px), **When** a largura é aplicada, **Then** as badges organizam-se proporcionalmente em 2 colunas.
-2. **Given** visualização em Mobile (< 767px), **When** a largura é aplicada, **Then** o título reduz para 24px, o card padding reduz para 12px, a logo da Experiência 1 ajusta para 80px mantendo proporção, e as badges organizam-se em grade de 2 colunas (`repeat(2, 1fr)`).
+2. **Given** visualização em Mobile (< 768px), **When** a largura é aplicada, **Then** o título reduz para 24px, o card padding reduz para 12px, a logo da Experiência 1 ajusta para 80px mantendo proporção, e as badges organizam-se em grade de 2 colunas (`repeat(2, 1fr)`).
+3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página de Histórico é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o título, os cards de experiência, as badges, as descrições e os escudos de tecnologia apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os cards de experiência se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+5. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os textos dos cards são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
 
 ---
 
@@ -238,19 +241,24 @@ As habilidades devem ser implementadas nesta ordem.
 - **FR-008**: As badges informativas (`.badge`) DEVEM ter gradiente `#FFFDEB` a `#FFF9D2`, borda `1px solid #0381B0`, border-radius 20px, padding de 6px 16px, peso 600, tamanho 20px e cor `#000000`.
 - **FR-009**: A descrição da atividade (`.job-description`) DEVE utilizar fonte monoespaçada (`Courier New`/`Consolas`), tamanho 22px, peso 800, cor `#0a0c0c`, `line-height: 1.5` e alinhamento justificado.
 - **FR-010**: O bloco de stack tecnológica (`.tech-stack-block`) DEVE possuir fundo em gradiente vertical de `#DAEBF2` a `#A8CCD9`, borda `1px solid #0381B0`, border-radius 16px e padding de 12px 16px, com título em 20x (`.tech-stack-title`).
-- **FR-011**: Em resoluções Mobile (< 767px), o título reduz para 24px, card padding para 12px, logo da Experiência 1 para 80px, e as badges organizam-se em grade de 2 colunas.
+- **FR-011**: Em resoluções Mobile (< 768px), o título reduz para 24px, card padding para 12px, logo da Experiência 1 para 80px, e as badges organizam-se em grade de 2 colunas.
 - **FR-012**: O elemento raiz deve conter `id="page-content"`, `data-page-id="historico"` e `data-page-title="Histórico"`.
 - **FR-013**: O conteúdo textual e badges dos cards de experiência DEVEM refletir integralmente as experiências especificadas.
+- **FR-014**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-015**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
+- **FR-016**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
 
 ---
 
 ## Success Criteria *(measurable)*
 
 - **SC-001**: O tempo de renderização da página de Histórico é inferior a 150ms.
-- **SC-002**: 100% dos elementos visuais, badges e escudos de tecnologia estão documentados e reproduzidos fielmente.
+- **SC-002**: 100% dos elementos visuais, badges e escudos de tecnologia estão documentados e reproduzidos fielmente (tamanhos como valores de referência, conforme FR-015).
 - **SC-003**: A separação de assets (CSS, imagens em diretórios dedicados) está rigorosamente documentada e estruturada.
 - **SC-004**: O design responsivo adapta perfeitamente os cards em tablets e smartphones sem quebras de layout.
 - **SC-005**: A especificação reflete integralmente o estado atual da distribuição em produção.
+- **SC-006**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página de Histórico exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-007**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página de Histórico apresenta layout adaptado e legível, sem rolagem horizontal.
 
 ## Asset Resolution Convention (SPA Pages)
 

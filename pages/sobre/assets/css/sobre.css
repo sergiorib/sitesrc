@@ -1,9 +1,11 @@
-/* Estilos para a Página "Sobre mim" (sobre.astro) */
+/* Estilos para a Página "Sobre mim" (sobre.astro)
+ * Dimensionamento: tokens de pages/spa/assets/css/scale.css (mobile-first)
+ */
 
 .sobre-page {
   background: linear-gradient(to bottom, #16222A 0%, #3A6073 100%);
   min-height: 100%;
-  padding: 20px;
+  padding: var(--space-xl);
   display: flex;
   flex-direction: column;
   animation: fadeIn 0.3s ease-in-out;
@@ -11,44 +13,45 @@
 }
 
 .info-panel {
-  background: linear-gradient(to right, #607D8B 0%, #041E2F 100%);
+  background: linear-gradient(to right, #041E2F 0%, #607D8B 100%);
   border: 1px solid #0381B0;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
 }
 
 .panel-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: 32px;
+  font-size: var(--fs-3xl);
   color: #FFFFFF;
   text-align: left;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-md);
   margin-top: 0;
 }
 
 .about-bio-text {
   font-family: 'Consolas', 'Courier New', monospace;
-  font-size: 22px;
+  font-size: var(--fs-lg);
   color: #FFFFFF;
-  line-height: 1.5;
+  line-height: 1.4;
   text-align: justify;
   margin: 0;
 }
 
 .about-bio-text + .about-bio-text {
-  margin-top: 15px;
+  margin-top: var(--space-md);
 }
 
 .skills-panel-header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 .skills-panel-header .panel-title {
@@ -59,11 +62,11 @@
 .legend-details {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid #0381B0;
-  border-radius: 6px;
-  padding: 6px 12px;
+  border-radius: 0.375rem;
+  padding: var(--space-xs) var(--space-md);
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px;
-  max-width: 320px;
+  font-size: var(--fs-sm);
+  width: 100%;
 }
 
 .legend-summary {
@@ -74,20 +77,20 @@
 }
 
 .legend-content {
-  margin-top: 8px;
+  margin-top: var(--space-sm);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xs);
   border-top: 1px solid #C5E1A5;
-  padding-top: 6px;
+  padding-top: var(--space-xs);
 }
 
 .legend-item {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   color: #263238;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-xs);
   font-family: 'Consolas', monospace;
 }
 
@@ -98,43 +101,41 @@
 
 /* Divisões de Habilidades */
 .skill-division {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-xl);
 }
 
 .division-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: var(--fs-xl);
   color: #FFF1C3;
   border-bottom: 2px solid #0381B0;
-  padding-bottom: 4px;
-  margin-bottom: 12px;
-  margin-top: 16px;
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-md);
+  margin-top: var(--space-lg);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03em;
 }
 
 .skills-grid {
   display: grid;
-  gap: 12px;
+  gap: var(--space-lg);
 }
 
-.hard-skills-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
+.hard-skills-grid,
 .soft-skills-grid {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
 }
 
 .skill-card {
   background: linear-gradient(to right, #FFEFBA 0%, #FFFFFF 100%);
   border: 1px solid #0381B0;
-  border-radius: 10px;
-  padding: 14px;
+  border-radius: 0.625rem;
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  min-width: 0;
 }
 
 .soft-skill-card {
@@ -144,46 +145,46 @@
 .category-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: var(--fs-lg);
   color: #386312;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-sm);
   margin-top: 0;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
 .skills-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .skill-row {
   display: flex;
   align-items: center;
-  padding: 2px 0;
+  padding: calc(var(--space-xs) / 2) 0;
 }
 
 .skill-icon {
-  width: 22px;
-  height: 22px;
+  width: var(--icon-md);
+  height: var(--icon-md);
   object-fit: contain;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: var(--space-sm);
   flex-shrink: 0;
 }
 
 .star-fallback {
   text-align: center;
-  line-height: 24px;
+  line-height: var(--icon-md);
   color: #2D4A22;
-  font-size: 18px;
+  font-size: var(--fs-md);
 }
 
 .tech-icon {
-  width: 24px;
-  height: 24px;
+  width: var(--icon-md);
+  height: var(--icon-md);
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -191,16 +192,19 @@
 .tech-name {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: var(--fs-md);
   color: #000000;
-  margin-left: 6px;
+  margin-left: var(--space-xs);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Grupos e Sub-grupos Colapsáveis */
 .skill-group-details {
   border: 1px dashed rgba(3, 129, 176, 0.3);
-  border-radius: 6px;
-  padding: 4px 8px;
+  border-radius: 0.375rem;
+  padding: var(--space-xs) var(--space-sm);
   background: rgba(255, 255, 255, 0.4);
 }
 
@@ -210,7 +214,7 @@
   cursor: pointer;
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: var(--fs-md);
   color: #1F382B;
   user-select: none;
   list-style: none;
@@ -222,8 +226,8 @@
 
 .skill-group-summary::before {
   content: '▶';
-  font-size: 10px;
-  margin-right: 6px;
+  font-size: 0.55em;
+  margin-right: var(--space-xs);
   transition: transform 0.2s ease;
   color: #0381B0;
 }
@@ -235,9 +239,9 @@
 .skill-sub-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding-left: 16px;
-  margin-top: 6px;
+  gap: var(--space-xs);
+  padding-left: var(--space-lg);
+  margin-top: var(--space-xs);
   border-left: 2px solid rgba(3, 129, 176, 0.2);
 }
 
@@ -245,12 +249,13 @@
   margin-left: auto;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: calc(var(--space-xs) / 2);
+  flex-shrink: 0;
 }
 
 .star-icon {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
 }
 
 .star-icon.active polygon {
@@ -269,35 +274,30 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsividade */
-@media (max-width: 1200px) {
-  .hard-skills-grid {
+/* Responsividade (mobile-first) */
+@media (min-width: 768px) {
+  .about-bio-text {
+    line-height: 1.5;
+  }
+
+  .skills-panel-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .legend-details {
+    width: auto;
+    max-width: 20rem;
+  }
+
+  .hard-skills-grid,
+  .soft-skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 767px) {
-  .sobre-page {
-    padding: 12px;
-  }
-  .hard-skills-grid,
-  .soft-skills-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .about-bio-text {
-    font-size: 15px;
-    line-height: 1.4;
-  }
-  .panel-title {
-    font-size: 28px;
-  }
-  .skills-panel-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .legend-details {
-    width: 100%;
-    max-width: none;
+@media (min-width: 1280px) {
+  .hard-skills-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

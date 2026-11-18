@@ -69,12 +69,15 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 
 **Why this priority**: Assegura usabilidade em dispositivos móveis e tablets.
 
-**Independent Test**: Testar viewports de tablet (768px a 1023px) e mobile (< 767px) validando o ajuste de padding, tamanhos de fonte e badges.
+**Independent Test**: Testar viewports de tablet (768px a 1023px) e mobile (< 768px) validando o ajuste de padding, tamanhos de fonte e badges.
 
 **Acceptance Scenarios**:
 
 1. **Given** visualização em Tablet (768px a 1023px), **When** a viewport é aplicada, **Then** o padding do card é ajustado para 16px.
-2. **Given** visualização em Mobile (< 767px), **When** a viewport é aplicada, **Then** o padding do contêiner principal reduz para 16px, o `.page-title` ajusta para 26px, o `.course-title` ajusta para 26px, e a `.period-badge` ajusta para 12px com padding de 4px 12px.
+2. **Given** visualização em Mobile (< 768px), **When** a viewport é aplicada, **Then** o padding do contêiner principal reduz para 16px, o `.page-title` ajusta para 26px, o `.course-title` ajusta para 26px, e a `.period-badge` ajusta para 12px com padding de 4px 12px.
+3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página de Formação é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o título, as seções e os cards apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** as seções e os cards se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+5. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os títulos e as badges são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
 
 ---
 
@@ -116,17 +119,22 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 - **FR-012**: O título do curso/item (`.course-title`) DEVE utilizar `Barlow Condensed`, peso 700 bold, tamanho 24px, cor `#000000`, e margens `margin: 8px 0 10px 0`.
 - **FR-013**: A badge de período/nível (`.period-badge`) DEVE ser `inline-block`, com gradiente vertical de `#FFFFFF` a `#EFEFEF`, borda `1px solid #0381B0`, `border-radius: 20px`, `box-shadow: 0px 2px 4px rgba(0,0,0,0.15)`, `padding: 4px 16px`, fonte monoespaçada (`Consolas`/`Courier New`), peso 600 semibold, 20px, e texto em UPPERCASE.
 - **FR-014**: Em resoluções Tablet (768px a 1023px), o padding do card DEVE ser reduzido para 16px.
-- **FR-015**: Em resoluções Mobile (< 767px), o padding do `.main-container` DEVE ser 16px, `.page-title` 26px, `.course-title` 26px, e `.period-badge` 12px com padding de 4px 12px.
+- **FR-015**: Em resoluções Mobile (< 768px), o padding do `.main-container` DEVE ser 16px, `.page-title` 26px, `.course-title` 26px, e `.period-badge` 12px com padding de 4px 12px.
 - **FR-016**: O elemento raiz de conteúdo DEVE conter `id="page-content"`, `data-page-id="formacao"` e `data-page-title="Formação"`.
+- **FR-017**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-018**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
+- **FR-019**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
 
 ---
 
 ## Success Criteria *(measurable)*
 
 - **SC-001**: O tempo de renderização da página de Formação no Main Container é inferior a 150ms.
-- **SC-002**: 100% dos elementos visuais (gradientes, bordas, sombras e tipografia Barlow Condensed / monoespaçada) obedecem rigorosamente às especificações de design.
+- **SC-002**: 100% dos elementos visuais (gradientes, bordas, sombras e tipografia Barlow Condensed / monoespaçada) obedecem rigorosamente às especificações de design (tamanhos como valores de referência, conforme FR-018).
 - **SC-003**: A página apresenta as 3 seções ('Acadêmica', 'Idiomas' e 'Treinamentos') com seus respectivos títulos e cards de exemplo em Idiomas e Treinamentos.
 - **SC-004**: O design responsivo adapta perfeitamente os paddings e tamanhos de fonte em viewports de tablet e mobile sem quebras de layout.
+- **SC-005**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página de Formação exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-006**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página de Formação apresenta layout adaptado e legível, sem rolagem horizontal.
 
 ## Asset Resolution Convention (SPA Pages)
 

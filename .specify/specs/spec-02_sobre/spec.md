@@ -18,13 +18,13 @@ Como recrutador, executivo ou visitante do portfólio, desejo visualizar um pain
 
 **Why this priority**: É a primeira impressão conceitual e biográfica transmitida pelo portfólio. Estabelece a autoridade e a proposta de valor do profissional de forma concisa e legível.
 
-**Independent Test**: Acessar a rota da página "Sobre" na SPA. Verificar se o painel superior é renderizado com fundo em gradiente suave (`#DAEBF2` ao `#A8CCD9`), borda `#0381B0`, cantos de 10px, efeito encastrado com sombra interna suave, título "Sobre mim" em Barlow Condensed 700 (32px, preto) e texto em fonte monoespaçada (22px, `#4A5B61`, line-height 1.5, justificado).
+**Independent Test**: Acessar a rota da página "Sobre" na SPA. Verificar se o painel superior é renderizado com fundo em gradiente horizontal (`#041E2F` ao `#607D8B`), borda `#0381B0`, cantos de 10px, efeito encastrado com sombra interna suave, título "Sobre mim" em Barlow Condensed 700 (32px, `#FFFFFF`) e texto em fonte monoespaçada (22px, `#FFFFFF`, line-height 1.5, justificado).
 
 **Acceptance Scenarios**:
 
 1. **Given** que o usuário acessa a página inicial ou clica em "Sobre" na Sidebar da SPA, **When** o conteúdo é carregado dentro do `Main Container`, **Then** a área inteira exibe o fundo em gradiente vertical partindo de `#16222A` no topo até `#3A6073` na base.
-2. **Given** a renderização do Painel Superior ("Sobre mim"), **When** inspecionada a estrutura visual, **Then** o contêiner deve possuir gradiente `#DAEBF2` a `#A8CCD9`, borda contínua fina `#0381B0`, raio de 10px, padding interno de 16px e margem inferior de 16px.
-3. **Given** o conteúdo textual do Painel Superior, **When** exibido no navegador, **Then** o título "Sobre mim" está alinhado à esquerda em Barlow Condensed Bold 32px (`#000000`) e o parágrafo biográfico está justificado em tipografia monoespaçada (Consolas/Courier New) de 22px na cor `#4A5B61`.
+2. **Given** a renderização do Painel Superior ("Sobre mim"), **When** inspecionada a estrutura visual, **Then** o contêiner deve possuir gradiente horizontal `#041E2F` a `#607D8B`, borda contínua fina `#0381B0`, raio de 10px, padding interno de 16px e margem inferior de 16px.
+3. **Given** o conteúdo textual do Painel Superior, **When** exibido no navegador, **Then** o título "Sobre mim" está alinhado à esquerda em Barlow Condensed Bold 32px (`#FFFFFF`) e o parágrafo biográfico está justificado em tipografia monoespaçada (Consolas/Courier New) de 22px na cor `#FFFFFF`.
 
 ---
 
@@ -38,7 +38,7 @@ Como gestor técnico ou líder de engenharia de dados, desejo analisar as compet
 
 **Acceptance Scenarios**:
 
-1. **Given** o Painel Inferior ("Habilidades"), **When** renderizado em tela desktop (≥ 1200px), **Then** os cards de Hard-Skills são distribuídos em 4 colunas paralelas e os de Soft-Skills em 2 colunas paralelas, com espaçamento (`gap`) de 12px a 12px.
+1. **Given** o Painel Inferior ("Habilidades"), **When** renderizado em tela desktop (≥ 1280px), **Then** os cards de Hard-Skills são distribuídos em 4 colunas paralelas e os de Soft-Skills em 2 colunas paralelas, com espaçamento (`gap`) de 12px a 12px.
 2. **Given** qualquer card individual de habilidade, **When** inspecionado visualmente, **Then** apresenta gradiente horizontal adequado (`#FFEFBA` a `#FFFFFF` para hard skills, `#C6E9BC` a `#FFFFFF` para soft skills), borda fina `#0381B0`, cantos de 10px, padding interno de 14px e título de categoria em Barlow Condensed Bold 15px na cor `#386312` (uppercase).
 3. **Given** a estrutura hierárquica de tecnologias, **When** um nó possui sub-itens (ex: Python com subgrupos de Fundamentos, Manipulação de dados, etc.), **Then** o grupo é renderizado como um elemento colapsável (`<details>`) com seta indicativa (`▶`), ícone de 18x18px, nome da tecnologia e média calculada das estrelas ativas alinhada à direita.
 4. **Given** as linhas de tecnologia folha, **When** exibidas, **Then** cada linha possui ícone opcional (18x18px), rótulo em Barlow Condensed Semibold 14px (`#000000`) e as 5 estrelas posicionadas na extremidade direita via `margin-left: auto`.
@@ -52,13 +52,16 @@ Como usuário acessando o portfólio por smartphone ou tablet, desejo que a pág
 
 **Why this priority**: Garante uma experiência impecável em qualquer formato de tela, sem barras de rolagem horizontais espúrias ou desalinhamento de ícones e estrelas.
 
-**Independent Test**: Reduzir a largura da viewport para < 768px (mobile) e entre 768px e 1200px (tablet). Verificar se os cards de habilidades se reorganizam para 2 colunas em telas médias e 1 coluna vertical suave no mobile com `gap: 16px`, o tamanho da fonte biográfica ajusta-se para 15px e as estrelas permanecem alinhadas à direita.
+**Independent Test**: Reduzir a largura da viewport para < 768px (mobile) e entre 768px e 1279px (tablet). Verificar se os cards de habilidades se reorganizam para 2 colunas em telas médias e 1 coluna vertical suave no mobile com `gap: 16px`, o tamanho da fonte biográfica ajusta-se para 15px e as estrelas permanecem alinhadas à direita.
 
 **Acceptance Scenarios**:
 
-1. **Given** visualização em tela intermédia (< 1200px), **When** a página é redimensionada, **Then** os cards de hard skills reorganizam-se para 2 colunas de forma fluida sem colisão de textos.
+1. **Given** visualização em tela intermédia (< 1280px), **When** a página é redimensionada, **Then** os cards de hard skills reorganizam-se para 2 colunas de forma fluida sem colisão de textos.
 2. **Given** visualização em tela Mobile (< 768px), **When** o usuário rola a tela, **Then** o texto do painel "Sobre mim" é renderizado a 15px e os cards de habilidades se empilham em 1 única coluna vertical com espaçamento de 16px.
 3. **Given** a exibição mobile, **When** inspecionadas as linhas de habilidades e subgrupos colapsáveis, **Then** o alinhamento flexível garante que as 5 estrelas permaneçam intactas e encostadas à borda direita do card.
+4. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página "Sobre mim" é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** a biografia, os títulos e os cards de habilidades apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+5. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os painéis e os cards de habilidades se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+6. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** a biografia, os nomes das tecnologias e os títulos são ampliados proporcionalmente, sem sobreposição com as estrelas de avaliação.
 
 ---
 
@@ -99,7 +102,7 @@ Como visitante navegando pela SPA, desejo que a página "Sobre mim" carregue ins
 - **FR-007**: O Painel Superior DEVE exibir o texto biográfico oficial: *"Sou um Cientista de Dados com sólida base em matemática, estatística e programação, aplicadas à análise de dados e ao desenvolvimento de soluções de Analise de Dados e Machine Learning. Tenho mais de 25 anos de experiência profissional como desenvolvedor, analista de sistemas e analista de dados, atuando em empresas líderes de seus segmentos, em ambientes de elevada exigência técnica e profissional. Minha trajetória me proporcionou uma visão abrangente dos processos, sistemas e desafios de negócio, que hoje aplico na construção de soluções analíticas precisas, escaláveis e orientadas a resultados. Valorizo o aprendizado contínuo, a colaboração e a inteligência coletiva como elementos fundamentais para transformar conhecimento em resultados reais. Convido você a explorar minhas experiências profissionais, formação acadêmica e projetos, que refletem minha trajetória e evolução na área de dados"* em fonte monoespaçada (`Consolas`, `Courier New`), tamanho 22px, cor `#FFFFFF`, line-height de 1.5 e alinhamento justificado.
 - **FR-008**: O Painel Inferior ("Habilidades") DEVE exibir o título "Habilidades" em `Barlow Condensed`, peso 700 (Bold), tamanho 32px, cor `#000000`, alinhado à esquerda, acompanhado por uma legenda colapsável de avaliação de estrelas.
 - **FR-009**: O Painel Inferior DEVE organizar as competências em duas divisões principais ("Hard-Skills" e "Soft-Skills"), com subtítulos em `Barlow Condensed` Bold 24px (`#1F382B`, uppercase) e borda inferior de destaque.
-- **FR-010**: Os cards de Hard-Skills DEVEM ser distribuídos em grid responsivo de 4 colunas em desktop (≥ 1200px), 2 colunas em tablets e 1 coluna em mobile. Os cards de Soft-Skills DEVEM ser distribuídos em 2 colunas em desktop e 1 coluna em mobile.
+- **FR-010**: Os cards de Hard-Skills DEVEM ser distribuídos em grid responsivo de 4 colunas em desktop (≥ 1280px), 2 colunas em tablets e 1 coluna em mobile. Os cards de Soft-Skills DEVEM ser distribuídos em 2 colunas em desktop e 1 coluna em mobile.
 - **FR-011**: Cada Card Individual de Habilidade DEVE possuir fundo em gradiente horizontal suave de `#FFEFBA` a `#FFFFFF` (para Hard-Skills) ou de `#C6E9BC` a `#FFFFFF` (para Soft-Skills), borda contínua fina na cor `#0381B0`, cantos arredondados de 10px e padding interno de 14px.
 - **FR-012**: Cada card DEVE exibir o título de sua categoria em `Barlow Condensed`, peso 700 (Bold), tamanho 15px, cor `#386312` (uppercase) e margem inferior de 10px.
 - **FR-013**: Cada linha de tecnologia ou grupo hierárquico DEVE ser disposto em layout flex horizontal com ícone opcional de 18px x 18px (`.tech-icon`), rótulo em `Barlow Condensed` Semibold 14px (`.tech-name`), e rating de 5 estrelas alinhado à extremidade direita via `margin-left: auto`.
@@ -128,6 +131,9 @@ Como visitante navegando pela SPA, desejo que a página "Sobre mim" carregue ins
     - **2.2. COMUNICAÇÃO E RELACIONAMENTO**: Comunicação com Stakeholders [4]; Trabalho em Equipe [5]; Colaboração Interdisciplinar [3]; Compartilhamento de Conhecimento [3].
     - **2.3. LIDERANÇA E GESTÃO**: Liderança Técnica [3]; Gestão de Projetos [2]; Organização e Planejamento [4]; Orientação a Resultados [4].
     - **2.4. RESOLUÇÃO DE PROBLEMAS E ADAPTABILIDADE**: Resolução de Problemas [5]; Adaptabilidade [5]; Aprendizado Contínuo [5]; Autonomia [4]; Pensamento Estruturado [5].
+- **FR-019**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-020**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
+- **FR-021**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
 
 ---
 
@@ -146,10 +152,12 @@ Como visitante navegando pela SPA, desejo que a página "Sobre mim" carregue ins
 ### Measurable Outcomes
 
 - **SC-001**: O tempo de renderização da página "Sobre mim" ao ser injetada no Main Container da SPA é inferior a 150ms a partir do acionamento no menu.
-- **SC-002**: 100% dos painéis principais respeitam com precisão milimétrica os parâmetros de cores: fundo `#DAEBF2` ao `#A8CCD9`, borda `#0381B0`, cantos de 10px e padding de 16px.
+- **SC-002**: 100% dos painéis principais respeitam fielmente os parâmetros de cores: fundo `#041E2F` ao `#607D8B`, borda `#0381B0`, cantos de 10px e padding de 16px (medidas como valores de referência, conforme FR-020).
 - **SC-003**: 100% das competências mapeadas exibem rigorosamente a pontuação de estrelas ativas e inativas especificada, com todas as estrelas ativas na cor `#2D4A22` e inativas na cor `#CCCCCC`.
-- **SC-004**: Em resoluções desktop (≥ 1200px), os cards de hard skills mantêm proporção idêntica de 4 colunas paralelas; em mobile (< 768px), o layout colapsa perfeitamente para 1 única coluna vertical sem quebra horizontal.
+- **SC-004**: Em resoluções desktop (≥ 1280px), os cards de hard skills mantêm proporção idêntica de 4 colunas paralelas; em mobile (< 768px), o layout colapsa perfeitamente para 1 única coluna vertical sem quebra horizontal.
 - **SC-005**: 100% das transições de navegação para a página "Sobre" atualizam a régua de Breadcrumbs para exibir `Sobre` sem provocar qualquer recarregamento da Sidebar ou da tela mestre (*zero full page reload*).
+- **SC-006**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página "Sobre mim" exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-007**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página "Sobre mim" apresenta layout adaptado e legível, sem rolagem horizontal.
 
 ---
 
