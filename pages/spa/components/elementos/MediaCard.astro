@@ -1,0 +1,21 @@
+---
+// EL-25 media-card — .specify/catalog/elementos.md
+const { item, estilo = 'amarelo' } = Astro.props;
+
+const link = item?.link ?? '#';
+const externo = /^https?:\/\//i.test(link);
+const destino = externo ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+const temExtra = Astro.slots.has('default');
+---
+{item && (
+  <article class={`media-card media-card--${estilo}`}>
+    <a class="media-card-image" href={link} aria-label={item.titulo} {...destino}>
+      <img src={item.imagem} alt={item.titulo} loading="lazy" width="640" height="360" />
+    </a>
+    <div class="media-card-body">
+      <h3 class="media-card-title"><a href={link} {...destino}>{item.titulo}</a></h3>
+      <p class="media-card-summary">{item.resumo}</p>
+    </div>
+    {temExtra && <div class="media-card-extra"><slot /></div>}
+  </article>
+)}

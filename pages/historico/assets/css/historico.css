@@ -1,9 +1,11 @@
-/* Estilos para a Página "Histórico" (historico.astro / spa/historico.astro)
- * Dimensionamento: tokens de pages/spa/assets/css/scale.css (mobile-first)
+/* Página "Histórico" — CSS gerado de .specify/catalog/estilos.md
+ * Contém apenas os elementos e estilos usados na seção 4 (Estrutura) de spec-03 (R-S02).
+ * Classes: .<elemento> (base) + .<elemento>--<estilo> (R-S01). Sem prefixo de página (R-S03).
+ * Tokens: pages/spa/assets/css/scale.css e pages/spa/assets/css/tokens.css.
  */
 
-.historico-page {
-  background: linear-gradient(to bottom, #16222A 0%, #3A6073 100%);
+/* ── page-root ───────────────────────────────────────────── */
+.page-root {
   min-height: 100%;
   padding: var(--space-xl);
   display: flex;
@@ -12,140 +14,204 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.panel-container {
-  max-width: var(--container-max);
+.page-root--petroleo {
+  background: var(--gradiente-pagina-petroleo);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── container ───────────────────────────────────────────── */
+.container {
   width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
 }
 
+.container--centralizado {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ── vertical-list ───────────────────────────────────────── */
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-list--amplo { gap: var(--space-md); }
+
+/* ── page-title ──────────────────────────────────────────── */
 .page-title {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: var(--fs-3xl);
-  color: #ffffff;
-  margin-top: 0;
-  margin-bottom: var(--space-lg);
+  margin: 0 0 var(--space-lg) 0;
   text-align: left;
 }
 
-.experiences-wrapper {
+.page-title--claro { color: var(--cor-branco); }
+
+/* ── header ──────────────────────────────────────────────── */
+@property --direcao { syntax: '*'; inherits: false; }
+@property --direcao-768 { syntax: '*'; inherits: false; }
+@property --direcao-1024 { syntax: '*'; inherits: false; }
+@property --direcao-1280 { syntax: '*'; inherits: false; }
+@property --alinhamento { syntax: '*'; inherits: false; }
+@property --alinhamento-768 { syntax: '*'; inherits: false; }
+@property --alinhamento-1024 { syntax: '*'; inherits: false; }
+@property --alinhamento-1280 { syntax: '*'; inherits: false; }
+
+.header {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-  width: 100%;
+  flex-direction: var(--direcao, column);
+  align-items: var(--alinhamento, flex-start);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
 }
 
-.experience-card {
-  background: #FFFFFF;
-  border: 1px solid #0381B0;
-  border-radius: 0.75rem;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  padding: var(--space-lg) var(--space-xl);
+.header-title {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  text-align: left;
+  margin: 0;
+}
+
+.header--card {
+  margin-bottom: var(--space-sm);
+}
+
+.header--card .header-title {
+  font-size: var(--fs-lg);
+  color: var(--cor-titulo-card);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ── panel ───────────────────────────────────────────────── */
+.panel {
+  border: 1px solid var(--cor-destaque);
+  border-radius: var(--raio-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.panel--claro {
+  background: var(--gradiente-painel-claro);
+  box-shadow: var(--sombra-painel-interna);
+}
+
+/* ── card ────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--cor-destaque);
+  border-radius: var(--raio-md);
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  min-width: 0;
 }
 
-.company-logo-container {
+.card--amarelo { background: var(--gradiente-card-amarelo); }
+
+/* ── paragraph ───────────────────────────────────────────── */
+.paragraph {
+  margin: 0;
+}
+
+.paragraph--escuro {
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-lg);
+  color: var(--cor-azul-noite);
+  line-height: 1.4;
+  text-align: justify;
+}
+
+/* ── badge ───────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid;
+  font-family: var(--fonte-mono);
+  font-weight: 600;
+  font-size: var(--fs-base);
+  text-transform: uppercase;
+}
+
+.badge--pilula {
+  background: var(--gradiente-badge-claro);
+  border-color: var(--cor-destaque);
+  border-radius: var(--raio-pilula);
+  box-shadow: var(--sombra-badge);
+  color: var(--cor-preto);
+}
+
+.badge--ardosia {
+  background: var(--cor-ardosia);
+  border-color: transparent;
+  border-radius: var(--raio-tag);
+  color: var(--cor-branco);
+  font-size: calc(var(--fs-lg) * 0.91);
+  text-transform: none;
+}
+
+.badge--turquesa {
+  background: var(--cor-turquesa);
+  border-color: transparent;
+  border-radius: var(--raio-tag);
+  color: var(--cor-branco);
+  font-size: calc(var(--fs-lg) * 0.91);
+  text-transform: none;
+}
+
+/* ── tag-list ────────────────────────────────────────────── */
+.tag-list {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
-  margin-bottom: var(--space-md);
+  gap: var(--space-sm);
 }
 
-.company-logo {
-  height: var(--logo-h);
-  width: auto;
+/* ── logo ────────────────────────────────────────────────── */
+.logo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-image {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
-.job-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: calc(var(--fs-3xl) * 1.0625);
-  color: #000000;
-  text-align: center;
-  margin: 0 0 var(--space-lg) 0;
+.logo--faixa {
+  height: calc(var(--logo-h) * 0.6);
+  margin-bottom: var(--space-md);
 }
 
-/* Badges: grade de 2 colunas abaixo de 1024px */
-.info-badges {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-sm);
-  margin-bottom: var(--space-lg);
-  justify-content: center;
-}
+/* ── Responsivo (mobile-first, breakpoints R-S05) ────────── */
+@media (min-width: 768px) {
+  .header {
+    flex-direction: var(--direcao-768, var(--direcao, column));
+    align-items: var(--alinhamento-768, var(--alinhamento, flex-start));
+  }
 
-.badge {
-  background: linear-gradient(to bottom, #FFFDEB 0%, #FFF9D2 100%);
-  border: 1px solid #0381B0;
-  border-radius: 1.25rem;
-  padding: var(--space-xs) var(--space-lg);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 600;
-  font-size: calc(var(--fs-lg) * 0.91);
-  color: #000000;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+  .paragraph--escuro {
+    line-height: 1.5;
+  }
 
-.job-description {
-  font-family: 'Courier New', Consolas, monospace;
-  font-size: var(--fs-lg);
-  font-weight: 800;
-  color: #0a0c0c;
-  line-height: 1.5;
-  text-align: justify;
-  margin: 0 0 var(--space-xl) 0;
-}
+  .badge {
+    padding: var(--space-xs) var(--space-lg);
+  }
 
-.tech-stack-block {
-  background: linear-gradient(to bottom, #DAEBF2 0%, #A8CCD9 100%);
-  border: 1px solid #0381B0;
-  border-radius: 1rem;
-  padding: var(--space-md) var(--space-lg);
-  box-sizing: border-box;
-}
-
-.tech-stack-title {
-  font-family: 'Courier New', Consolas, monospace;
-  font-size: var(--fs-lg);
-  font-weight: 700;
-  color: #1b5e20;
-  margin: 0 0 var(--space-md) 0;
-}
-
-.tech-shields {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.tech-shield {
-  font-family: 'Courier New', Consolas, monospace;
-  font-size: calc(var(--fs-lg) * 0.91);
-  font-weight: 600;
-  padding: var(--space-xs) var(--space-md);
-  border-radius: 0.75rem;
-  display: inline-block;
-}
-
-.tech-shield.hard {
-  background-color: #5E718D;
-  color: #FFFFFF;
-}
-
-.tech-shield.soft {
-  background-color: #3CA296;
-  color: #FFFFFF;
-}
-
-/* Desktop: badges em linha centralizada */
-@media (min-width: 1024px) {
-  .info-badges {
-    display: flex;
-    flex-wrap: wrap;
+  .badge--ardosia,
+  .badge--turquesa {
+    padding: var(--space-xs) var(--space-md);
   }
 }

@@ -1,177 +1,50 @@
 ---
+// Página Histórico — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-03_historico/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
 import './assets/css/historico.css';
+
+import historico from './data/historico.json';
+import Container from '../spa/components/elementos/Container.astro';
+import PageTitle from '../spa/components/elementos/PageTitle.astro';
+import VerticalList from '../spa/components/elementos/VerticalList.astro';
+import Card from '../spa/components/elementos/Card.astro';
+import Logo from '../spa/components/elementos/Logo.astro';
+import Header from '../spa/components/elementos/Header.astro';
+import TagList from '../spa/components/elementos/TagList.astro';
+import Badge from '../spa/components/elementos/Badge.astro';
+import Paragraph from '../spa/components/elementos/Paragraph.astro';
+import Panel from '../spa/components/elementos/Panel.astro';
 ---
 
 <div
   id="page-content"
-  class="page-content-wrapper historico-page"
+  class="page-content-wrapper page-root page-root--petroleo historico-page"
   data-page-id="historico"
   data-page-title="Histórico"
 >
-  <div class="panel-container">
-    <h2 class="page-title">Histórico Profissional</h2>
+  <Container estilo="centralizado">
+    <PageTitle estilo="claro">Histórico Profissional</PageTitle>
 
-    <div class="experiences-wrapper">
-      <!-- Experiência 1: Frete.com -->
-      <div class="experience-card">
-        <div class="company-logo-container">
-          <img src="/pages/historico/assets/images/logo_frete.png" alt="Frete.com" class="company-logo" />
-        </div>
-        <h3 class="job-title">Analista de BI</h3>
-        <div class="info-badges">
-          <span class="badge">maio 2025 a março 2026</span>
-          <span class="badge">10 meses</span>
-          <span class="badge">PJ</span>
-          <span class="badge">Remoto</span>
-          <span class="badge">Logística</span>
-        </div>
-        <p class="job-description">
-          Em parceria com a equipe de dados do cliente, conduzi a reestruturação dos processos de extração, transformação e carga (ETL) oriundos de diversas fontes. Ao substituir processos manuais por pipelines automatizados e implementar validações rigorosas de qualidade, conseguimos reduzir o tempo de preparação dos dados em 80%. O impacto direto dessa nova arquitetura foi elevar a maturidade da área de planejamento, permitindo que a equipe dedicasse seu tempo a análises preditivas e direcionamento estratégico do negócio.
-        </p>
-        <div class="tech-stack-block">
-          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
-          <div class="tech-shields">
-            <span class="tech-shield hard">Microsoft SQL Server</span>
-            <span class="tech-shield hard">Python</span>
-            <span class="tech-shield hard">DuckDB</span>
-            <span class="tech-shield hard">n8n</span>
-            <span class="tech-shield hard">dbt</span>
-            <span class="tech-shield hard">API REST (Consumo)</span>
-            <span class="tech-shield hard">Postman</span>
-            <span class="tech-shield hard">Swagger</span>
-            <span class="tech-shield hard">Microsoft Excel</span>
-            <span class="tech-shield hard">Drawio</span>
-            <span class="tech-shield hard">SCRUM</span>
-            <span class="tech-shield hard">Github</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Experiência 2: Verity Consultoria em Tecnologia -->
-      <div class="experience-card">
-        <div class="company-logo-container">
-          <img src="/pages/historico/assets/images/logo_verity.png" alt="Verity Consultoria em Tecnologia" class="company-logo" />
-        </div>
-        <h3 class="job-title">Analista de BI</h3>
-        <div class="info-badges">
-          <span class="badge">março 2023 a março 2025</span>
-          <span class="badge">2 anos</span>
-          <span class="badge">CLT</span>
-          <span class="badge">Remoto</span>
-          <span class="badge">Seguros</span>
-        </div>
-        <p class="job-description">
-          Atuei na modelagem de dados e arquitetura de integração em projeto estratégico para uma seguradora de grande porte, visando o lançamento de um novo produto de seguro agrícola. O grande desafio superado foi traduzir regras de negócio complexas em um modelo de dados robusto que garantisse a comunicação fluida entre os sistemas legados da companhia e as APIs de um parceiro internacional. O produto foi implantado em produção com sucesso, destravando a entrada da empresa em um novo e altamente rentável segmento de mercado.
-        </p>
-        <div class="tech-stack-block">
-          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
-          <div class="tech-shields">
-            <span class="tech-shield hard">Progress 4GL</span>
-            <span class="tech-shield hard">SQL</span>
-            <span class="tech-shield hard">Excel</span>
-            <span class="tech-shield hard">Integração com APIS</span>
-            <span class="tech-shield hard">Swagger</span>
-            <span class="tech-shield hard">Postman</span>
-            <span class="tech-shield hard">DrawIO</span>
-            <span class="tech-shield hard">Jira</span>
-            <span class="tech-shield hard">Scrum</span>
-            <span class="tech-shield hard">Bitbucket</span>
-            <span class="tech-shield hard">Service Now</span>
-            <span class="tech-shield soft">Análise de Sistema</span>
-            <span class="tech-shield soft">Modelagem de dados</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Experiência 3: Arezzo&Co -->
-      <div class="experience-card">
-        <div class="company-logo-container">
-          <img src="/pages/historico/assets/images/logo_arezzo.png" alt="Arezzo&Co" class="company-logo" />
-        </div>
-        <h3 class="job-title">Analista de dados</h3>
-        <div class="info-badges">
-          <span class="badge">janeiro 2021 a outubro 2022</span>
-          <span class="badge">1 ano e 6 meses</span>
-          <span class="badge">PJ</span>
-          <span class="badge">Remoto</span>
-          <span class="badge">Varejo</span>
-        </div>
-        <p class="job-description">
-          Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.
-        </p>
-        <div class="tech-stack-block">
-          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
-          <div class="tech-shields">
-            <span class="tech-shield hard">Databricks</span>
-            <span class="tech-shield hard">SQL</span>
-            <span class="tech-shield hard">PySpark</span>
-            <span class="tech-shield hard">Delta Lake</span>
-            <span class="tech-shield hard">Power BI</span>
-            <span class="tech-shield hard">Python</span>
-            <span class="tech-shield hard">Excel</span>
-            <span class="tech-shield hard">Git</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Experiência 4: CVC Viagens e Turismo -->
-      <div class="experience-card">
-        <div class="company-logo-container">
-          <img src="/pages/historico/assets/images/logo_cvc.png" alt="CVC Viagens e Turismo" class="company-logo" />
-        </div>
-        <h3 class="job-title">Especialista em TI</h3>
-        <div class="info-badges">
-          <span class="badge">janeiro 2018 a janeiro 2021</span>
-          <span class="badge">3 anos</span>
-          <span class="badge">CLT</span>
-          <span class="badge">Presencial</span>
-          <span class="badge">e-commerce de turismo</span>
-        </div>
-        <p class="job-description">
-          Coordenei por 2 anos e meio equipe de TI de sustentação de ERP financeiro (Oracle EBS) na qual implementei rotina de apuração de indicadores operacionais para identificar gargalos sistêmicos e propor planos de ação que resultou em ganho significativo de tempo em atendimentos e redução dos custos de suporte em mais de 60%. Desenvolvi painéis analíticos (Grafana) e soluções de observabilidade cruzando dados de vendas com métricas de infraestrutura em nuvem (AWS CloudWatch) para alimentar sistemas internos de observabilidade (Zabbix). Também fui responsável por apurar e disponibilizar indicadores de disponibilidade do site e preparar o material para apresentações executivas.
-        </p>
-        <div class="tech-stack-block">
-          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
-          <div class="tech-shields">
-            <span class="tech-shield hard">SQL Server</span>
-            <span class="tech-shield hard">Oracle</span>
-            <span class="tech-shield hard">Excel</span>
-            <span class="tech-shield hard">C#</span>
-            <span class="tech-shield hard">Databricks</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Experiência 5: Submarino (varejo e turismo) e B2W Digital -->
-      <div class="experience-card">
-        <div class="company-logo-container">
-          <img src="/pages/historico/assets/images/logo_submarino.png" alt="Submarino e B2W Digital" class="company-logo" />
-        </div>
-        <h3 class="job-title">Analista de dados</h3>
-        <div class="info-badges">
-          <span class="badge">janeiro 2015 a dezembro 2017</span>
-          <span class="badge">3 anos</span>
-          <span class="badge">PJ</span>
-          <span class="badge">Presencial</span>
-          <span class="badge">ecommerce</span>
-        </div>
-        <p class="job-description">
-          Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.
-        </p>
-        <div class="tech-stack-block">
-          <h4 class="tech-stack-title">Stack tecnológica e outras habilidades utilizadas nesta experiencia</h4>
-          <div class="tech-shields">
-            <span class="tech-shield hard">Databricks</span>
-            <span class="tech-shield hard">SQL</span>
-            <span class="tech-shield hard">PySpark</span>
-            <span class="tech-shield hard">Delta Lake</span>
-            <span class="tech-shield hard">Power BI</span>
-            <span class="tech-shield hard">Python</span>
-            <span class="tech-shield hard">Excel</span>
-            <span class="tech-shield hard">Git</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <VerticalList estilo="amplo">
+      {historico.experiencias.map((item) => (
+        <Card estilo="amarelo">
+          <Logo estilo="faixa" item={item.logo} />
+          <Header estilo="card" nivel={3} titulo={item.cargo} />
+          <VerticalList estilo="amplo">
+            <TagList>
+              {item.badges.map((texto) => <Badge estilo="pilula">{texto}</Badge>)}
+            </TagList>
+            <Paragraph estilo="escuro">{item.descricao}</Paragraph>
+            <Panel estilo="claro">
+              <Header estilo="card" nivel={4} titulo="Stack tecnológica e outras habilidades utilizadas nesta experiencia" />
+              <TagList>
+                {item.stack.map((skill) => <Badge estilo={skill.estilo}>{skill.nome}</Badge>)}
+              </TagList>
+            </Panel>
+          </VerticalList>
+        </Card>
+      ))}
+    </VerticalList>
+  </Container>
 </div>

@@ -1,3 +1,9 @@
+> **Substituído.** A marcação da página Sobre agora é definida pela seção **Estrutura** de
+> [spec.md](../spec.md), pelo catálogo [elementos.md](../../../catalog/elementos.md) e pelos estilos
+> [estilos.md](../../../catalog/estilos.md). Este contrato descreve a implementação anterior
+> (componentes `AboutPanel`, `SkillsPanel`, `SkillCard`, `SkillItemRow`, `StarRating`, removidos)
+> e é mantido apenas como histórico.
+
 # Contract: Contratos de Interface e Marcação UI da Página "Sobre mim"
 
 **Feature**: `02-sobre`  
@@ -44,6 +50,7 @@ pages/sobre/
   data-page-id="sobre"
   data-page-title="Sobre"
 >
+  <h1 class="page-title">Sobre</h1>
   <AboutPanel />
   <SkillsPanel />
 </div>
@@ -116,8 +123,8 @@ pages/sobre/
 
 ```html
 <div class="skill-card">
-  <h3 class="category-title">MACHINE LEARNING & DEEP LEARNING</h3>
-  <div class="skills-list">
+  <h3 class="category-card-title">MACHINE LEARNING & DEEP LEARNING</h3>
+  <div class="vertical-list skills-list">
     <div class="skill-row">
       <img src="/pages/sobre/assets/images/icon-tensorflow.png" alt="TensorFlow" class="tech-icon" width="18" height="18" />
       <span class="tech-name">TensorFlow</span>
@@ -136,7 +143,7 @@ pages/sobre/
   - `border-radius: 10px;`
   - `padding: 16px;`
   - `display: flex; flex-direction: column;`
-- `.category-title`:
+- `.category-card-title`:
   - `font-family: 'Barlow Condensed', sans-serif;`
   - `font-weight: 700;`
   - `font-size: 16px;`

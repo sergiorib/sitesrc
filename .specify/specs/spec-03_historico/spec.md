@@ -1,10 +1,10 @@
-# Feature Specification: Estrutura e Conteúdo Integral da Página "Histórico" (`historico.astro`)
+# Feature Specification: Estrutura da Página "Histórico" (`historico.astro`)
 
 **Feature Branch**: `03-historico`
 
-**Created**: 2026-11-04 (Updated: 2026-11-07)
+**Created**: 2026-11-04 (Updated: 2026-11-20 — migração para o modelo em camadas)
 
-**Status**: Pending
+**Status**: Em Execução
 
 **Input**: User description: "Implementar a página Histórico Profissional no portfólio pessoal, destinada à apresentação estruturada e detalhada das experiências profissionais do proprietário do site.
 
@@ -18,252 +18,223 @@ O layout deverá ser responsivo, garantindo uma apresentação adequada em deskt
 
 ---
 
-## User Scenarios & Testing *(mandatory)*
+## 1. Objetivo
 
-### User Story 1 - Visualização do Conteúdo da Página de Histórico (Priority: P1)
+Este documento define de forma unificada a página "Histórico Profissional": o roteamento e a organização de arquivos na SPA, a composição da página (elementos, hierarquia e fontes de dados), os cenários de teste, os requisitos funcionais e os critérios de aceite. O HTML e a aparência de cada elemento não são descritos aqui: vêm do catálogo [elementos.md](../../catalog/elementos.md) e da spec [estilos.md](../../catalog/estilos.md), referenciados na seção 4. O registro da migração para este modelo está em [migracao.md](migracao.md).
 
-Como recrutador, gestor técnico ou visitante do portfólio, desejo visualizar o conteúdo da página de Histórico Profissional carregado diretamente no wrapper da página (`#page-content`), exibindo o título principal "Histórico Profissional" em tipografia `Barlow Condensed` Bold 32px.
+---
 
-**Why this priority**: Estabelece a identidade visual principal da página de histórico na SPA.
+## 2. Hierarquia de Páginas e Roteamento Aninhado na SPA
 
-**Independent Test**: Acessar a rota da página "Histórico" na SPA. Verificar se o título em Barlow Condensed 700 bold (32px, cor `#ffffff`) e os cards são renderizados com precisão.
+A página "Histórico" é exibida dentro da área de exibição (`#page-content-host`) ao acessar `/spa/historico`, e mantém o item "Histórico" ativo no menu lateral (mapeamento `ROUTE_PARENT_MAP` em `pages/spa/assets/js/router.js`). O ponto de entrada da SPA é `pages/spa/historico.astro`; `pages/historico/historico.astro` é a cópia da página no diretório da feature. A página não possui subpáginas aninhadas; os recursos exclusivos dela ficam organizados na seguinte estrutura:
+
+### 2.1 Árvore Hierárquica de Páginas da Histórico
+
+```text
+pages/historico/
+├── historico.astro
+├── assets/
+│   ├── css/
+│   │   └── historico.css
+│   └── images/
+│       ├── logo_arezzo.png
+│       ├── logo_cvc.png
+│       ├── logo_frete.png
+│       ├── logo_submarino.png
+│       └── logo_verity.png
+└── data/
+    └── historico.json
+```
+
+Recursos compartilhados usados pela página (fora de `pages/historico/`):
+
+```text
+pages/spa/
+├── historico.astro                  ← ponto de entrada na SPA
+├── assets/css/
+│   ├── scale.css                    ← tokens de escala
+│   └── tokens.css                   ← tokens visuais
+└── components/elementos/            ← componentes dos elementos do catálogo
+```
+
+---
+
+## 3. User Scenarios & Testing *(mandatory)*
+
+### 3.1 User Story 1 - Visualização da Página de Histórico (Priority: P1)
+
+Como recrutador ou visitante do portfólio, desejo visualizar a página de Histórico Profissional com título em destaque, para entender que ela apresenta a trajetória profissional de Sérgio Ribeiro Cerqueira.
+
+**Why this priority**: Estabelece o arranjo estrutural e a identidade da página.
+
+**Independent Test**: Acessar a rota da página "Histórico" na SPA. Verificar se a página corresponde à seção 4 (Estrutura): `[page-root]` e `[container]` com os estilos indicados e o título "Histórico Profissional".
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário navega para a página de Histórico na SPA, **When** o conteúdo é carregado no wrapper (`#page-content-host`), **Then** o conteúdo da página aparece diretamente no layout principal sem o antigo wrapper `.main-container`.
-2. **Given** o título da página (`.page-title`), **When** renderizado, **Then** exibe "Histórico Profissional" em fonte `Barlow Condensed`, peso 700 bold, tamanho 32px, cor `#ffffff` e margem inferior de 16px.
+1. **Given** que o usuário navega para a página de Histórico na SPA, **When** o conteúdo é carregado em `#page-content-host`, **Then** a área inteira exibe o fundo do estilo do `[page-root]` definido na seção 4.
+2. **Given** telas mais largas que o limite do `[container]`, **When** a página é exibida, **Then** o conteúdo fica centralizado com a largura máxima do estilo do `[container]`.
+3. **Given** o topo da página, **When** inspecionado, **Then** existe um único `h1.page-title` com o texto "Histórico Profissional", no estilo indicado na seção 4.
 
 ---
 
-### User Story 2 - Exibição Integral dos Cards de Experiência Profissional, Badges Informativas e Stack Tecnológica (Priority: P1)
+### 3.2 User Story 2 - Cards de Experiência Profissional (Priority: P1)
 
-Como avaliador ou cliente potencial, desejo examinar os cards de experiência profissional (`.experience-card`), contendo logo da empresa (com destaque ampliado para 100px na Experiência 1), título do cargo em Barlow Condensed (34px), badges informativas completas, descrição detalhada das atividades (24px) e bloco de stack tecnológica e habilidades com escudos (badges shields) de tecnologias.
+Como gestor técnico ou recrutador, desejo ver cada experiência profissional em um card com empresa, cargo, informações do vínculo, descrição das atividades e stack utilizada, para avaliar rapidamente a trajetória e as competências.
 
-**Why this priority**: Apresenta de forma estruturada, detalhada e elegante a carreira e experiência profissional completa do profissional com alta fidelidade visual.
+**Why this priority**: É o conteúdo central da página.
 
-**Independent Test**: Verificar se a página exibe os cards de experiência com seus respectivos cargos, logos, badges informativas, descrições textuais e stacks tecnológicas avançadas.
+**Independent Test**: Verificar se a lista exibe um `[card]` para cada item de `@dados.experiencias` (seção 6), na ordem do arquivo, com logo, cargo, selos, descrição e bloco de stack.
 
 **Acceptance Scenarios**:
 
-1. **Given** cada card de experiência (`.experience-card`), **When** renderizado, **Then** apresenta fundo na cor #FFFFFF, borda `1px solid #0381B0`, `border-radius: 12px`, `box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15)`, e `padding: 20px 24px`.
-2. **Given** o cabeçalho do card, **When** exibido, **Then** apresenta a logo da empresa (`.company-logo`, com altura de 100px mantendo a proporção para a Experiência 1, centralizada) e o título exato do cargo em `Barlow Condensed` 700 bold (34px, cor `#000000`).
-3. **Given** as badges informativas (`.info-badges` e `.badge`), **When** renderizadas, **Then** exibem informações como área, período, duração e modalidade em badges arredondadas com gradiente `#FFFDEB` a `#FFF9D2`, tamanho 20px, as badges serão definidas adiante em cada experincia.
-4. **Given** a descrição da atividade (`.job-description`), **When** exibida, **Then** apresenta o texto textual exato em fonte monoespaçada (`Courier New`/`Consolas`), tamanho 22px, peso 800, cor `#0a0c0c`, `line-height: 1.5` e alinhamento justificado.
-5. **Given** o bloco de stack tecnológica (`.tech-stack-block`), **When** renderizado, **Then** exibe título em monoespaçada verde (22px), border-radius de 16px, e lista de escudos (.tech-shield) de tecnologias utilizadas que estarão definidas em cada experiencia. O texto do titulo do .tech-stack-block será 'Stack tecnológica e outras habilidades utilizadas nesta experiencia'
-6. **Given** Os itens (`.tech-shield`), **When** renderizado, **Then** exibe texto em monoespaçada Branca (20px), border-radius de 12px. 
-A definição dos itens de habilidades (`.tech-shield`) será feita na seção '**Stack Tecnológica e Habilidades**' de cada experiencia. 
-Esta definição será feita dizendo, para cada habilidade seu tipo entre parentesis e seu nome (exemplo: '(hard) Python ou (soft) Análise de sistemas'). Haverá dos tipos de habilidade, 'Soft' e 'Hard'. 
-Os '.tech-shield' de habilidades do tipo 'hard' serão apresentadas com um fundo na cor #5E718D e texto na cor #FFFFFF.
-As '.tech-shield'  de habilidades do tipo  'soft' serão apresentadas com um fundo na cor #3CA296 e texto na cor #FFFFFF.
+1. **Given** a fonte `@dados.experiencias`, **When** a lista é renderizada, **Then** é gerado exatamente um card por experiência, na ordem do arquivo (da mais recente para a mais antiga).
+2. **Given** um card, **When** renderizado, **Then** exibe, nesta ordem: logo da empresa (`[logo]`), cargo (`[header:card]`, `h3`), selos de período, duração, vínculo, modalidade e setor, descrição das atividades e o bloco "Stack tecnológica…" (`[panel]` com título `h4`).
+3. **Given** os selos de informação de uma experiência, **When** exibidos, **Then** aparecem na ordem do arquivo e quebram para a linha seguinte quando falta espaço.
+4. **Given** o bloco de stack, **When** exibido, **Then** cada habilidade aparece como selo, na ordem do arquivo, com o estilo `ardosia` quando for hard e `turquesa` quando for soft.
 
 ---
 
-### User Story 3 - Integração SPA e Navegação sem Recarregamento (Priority: P2)
+### 3.3 User Story 3 - Integração SPA e Navegação sem Recarregamento (Priority: P2)
 
-Como visitante navegando pela SPA, desejo que a página "Histórico" carregue instantaneamente sem recarregar a Sidebar, atualizando os Breadcrumbs no topo do Main Container para refletir a localização "Histórico".
+Como visitante navegando pela SPA, desejo que a página "Histórico" carregue sem recarregar a Sidebar, atualizando os Breadcrumbs para refletir a localização "Histórico".
 
-**Why this priority**: Assegura a consistência de navegação Single Page Application estabelecida na arquitetura mestre.
+**Why this priority**: Assegura a consistência de navegação Single Page Application.
 
-**Independent Test**: Navegar para "Histórico" a partir de qualquer outra página da SPA. Verificar se o roteador injeta o conteúdo no `#page-content-host` e atualiza a régua de breadcrumbs para exibir `Histórico` sem full reload.
+**Independent Test**: Navegar para "Histórico" a partir de qualquer outra página da SPA. Verificar se o roteador injeta o conteúdo no `#page-content-host` e atualiza os Breadcrumbs sem recarregar a página.
 
 **Acceptance Scenarios**:
 
-1. **Given** a navegação via clique no menu da Sidebar ou link interno, **When** a rota `/spa/historico/` é requisitada, **Then** o script de roteamento SPA intercepta o evento e injeta o contêiner da página dentro do `#page-content-host`.
-2. **Given** a injeção do conteúdo, **When** a renderização se completa, **Then** a régua de Breadcrumbs no topo do Main Container exibe o nó `Histórico` como ativo e a Sidebar mantém o item "Histórico" selecionado.
+1. **Given** a navegação via clique no menu da Sidebar ou link interno, **When** a rota `/spa/historico/` é requisitada, **Then** o roteador SPA intercepta o evento e injeta o conteúdo de `#page-content` em `#page-content-host`.
+2. **Given** a injeção do conteúdo, **When** a renderização se completa, **Then** os Breadcrumbs exibem "Histórico" como ativo e a Sidebar mantém o item "Histórico" selecionado.
 
 ---
 
-### User Story 4 - Adaptabilidade Responsiva para Tablets e Dispositivos Móveis (Priority: P2)
+### 3.4 User Story 4 - Adaptabilidade Responsiva (Priority: P2)
 
-Como usuário acessando por tablet ou smartphone, desejo que o layout do histórico se ajuste perfeitamente a telas menores com redimensionamento proporcional de padding, título, badges e grid responsivo.
+Como usuário acessando por tablet ou smartphone, desejo que os cards e suas informações se ajustem à largura da tela sem perda de legibilidade.
 
-**Why this priority**: Garante usabilidade impecável em viewports mobile e tablets.
+**Why this priority**: Assegura usabilidade em dispositivos móveis e tablets.
 
-**Independent Test**: Reduzir a largura da viewport para resoluções mobile (< 768px) e tablet. Verificar se o layout se adapta perfeitamente.
+**Independent Test**: Exibir a página em larguras de celular, tablet e desktop. Verificar se os textos se ajustam pela escala fluida (`scale.css`) e se os selos quebram linha dentro do card.
 
 **Acceptance Scenarios**:
 
-1. **Given** visualização em Tablet (768px a 1023px), **When** a largura é aplicada, **Then** as badges organizam-se proporcionalmente em 2 colunas.
-2. **Given** visualização em Mobile (< 768px), **When** a largura é aplicada, **Then** o título reduz para 24px, o card padding reduz para 12px, a logo da Experiência 1 ajusta para 80px mantendo proporção, e as badges organizam-se em grade de 2 colunas (`repeat(2, 1fr)`).
-3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página de Histórico é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o título, os cards de experiência, as badges, as descrições e os escudos de tecnologia apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
-4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os cards de experiência se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
-5. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os textos dos cards são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
+1. **Given** qualquer largura, **When** a página é exibida, **Then** os cards ocupam a largura do `[container]`, um abaixo do outro, e os selos quebram linha sem transbordar.
+2. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** os cards apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+3. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os cards se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+4. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** cargos, selos e descrições são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
 
 ---
 
-## Conteúdo Integral das Experiências Profissionais (Data Content Specification)
+### 3.5 Edge Cases
 
-A página `historico.astro` e sua contraparte SPA `spa/historico.astro` contêm estritamente os seguintes registros de experiências profissionais:
-
-### Experiência 1: Frete.com
-- **Empresa / Logo**: Frete.com (`pages\historico\assets\images\logo_frete.png`, altura 100px proporcional)
-- **Cargo**: Analista de BI (`.job-title` em 28px)
-- **Badges Informativas** (`.badge` em 20px):
-  - `maio 2025 a março 2026`- 
-  - `10 meses`
-  - `PJ`
-  - `Remoto`
-  - `Logística`
-  As badges devem ser implementadas nesta ordem. 
-- **Descrição das Atividades** (`.job-description` em 22px):
-  > Em parceria com a equipe de dados do cliente, conduzi a reestruturação dos processos de extração, transformação e carga (ETL) oriundos de diversas fontes. Ao substituir processos manuais por pipelines automatizados e implementar validações rigorosas de qualidade, conseguimos reduzir o tempo de preparação dos dados em 80%. O impacto direto dessa nova arquitetura foi elevar a maturidade da área de planejamento, permitindo que a equipe dedicasse seu tempo a análises preditivas e direcionamento estratégico do negócio.
-- **Stack Tecnológica e Habilidades** (com `.tech-stack-title` em 20px e `.tech-stack-block` com border-radius 16px):
-  - (hard) Microsoft SQL Server
-  - (hard) Python
-  - (hard) DuckDB
-  - (hard) n8n
-  - (hard) dbt
-  - (hard) API REST (Consumo)
-  - (hard) Postman
-  - (hard) Swagger
-  - (hard) Microsoft Excel
-  - (hard) Drawio
-  - (hard) SCRUM
-  - (hard) Github
-As habilidades devem ser implementadas nesta ordem.  
-
-### Experiência 2: Verity Consultoria em Tecnologia
--- **Empresa / Logo**: Verity Consultoria em Tecnologia (`pages\historico\assets\images\logo_verity.png`, altura 100px proporcional)
-- **Cargo**: Analista de BI (`.job-title` em 28px)
-- **Badges Informativas** (`.badge` em 20px):
-  - `março 2023 a março 2025`- 
-  - `2 anos`
-  - `CLT`
-  - `Remoto`
-  - `Seguros`
-As badges devem ser implementadas nesta ordem. 
-- **Descrição das Atividades** (`.job-description` em 22px):
-'Atuei na modelagem de dados e arquitetura de integração em projeto estratégico para uma seguradora de grande porte, visando o lançamento de um novo produto de seguro agrícola. O grande desafio superado foi traduzir regras de negócio complexas em um modelo de dados robusto que garantisse a comunicação fluida entre os sistemas legados da companhia e as APIs de um parceiro internacional. O produto foi implantado em produção com sucesso, destravando a entrada da empresa em um novo e altamente rentável segmento de mercado.'
-- **Stack Tecnológica e Habilidades** (com `.tech-stack-title` em 20px e `.tech-stack-block` com border-radius 16px):
-- (hard) Progress 4GL
-- (hard) SQL
-- (hard) Excel 
-- (hard) Integração com APIS 
-- (hard) Swagger
-- (hard) Postman  
-- (hard) DrawIO 
-- (hard) Jira 
-- (hard) Scrum
-- (hard) Bitbucket
-- (hard) Service Now
-- (Soft) Análise de Sistema 
-- (Soft) Modelagem de dados
-As habilidades devem ser implementadas nesta ordem.  
-
-### Experiência 3: Arezzo&Co
--- **Empresa / Logo**: Arezzo&Co (`pages\historico\assets\images\logo_arezzo.png`, altura 100px proporcional)
-- **Cargo**:  Analista de dados (`.job-title` em 28px)
-- **Badges Informativas** (`.badge` em 20px):
-  - `janeiro março 2021 a outubro 2022`- 
-  - `1 ano e 6 meses`
-  - `PJ`
-  - `Remoto`
-  - `Varejo`
-As badges devem ser implementadas nesta ordem. 
-- **Descrição das Atividades** (`.job-description` em 22px):
-'Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.'
-- **Stack Tecnológica e Habilidades** (com `.tech-stack-title` em 20px e `.tech-stack-block` com border-radius 16px):
-As habilidades devem ser implementadas nesta ordem.  
-- (hard)Databricks
-- (hard) SQL
-- (hard) PySpark
-- (hard) Delta Lake
-- (hard) Power BI
-- (hard) Python
-- (hard) Excel
-- (hard) Git
-As habilidades devem ser implementadas nesta ordem.  
-
-### Experiência 4: CVC Viagens e Turismo
--- **Empresa / Logo**: CVC Viagens e Turismo (`pages\historico\assets\images\logo_cvc.png`, altura 100px proporcional)
-- **Cargo**:  Especialista em TI (`.job-title` em 28px)
-- **Badges Informativas** (`.badge` em 20px):
-  - `janeiro 2018 a janeiro/2021`- 
-  - `3 anos`
-  - `CLT`
-  - `Presencial`
-  - `e-commerce de turismo`
-As badges devem ser implementadas nesta ordem. 
-- **Descrição das Atividades** (`.job-description` em 22px):
-'Coordenei por 2 anos e meio equipe de TI de sustentação de ERP financeiro (Oracle EBS) na qual implementei rotina de apuração de indicadores operacionais para identificar gargalos sistêmicos e propor planos de ação que resultou em ganho significatbvo de tempo em atendimentos e redução dos custos de suporte em mais de 60%. Desenvolvi painéis analíticos (Grafana) e soluções de observabilidade cruzando dados de vendas com métricas de infraestrutura em nuvem (AWS CloudWatch) para alimentar sistemas internos de observabilidade (Zabbix). Também fui responsável por apurar e disponibilizar indicadores de disponibilidade do site e preparar o material para apresentações executivas.'
-- **Stack Tecnológica e Habilidades** (com `.tech-stack-title` em 20px e `.tech-stack-block` com border-radius 16px):
-As habilidades devem ser implementadas nesta ordem.  
-- (hard) Oracle EBS
-- (hard) SQL
-- (hard) Excel
-- (hard) Grafana
-- (hard) Zabbix
-- (hard) Python
-- (hard) AWS Cloudewatch
-- (hard) Power BI
-- (hard) PowerPoint
-- (hard) Jira 
-- (hard) Scrum
-As habilidades devem ser implementadas nesta ordem.  
-
-### Experiência 5: Submarino (varejo e turismo) e B2W Digital
--- **Empresa / Logo**: Arezzo&Co (`pages\historico\assets\images\logo_arezzo.png`, altura 100px proporcional)
-- **Cargo**: Analista de dados (`.job-title` em 28px)
-- **Badges Informativas** (`.badge` em 20px):
-  - `janeiro 2015 a dezembro 2017` 
-  - `3 anos`
-  - `PJ`
-  - `Presencial`
-  - `ecommerce`
-As badges devem ser implementadas nesta ordem. 
-- **Descrição das Atividades** (`.job-description` em 22px):
-'Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.'
-- **Stack Tecnológica e Habilidades** (com `.tech-stack-title` em 20px e `.tech-stack-block` com border-radius 16px):
-As habilidades devem ser implementadas nesta ordem.  
-- (hard) SQL Server
-- (hard) Oracle
-- (hard) Excel
-- (hard) C#
-As habilidades devem ser implementadas nesta ordem. 
+- **Selos longos** (ex.: "e-commerce de turismo"): quebram para a linha seguinte, sem transbordar o card.
+- **Stack extensa**: os selos ocupam quantas linhas forem necessárias dentro do bloco.
+- **Logos com proporções diferentes**: cada logo é contido na faixa do `[logo]`, sem distorção nem corte.
+- **Injeção repetida no Main Container**: a reinjeção via roteador SPA não duplica estilos.
 
 ---
 
-## Requirements *(mandatory)*
+## 4. Estrutura
 
-### Functional Requirements
+> Notação: [.specify/catalog/notacao-estrutura.md](../../catalog/notacao-estrutura.md) ·
+> Elementos: [.specify/catalog/elementos.md](../../catalog/elementos.md) ·
+> Estilos: [.specify/catalog/estilos.md](../../catalog/estilos.md)
 
-- **FR-001**: O sistema DEVE fornecer a página de histórico organizada estritamente nos seguintes diretórios e arquivos:
-  - Arquivo principal da página: `pages/historico.md` e `pages/historico/historico.astro` (com versão SPA em `pages/spa/historico.astro`).
-  - Folha de estilos isolada: `pages/historico/assets/css/historico.css`
-  - Scripts de UI client-side: `pages/historico/assets/js/historico.js`
-  - Diretório de imagens: `pages/historico/assets/images/`
-- **FR-002**: A página DEVE ser injetada e renderizada 100% dentro do Main Container (`#page-content-host`) da SPA via History API sem full reload.
-- **FR-003**: O conteúdo principal é renderizado diretamente no wrapper da página (`#page-content`).
-- **FR-004**: O título principal da página (`.page-title`) DEVE utilizar tipografia `Barlow Condensed`, peso 700 bold, tamanho 32px, cor `#FFFFFF` e margem inferior de 16px.
-- **FR-005**: Cada card de experiência (`.experience-card`) DEVE apresentar Fundo na cor #FFFFFF, borda `1px solid #0381B0`, border-radius 12px, box-shadow de 4px e padding de 20px 24px.
-- **FR-006**: A logo da Experiência 1 (`.company-logo`) DEVE ter altura de 80px mantendo a proporção (`width: auto`, `object-fit: contain`), centralizada.
-- **FR-007**: O título do cargo (`.job-title`) DEVE utilizar `Barlow Condensed`, peso 700 bold, tamanho 30px, cor `#000000`, centralizado.
-- **FR-008**: As badges informativas (`.badge`) DEVEM ter gradiente `#FFFDEB` a `#FFF9D2`, borda `1px solid #0381B0`, border-radius 20px, padding de 6px 16px, peso 600, tamanho 20px e cor `#000000`.
-- **FR-009**: A descrição da atividade (`.job-description`) DEVE utilizar fonte monoespaçada (`Courier New`/`Consolas`), tamanho 22px, peso 800, cor `#0a0c0c`, `line-height: 1.5` e alinhamento justificado.
-- **FR-010**: O bloco de stack tecnológica (`.tech-stack-block`) DEVE possuir fundo em gradiente vertical de `#DAEBF2` a `#A8CCD9`, borda `1px solid #0381B0`, border-radius 16px e padding de 12px 16px, com título em 20x (`.tech-stack-title`).
-- **FR-011**: Em resoluções Mobile (< 768px), o título reduz para 24px, card padding para 12px, logo da Experiência 1 para 80px, e as badges organizam-se em grade de 2 colunas.
-- **FR-012**: O elemento raiz deve conter `id="page-content"`, `data-page-id="historico"` e `data-page-title="Histórico"`.
-- **FR-013**: O conteúdo textual e badges dos cards de experiência DEVEM refletir integralmente as experiências especificadas.
-- **FR-014**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
-- **FR-015**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
-- **FR-016**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
+```
+[page-root:petroleo] historico {titulo: 'Histórico'}
+  [container:centralizado]
+    [page-title:claro] 'Histórico Profissional'
+
+    [vertical-list:amplo]
+      [card:amarelo] *@dados.experiencias
+        [logo:faixa] $item.logo
+        [header:card] $item.cargo
+        [vertical-list:amplo]
+          [tag-list]
+            [badge:pilula] *$item.badges
+          [paragraph:escuro] $item.descricao
+          [panel:claro]
+            [header:card] 'Stack tecnológica e outras habilidades utilizadas nesta experiencia'
+            [tag-list]
+              [badge:$item.estilo] *$item.stack
+```
+
+## 5. Textos
+
+As descrições das experiências fazem parte dos dados (`descricao` em `@dados.experiencias`); a página não possui outros textos longos.
+
+## 6. Fontes de dados
+
+| Referência             | Origem                                | Campos usados |
+|------------------------|---------------------------------------|---------------|
+| @dados.experiencias    | pages/historico/data/historico.json   | logo (src, alt), cargo, badges[], descricao, stack[] (nome, estilo: `ardosia` = hard · `turquesa` = soft) |
+
+Experiências (ordem de exibição; logos em `/pages/historico/assets/images/`; textos completos no arquivo):
+
+| # | Empresa (logo) | Cargo | Selos | Stack |
+|---|---|---|---|---|
+| 1 | Frete.com (`logo_frete.png`) | Analista de BI | maio 2025 a março 2026 · 10 meses · PJ · Remoto · Logística | 12 hard |
+| 2 | Verity Consultoria em Tecnologia (`logo_verity.png`) | Analista de BI | março 2023 a março 2025 · 2 anos · CLT · Remoto · Seguros | 11 hard · 2 soft |
+| 3 | Arezzo&Co (`logo_arezzo.png`) | Analista de dados | janeiro 2021 a outubro 2022 · 1 ano e 6 meses · PJ · Remoto · Varejo | 8 hard |
+| 4 | CVC Viagens e Turismo (`logo_cvc.png`) | Especialista em TI | janeiro 2018 a janeiro 2021 · 3 anos · CLT · Presencial · e-commerce de turismo | 5 hard |
+| 5 | Submarino e B2W Digital (`logo_submarino.png`) | Analista de dados | janeiro 2015 a dezembro 2017 · 3 anos · PJ · Presencial · ecommerce | 8 hard |
+
+### 6.1 Pendências de revisão de conteúdo
+
+O conteúdo acima é o que a página exibe hoje. Os pontos abaixo divergem da versão anterior desta spec e serão tratados na revisão geral de conteúdo das páginas:
+- Stack da CVC: a versão anterior listava Oracle EBS, SQL, Excel, Grafana, Zabbix, Python, AWS CloudWatch, Power BI, PowerPoint, Jira e Scrum.
+- Stack da Submarino: a versão anterior listava SQL Server, Oracle, Excel e C#; hoje repete a da Arezzo.
+- Descrição da Submarino: repete o texto da Arezzo.
+- `logo_frete.jpg` existe na pasta de imagens, mas não é usado.
 
 ---
 
-## Success Criteria *(measurable)*
+## 7. Requirements *(mandatory)*
 
-- **SC-001**: O tempo de renderização da página de Histórico é inferior a 150ms.
-- **SC-002**: 100% dos elementos visuais, badges e escudos de tecnologia estão documentados e reproduzidos fielmente (tamanhos como valores de referência, conforme FR-015).
-- **SC-003**: A separação de assets (CSS, imagens em diretórios dedicados) está rigorosamente documentada e estruturada.
-- **SC-004**: O design responsivo adapta perfeitamente os cards em tablets e smartphones sem quebras de layout.
-- **SC-005**: A especificação reflete integralmente o estado atual da distribuição em produção.
-- **SC-006**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página de Histórico exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
-- **SC-007**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página de Histórico apresenta layout adaptado e legível, sem rolagem horizontal.
+### 7.1 Functional Requirements
 
-## Asset Resolution Convention (SPA Pages)
+- **FR-001**: O sistema DEVE fornecer a página `pages/spa/historico.astro` (e a cópia `pages/historico/historico.astro`), com a folha `pages/historico/assets/css/historico.css` gerada a partir de [estilos.md](../../catalog/estilos.md) contendo apenas os elementos e estilos usados na página (R-S02), os dados em `pages/historico/data/historico.json` e os logos em `pages/historico/assets/images/`. Os elementos do catálogo são componentes compartilhados em `pages/spa/components/elementos/`.
+- **FR-002**: A página DEVE ser injetada em `#page-content-host` pelo roteador SPA, via History API, sem recarregar a página.
+- **FR-003**: A composição da página DEVE seguir a seção 4 (Estrutura); a aparência de cada elemento é a do estilo indicado, conforme [estilos.md](../../catalog/estilos.md).
+- **FR-004**: A lista DEVE renderizar exatamente um card por item de `@dados.experiencias`, na ordem do arquivo, com selos e stack também na ordem do arquivo.
+- **FR-005**: Cada habilidade da stack DEVE usar o estilo indicado no próprio dado (`ardosia` para hard, `turquesa` para soft).
+- **FR-006**: O elemento raiz DEVE conter `id="page-content"`, `data-page-id="historico"` e `data-page-title="Histórico"`.
+- **FR-007**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-008**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), respeitando limites mínimos e máximos.
+- **FR-009**: O aumento do tamanho de fonte configurado nas preferências do navegador DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
 
-- **Caminhos Absolutos para Assets Estáticos**: No contexto da nossa arquitetura SPA Astro (onde o roteador client-side injeta trechos de HTML em `#page-content-host` via `fetch`), ao adicionar imagens ou assets estáticos (como logos, ícones ou fotos) em páginas dentro de `pages/historico/`:
+### 7.2 Key Entities
+
+- Os elementos da página (`page-root`, `container`, `page-title`, `vertical-list`, `card`, `logo`, `header`, `tag-list`, `badge`, `paragraph`, `panel`) estão definidos em [elementos.md](../../catalog/elementos.md).
+- **Experiência** (dados): `logo` (`src`, `alt`), `cargo`, `badges[]`, `descricao`, `stack[]` (`nome`, `estilo`) — ver `pages/historico/data/historico.json`.
+
+---
+
+## 8. Success Criteria *(mandatory)*
+
+### 8.1 Measurable Outcomes
+
+- **SC-001**: O tempo de renderização da página no Main Container é inferior a 150ms.
+- **SC-002**: 100% dos elementos da página exibem a aparência do estilo indicado na seção 4, conforme [estilos.md](../../catalog/estilos.md).
+- **SC-003**: 100% das experiências, selos e habilidades de `@dados.experiencias` aparecem na página, na ordem do arquivo, com hard e soft distinguíveis.
+- **SC-004**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-005**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página apresenta layout adaptado e legível, sem rolagem horizontal.
+
+---
+
+## 9. Assumptions
+
+- O projeto segue a Constituição v2.0.0: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- As fontes `Barlow Condensed` e `Barlow` são carregadas do Google Fonts (por `spa-layout.css` e `tokens.css`); a fonte monoespaçada de sistema (`Consolas`, `Courier New`, `monospace`) usada nos selos está disponível no navegador.
+- A página não possui JavaScript próprio.
+
+---
+
+## 10. Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: ao adicionar imagens ou logos em `pages/historico/`:
   1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../historico/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/historico/`).
-  2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/historico/assets/images/<arquivo>`).
-  3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/historico/assets/images/`).
+  2. **Utilize SEMPRE o caminho absoluto** (ex: `/pages/historico/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo exista fisicamente** em `pages/historico/assets/images/`.
   4. **Valide a renderização** executando `npm run build` ao finalizar.

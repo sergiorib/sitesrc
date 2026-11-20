@@ -1,444 +1,242 @@
-# Feature Specification: Estrutura e Estilização da Página "Artigos" ('artigos.astro')
+# Feature Specification: Estrutura da Página "Artigos técnicos" (`artigos.astro`)
 
-**Feature Branch**: '06-artigos'  
-**Created**: 2026-11-04  
-**Updated**: 2026-11-17  
-**Status**: Atualizado / Planejado  
+**Feature Branch**: `06-artigos`
 
-**Input**: User description: "Reescrever a especificação da página 'artigos.astro' utilizando rigorosamente o modelo estrutural do Google Spec Kit definido em 'spec_portfolio.md', refletindo fielmente todos os detalhes arquiteturais, visuais, estruturais e comportamentais implementados em 'artigos.html' ('artigos.astro'), 'artigos.css' e 'artigos.js'."
+**Created**: 2026-11-04 (Updated: 2026-11-20 — migração para o modelo em camadas)
+
+**Status**: Em Execução
+
+**Input**: User description: "Página de entrada dos artigos técnicos do portfólio: um catálogo temático em grupos recolhíveis (com subgrupos), em que cada artigo é um link para a página do artigo, integrada à SPA (injetada em '#page-content-host' via History API, sem full reload), com assets isolados por página e caminhos absolutos."
 
 ---
 
 ## 1. Objetivo
 
-Este documento define de forma unificada a estrutura de apresentação, a hierarquia de páginas e roteamento aninhado em SPA, a organização detalhada dos elementos, a identidade visual, a tipografia, o layout em duas colunas, a responsividade, os estados visuais (padrão, hover, acordeão aberto e item selecionado), bem como os requisitos funcionais, cenários de teste e critérios de aceite da página de artigos técnicos (`artigos.astro`).
+Este documento define de forma unificada a página "Artigos técnicos": o roteamento e a organização de arquivos na SPA, a composição da página (elementos, hierarquia e fontes de dados), o comportamento de seleção de artigos, os cenários de teste, os requisitos funcionais e os critérios de aceite. O HTML e a aparência de cada elemento não são descritos aqui: vêm do catálogo [elementos.md](../../catalog/elementos.md) e da spec [estilos.md](../../catalog/estilos.md), referenciados na seção 4. O registro da migração para este modelo está em [migracao.md](migracao.md).
 
 ---
 
 ## 2. Hierarquia de Páginas e Roteamento Aninhado na SPA
 
-Para garantir que a página de artigos e todos os artigos técnicos abertos a partir dos links finais (`.leaf`) sejam reconhecidos, carregados e renderizados dentro da área principal de exibição da SPA (`#page-content-host`) sem recarregamento completo da aplicação, fica estabelecida a seguinte hierarquia oficial de rotas e estrutura de fragmentos:
+A página "Artigos técnicos" é exibida dentro da área de exibição (`#page-content-host`) ao acessar `/spa/artigos`, e mantém o item "Artigos" ativo no menu lateral (mapeamento `ROUTE_PARENT_MAP` em `pages/spa/assets/js/router.js`). O ponto de entrada da SPA é `pages/spa/artigos.astro`; `pages/artigos/artigos.astro` é a cópia da página no diretório da feature.
 
-### 2.1 Árvore Hierárquica de Páginas e Assets de Artigos
+Cada artigo é uma subpágina sob `/spa/artigos/<slug>`, aberta pelo roteador SPA dentro de `#page-content-host`. As páginas dos artigos ainda não existem: até serem criadas, a navegação exibe o fallback 404 da SPA. Quando criadas, DEVEM seguir o contrato de fragmento da SPA (`id="page-content"`, `data-page-id`, `data-page-title`) e declarar `data-parent-route="/artigos"`, para manter o item "Artigos" ativo no menu.
+
+### 2.1 Árvore Hierárquica de Páginas da Artigos
 
 ```text
-pages/
-├── artigos.md
-├── spa/
-│   └── artigos.astro        (wrapper: importa o CSS e renderiza pages/artigos/artigos.astro)
-└── artigos/
-    ├── artigos.astro
-    ├── assets/
-    │   ├── css/
-    │   │   └── artigos.css
-    │   ├── images/          (sem imagens no momento; .gitkeep)
-    │   └── js/
-    │       └── artigos.js
-    └── <slug-do-artigo>/
-        └── <arquivo-do-artigo>
+pages/artigos/
+├── artigos.astro
+├── assets/
+│   ├── css/
+│   │   └── artigos.css
+│   ├── images/              (sem imagens no momento; .gitkeep)
+│   └── js/
+│       └── artigos.js       (seleção de artigos; ver 7.1)
+└── data/
+    └── artigos.json
 ```
 
-### 2.2 Contrato de Reconhecimento pelo Roteador SPA (`#page-content-host`)
-
-A página principal de artigos (`artigos.astro`) e toda subpágina de artigo técnico situada sob `/spa/artigos/**` ou `/pages/artigos/**` DEVEM seguir o contrato de fragmento SPA para integração ao motor de navegação (`History API`):
-
-1. **Contêiner Raiz Obrigatório**: O fragmento da página principal expõe o elemento raiz `#page-content` contendo:
-   - `id="page-content"`
-   - `class="page-content-wrapper artigos-page"` (`.artigos-page` é a classe de escopo de todos os estilos da página)
-   - `data-page-id="artigos"`
-   - `data-page-title="Artigos técnicos"`
-2. **Importação Isolada de Assets**: O wrapper `pages/spa/artigos.astro` importa `../artigos/assets/css/artigos.css` no frontmatter (Constituição II). O código-fonte do comportamento reside em `pages/artigos/assets/js/artigos.js` e é emitido dentro do fragmento via `import artigosScript from './assets/js/artigos.js?raw'` + `<script is:inline type="module" set:html={artigosScript} />`, para que seja enviado ao navegador e re-executado pelo roteador SPA a cada injeção (um import de `.js` no frontmatter executaria apenas no build). Por residir sob `pages/`, o módulo exporta também `export function GET()` para compatibilidade com o roteamento baseado em arquivos do Astro.
-3. **Interceptação e Redirecionamento de Artigos (`.leaf`)**:
-   - Cada link final de artigo (`.leaf`) possui `href="#"` e o atributo `data-url="/spa/artigos/<slug>"`.
-   - Ao clicar em um `.leaf`, o script `artigos.js` intercepta o evento (`e.preventDefault()`), aplica o feedback visual de seleção (classe `.selected` + marcador `✓`) e, após `150ms`, navega para o destino declarado em `data-url` através do roteador SPA, sem full page reload.
-
-### 2.3 Descrição dos Elementos da Página
-
-- `page-content-wrapper` (`#page-content`): Contêiner raiz do fragmento da página injetado no `#page-content-host`.
-- `.app`: Contêiner principal centralizado (`max-width: 1200px`) que estrutura verticalmente cabeçalho, área de trabalho e rodapé.
-- `header`: Área de cabeçalho superior da página contendo título, subtítulo e linha divisória decorativa.
-  - `h1`: Título principal da página (`"Artigos técnicos"`).
-  - `.intro`: Subtítulo orientativo da página (`"Seleciona o tema."`).
-  - `.rule`: Linha horizontal divisória de `1px` com gradiente ciano decrescente.
-- `main.workspace`: Área expansível (`flex: 1`) que abriga a grade de tópicos técnicos.
-- `.topic-columns`: Grade principal CSS Grid de duas colunas (`repeat(2, minmax(0, 1fr))`) que distribui os 13 grupos temáticos.
-- `.column`: Contêiner flex vertical (`flex-direction: column; gap: 16px`) representando cada uma das duas colunas (esquerda: grupos 1 a 6; direita: grupos 7 a 13).
-- `.topic-group`: Card interativo em estilo *glassmorphism* escuro que agrupa um tema principal e seus respectivos artigos ou subgrupos.
-- `.group-toggle`: Botão cabeçalho do card `.topic-group` que controla a expansão/recolhimento do acordeão (`aria-expanded`).
-  - `.group-icon`: Ícone tipográfico/geométrico em destaque ciano (`#00e5ff`) à esquerda do título do grupo.
-  - `.group-name`: Nome da categoria temática em fonte `'Oswald'`.
-  - `.chevron`: Indicador direcional (`›`) alinhado à direita que rotaciona `90deg` quando o grupo está aberto.
-- `.group-children`: Contêiner interno recolhível exibido quando `.topic-group` possui a classe `.open`.
-- `.subgroup`: Subnível hierárquico expansível dentro de grupos complexos (`Deep Learning` e `Nuvem`).
-  - `.subgroup-toggle`: Botão em formato pílula (`border-radius: 50px`) que alterna a visibilidade de `.subgroup-children` (`aria-expanded`).
-  - `.subgroup-marker`: Marcador direcional (`›`) à esquerda do nome do subgrupo.
-  - `.subgroup-name`: Título do subgrupo (ex.: `Redes Neurais Recorrentes`, `GCP`, `AWS`, `AZURE`).
-  - `.subgroup-children`: Contêiner interno com guia visual lateral esquerda (`border-left: 2px solid rgba(0, 229, 255, 0.2)`).
-- `.leaf-list`: Lista vertical em flexbox (`flex-direction: column`) contendo os links finais de artigos.
-- `.leaf`: Item final clicável em formato pílula (`border-radius: 50px`) que representa um artigo específico e armazena sua rota em `data-url`.
-  - `.leaf-bullet`: Marcador circular (`•`) em destaque ciano (`#00e5ff`).
-  - `.check-mark`: Elemento `<span>` injetado dinamicamente via JavaScript com o símbolo `✓` quando o item `.leaf` é selecionado.
-- `footer`: Rodapé da página separado por borda superior sutil contendo informações de copyright e lema institucional.
-  - `.footer-motto`: Lema `"ANALISAR / CONSTRUIR / EVOLUIR"` com separadores `/` estilizados em ciano (`#00e5ff`).
-
-### 2.4 Estrutura da Página
-
-A página segue estritamente a árvore estrutural e o catálogo completo de 13 grupos temáticos, 4 subgrupos e 42 links de artigos (`data-url`) detalhados abaixo:
+Recursos compartilhados usados pela página (fora de `pages/artigos/`):
 
 ```text
-artigos.astro (#page-content.page-content-wrapper.artigos-page)
-└── .app
-    ├── header
-    │   ├── h1: 'Artigos técnicos'
-    │   ├── p.intro: 'Seleciona o tema.'
-    │   └── div.rule
-    │
-    ├── main.workspace
-    │   └── .topic-columns
-    │       ├── .column (Coluna Esquerda — Grupos 1 a 6)
-    │       │   ├── .topic-group.open (Grupo 1 — aberto por padrão, aria-expanded='true')
-    │       │   │   ├── .group-toggle (group-icon='▥', group-name='Análise de dados e BI')
-    │       │   │   └── .group-children > .leaf-list
-    │       │   │       ├── .leaf (text='Séries temporais', data-url='/spa/artigos/series_temporais')
-    │       │   │       ├── .leaf (text='Gráficos', data-url='/spa/artigos/graficos')
-    │       │   │       └── .leaf (text='KPIs', data-url='/spa/artigos/kpis')
-    │       │   │
-    │       │   ├── .topic-group (Grupo 2 — fechado por padrão, aria-expanded='false')
-    │       │   │   ├── .group-toggle (group-icon='⚙', group-name='Engenharia de dados')
-    │       │   │   └── .group-children > .leaf-list
-    │       │   │       └── .leaf (text='Pipelines', data-url='/spa/artigos/pipelines')
-    │       │   │
-    │       │   ├── .topic-group (Grupo 3 — fechado por padrão, aria-expanded='false')
-    │       │   │   ├── .group-toggle (group-icon='☧', group-name='Machine Learning')
-    │       │   │   └── .group-children > .leaf-list
-    │       │   │       ├── .leaf (text='Modelos de otimização', data-url='/spa/artigos/modelo_otimizacao')
-    │       │   │       ├── .leaf (text='Sistemas de Recomendação', data-url='/spa/artigos/sistemas_recomendacao')
-    │       │   │       └── .leaf (text='Aprendizado por Reforço', data-url='/spa/artigos/aprendizado_reforco')
-    │       │   │
-    │       │   ├── .topic-group (Grupo 4 — fechado por padrão, aria-expanded='false')
-    │       │   │   ├── .group-toggle (group-icon='✣', group-name='Deep Learning')
-    │       │   │   └── .group-children
-    │       │   │       ├── .leaf-list
-    │       │   │       │   ├── .leaf (text='Redes Neurais Artificiais (ANN)', data-url='/spa/artigos/redes_neurais_artificiais')
-    │       │   │       │   └── .leaf (text='Processamento de Linguagem Natural (NLP)', data-url='/spa/artigos/processamento_linguagem_natural')
-    │       │   │       └── .subgroup (fechado por padrão, aria-expanded='false')
-    │       │   │           ├── .subgroup-toggle (subgroup-name='Redes Neurais Recorrentes')
-    │       │   │           └── .subgroup-children > .leaf-list
-    │       │   │               ├── .leaf (text='RNN', data-url='/spa/artigos/rnn')
-    │       │   │               ├── .leaf (text='LSTM', data-url='/spa/artigos/lstm')
-    │       │   │               └── .leaf (text='GRU', data-url='/spa/artigos/gru')
-    │       │   │
-    │       │   ├── .topic-group (Grupo 5 — fechado por padrão, aria-expanded='false')
-    │       │   │   ├── .group-toggle (group-icon='◼', group-name='IA')
-    │       │   │   └── .group-children > .leaf-list
-    │       │   │       ├── .leaf (text='Agentes', data-url='/spa/artigos/agentes')
-    │       │   │       ├── .leaf (text='Transformers e IA Generativa', data-url='/spa/artigos/transformers_ia_generativa')
-    │       │   │       ├── .leaf (text='Prompt patterns', data-url='/spa/artigos/prompt_patterns')
-    │       │   │       └── .leaf (text='GSK', data-url='/spa/artigos/gsk')
-    │       │   │
-    │       │   └── .topic-group (Grupo 6 — fechado por padrão, aria-expanded='false')
-    │       │       ├── .group-toggle (group-icon='☁', group-name='Nuvem')
-    │       │       └── .group-children
-    │       │           ├── .subgroup (GCP — fechado por padrão, aria-expanded='false')
-    │       │           │   ├── .subgroup-toggle (subgroup-name='GCP')
-    │       │           │   └── .subgroup-children > .leaf-list
-    │       │           │       ├── .leaf (text='Armazenamento de dados', data-url='/spa/artigos/gcp_armazenamento_dados')
-    │       │           │       ├── .leaf (text='Integração e processamento', data-url='/spa/artigos/gcp_integracao_processamento')
-    │       │           │       └── .leaf (text='Data warehouse e análise', data-url='/spa/artigos/gcp_data_warehouse_analise')
-    │       │           ├── .subgroup (AWS — fechado por padrão, aria-expanded='false')
-    │       │           │   ├── .subgroup-toggle (subgroup-name='AWS')
-    │       │           │   └── .subgroup-children > .leaf-list
-    │       │           │       ├── .leaf (text='Armazenamento de dados', data-url='/spa/artigos/aws_armazenamento_dados')
-    │       │           │       ├── .leaf (text='Integração e processamento', data-url='/spa/artigos/aws_integracao_processamento')
-    │       │           │       └── .leaf (text='Data warehouse e análise', data-url='/spa/artigos/aws_data_warehouse_analise')
-    │       │           └── .subgroup (AZURE — fechado por padrão, aria-expanded='false')
-    │       │               ├── .subgroup-toggle (subgroup-name='AZURE')
-    │       │               └── .subgroup-children > .leaf-list
-    │       │                   ├── .leaf (text='Armazenamento de dados', data-url='/spa/artigos/azure_armazenamento_dados')
-    │       │                   ├── .leaf (text='Integração e processamento', data-url='/spa/artigos/azure_integracao_processamento')
-    │       │                   └── .leaf (text='Data warehouse e análise', data-url='/spa/artigos/azure_data_warehouse_analise')
-    │       │
-    │       └── .column (Coluna Direita — Grupos 7 a 13)
-    │           ├── .topic-group (Grupo 7 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='☧', group-name='Conceitos')
-    │           │   └── .group-children > .leaf-list
-    │           │       ├── .leaf (text='Arquitetura medalhão', data-url='/spa/artigos/arquitetura_medalhao')
-    │           │       ├── .leaf (text='Big Data', data-url='/spa/artigos/big_data')
-    │           │       └── .leaf (text='ETL/ELT', data-url='/spa/artigos/etl_elt')
-    │           │
-    │           ├── .topic-group (Grupo 8 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='▥', group-name='Apresentação')
-    │           │   └── .group-children > .leaf-list
-    │           │       ├── .leaf (text='Power BI', data-url='/spa/artigos/power_bi')
-    │           │       └── .leaf (text='Tableau', data-url='/spa/artigos/tableau')
-    │           │
-    │           ├── .topic-group (Grupo 9 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='‹›', group-name='Linguagens')
-    │           │   └── .group-children > .leaf-list
-    │           │       ├── .leaf (text='Python', data-url='/spa/artigos/python')
-    │           │       ├── .leaf (text='R', data-url='/spa/artigos/r')
-    │           │       └── .leaf (text='SQL', data-url='/spa/artigos/sql')
-    │           │
-    │           ├── .topic-group (Grupo 10 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='▤', group-name='Databases e formatos de dados')
-    │           │   └── .group-children > .leaf-list
-    │           │       ├── .leaf (text='SQL Server', data-url='/spa/artigos/sql_server')
-    │           │       ├── .leaf (text='Oracle', data-url='/spa/artigos/oracle')
-    │           │       ├── .leaf (text='MySQL', data-url='/spa/artigos/mysql')
-    │           │       ├── .leaf (text='PostgreSQL', data-url='/spa/artigos/postgresql')
-    │           │       ├── .leaf (text='Parquet', data-url='/spa/artigos/parquet')
-    │           │       └── .leaf (text='Delta Lake', data-url='/spa/artigos/delta_lake')
-    │           │
-    │           ├── .topic-group (Grupo 11 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='±', group-name='Plataformas')
-    │           │   └── .group-children > .leaf-list
-    │           │       └── .leaf (text='Databricks', data-url='/spa/artigos/databricks')
-    │           │
-    │           ├── .topic-group (Grupo 12 — fechado por padrão, aria-expanded='false')
-    │           │   ├── .group-toggle (group-icon='∑', group-name='Matemática')
-    │           │   └── .group-children > .leaf-list
-    │           │       └── .leaf (text='Estatística', data-url='/spa/artigos/estatistica')
-    │           │
-    │           └── .topic-group (Grupo 13 — fechado por padrão, aria-expanded='false')
-    │               ├── .group-toggle (group-icon='☆', group-name='Outros')
-    │               └── .group-children > .leaf-list
-    │                   └── .leaf (text='GitHub', data-url='/spa/artigos/github')
-    │
-    └── footer
-        ├── p: '© 2026 — Portfólio de Dados'
-        └── p.footer-motto: 'ANALISAR <span>/</span> CONSTRUIR <span>/</span> EVOLUIR'
+pages/spa/
+├── artigos.astro                    ← ponto de entrada na SPA
+├── assets/css/
+│   ├── scale.css                    ← tokens de escala
+│   └── tokens.css                   ← tokens visuais
+└── components/elementos/            ← componentes dos elementos do catálogo
 ```
 
 ---
 
-## 3. Identidade Visual
+## 3. User Scenarios & Testing *(mandatory)*
 
-### 3.1. Paleta de Cores, Tipografia e Gradientes
+### 3.1 User Story 1 - Visualização da Página e do Catálogo Temático (Priority: P1)
 
-- `.artigos-page` (`#page-content`; fundo base e tipografia da página — NÃO aplicar em `body`, para não vazar estilos para o shell da SPA):
-  - `background`: `radial-gradient(circle at 50% 20%, #102636 0%, #070e14 100%)` com `background-attachment: fixed`
-  - `font-family`: `'Roboto Condensed', sans-serif`
-  - `font-size`: `15px`
-  - `line-height`: `1.5`
-  - `color`: `#e2f1f8`
-- `header h1`:
-  - Fonte: `'Oswald', sans-serif`
-  - Peso: `600`
-  - Tamanho: `clamp(28px, 3.5vw, 40px)`
-  - Cor: `#ffffff`
-  - Sombra de texto (`text-shadow`): `0 0 12px rgba(0, 229, 255, 0.2)`
-- `header .intro`:
-  - Tamanho: `15px`
-  - Peso: `300`
-  - Cor: `#88a9bc`
-  - Largura máxima: `760px` | Margem: `10px 0 20px`
-- `header .rule`:
-  - Altura: `1px`
-  - `background`: `linear-gradient(90deg, #00e5ff 0%, rgba(0, 229, 255, 0.15) 60%, transparent 100%)`
-  - Margem inferior: `28px`
-- `.topic-group`:
-  - `background`: `rgba(10, 25, 38, 0.75)`
-  - Efeito de vidro: `backdrop-filter: blur(8px)` (`-webkit-backdrop-filter: blur(8px)`)
-  - Borda padrão: `1px solid rgba(0, 229, 255, 0.25)`
-  - `border-radius`: `18px`
-  - Sombra (`box-shadow`): `0 4px 20px rgba(0, 0, 0, 0.3)`
-- `.group-icon`:
-  - Cor: `#00e5ff`
-  - Tamanho: `18px` | Largura fixa: `24px`
-- `.group-name`:
-  - Fonte: `'Oswald', sans-serif`
-  - Peso: `500`
-  - Tamanho: `17px`
-  - Cor: `#e2f1f8`
-- `.chevron`:
-  - Cor padrão: `#88a9bc`
-  - Tamanho: `18px`
-- `.group-children`:
-  - `background`: `rgba(4, 12, 18, 0.3)`
-  - Borda superior: `1px solid rgba(0, 229, 255, 0.1)`
-  - Padding: `6px 14px 14px 18px`
-- `.subgroup-toggle`:
-  - `background`: `transparent`
-  - Borda: `1px solid rgba(0, 229, 255, 0.15)`
-  - `border-radius`: `50px`
-  - Cor: `#88a9bc`
-  - Tamanho: `14px` | Padding: `8px 16px`
-- `.subgroup-children`:
-  - Borda lateral esquerda: `2px solid rgba(0, 229, 255, 0.2)`
-  - Espaçamento: `margin-left: 14px; padding-left: 14px; margin-top: 6px;`
-- `.leaf` (Estado Padrão):
-  - `background`: `rgba(12, 30, 44, 0.6)`
-  - Borda: `1px solid rgba(0, 229, 255, 0.15)`
-  - `border-radius`: `50px`
-  - Cor: `#b0d3e5`
-  - Tamanho: `14px` | `letter-spacing: 0.02em` | Padding: `9px 16px` | Margem: `4px 0`
-- `.leaf-bullet`:
-  - Cor padrão: `#00e5ff`
-- `footer`:
-  - Borda superior: `1px solid rgba(0, 229, 255, 0.15)`
-  - Margem superior: `48px` | Padding superior: `20px`
-  - Texto (`footer p`): cor `#88a9bc`, tamanho `12px`
-  - Lema (`.footer-motto span`): cor `#00e5ff`, `font-weight: bold`, margem `0 4px`
+Como recrutador, gestor técnico ou visitante do portfólio, desejo ver a página "Artigos técnicos" com o catálogo de temas organizado em duas colunas e o rodapé institucional.
 
-### 3.2. Grade de Colunas e Agrupamento
+**Why this priority**: Estabelece a estrutura de navegação temática da página.
 
-- O elemento `.topic-columns` deve utilizar CSS Grid com duas colunas de largura igual (`grid-template-columns: repeat(2, minmax(0, 1fr))`), espaçamento `gap: 16px` e alinhamento superior (`align-items: start`) para evitar esticamento vertical desigual entre cards adjacentes.
-- Cada coluna (`.column`) empilha seus respectivos cards `.topic-group` com `display: flex; flex-direction: column; gap: 16px`.
+**Independent Test**: Acessar a rota da página "Artigos" na SPA. Verificar se a página corresponde à seção 4 (Estrutura): título, subtítulo, divisória, as duas colunas de grupos de `@dados.colunas` e o rodapé de `@dados.rodape`.
 
-### 3.3. Organização Interna do `.topic-group`
+**Acceptance Scenarios**:
 
-Cada card temático (`.topic-group`) organiza-se internamente em duas regiões verticais:
-
-1. **Cabeçalho Acionável (`.group-toggle`)**: Botão de largura total (`min-height: 54px`, `padding: 14px 18px`) alinhado horizontalmente com ícone (`.group-icon`), título do tema (`.group-name`) e seta indicadora (`.chevron` com `margin-left: auto`).
-2. **Área de Filhos Expansível (`.group-children`)**: Oculta por padrão (`display: none`) e revelada (`display: block`) quando `.topic-group` recebe a classe `.open`, exibindo diretamente a lista de artigos (`.leaf-list`) e/ou subgrupos recolhíveis (`.subgroup`).
-
-### 3.4. Estado Padrão
-
-- Apenas o Grupo 1 (`"Análise de dados e BI"`) inicia com a classe `.open` e `aria-expanded="true"`, exibindo seus 3 artigos (`Séries temporais`, `Gráficos`, `KPIs`).
-- Os Grupos 2 a 13 e todos os 4 subgrupos (`Redes Neurais Recorrentes`, `GCP`, `AWS`, `AZURE`) iniciam recolhidos (`aria-expanded="false"`, `.group-children` e `.subgroup-children` com `display: none`).
-- Todos os links `.leaf` iniciam sem a classe `.selected` e sem o elemento `.check-mark`.
-
-### 3.5. Estados Hover, Aberto (`.open`) e Selecionado (`.selected`)
-
-- **Hover no `.topic-group`**: Transição suave de borda (`0.2s ease`) para `border-color: rgba(0, 229, 255, 0.45)`.
-- **Estado Aberto (`.topic-group.open`)**:
-  - Borda destacada em ciano sólido: `border-color: #00e5ff`.
-  - Brilho externo sutil: `box-shadow: 0 0 15px rgba(0, 229, 255, 0.15)`.
-  - Rotação do `.chevron` (tanto em `.topic-group.open` quanto em `.subgroup.open`): `transform: rotate(90deg)` e cor `#00e5ff`.
-- **Hover no `.subgroup-toggle`**: Fundo `rgba(20, 48, 70, 0.85)`, texto `#e2f1f8` e borda `rgba(0, 229, 255, 0.25)`.
-- **Hover no `.leaf`**:
-  - Deslocamento horizontal suave: `transform: translateX(3px)`.
-  - Fundo: `rgba(20, 50, 72, 0.9)`.
-  - Borda: `#00e5ff` | Cor do texto: `#ffffff`.
-- **Estado Selecionado (`.leaf.selected`)**:
-  - Fundo claro de alto contraste: `#dbeaf0`.
-  - Borda: `#ffffff`.
-  - Cor do texto e do `.leaf-bullet`: `#091a24` com `font-weight: 700`.
-  - Sombra de destaque: `box-shadow: 0 0 12px rgba(255, 255, 255, 0.3)`.
-  - Exibição de `<span class="check-mark">✓</span>` alinhado à direita (`margin-left: auto; font-weight: bold`).
-
-### 3.6. Comportamento de Layout e Dimensionamento
-
-- **Contêiner Principal (`.app`)**: Ocupa `width: 100%` até `max-width: 1200px`, centralizado horizontalmente, com `padding: 32px 36px`, `min-height: 100%` (relativo ao `#page-content-host`) e layout flex vertical (`display: flex; flex-direction: column`) para manter o `footer` ancorado na base da área útil.
-- **Prevenção de Overflow Horizontal**: Uso de `minmax(0, 1fr)` nas colunas do grid e `box-sizing: border-box` global para impedir estouro lateral de conteúdo.
+1. **Given** que o usuário navega para a página na SPA, **When** o conteúdo é injetado em `#page-content-host`, **Then** exibe o título "Artigos técnicos", o subtítulo "Seleciona o tema." e a divisória, nos estilos indicados na seção 4.
+2. **Given** cada faixa de largura, **When** a página é exibida, **Then** o grid de grupos assume as colunas configuradas na seção 4 (1 coluna < 1024px; 2 colunas ≥ 1024px), com a coluna esquerda antes da direita.
+3. **Given** o rodapé, **When** renderizado, **Then** exibe o texto e o lema de `@dados.rodape`, com os separadores entre as palavras do lema.
 
 ---
 
-## 4. Responsividade
+### 3.2 User Story 2 - Grupos e Subgrupos Recolhíveis (Priority: P1)
 
-### 4.1. Breakpoints Principais
+Como avaliador ou entusiasta de dados, desejo abrir e fechar os grupos de temas e seus subgrupos, para explorar o catálogo de forma progressiva.
 
-- **Desktop / Telas Largas (`>= 1024px`)**:
-  - `.app`: `padding: 32px 36px`.
-  - `.topic-columns`: 2 colunas (`repeat(2, minmax(0, 1fr))`), `gap: 16px`.
-  - `footer`: Disposição horizontal (`display: flex; justify-content: space-between`).
-- **Tablet / Mobile (`< 1024px`)**:
-  - `.app`: `padding: 24px 20px`.
-  - `.topic-columns`: Coluna única (`grid-template-columns: 1fr`), mantendo `gap: 16px`.
-- **Mobile Estreito (`< 480px`)**:
-  - `footer`: Reorganiza-se em coluna vertical (`flex-direction: column; gap: 12px; align-items: flex-start`).
+**Why this priority**: Permite navegar por um catálogo extenso de artigos sem poluir a página.
 
-### 4.2. Ajustes Mobile
+**Independent Test**: Carregar a página, confirmar que apenas o grupo marcado com `aberto` em `@dados.colunas` inicia aberto e abrir/fechar grupos e subgrupos.
 
-Para viewports com largura inferior a `1024px` e `480px`:
+**Acceptance Scenarios**:
 
-- Os cards da coluna direita (Grupos 7 a 13) fluem naturalmente abaixo dos cards da coluna esquerda (Grupos 1 a 6) em coluna única.
-- Todos os botões de acordeão (`.group-toggle`, `.subgroup-toggle`) e itens `.leaf` mantêm áreas de toque confortáveis sem provocar rolagem horizontal na página.
+1. **Given** o carregamento inicial, **When** a página é exibida, **Then** só "Análise de dados e BI" está aberto; os demais grupos e todos os subgrupos estão fechados.
+2. **Given** o clique no cabeçalho de um grupo ou subgrupo, **When** acionado, **Then** o conteúdo abre ou fecha e a seta indica o estado, conforme o comportamento de `accordion` em [elementos.md](../../catalog/elementos.md).
+3. **Given** o teclado, **When** o cabeçalho de um grupo recebe foco e o usuário pressiona Enter ou Espaço, **Then** o grupo abre ou fecha.
 
 ---
 
-## 5. User Scenarios & Testing *(mandatory)*
+### 3.3 User Story 3 - Seleção de Artigos e Navegação (Priority: P2)
 
-### User Story 1 - Visualização do Cabeçalho, Rodapé e Grid de Duas Colunas (Priority: P1)
+Como usuário navegando pelos artigos, desejo clicar em um artigo, ver qual escolhi e ser levado à página dele.
 
-Como recrutador, gestor técnico ou visitante do portfólio, desejo visualizar o cabeçalho da página de artigos ("Artigos técnicos", subtítulo "Seleciona o tema." e linha divisória com gradiente ciano), o grid principal de duas colunas contendo os 13 grupos temáticos e o rodapé institucional.
+**Why this priority**: Conecta o catálogo aos artigos com retorno visual claro.
 
-- **Why this priority**: Estabelece a identidade visual, a estrutura de navegação temática e o enquadramento completo da página na SPA.
-- **Independent Test**: Acessar a rota da página "Artigos" na SPA (`#page-content-host`) e verificar se o título "Artigos técnicos", o subtítulo `.intro`, a regra `.rule`, as 2 colunas (`.topic-columns`) com os 13 grupos e o `footer` são renderizados fielmente.
-
-**Acceptance Scenarios**:
-1. **Given** que o usuário navega para a página de Artigos na SPA, **When** o fragmento é injetado em `#page-content-host`, **Then** o elemento `#page-content` exibe o cabeçalho com `h1` em fonte `Oswald` (`clamp(28px, 3.5vw, 40px)`, cor `#ffffff`), subtítulo `.intro` (`"Seleciona o tema."`, `#88a9bc`) e linha `.rule` com gradiente ciano.
-2. **Given** o layout principal em viewport `>= 1024px`, **When** renderizado, **Then** `.topic-columns` exibe 2 colunas (`repeat(2, minmax(0, 1fr))`, `gap: 16px`), distribuindo os grupos 1 a 6 na coluna esquerda e os grupos 7 a 13 na coluna direita.
-3. **Given** o rodapé da página (`footer`), **When** renderizado, **Then** exibe `"© 2026 — Portfólio de Dados"` e o lema `"ANALISAR / CONSTRUIR / EVOLUIR"` com os caracteres `/` destacados em `#00e5ff`.
-
-### User Story 2 - Interação de Acordeão em Grupos e Subgrupos (Priority: P1)
-
-Como avaliador ou entusiasta de dados, desejo expandir e recolher os cards de grupos de tópicos (`.topic-group`) e seus subgrupos internos (`Redes Neurais Recorrentes`, `GCP`, `AWS`, `AZURE`) por meio de cliques com transição visual suave, atualização de acessibilidade (`aria-expanded`) e rotação do indicador `.chevron`.
-
-- **Why this priority**: Permite explorar uma taxonomia extensa de 42 artigos técnicos de forma limpa, progressiva e organizada.
-- **Independent Test**: Carregar a página, confirmar que apenas o Grupo 1 ("Análise de dados e BI") inicia aberto, clicar em outros `.group-toggle` e `.subgroup-toggle` e validar a alternância da classe `.open`, do atributo `aria-expanded` e da rotação de `90deg` do `.chevron`.
+**Independent Test**: Clicar em um artigo (ex.: "Séries temporais"), confirmar a marcação de selecionado e a navegação para `/spa/artigos/<slug>` após 150ms.
 
 **Acceptance Scenarios**:
-1. **Given** o carregamento inicial da página, **When** renderizada, **Then** o Grupo 1 (`"Análise de dados e BI"`) inicia com `.topic-group.open` e `aria-expanded="true"`, enquanto os demais 12 grupos e os 4 subgrupos iniciam fechados (`aria-expanded="false"`).
-2. **Given** o clique em um `.group-toggle` ou `.subgroup-toggle`, **When** acionado, **Then** o evento não propaga indevidamente (`e.stopPropagation()`), a classe `.open` é alternada no elemento pai (`.topic-group` ou `.subgroup`), `aria-expanded` alterna entre `"true"` e `"false"` e o `.chevron` rotaciona `90deg` assumindo a cor `#00e5ff`.
 
-### User Story 3 - Seleção de Artigos (`.leaf`), Feedback Visual e Navegação (Priority: P2)
-
-Como usuário navegando pelos artigos, desejo clicar em qualquer subitem (`.leaf`) para receber feedback visual imediato de seleção (estado `.selected` em alto contraste e marca `✓`) e ser direcionado para a URL do artigo definida em `data-url`.
-
-- **Why this priority**: Conecta a árvore de navegação temática aos artigos técnicos individuais com retorno visual claro ao usuário.
-- **Independent Test**: Clicar em um item `.leaf` (ex.: `Séries temporais`), confirmar que seleções anteriores são limpas, que o item clicado recebe `.selected` e `<span class="check-mark">✓</span>`, e que após `150ms` ocorre o redirecionamento para o valor de `data-url`.
-
-**Acceptance Scenarios**:
-1. **Given** os links finais `.leaf`, **When** o cursor passa sobre um item (`:hover`), **Then** o item desliza `3px` à direita (`translateX(3px)`), realça a borda para `#00e5ff` e altera a cor do texto para `#ffffff`.
-2. **Given** o clique em um `.leaf`, **When** acionado, **Then** previne a navegação padrão do `href="#"` (`e.preventDefault()`), remove `.selected` e `.check-mark` de qualquer outro item, adiciona `.selected` (fundo `#dbeaf0`, texto `#091a24` em negrito) e `<span class="check-mark">✓</span>` ao item clicado, e navega via roteador SPA para `data-url` após `150ms`, sem recarregar a página.
-
-### User Story 4 - Layout Responsivo para Tablets e Smartphones (Priority: P2)
-
-Como usuário acessando por tablet ou smartphone, desejo que o layout de artigos se adapte automaticamente para coluna única e ajuste seus espaçamentos internos e o rodapé para telas estreitas.
-
-- **Why this priority**: Assegura legibilidade e usabilidade sem quebras de layout em dispositivos móveis.
-- **Independent Test**: Redimensionar a viewport para `< 1024px` e `< 480px`, verificando a conversão para 1 coluna e o empilhamento do rodapé.
-
-**Acceptance Scenarios**:
-1. **Given** viewport com largura `< 1024px`, **When** renderizada, **Then** `.app` ajusta o padding para `24px 20px` e `.topic-columns` reorganiza-se em 1 coluna (`grid-template-columns: 1fr`).
-2. **Given** viewport com largura `< 480px`, **When** renderizada, **Then** `footer` reorganiza seus elementos em coluna (`flex-direction: column; gap: 12px; align-items: flex-start`).
-3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página de Artigos é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o cabeçalho, os grupos temáticos, os itens de artigo e o rodapé apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
-4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os grupos temáticos se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
-5. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os textos dos grupos e dos itens de artigo são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
+1. **Given** o clique em um artigo, **When** acionado, **Then** a seleção anterior é desfeita e o artigo clicado fica selecionado, com a marca `✓`.
+2. **Given** um artigo selecionado, **When** passam 150ms, **Then** o roteador SPA abre o `url` do artigo em `#page-content-host`, sem recarregar a página.
+3. **Given** cliques rápidos em artigos diferentes, **When** feitos em menos de 150ms, **Then** só o último artigo clicado é aberto.
+4. **Given** um artigo cuja página ainda não existe, **When** aberto, **Then** a SPA exibe o fallback 404 e o item "Artigos" continua ativo no menu.
 
 ---
 
-## 6. Arquitetura & Estrutura de Arquivos
+### 3.4 User Story 4 - Layout Responsivo (Priority: P2)
 
-### 6.1. Integração SPA & Estrutura DOM
+Como usuário acessando por tablet ou smartphone, desejo que a página se adapte à largura da tela sem perda de legibilidade.
 
-- **FR-001**: A página de artigos DEVE ser organizada estritamente na estrutura de arquivos e diretórios do projeto:
-  - Página de conteúdo/metadados: `pages/artigos.md`
-  - Componente Astro principal e rota SPA: `pages/artigos/artigos.astro` e `pages/spa/artigos.astro` (este último como wrapper fino que importa o CSS no frontmatter e renderiza o componente)
-  - Folha de estilos isolada: `pages/artigos/assets/css/artigos.css`
-  - Módulo JavaScript client-side: `pages/artigos/assets/js/artigos.js`
-  - Diretório de imagens/ícones estáticos: `pages/artigos/assets/images/`
-- **FR-002**: A página DEVE ser injetada e renderizada 100% dentro do Main Container (`#page-content-host`) da SPA via History API sem full page reload, expondo no elemento raiz os atributos obrigatórios `id="page-content"`, `class="page-content-wrapper artigos-page"`, `data-page-id="artigos"` e `data-page-title="Artigos técnicos"`.
+**Why this priority**: Assegura legibilidade e usabilidade sem quebras de layout em dispositivos móveis.
 
-### 6.2. Lógica de Acordeão, Seleção de Artigos e Ciclo de Vida na SPA
+**Independent Test**: Exibir a página abaixo de 768px, entre 768px e 1023px e a partir de 1024px. Verificar as colunas do grid e o arranjo do rodapé.
 
-- **FR-003**: O módulo `artigos.js` DEVE implementar a função idempotente `initArtigosPage()` utilizando o marcador `dataset.listenerAttached = 'true'` em todos os controles `.group-toggle`, `.subgroup-toggle` e `.leaf` para evitar duplicação de event listeners durante transições SPA.
-- **FR-003.1**: **Ciclo de Vida e Compatibilidade Astro**: O script `artigos.js` DEVE ser entregue ao navegador como `<script is:inline type="module">` dentro de `#page-content` (conteúdo importado via `?raw`, ver §2.2.2) e inicializar tanto no carregamento tradicional do DOM (`DOMContentLoaded` ou execução imediata quando `document.readyState !== 'loading'`) quanto no evento customizado de navegação da SPA (`window.addEventListener('spa:page-loaded', ...)`, registrado uma única vez), além de exportar `export function GET()` retornando JSON `{ module: 'artigos' }` para compatibilidade com o roteamento baseado em arquivos do Astro.
-- **FR-003.2**: **Comportamento de Clique nos Artigos (`.leaf`)**: Ao acionar um `.leaf`, o script DEVE limpar a classe `.selected` e remover `.check-mark` de todos os irmãos, aplicar `.selected` ao item clicado, anexar `<span class="check-mark">✓</span>` e, após `150ms` (`setTimeout`), navegar para o valor de `data-url` via roteador SPA — criando uma âncora temporária `<a href="<data-url>">` e acionando `.click()`, interceptada pelo listener delegado global — sem full page reload. Um novo clique em `.leaf` antes do fim dos `150ms` cancela a navegação pendente (`clearTimeout`), de modo que apenas o último artigo selecionado é aberto. Rotas ainda inexistentes exibem o fallback 404 da SPA dentro de `#page-content-host`.
-- **FR-003.3**: **Fidelidade ao Catálogo Temático**: A implementação DEVE manter exatamente os 13 grupos temáticos, os 4 subgrupos (`Redes Neurais Recorrentes`, `GCP`, `AWS`, `AZURE`) e os 42 itens `.leaf` com suas respectivas rotas `/spa/artigos/<slug>` conforme especificado na Seção 2.4.
+**Acceptance Scenarios**:
 
-### 6.3. Convenções de Resolução de Assets
-
-- **FR-004**: Ao referenciar imagens ou assets estáticos em páginas dentro de `pages/artigos/`:
-  1. **NÃO utilizar caminhos relativos** (como `./assets/...` ou `../artigos/assets/...`), pois falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex.: `/spa/artigos/`).
-  2. **Utilizar SEMPRE caminhos absolutos POSIX** iniciados por `/` baseados na raiz do servidor estático do Astro (ex.: `/pages/artigos/assets/images/<arquivo>`).
-  3. **Garantir que os arquivos de imagem existam fisicamente** no diretório `pages/artigos/assets/images/`.
-  4. **Validar a renderização e o empacotamento** executando `npm run build` ao finalizar.
-
-### 6.4. Dimensionamento Responsivo e Fluido
-
-- **FR-005**: A página de Artigos DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
-- **FR-006**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos na Seção 3 são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
-- **FR-007**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
+1. **Given** cada faixa de largura, **When** a página é redimensionada, **Then** o grid e o rodapé seguem a seção 4 e o comportamento responsivo dos elementos, sem rolagem horizontal.
+2. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o cabeçalho, os grupos, os artigos e o rodapé apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+3. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os grupos se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+4. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os textos dos grupos e dos artigos são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
 
 ---
 
-## 7. Success Criteria *(measurable)*
+### 3.5 Edge Cases
 
-- **SC-001**: **Desempenho SPA**: A página de Artigos é injetada e renderizada no Main Container (`#page-content-host`) em menos de `150ms` sem recarregamento completo do navegador.
-- **SC-002**: **Fidelidade Visual e Taxonômica**: 100% dos elementos visuais, tokens de cor/tipografia, 13 grupos temáticos, 4 subgrupos e 42 artigos (`data-url`) especificados na Seção 2.4 são renderizados fielmente (tamanhos como valores de referência, conforme FR-006), com o Grupo 1 aberto por padrão.
-- **SC-003**: **Interatividade Idempotente e Feedback Visual**: 100% dos cliques em `.group-toggle` e `.subgroup-toggle` alternam `.open` e `aria-expanded` sem duplicação de listeners após múltiplas navegações SPA, e 100% dos cliques em `.leaf` exibem `.selected` + `✓` antes do redirecionamento em `150ms`.
-- **SC-004**: **Isolamento de Assets, Responsividade & Build**: CSS e JS permanecem estritamente isolados em `pages/artigos/assets/`, os breakpoints de `1024px` e `480px` adaptam o layout sem overflow horizontal nenhuma regra CSS afeta elementos fora de `.artigos-page` (sidebar e breadcrumbs inalterados) e `npm run build` compila sem erros.
-- **SC-005**: **Proporção em Telas Desktop**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página de Artigos exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
-- **SC-006**: **Proporção em Celular e Tablet**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página de Artigos apresenta layout adaptado e legível, sem rolagem horizontal.
+- **Reinjeção pela SPA**: navegar para outra página e voltar não duplica listeners do JS de seleção nem estilos.
+- **Grupo só com subgrupos** (Nuvem): exibe apenas os subgrupos, sem lista vazia.
+- **Grupo com artigos e subgrupo** (Deep Learning): exibe primeiro os artigos e depois o subgrupo.
+- **JS indisponível**: grupos continuam abrindo e fechando (recurso nativo) e os artigos continuam navegáveis (links reais).
+
+---
+
+## 4. Estrutura
+
+> Notação: [.specify/catalog/notacao-estrutura.md](../../catalog/notacao-estrutura.md) ·
+> Elementos: [.specify/catalog/elementos.md](../../catalog/elementos.md) ·
+> Estilos: [.specify/catalog/estilos.md](../../catalog/estilos.md)
+
+```
+[page-root:petroleo] artigos {titulo: 'Artigos técnicos'}
+  [container:centralizado]
+    [page-title:claro] 'Artigos técnicos'
+    [paragraph:claro] 'Seleciona o tema.'
+    [divider:sublinhado]
+
+    [grid] {colunas: 1 → 2 @1024}
+      [vertical-list:amplo] *@dados.colunas
+        [accordion:vidro] *$item.grupos
+          [vertical-list:compacto]
+            [link-item:ciano] *$item.artigos
+          [accordion:pilula] *$item.subgrupos
+            [vertical-list:compacto]
+              [link-item:ciano] *$item.artigos
+
+    [page-footer:ciano] @dados.rodape
+```
+
+Lista de artigos vazia ou sem subgrupos: o elemento correspondente é omitido.
+
+## 5. Textos
+
+A página não possui textos longos.
+
+## 6. Fontes de dados
+
+| Referência       | Origem                                   | Campos usados |
+|------------------|------------------------------------------|---------------|
+| @dados.colunas   | pages/artigos/data/artigos.json#colunas  | grupos[] (icone, titulo, aberto?, artigos[] (titulo, url), subgrupos[] (icone, titulo, artigos[])) |
+| @dados.rodape    | pages/artigos/data/artigos.json#rodape   | texto, lema[] |
+
+Catálogo (13 grupos, 4 subgrupos, 42 artigos; `url` de cada artigo = `/spa/artigos/<slug>`):
+
+| Coluna | Grupo (ícone) | Artigos | Subgrupos |
+|---|---|---|---|
+| esq. | Análise de dados e BI (▥) — **aberto** | Séries temporais · Gráficos · KPIs | — |
+| esq. | Engenharia de dados (⚙) | Pipelines | — |
+| esq. | Machine Learning (☧) | Modelos de otimização · Sistemas de Recomendação · Aprendizado por Reforço | — |
+| esq. | Deep Learning (✣) | Redes Neurais Artificiais (ANN) · Processamento de Linguagem Natural (NLP) | Redes Neurais Recorrentes: RNN · LSTM · GRU |
+| esq. | IA (◼) | Agentes · Transformers e IA Generativa · Prompt patterns · GSK | — |
+| esq. | Nuvem (☁) | — | GCP · AWS · AZURE: Armazenamento de dados · Integração e processamento · Data warehouse e análise (cada) |
+| dir. | Conceitos (☧) | Arquitetura medalhão · Big Data · ETL/ELT | — |
+| dir. | Apresentação (▥) | Power BI · Tableau | — |
+| dir. | Linguagens (‹›) | Python · R · SQL | — |
+| dir. | Databases e formatos de dados (▤) | SQL Server · Oracle · MySQL · PostgreSQL · Parquet · Delta Lake | — |
+| dir. | Plataformas (±) | Databricks | — |
+| dir. | Matemática (∑) | Estatística | — |
+| dir. | Outros (☆) | GitHub | — |
+
+Rodapé: texto "© 2026 — Portfólio de Dados"; lema "ANALISAR", "CONSTRUIR", "EVOLUIR".
+
+---
+
+## 7. Requirements *(mandatory)*
+
+### 7.1 Functional Requirements
+
+- **FR-001**: O sistema DEVE fornecer a página `pages/spa/artigos.astro` (e a cópia `pages/artigos/artigos.astro`), com a folha `pages/artigos/assets/css/artigos.css` gerada a partir de [estilos.md](../../catalog/estilos.md) contendo apenas os elementos e estilos usados na página (R-S02), os dados em `pages/artigos/data/artigos.json` e o script `pages/artigos/assets/js/artigos.js`. Os elementos do catálogo são componentes compartilhados em `pages/spa/components/elementos/`.
+- **FR-002**: A página DEVE ser injetada em `#page-content-host` pelo roteador SPA, via History API, sem recarregar a página. O elemento raiz DEVE conter `id="page-content"`, `data-page-id="artigos"` e `data-page-title="Artigos técnicos"`.
+- **FR-003**: A composição da página DEVE seguir a seção 4 (Estrutura); a aparência de cada elemento é a do estilo indicado, conforme [estilos.md](../../catalog/estilos.md).
+- **FR-004**: O catálogo exibido DEVE corresponder exatamente a `@dados.colunas` (13 grupos, 4 subgrupos, 42 artigos), na ordem do arquivo; só o grupo com `aberto: true` inicia aberto.
+- **FR-005**: Abrir e fechar grupos e subgrupos é comportamento nativo do `accordion` (sem JavaScript).
+- **FR-006**: **Seleção de artigos** (`artigos.js`):
+  - **FR-006.1**: ao clicar num `link-item`, o script DEVE impedir a navegação imediata, desfazer a seleção anterior (classe `is-selecionado` e marca `link-item-check`), aplicar `is-selecionado` ao item clicado e anexar `<span class="link-item-check">✓</span>`;
+  - **FR-006.2**: após 150ms, o script DEVE navegar para o `href` do item pelo roteador SPA (âncora temporária interceptada pelo listener global), sem recarregar a página; um novo clique antes desse prazo cancela a navegação pendente;
+  - **FR-006.3**: o script DEVE ser idempotente entre navegações SPA (marcador `dataset.listenerAttached`), inicializar no carregamento e no evento `spa:page-loaded` (registrado uma única vez) e atuar apenas dentro de `.artigos-page`;
+  - **FR-006.4**: o script DEVE ser entregue como `<script is:inline type="module">` dentro de `#page-content` (conteúdo importado via `?raw`), para ser reexecutado pelo roteador a cada injeção, e exportar `GET()` por residir sob `pages/`.
+- **FR-007**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-008**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), respeitando limites mínimos e máximos.
+- **FR-009**: O aumento do tamanho de fonte configurado nas preferências do navegador DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
+
+### 7.2 Key Entities
+
+- Os elementos da página (`page-root`, `container`, `page-title`, `paragraph`, `divider`, `grid`, `vertical-list`, `accordion`, `link-item`, `page-footer`) estão definidos em [elementos.md](../../catalog/elementos.md).
+- **Grupo** (dados): `icone`, `titulo`, `aberto?`, `artigos[]`, `subgrupos[]`; **Artigo**: `titulo`, `url` — ver `pages/artigos/data/artigos.json`.
+
+---
+
+## 8. Success Criteria *(mandatory)*
+
+### 8.1 Measurable Outcomes
+
+- **SC-001**: A página é injetada em `#page-content-host` em menos de 150ms, sem recarregamento completo.
+- **SC-002**: 100% dos elementos da página exibem a aparência do estilo indicado na seção 4, conforme [estilos.md](../../catalog/estilos.md).
+- **SC-003**: 100% dos 13 grupos, 4 subgrupos e 42 artigos de `@dados.colunas` são exibidos, com "Análise de dados e BI" aberto por padrão.
+- **SC-004**: 100% dos cliques em artigos exibem o estado selecionado e `✓` antes da navegação em 150ms, sem duplicação de listeners após várias navegações SPA.
+- **SC-005**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-006**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página apresenta layout adaptado e legível, sem rolagem horizontal.
+
+---
+
+## 9. Assumptions
+
+- O projeto segue a Constituição v2.0.0: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- As fontes `Barlow` e `Barlow Condensed` são carregadas do Google Fonts (por `tokens.css` e `spa-layout.css`).
+- As páginas dos artigos serão criadas depois; até lá, a navegação para elas exibe o fallback 404 da SPA.
+
+---
+
+## 10. Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: ao adicionar imagens ou assets em `pages/artigos/`:
+  1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../artigos/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/artigos/`).
+  2. **Utilize SEMPRE o caminho absoluto** (ex: `/pages/artigos/assets/images/<arquivo>`).
+  3. **Garanta que o arquivo exista fisicamente** em `pages/artigos/assets/images/`.
+  4. **Valide a renderização** executando `npm run build` ao finalizar.

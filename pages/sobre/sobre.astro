@@ -1,16 +1,86 @@
 ---
-import AboutPanel from './components/AboutPanel.astro';
-import SkillsPanel from './components/SkillsPanel.astro';
-
+// Página Sobre — montada a partir da seção Estrutura de .specify/specs/spec-02_sobre/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
 import './assets/css/sobre.css';
+
+import skills from './data/skills.json';
+import Panel from '../spa/components/elementos/Panel.astro';
+import Header from '../spa/components/elementos/Header.astro';
+import Subsection from '../spa/components/elementos/Subsection.astro';
+import Divider from '../spa/components/elementos/Divider.astro';
+import Grid from '../spa/components/elementos/Grid.astro';
+import Card from '../spa/components/elementos/Card.astro';
+import VerticalList from '../spa/components/elementos/VerticalList.astro';
+import Paragraph from '../spa/components/elementos/Paragraph.astro';
+import Legend from '../spa/components/elementos/Legend.astro';
+import LegendItem from '../spa/components/elementos/LegendItem.astro';
+import SkillItem from '../spa/components/elementos/SkillItem.astro';
+
+// @textos.bio
+const bio = [
+  'Sou um Cientista de Dados com sólida base em matemática, estatística e programação, aplicadas à análise de dados e ao desenvolvimento de soluções de Analise de Dados e Machine Learning.',
+  'Tenho mais de 25 anos de experiência profissional como desenvolvedor, analista de sistemas e analista de dados, atuando em empresas líderes de seus segmentos, em ambientes de elevada exigência técnica e profissional. Minha trajetória me proporcionou uma visão abrangente dos processos, sistemas e desafios de negócio, que hoje aplico na construção de soluções analíticas precisas, escaláveis e orientadas a resultados.',
+  'Valorizo o aprendizado contínuo, a colaboração e a inteligência coletiva como elementos fundamentais para transformar conhecimento em resultados reais.',
+  'Convido você a explorar minhas experiências profissionais, formação acadêmica e projetos, que refletem minha trajetória e evolução na área de dados',
+];
+
+// @dados.legenda-estrelas
+const legendaEstrelas = [
+  { estrelas: 1, descricao: 'Conhecimento conceitual' },
+  { estrelas: 2, descricao: 'Prática básica' },
+  { estrelas: 3, descricao: 'Uso em projetos pessoais' },
+  { estrelas: 4, descricao: 'Uso em projetos profissionais' },
+  { estrelas: 5, descricao: 'Domínio teórico e prático' },
+];
 ---
 
 <div
   id="page-content"
-  class="page-content-wrapper sobre-page"
+  class="page-content-wrapper page-root page-root--petroleo sobre-page"
   data-page-id="sobre"
   data-page-title="Sobre"
 >
-  <AboutPanel />
-  <SkillsPanel />
+  <Panel estilo="claro">
+    <Header estilo="painel-escuro" titulo="Sobre mim" />
+    <VerticalList estilo="amplo">
+      {bio.map((texto) => <Paragraph estilo="escuro">{texto}</Paragraph>)}
+    </VerticalList>
+  </Panel>
+
+  <Panel estilo="claro">
+    <Header estilo="painel-escuro" titulo="Habilidades" direcao={{ base: 'coluna', 768: 'linha' }}>
+      <Legend titulo="Legenda de Estrelas">
+        {legendaEstrelas.map((item) => <LegendItem {...item} />)}
+      </Legend>
+    </Header>
+
+    <Subsection estilo="escuro" titulo="Hard-Skills">
+      <Divider estilo="sublinhado" />
+      <Grid colunas={{ base: 1, 768: 2, 1280: 3 }}>
+        {skills.hard.map((item) => (
+          <Card estilo="amarelo">
+            <Header estilo="card" nivel={3} titulo={item.titulo} />
+            <VerticalList>
+              {item.skills.map((skill) => <SkillItem item={skill} />)}
+            </VerticalList>
+          </Card>
+        ))}
+      </Grid>
+    </Subsection>
+
+    <Subsection estilo="escuro" titulo="Soft-Skills">
+      <Divider estilo="sublinhado" />
+      <Grid colunas={{ base: 1, 768: 2 }}>
+        {skills.soft.map((item) => (
+          <Card estilo="verde">
+            <Header estilo="card" nivel={3} titulo={item.titulo} />
+            <VerticalList>
+              {item.skills.map((skill) => <SkillItem item={skill} />)}
+            </VerticalList>
+          </Card>
+        ))}
+      </Grid>
+    </Subsection>
+  </Panel>
 </div>

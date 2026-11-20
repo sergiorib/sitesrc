@@ -126,12 +126,12 @@ import portfolioScript from './assets/js/portfolio.js?raw';
 div#page-content.page-content-wrapper.portfolio-page-wrapper
     [data-page-id="portfolio"] [data-page-title="Portfólio de Projetos"]
 ├── header.portfolio-header
-│   ├── h1.portfolio-title                       "Portfólio de Projetos"
+│   ├── h1.page-title                       "Portfólio de Projetos"
 │   └── nav.category-selection[aria-label]
 │       └── a.selection-button[href="#section-<id>"] ×7   (1º com .active)
 ├── main.portfolio-body
 │   └── section.category-section#section-<id> ×7
-│       ├── h2.category-title
+│       ├── h2.category-section-title
 │       └── div.project-grid                     (renderizado só se projects.length > 0)
 │           └── article.project-card ×N
 │               ├── a.project-image-wrap[href]   (interno → sem target; externo → target="_blank" rel="noopener noreferrer")
@@ -157,12 +157,12 @@ Regras:
 | `@import` (topo) | Google Fonts: `Barlow Condensed:wght@600;700` e `Inter:wght@400;500` |
 | `.portfolio-page-wrapper` | `min-height:100%; display:flex; flex-direction:column; background:linear-gradient(to bottom,#DAEBF2,#A8CCD9);` |
 | `.portfolio-header` | `position:sticky; top:0; z-index:100;` fundo sólido/gradiente para não ficar transparente na rolagem |
-| `.portfolio-title` | `'Barlow Condensed'` 700, `36px`, `#000000` |
+| `.page-title` | `'Barlow Condensed'` 700, `36px`, `#000000` |
 | `.category-selection` | `display:flex; flex-wrap:wrap; gap; background:linear-gradient(to bottom,#2C4855,#1E333D);` |
 | `.selection-button` | `#FFFFFF`, `14px`, bg `rgba(255,255,255,.1)`, borda `rgba(255,255,255,.2)`, `text-decoration:none` |
 | `.selection-button.active` | `#22D3EE`, `16px`, bg `rgba(34,211,238,.2)`, borda `#22D3EE`, `box-shadow:0 0 8px rgba(34,211,238,.4)` |
 | `.category-section` | `scroll-margin-top:185px` |
-| `.category-title` | `'Barlow Condensed'` 700, `24px`, `#1E333D` |
+| `.category-section-title` | `'Barlow Condensed'` 700, `24px`, `#1E333D` |
 | `.project-grid` | `display:grid; grid-template-columns:repeat(2,1fr); gap:20px` |
 | `.project-card` | gradiente `#FFEFBA→#FFFFFF`, `1px solid #0381B0`, `border-radius:12px`, `box-shadow:0 4px 8px rgba(0,0,0,.1)`, `overflow:hidden`; `:hover` → `translateY(-4px)` + sombra realçada |
 | `.project-image-wrap` | `aspect-ratio:16/9; overflow:hidden; display:block; cursor:pointer` |
@@ -226,7 +226,7 @@ Por que `type="module"`: o arquivo contém `export function GET()`; num `<script
 | Critério | Verificação |
 |---|---|
 | SC-002 / FR-003.3 | 7 `.category-section`, exatamente 3 `.project-card` (`document.querySelectorAll('.project-card').length === 3`) |
-| SC-003 / US1 | Clique em cada `.selection-button`: `.active` correto, `.category-title` visível abaixo do header, URL com hash, sem refetch de rota |
+| SC-003 / US1 | Clique em cada `.selection-button`: `.active` correto, `.category-section-title` visível abaixo do header, URL com hash, sem refetch de rota |
 | US3 | Clique na capa do CLA → `AES1` injetado no host com `pushState`; capa do pipeline → nova aba |
 | US4 | Viewport 375px: 1 coluna, sem scroll horizontal |
 | SC-004 | `npm run build` sem erros |

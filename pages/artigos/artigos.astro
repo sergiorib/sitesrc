@@ -1,168 +1,58 @@
 ---
-/**
- * Página "Artigos técnicos" — spec-06_artigos
- * Fragmento SPA injetado em #page-content-host (ver .specify/specs/spec-06_artigos/).
- */
+// Página Artigos — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-06_artigos/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
+import './assets/css/artigos.css';
+
+import artigos from './data/artigos.json';
 import artigosScript from './assets/js/artigos.js?raw';
-
-type Leaf = { text: string; slug: string };
-type Subgroup = { name: string; leaves: Leaf[] };
-type Group = { icon: string; name: string; open?: boolean; leaves?: Leaf[]; subgroups?: Subgroup[] };
-
-const leaf = (text: string, slug: string): Leaf => ({ text, slug });
-const cloudLeaves = (prefix: string): Leaf[] => [
-  leaf('Armazenamento de dados', `${prefix}_armazenamento_dados`),
-  leaf('Integração e processamento', `${prefix}_integracao_processamento`),
-  leaf('Data warehouse e análise', `${prefix}_data_warehouse_analise`),
-];
-
-// Catálogo estritamente conforme a §2.4 da spec: 13 grupos, 4 subgrupos, 42 artigos.
-const leftColumn: Group[] = [
-  {
-    icon: '▥', name: 'Análise de dados e BI', open: true,
-    leaves: [leaf('Séries temporais', 'series_temporais'), leaf('Gráficos', 'graficos'), leaf('KPIs', 'kpis')],
-  },
-  { icon: '⚙', name: 'Engenharia de dados', leaves: [leaf('Pipelines', 'pipelines')] },
-  {
-    icon: '☧', name: 'Machine Learning',
-    leaves: [
-      leaf('Modelos de otimização', 'modelo_otimizacao'),
-      leaf('Sistemas de Recomendação', 'sistemas_recomendacao'),
-      leaf('Aprendizado por Reforço', 'aprendizado_reforco'),
-    ],
-  },
-  {
-    icon: '✣', name: 'Deep Learning',
-    leaves: [
-      leaf('Redes Neurais Artificiais (ANN)', 'redes_neurais_artificiais'),
-      leaf('Processamento de Linguagem Natural (NLP)', 'processamento_linguagem_natural'),
-    ],
-    subgroups: [
-      { name: 'Redes Neurais Recorrentes', leaves: [leaf('RNN', 'rnn'), leaf('LSTM', 'lstm'), leaf('GRU', 'gru')] },
-    ],
-  },
-  {
-    icon: '◼', name: 'IA',
-    leaves: [
-      leaf('Agentes', 'agentes'),
-      leaf('Transformers e IA Generativa', 'transformers_ia_generativa'),
-      leaf('Prompt patterns', 'prompt_patterns'),
-      leaf('GSK', 'gsk'),
-    ],
-  },
-  {
-    icon: '☁', name: 'Nuvem',
-    subgroups: [
-      { name: 'GCP', leaves: cloudLeaves('gcp') },
-      { name: 'AWS', leaves: cloudLeaves('aws') },
-      { name: 'AZURE', leaves: cloudLeaves('azure') },
-    ],
-  },
-];
-
-const rightColumn: Group[] = [
-  {
-    icon: '☧', name: 'Conceitos',
-    leaves: [leaf('Arquitetura medalhão', 'arquitetura_medalhao'), leaf('Big Data', 'big_data'), leaf('ETL/ELT', 'etl_elt')],
-  },
-  { icon: '▥', name: 'Apresentação', leaves: [leaf('Power BI', 'power_bi'), leaf('Tableau', 'tableau')] },
-  { icon: '‹›', name: 'Linguagens', leaves: [leaf('Python', 'python'), leaf('R', 'r'), leaf('SQL', 'sql')] },
-  {
-    icon: '▤', name: 'Databases e formatos de dados',
-    leaves: [
-      leaf('SQL Server', 'sql_server'), leaf('Oracle', 'oracle'), leaf('MySQL', 'mysql'),
-      leaf('PostgreSQL', 'postgresql'), leaf('Parquet', 'parquet'), leaf('Delta Lake', 'delta_lake'),
-    ],
-  },
-  { icon: '±', name: 'Plataformas', leaves: [leaf('Databricks', 'databricks')] },
-  { icon: '∑', name: 'Matemática', leaves: [leaf('Estatística', 'estatistica')] },
-  { icon: '☆', name: 'Outros', leaves: [leaf('GitHub', 'github')] },
-];
-
-// Numeração global dos grupos (1–13) para ids de acessibilidade.
-const columns = [
-  leftColumn.map((group, i) => ({ group, n: i + 1 })),
-  rightColumn.map((group, i) => ({ group, n: leftColumn.length + i + 1 })),
-];
-
-const articleUrl = (slug: string) => `/spa/artigos/${slug}`;
+import Container from '../spa/components/elementos/Container.astro';
+import PageTitle from '../spa/components/elementos/PageTitle.astro';
+import Paragraph from '../spa/components/elementos/Paragraph.astro';
+import Divider from '../spa/components/elementos/Divider.astro';
+import Grid from '../spa/components/elementos/Grid.astro';
+import VerticalList from '../spa/components/elementos/VerticalList.astro';
+import Accordion from '../spa/components/elementos/Accordion.astro';
+import LinkItem from '../spa/components/elementos/LinkItem.astro';
+import PageFooter from '../spa/components/elementos/PageFooter.astro';
 ---
 
 <div
   id="page-content"
-  class="page-content-wrapper artigos-page"
+  class="page-content-wrapper page-root page-root--petroleo artigos-page"
   data-page-id="artigos"
   data-page-title="Artigos técnicos"
 >
-  <div class="app">
-    <header>
-      <h1>Artigos técnicos</h1>
-      <p class="intro">Seleciona o tema.</p>
-      <div class="rule"></div>
-    </header>
+  <Container estilo="centralizado">
+    <PageTitle estilo="claro">Artigos técnicos</PageTitle>
+    <Paragraph estilo="claro">Seleciona o tema.</Paragraph>
+    <Divider estilo="sublinhado" />
 
-    <main class="workspace">
-      <div class="topic-columns">
-        {columns.map((column) => (
-          <div class="column">
-            {column.map(({ group, n }) => (
-              <div class:list={['topic-group', { open: group.open }]}>
-                <button
-                  type="button"
-                  class="group-toggle"
-                  aria-expanded={group.open ? 'true' : 'false'}
-                  aria-controls={`artigos-group-${n}`}
-                >
-                  <span class="group-icon" aria-hidden="true">{group.icon}</span>
-                  <span class="group-name">{group.name}</span>
-                  <span class="chevron" aria-hidden="true">›</span>
-                </button>
-                <div class="group-children" id={`artigos-group-${n}`}>
-                  {group.leaves && group.leaves.length > 0 && (
-                    <div class="leaf-list">
-                      {group.leaves.map((item) => (
-                        <a href="#" class="leaf" data-url={articleUrl(item.slug)}>
-                          <span class="leaf-bullet">•</span>{item.text}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  {group.subgroups?.map((subgroup, m) => (
-                    <div class="subgroup">
-                      <button
-                        type="button"
-                        class="subgroup-toggle"
-                        aria-expanded="false"
-                        aria-controls={`artigos-sub-${n}-${m + 1}`}
-                      >
-                        <span class="subgroup-marker" aria-hidden="true">›</span>
-                        <span class="subgroup-name">{subgroup.name}</span>
-                        <span class="chevron" aria-hidden="true">›</span>
-                      </button>
-                      <div class="subgroup-children" id={`artigos-sub-${n}-${m + 1}`}>
-                        <div class="leaf-list">
-                          {subgroup.leaves.map((item) => (
-                            <a href="#" class="leaf" data-url={articleUrl(item.slug)}>
-                              <span class="leaf-bullet">•</span>{item.text}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </main>
+    <Grid colunas={{ base: 1, 1024: 2 }}>
+      {artigos.colunas.map((coluna) => (
+        <VerticalList estilo="amplo">
+          {coluna.grupos.map((grupo) => (
+            <Accordion estilo="vidro" item={grupo}>
+              {grupo.artigos?.length > 0 && (
+                <VerticalList estilo="compacto">
+                  {grupo.artigos.map((artigo) => <LinkItem estilo="ciano" item={artigo} />)}
+                </VerticalList>
+              )}
+              {grupo.subgrupos?.map((subgrupo) => (
+                <Accordion estilo="pilula" item={subgrupo}>
+                  <VerticalList estilo="compacto">
+                    {subgrupo.artigos.map((artigo) => <LinkItem estilo="ciano" item={artigo} />)}
+                  </VerticalList>
+                </Accordion>
+              ))}
+            </Accordion>
+          ))}
+        </VerticalList>
+      ))}
+    </Grid>
 
-    <footer>
-      <p>© 2026 — Portfólio de Dados</p>
-      <p class="footer-motto">ANALISAR <span>/</span> CONSTRUIR <span>/</span> EVOLUIR</p>
-    </footer>
-  </div>
+    <PageFooter estilo="ciano" item={artigos.rodape} />
+  </Container>
 
   <script is:inline type="module" set:html={artigosScript}></script>
 </div>

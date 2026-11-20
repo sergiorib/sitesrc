@@ -1,3 +1,8 @@
+> **Substituído.** A marcação da página Artigos agora é definida pela seção 4 (Estrutura) de
+> [spec.md](../spec.md), pelo catálogo [elementos.md](../../../catalog/elementos.md) e pelos estilos
+> [estilos.md](../../../catalog/estilos.md). Este contrato descreve a implementação anterior
+> (`.topic-group`, `.group-toggle`, `.subgroup`, `.leaf`, `footer`) e é mantido apenas como histórico.
+
 # UI Contract: Página "Artigos" (`artigos.astro`)
 
 **Feature**: `06-artigos` (Página "Artigos")  
@@ -15,7 +20,7 @@ O componente Astro principal (`pages/artigos/artigos.astro`) DEVE expor exatamen
      data-page-id="artigos" data-page-title="Artigos técnicos">
   <div class="app">
     <header>
-      <h1>Artigos técnicos</h1>
+      <h1 class="page-title">Artigos técnicos</h1>
       <p class="intro">Seleciona o tema.</p>
       <div class="rule"></div>
     </header>
@@ -23,7 +28,7 @@ O componente Astro principal (`pages/artigos/artigos.astro`) DEVE expor exatamen
     <main class="workspace">
       <div class="topic-columns">
         <!-- Coluna Esquerda: Grupos 1 a 6 -->
-        <div class="column">
+        <div class="vertical-list column">
           <div class="topic-group open">
             <button type="button" class="group-toggle" aria-expanded="true" aria-controls="artigos-group-1">
               <span class="group-icon" aria-hidden="true">▥</span>
@@ -31,7 +36,7 @@ O componente Astro principal (`pages/artigos/artigos.astro`) DEVE expor exatamen
               <span class="chevron" aria-hidden="true">›</span>
             </button>
             <div class="group-children" id="artigos-group-1">
-              <div class="leaf-list">
+              <div class="vertical-list leaf-list">
                 <a href="#" class="leaf" data-url="/spa/artigos/series_temporais"><span class="leaf-bullet">•</span>Séries temporais</a>
                 <!-- ... -->
               </div>
@@ -43,7 +48,7 @@ O componente Astro principal (`pages/artigos/artigos.astro`) DEVE expor exatamen
                   <span class="chevron" aria-hidden="true">›</span>
                 </button>
                 <div class="subgroup-children" id="artigos-sub-4-1">
-                  <div class="leaf-list"><!-- .leaf ... --></div>
+                  <div class="vertical-list leaf-list"><!-- .leaf ... --></div>
                 </div>
               </div>
             </div>
@@ -51,7 +56,7 @@ O componente Astro principal (`pages/artigos/artigos.astro`) DEVE expor exatamen
           <!-- Grupos 2 a 6 -->
         </div>
         <!-- Coluna Direita: Grupos 7 a 13 -->
-        <div class="column"><!-- ... --></div>
+        <div class="vertical-list column"><!-- ... --></div>
       </div>
     </main>
 
@@ -75,7 +80,7 @@ Todas as regras DEVEM ser prefixadas por `.artigos-page`. É proibido estilizar 
 |---|---|
 | `.artigos-page` | Fundo `radial-gradient(circle at 50% 20%, #102636 0%, #070e14 100%)`, `'Roboto Condensed'` 15px/1.5, cor `#e2f1f8`. |
 | `.app` | `max-width: 1200px`, centralizado, `padding: 32px 36px`, `min-height: 100%`, flex vertical. |
-| `header h1` / `.intro` / `.rule` | Título Oswald 600 `clamp(28px, 3.5vw, 40px)`; subtítulo `#88a9bc`; linha 1px com gradiente ciano. |
+| `h1.page-title` / `.intro` / `.rule` | Título Oswald 600 `clamp(28px, 3.5vw, 40px)`; subtítulo `#88a9bc`; linha 1px com gradiente ciano. |
 | `.workspace` | `flex: 1`. |
 | `.topic-columns` | Grid `repeat(2, minmax(0, 1fr))`, `gap: 16px`, `align-items: start`; `1fr` em `<= 850px`. |
 | `.column` | Flex vertical, `gap: 16px`. |

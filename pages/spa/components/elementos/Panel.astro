@@ -1,0 +1,10 @@
+---
+// EL-07 panel — .specify/catalog/elementos.md (atalho de título: R-N01)
+import Header from './Header.astro';
+
+const { titulo, estilo = 'escuro' } = Astro.props;
+---
+<section class={`panel panel--${estilo}`}>
+  {titulo && <Header titulo={titulo} nivel={2} />}
+  <slot />
+</section>

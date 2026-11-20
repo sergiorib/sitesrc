@@ -29,9 +29,9 @@ Esta pesquisa estabelece as decisões arquiteturais fundamentadas para implement
 
 - **Decisão**:
   - Cards com fundo `linear-gradient(to right, #FFF8D6, #FFFFFF)`, borda `1px solid #0381B0`, `border-radius: 10px`, `padding: 20px 16px`, e box-shadow `0px 4px 6px rgba(0,0,0,0.1)`.
-  - Logo institucional (`.institution-logo`) centralizada (`margin: 0 auto; display: block; max-height: 60px; object-fit: contain;`).
+  - Logo institucional (`.company-logo`) centralizada (`margin: 0 auto; display: block; max-height: 60px; object-fit: contain;`).
   - Título do curso (`.course-title`) em `Barlow Condensed`, peso 700 bold, tamanho 24px, cor `#000000`.
-  - Badge de período/nível (`.period-badge`) estilizada com gradiente vertical `#FFFFFF` a `#EFEFEF`, borda `1px solid #0381B0`, `border-radius: 20px`, fonte monoespaçada (`Consolas`/`Courier New`), 20px (desktop) / 12px (mobile), uppercase.
+  - Badge de período/nível (`.badge`) estilizada com gradiente vertical `#FFFFFF` a `#EFEFEF`, borda `1px solid #0381B0`, `border-radius: 20px`, fonte monoespaçada (`Consolas`/`Courier New`), 20px (desktop) / 12px (mobile), uppercase.
 - **Racional**: Fidelidade estrita aos padrões estéticos solicitados.
 
 ### Decisão 3: Resolução Absoluta de Assets SPA

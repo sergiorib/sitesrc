@@ -1,3 +1,7 @@
+> **Arquivado em 2026-11-20.** Documento do modelo anterior, substituído pelo modelo em camadas
+> ([elementos.md](../elementos.md), [estilos.md](../estilos.md) e a seção 4 — Estrutura — do `spec.md` de cada página).
+> Mantido apenas como histórico; não é mais fonte de verdade.
+
 # Catálogo Unificado de Elementos — Visão Geral
 
 > **Escopo:** todos os tipos de elemento usados nas páginas da SPA (`pages/spa/*.astro`, componentes em `pages/spa/components/`, `pages/sobre/components/`, `pages/portfolio/portfolio.astro`, `pages/artigos/artigos.astro`, `pages/contatos/contatos.astro`) e nos fragmentos auxiliares (`default.astro`, `subpagina-demo.astro`).
@@ -13,6 +17,23 @@
 
 Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo e inconsistências nas seções 10–12).
 
+## 0. Regras normativas (spec única)
+
+Este catálogo é a **especificação única de elementos**: vale para todas as páginas e prevalece sobre nomes divergentes nas specs individuais (`spec-NN_*`). Cada página **continua com seu próprio arquivo `.css`**, que implementa os tipos daqui com escopo na raiz da página.
+
+| # | Regra | Decidido em |
+|---|---|---|
+| R-01 | **Escopo obrigatório:** todo tipo compartilhado por mais de uma página é estilizado **uma única vez por página**, sempre prefixado pela classe-raiz da página (ex.: `.historico-page .page-title`). Seletores globais para tipos compartilhados são proibidos. | 2026-11-18 |
+| R-02 | **Título de página (EL-15):** toda página tem exatamente um `h1.page-title`, primeiro título dentro de `#page-content`. | 2026-11-18 |
+| R-03 | **Raiz de página (EL-05):** `#page-content` sempre com as classes `page-content-wrapper <pagina>-page` + `data-page-id` e `data-page-title`. | 2026-11-18 |
+| R-04 | **Lista vertical (EL-13):** nome único `.vertical-list` (flex em coluna). A classe específica (ex.: `.leaf-list`) permanece **apenas como modificadora** para espaçamento/borda próprios. Faixas que mudam de eixo por breakpoint (`.nav-items-wrapper`) não são `vertical-list`. | 2026-11-18 |
+| R-05 | **Badge de metadado (EL-38):** nome único `.badge`. | 2026-11-18 |
+| R-06 | **Moldura de logo (EL-28):** nome único `.company-logo-container > .company-logo`. | 2026-11-18 |
+| R-07 | **Títulos de categoria:** `.category-card-title` (título de card, EL-19) e `.category-section-title` (título de seção, EL-18). `.category-title` não deve mais ser usado. | 2026-11-18 |
+| R-08 | **Animação de entrada:** `@keyframes fadeIn` = `opacity 0→1` + `translateY(4px)→0`, `0.3s ease-in-out`. Toda página que a usa define-a com esses valores exatos. | 2026-11-18 |
+| R-09 | **Nomes lógicos × classes:** nomes lógicos nas specs podem ser snake_case (`selection_button`); a classe CSS é sempre kebab-case (`.selection-button`). | herdado da spec-05 |
+| R-10 | **Exceção temporária:** `default.astro` (404) e `subpagina-demo.astro` mantêm px fixos (fora do Princípio VI) até decisão futura. | 2026-11-18 |
+
 ---
 
 ## 1. Estrutura e layout
@@ -23,7 +44,7 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 | EL-02 | **sidebar** | Painel fixo de identidade + navegação | `#sidebar.sidebar` (`<aside>`) (SPA) | topo (mobile) / lateral (desktop) | |
 | EL-03 | **main-area** | Área à direita da sidebar com breadcrumbs + host | `#main-container.main-container` (SPA) | — | |
 | EL-04 | **content-host** | Região rolável onde o roteador injeta a página | `#page-content-host.page-content-host` (`<section>`) (SPA) | sem padding-top quando contém POR (`:has()`) | Único scroller da SPA |
-| EL-05 | **page-root** | Raiz obrigatória de cada página (`#page-content`, `data-page-id`, `data-page-title`) | `.page-content-wrapper` + modificador: `.sobre-page` (SOB), `.historico-page` (HIS), `.formacao-page` (FOR), `.portfolio-page-wrapper` (POR), `.artigos-page` (ART), `.contacts-page` (CON), `.default-fallback-page` (404) | fundo próprio por página | CON **não** tem `.page-content-wrapper`; POR usa sufixo `-wrapper`, CON usa `contacts-` (inglês) |
+| EL-05 | **page-root** | Raiz obrigatória de cada página (`#page-content`, `data-page-id`, `data-page-title`) | `.page-content-wrapper` + modificador: `.sobre-page` (SOB), `.historico-page` (HIS), `.formacao-page` (FOR), `.portfolio-page-wrapper` (POR), `.artigos-page` (ART), `.contacts-page` (CON), `.default-fallback-page` (404) | fundo próprio por página | R-03. POR usa sufixo `-wrapper` e CON usa `contacts-` (inglês) — não padronizado ainda |
 | EL-06 | **content-container** | Limita largura (`--container-max`) e centraliza | `.panel-container` (HIS, FOR), `.app` (ART) | — | SOB, POR, CON não têm |
 | EL-07 | **page-header** | Bloco de topo da página (título + intro/controles) | `.portfolio-header` (`<header>`, sticky) (POR), `header` sem classe (ART), `.page-header` (DEM) | fixo (sticky) / estático | HIS, FOR, SOB, CON não têm wrapper de cabeçalho — o título fica solto |
 | EL-08 | **page-body** | Corpo principal da página | `.portfolio-body` (`<main>`) (POR), `.workspace` (`<main>`) (ART), `.content-body` (DEM) | — | `<main>` aninhado dentro de `<section>` do host |
@@ -31,18 +52,18 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 | EL-10 | **panel** | Bloco de conteúdo emoldurado de grande porte | `.info-panel` + `.about-panel` / `.skills-panel` (`<section>`) (SOB) | — | |
 | EL-11 | **section** | Agrupamento temático com título dentro da página | `.section-group` (FOR), `.category-section` (POR, alvo de âncora), `.skill-division` (SOB) | âncora com `scroll-margin-top` (POR) | |
 | EL-12 | **grid** | Grade responsiva de cards | `.skills-grid` + `.hard-skills-grid`/`.soft-skills-grid` (SOB), `.cards-grid` + `-academic`/`-languages`/`-trainings` (FOR), `.project-grid` (POR), `.contact-grid` (CON), `.topic-columns` (ART) | 1 → 2 → 3 colunas por breakpoint | Breakpoints e nº de colunas diferem por página |
-| EL-13 | **stack** | Lista vertical simples (flex column + gap) | `.experiences-wrapper` (HIS), `.column` (ART), `.skills-list` (SOB), `.skill-sub-list` (SOB), `.leaf-list` (ART), `.about-bio-container` (SOB), `.nav-items-wrapper` (SPA), `.contact-info` (CON), `.legend-content` (SOB) | — | Mesmo padrão com 9 nomes |
+| EL-13 | **vertical-list** | Lista vertical simples (flex column + gap) | `.vertical-list` + modificador: `.experiences-wrapper` (HIS), `.column` (ART), `.skills-list` (SOB), `.skill-sub-list` (SOB), `.leaf-list` (ART), `.about-bio-container` (SOB), `.contact-info` (CON), `.legend-content` (SOB) | — | R-04. `.nav-items-wrapper` (SPA) fica fora: é horizontal no celular |
 | EL-14 | **header-row** | Linha título + controle lateral | `.skills-panel-header` (SOB) | coluna / linha (≥768px) | |
 
 ## 2. Tipografia
 
 | ID | Tipo canônico | Papel | Implementações atuais | Observações |
 |---|---|---|---|---|
-| EL-15 | **page-title** | Título principal da página | `.page-title` `<h2>` (HIS), `.page-title` `<h1>` (FOR), `.portfolio-title` `<h1>` (POR), `header h1` (ART), `h1` sem classe (CON), `.fallback-title` `<h2>` (404), `.page-title` `<h2>` (DEM) | Nível de heading inconsistente (h1/h2); SOB não tem título de página; `.page-title` é definido em 3 lugares (HIS global, FOR escopado, DEM `<style>`) |
+| EL-15 | **page-title** | Título principal da página | `h1.page-title` em SOB, HIS, FOR, POR, ART, CON e DEM; `h1.fallback-title` (404) | R-01, R-02. Cada página define o estilo uma vez, com escopo (`.<pagina>-page .page-title`) |
 | EL-16 | **page-subtitle** | Linha de apoio abaixo do título | `.intro` (ART), `.page-subtitle` (DEM) | |
 | EL-17 | **panel-title** | Título de painel | `.panel-title` `<h2>` (SOB) | Em SOB faz o papel de título de página |
-| EL-18 | **section-title** | Título de seção | `.section-title` `<h2>` (FOR), `.category-title` `<h2>` (POR), `.division-title` `<h3>` (SOB) | **Colisão:** `.category-title` também existe em SOB com outro papel (EL-19) |
-| EL-19 | **card-title** | Título de card | `.job-title` `<h3>` (HIS), `.course-title` `<h3>` (FOR), `.project-name` `<h3>` (POR), `.category-title` `<h3>` (SOB, skill-card), `.group-name` `<span>` (ART) | |
+| EL-18 | **section-title** | Título de seção | `.section-title` `<h2>` (FOR), `.category-section-title` `<h2>` (POR), `.division-title` `<h3>` (SOB) | R-07 |
+| EL-19 | **card-title** | Título de card | `.job-title` `<h3>` (HIS), `.course-title` `<h3>` (FOR), `.project-name` `<h3>` (POR), `.category-card-title` `<h3>` (SOB, skill-card), `.group-name` `<span>` (ART) | R-07 |
 | EL-20 | **block-title** | Título de sub-bloco dentro de card | `.tech-stack-title` `<h4>` (HIS) | |
 | EL-21 | **body-text** | Parágrafo de conteúdo | `.about-bio-text` (SOB), `.job-description` (HIS), `.project-resume` (POR, truncado em 3 linhas), `.fallback-message` (404), `.intro-paragraph` (DEM) | Fontes variam: monospace (SOB, HIS) vs Inter (POR) |
 | EL-22 | **label / eyebrow** | Rótulo curto acima de um valor | `.contact-label` (CON) | Uppercase |
@@ -56,7 +77,7 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 
 | ID | Tipo canônico | Papel | Implementações atuais | Observações |
 |---|---|---|---|---|
-| EL-28 | **logo-frame** | Moldura centralizada + logo de organização | `.company-logo-container` > `.company-logo` (HIS), `.institution-logo-container` > `.institution-logo` (FOR) | Mesmo padrão, nomes diferentes; altura `--logo-h` vs `--logo-h * 0.6` |
+| EL-28 | **logo-frame** | Moldura centralizada + logo de organização | `.company-logo-container` > `.company-logo` (HIS, FOR) | R-06. Altura `--logo-h` (HIS) vs `--logo-h * 0.6` (FOR), cada uma no CSS da página |
 | EL-29 | **avatar** | Foto de perfil circular com anel em gradiente | `.profile-photo-wrapper` > `.profile-photo` (SPA) | |
 | EL-30 | **cover-image** | Imagem de capa 16:9 clicável | `.project-image-wrap` (`<a>`) > `.project-image` (POR) | zoom no hover |
 | EL-31 | **icon-tile** | Ícone dentro de caixa/moldura fixa | `.icon-wrap` > `img` (CON), `.nav-icon-container` > `.nav-icon` (SPA) | `.nav-icon` tem par claro/escuro (`.icon-light`/`.icon-dark`) alternado pelo estado ativo |
@@ -76,7 +97,7 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 
 | ID | Tipo canônico | Papel | Implementações atuais | Variantes | Observações |
 |---|---|---|---|---|---|
-| EL-38 | **meta-badge** | Pílula de metadado (período, regime, local) | `.badge` (HIS), `.period-badge` (FOR) | — | Mesma função, nomes e fontes diferentes |
+| EL-38 | **meta-badge** | Pílula de metadado (período, regime, local) | `.badge` (HIS, FOR) | — | R-05. Visual próprio em cada página (escopado) |
 | EL-39 | **skill-tag** | Chip de tecnologia/habilidade com variante hard/soft | `.tech-shield.hard` / `.tech-shield.soft` (HIS), `.hability-tag-HS` / `.hability-tag-SS` (POR) | hard / soft | Mesmo conceito, duas convenções de variante (classe modificadora vs sufixo) |
 | EL-40 | **tag-list** | Contêiner flex-wrap de badges/tags | `.info-badges` (HIS, grid 2 col → flex), `.tech-shields` (HIS), `.habilities-list` (POR) | | |
 
@@ -131,7 +152,7 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 | Hover — elevação | `translateY(-2…-4px)` + sombra | `.formacao-card`, `.project-card`, `.contact-card` |
 | Hover — deslocamento lateral | `translateX(2…3px)` | `.nav-item` (desktop), `.leaf` |
 | Foco visível | `:focus-visible` outline 2px ciano | `.selection-button` (POR, `#22D3EE`), `.group-toggle`/`.subgroup-toggle`/`.leaf` (ART, `#00e5ff`) — demais interativos sem regra própria |
-| Animação de entrada | `@keyframes fadeIn` | SOB, HIS (usa, não define), FOR, 404, DEM |
+| Animação de entrada | `@keyframes fadeIn` (4px, R-08) | SOB, HIS, FOR, 404, DEM |
 | Truncamento | `line-clamp: 3` / `text-overflow: ellipsis` | `.project-resume` (POR), `.tech-name` (SOB) |
 
 ## 11. Fundamentos de estilo em uso (insumo para tokens)
@@ -157,15 +178,15 @@ Resumo: **9 categorias, 56 tipos de elemento** (+ estados, fundamentos de estilo
 
 ## 12. Inconsistências e conflitos encontrados
 
-Pontos a decidir antes de unificar a especificação de estilos (nenhum foi alterado):
+Status em 2026-11-18. ✅ = resolvido (ver regras §0); ⏸ = adiado; ⬜ = em aberto.
 
-1. **Colisão de classe `.category-title`** — título de card em SOB (`sobre.css`, global) e título de seção em POR. POR contorna com `.portfolio-page-wrapper .category-title`.
-2. **`.page-title` definido 3 vezes** — global em `historico.css`, escopado em `formacao.css`, e em `<style>` de `subpagina-demo.astro`. Como o CSS de HIS é global, ele vaza para qualquer página que use `.page-title`.
-3. **`@keyframes fadeIn` duplicado com valores diferentes** — `sobre.css` (6px), `formacao.css` (4px), `default.astro` e `subpagina-demo.astro` (6px). Keyframes são globais: o último carregado vence. `historico.css` usa a animação sem defini-la.
-4. **Mesmo conceito, nomes diferentes** — skill-tag (`.tech-shield.hard` × `.hability-tag-HS`), meta-badge (`.badge` × `.period-badge`), logo-frame (`company-` × `institution-`), stack (9 nomes), page-root (`-page` × `-page-wrapper` × `contacts-`).
-5. **Nível de heading do título de página** — h1 em FOR/POR/ART/CON, h2 em HIS/404/DEM, ausente em SOB. O shell já tem `<h1 class="profile-name">`.
-6. **`#page-content` de CON sem `.page-content-wrapper`.**
-7. **Princípio VI (escala)** — `default.astro`, `subpagina-demo.astro` e o fallback inline em `router.js` usam px fixos e cores literais.
+1. ✅ **Colisão de classe `.category-title`** → R-07 (`.category-card-title` em SOB, `.category-section-title` em POR).
+2. ✅ **`.page-title` definido 3 vezes / global em HIS** → R-01, R-02 (uma definição escopada por página).
+3. ✅ **`@keyframes fadeIn` com valores diferentes** → R-08 (4px em todas; HIS passou a defini-la).
+4. ✅ (parcial) **Mesmo conceito, nomes diferentes** → R-04, R-05, R-06. ⬜ Ainda em aberto: skill-tag (`.tech-shield.hard` × `.hability-tag-HS`) e sufixos de page-root (`-page` × `-page-wrapper` × `contacts-`).
+5. ✅ **Nível de heading do título de página** → R-02 (h1 em todas; SOB ganhou título "Sobre"). Obs.: o shell também tem `<h1 class="profile-name">`, então cada tela tem 2 `h1`.
+6. ✅ **`#page-content` de CON sem `.page-content-wrapper`** → R-03.
+7. ⏸ **Princípio VI (escala)** — `default.astro`, `subpagina-demo.astro` e o fallback inline em `router.js` continuam em px fixos (R-10).
 8. **CSS órfão** — `.tech-icon` (SOB) e `.icon-wrap svg` (CON; o markup usa `<img>`).
 9. **Tokens de cor do shell não consumidos** pelas páginas; 4 tons de ciano de destaque diferentes.
 10. **Convenção de nomes nas specs** — só a spec-05 declara explicitamente nomes lógicos em snake_case mapeados para classes kebab-case (`selection_button` → `.selection-button`). Vale adotar essa regra no catálogo inteiro. (`.filter-pill`, citada como exemplo no CLAUDE.md, não existe no código.)

@@ -1,0 +1,14 @@
+---
+// EL-20 accordion — .specify/catalog/elementos.md (recolhível nativo)
+const { item, estilo = 'vidro' } = Astro.props;
+---
+{item && (
+  <details class={`accordion accordion--${estilo}`} open={item.aberto ? true : undefined}>
+    <summary class="accordion-summary">
+      <span class="accordion-icon" aria-hidden="true">{item.icone}</span>
+      <span class="accordion-title">{item.titulo}</span>
+      <span class="accordion-chevron" aria-hidden="true">›</span>
+    </summary>
+    <div class="accordion-content"><slot /></div>
+  </details>
+)}

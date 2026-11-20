@@ -1,77 +1,62 @@
 ---
+// Página Formação — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-04_formacao/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
 import './assets/css/formacao.css';
+
+import formacao from './data/formacao.json';
+import Container from '../spa/components/elementos/Container.astro';
+import PageTitle from '../spa/components/elementos/PageTitle.astro';
+import Subsection from '../spa/components/elementos/Subsection.astro';
+import Grid from '../spa/components/elementos/Grid.astro';
+import Card from '../spa/components/elementos/Card.astro';
+import Logo from '../spa/components/elementos/Logo.astro';
+import Header from '../spa/components/elementos/Header.astro';
+import Badge from '../spa/components/elementos/Badge.astro';
 ---
 
 <div
   id="page-content"
-  class="page-content-wrapper formacao-page"
+  class="page-content-wrapper page-root page-root--petroleo formacao-page"
   data-page-id="formacao"
   data-page-title="Formação"
 >
-  <div class="panel-container">
-    <h1 class="page-title">Formação</h1>
+  <Container estilo="centralizado">
+    <PageTitle estilo="claro">Formação</PageTitle>
 
-    <!-- Seção Acadêmica -->
-    <section class="section-group">
-      <h2 class="section-title">Acadêmica</h2>
-      <div class="cards-grid cards-grid-academic">
-        
-        <div class="formacao-card">
-          <div class="institution-logo-container">
-            <img src="/pages/formacao/assets/images/logo-estacio.png" alt="Estácio" class="institution-logo" />
-          </div>
-          <h3 class="course-title">Superior em Ciência de Dados</h3>
-          <span class="period-badge">2024 A 2026</span>
-        </div>
+    <Subsection estilo="destaque" nivel={2} titulo="Acadêmica">
+      <Grid colunas={{ base: 1, 768: 2 }}>
+        {formacao.academica.map((item) => (
+          <Card estilo="amarelo">
+            <Logo estilo="faixa" item={item.logo} />
+            <Header estilo="card" nivel={3} titulo={item.titulo} />
+            <Badge estilo="pilula">{item.badge}</Badge>
+          </Card>
+        ))}
+      </Grid>
+    </Subsection>
 
-        <div class="formacao-card">
-          <div class="institution-logo-container">
-            <img src="/pages/formacao/assets/images/logo-estacio-uniradial.png" alt="Estácio Uniradial" class="institution-logo" />
-          </div>
-          <h3 class="course-title">Superior em Análise e Desenvolvimento de Sistemas</h3>
-          <span class="period-badge">2013 A 2016</span>
-        </div>
+    <Subsection estilo="destaque" nivel={2} titulo="Idiomas">
+      <Grid colunas={{ base: 1, 768: 2, 1024: 3 }}>
+        {formacao.idiomas.map((item) => (
+          <Card estilo="amarelo">
+            <Logo estilo="faixa" item={item.logo} />
+            <Header estilo="card" nivel={3} titulo={item.titulo} />
+          </Card>
+        ))}
+      </Grid>
+    </Subsection>
 
-      </div>
-    </section>
-
-    <!-- Seção Idiomas -->
-    <section class="section-group">
-      <h2 class="section-title">Idiomas</h2>
-      <div class="cards-grid cards-grid-languages">
-        
-        <div class="formacao-card">
-          <div class="institution-logo-container">
-            <img src="/pages/formacao/assets/images/logo_ingles.png" alt="Inglês" class="institution-logo" />
-          </div>
-          <h3 class="course-title">Inglês - Intermediário</h3>
-        </div>
-
-        <div class="formacao-card">
-          <div class="institution-logo-container">
-            <img src="/pages/formacao/assets/images/logo_espanhol.png" alt="Espanhol" class="institution-logo" />
-          </div>
-          <h3 class="course-title">Espanhol - Avançado</h3>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Seção Treinamentos -->
-    <section class="section-group">
-      <h2 class="section-title">Treinamentos</h2>
-      <div class="cards-grid cards-grid-trainings">
-        
-        <div class="formacao-card">
-          <div class="institution-logo-container">
-            <img src="/pages/formacao/assets/images/logo_enap.png" alt="ENAP" class="institution-logo" />
-          </div>
-          <h3 class="course-title">Estatística Descritiva, Probabilidades e Técnicas de Amostragem</h3>
-          <span class="period-badge">2024</span>
-        </div>
-
-      </div>
-    </section>
-
-  </div>
+    <Subsection estilo="destaque" nivel={2} titulo="Treinamentos">
+      <Grid colunas={{ base: 1, 768: 2, 1024: 3 }}>
+        {formacao.treinamentos.map((item) => (
+          <Card estilo="amarelo">
+            <Logo estilo="faixa" item={item.logo} />
+            <Header estilo="card" nivel={3} titulo={item.titulo} />
+            <Badge estilo="pilula">{item.badge}</Badge>
+          </Card>
+        ))}
+      </Grid>
+    </Subsection>
+  </Container>
 </div>

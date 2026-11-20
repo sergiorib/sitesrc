@@ -147,7 +147,7 @@ class SPARouter {
     const targetElement = document.getElementById(cleanId);
     if (!targetElement) return;
 
-    const headerEl = document.querySelector('.portfolio-header');
+    const headerEl = document.querySelector('.page-header');
     const headerHeight = headerEl ? headerEl.offsetHeight : 140;
     const headerOffset = headerHeight + 35;
 
@@ -346,7 +346,7 @@ class SPARouter {
       this.contentHost.innerHTML = `
         <div id="page-content" class="page-content-wrapper default-fallback-page">
           <div class="fallback-card" style="background:#16222A; border:2px solid #69C4CE; border-radius:16px; padding:32px; text-align:center;">
-            <h2 style="color:#69C4CE; font-size:28px;">Página Não Encontrada</h2>
+            <h1 style="color:#69C4CE; font-size:28px;">Página Não Encontrada</h1>
             <p style="color:#EDF2EE; margin:16px 0;">Não foi possível carregar a rota solicitada (${failedUrl}).</p>
             <a href="/spa/sobre/" style="color:#061B2A; background:#B3CBDB; padding:8px 20px; border-radius:20px; text-decoration:none; font-weight:600;">Voltar para Sobre</a>
           </div>

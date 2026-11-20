@@ -1,0 +1,5 @@
+---
+// EL-08 card — .specify/catalog/elementos.md
+const { estilo = 'amarelo' } = Astro.props;
+---
+<div class={`card card--${estilo}`}><slot /></div>

@@ -1,61 +1,24 @@
 ---
-const contacts = [
-  {
-    id: 'telefone',
-    label: 'Telefone / WhatsApp',
-    value: '(11) 98368-0639',
-    detail: '',
-    href: 'tel:+5511983680639',
-    icon: '/pages/contatos/assets/images/phone.svg'
-  },
-  {
-    id: 'email',
-    label: 'E-mail',
-    value: 'Sergio.rib@live.com',
-    detail: '',
-    href: 'mailto:Sergio.rib@live.com',
-    icon: '/pages/contatos/assets/images/mail.svg'
-  },
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    value: 'https://www.linkedin.com/in/sergio-ribeiro-cerqueira',
-    detail: 'Conecte-se comigo profissionalmente',
-    href: 'https://www.linkedin.com/in/sergio-ribeiro-cerqueira',
-    icon: '/pages/contatos/assets/images/linkedin.svg'
-  },
-  {
-    id: 'github',
-    label: 'GitHub',
-    value: 'https://github.com/sergiorib/sergiorib',
-    detail: 'Veja meus códigos e projetos',
-    href: 'https://github.com/sergiorib/sergiorib',
-    icon: '/pages/contatos/assets/images/github.svg'
-  }
-];
+// Página Contatos — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-07_contatos/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
+import './assets/css/contatos.css';
+
+import contatos from './data/contatos.json';
+import PageTitle from '../spa/components/elementos/PageTitle.astro';
+import Grid from '../spa/components/elementos/Grid.astro';
+import LinkCard from '../spa/components/elementos/LinkCard.astro';
 ---
 
 <div
   id="page-content"
-  class="contacts-page"
+  class="page-content-wrapper page-root page-root--petroleo contatos-page"
   data-page-id="contatos"
   data-page-title="Meus Contatos"
 >
-  <h1>Meus Contatos</h1>
+  <PageTitle estilo="claro">Meus Contatos</PageTitle>
 
-  <div class="contact-grid">
-    {contacts.map(contact => (
-      <a href={contact.href} class="contact-card" target={contact.href.startsWith('http') ? '_blank' : '_self'} rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
-        <div class="icon-wrap">
-          <img src={contact.icon} alt="" width="23" height="23" />
-        </div>
-        <div class="contact-info">
-          <span class="contact-label">{contact.label}</span>
-          <span class="contact-value">{contact.value}</span>
-          {contact.detail && <span class="contact-detail">{contact.detail}</span>}
-        </div>
-        <span class="contact-action">↗</span>
-      </a>
-    ))}
-  </div>
+  <Grid colunas={{ base: 1, 768: 2 }}>
+    {contatos.map((item) => <LinkCard estilo="ciano" item={item} />)}
+  </Grid>
 </div>

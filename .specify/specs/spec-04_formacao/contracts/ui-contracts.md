@@ -1,3 +1,8 @@
+> **Substituído.** A marcação da página Formação agora é definida pela seção 4 (Estrutura) de
+> [spec.md](../spec.md), pelo catálogo [elementos.md](../../../catalog/elementos.md) e pelos estilos
+> [estilos.md](../../../catalog/estilos.md). Este contrato descreve a implementação anterior
+> (`.panel-container`, `.section-group`, `.formacao-card`, `.course-title`) e é mantido apenas como histórico.
+
 # UI Contracts: Página "Formação" (`formacao.astro`)
 
 **Feature**: `04-formacao` (Página "Formação")  

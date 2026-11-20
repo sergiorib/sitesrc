@@ -36,8 +36,8 @@
 
 - [X] T005 [US2] Declarar no frontmatter os tipos `Skill`, `Project`, `Category` e o array `categories` com as 7 categorias na ordem da §2.4 (projetos só em `bi-analytics` (1) e `data-engineering` (2), paths absolutos POSIX) — `pages/portfolio/portfolio.astro`
 - [X] T006 [US1] Renderizar a raiz `div#page-content.page-content-wrapper.portfolio-page-wrapper` com `data-page-id="portfolio"` e `data-page-title="Portfólio de Projetos"` — `pages/portfolio/portfolio.astro`
-- [X] T007 [US1] Renderizar `header.portfolio-header` com `h1.portfolio-title` e `nav.category-selection[aria-label]` contendo 7 `a.selection-button[href="#section-<id>"]` (primeiro com `.active`), sem `data-spa-link` — `pages/portfolio/portfolio.astro`
-- [X] T008 [US2] Renderizar `main.portfolio-body` com 7 `section.category-section#section-<id>` + `h2.category-title`, gerando `div.project-grid` apenas quando `projects.length > 0` — `pages/portfolio/portfolio.astro`
+- [X] T007 [US1] Renderizar `header.portfolio-header` com `h1.page-title` e `nav.category-selection[aria-label]` contendo 7 `a.selection-button[href="#section-<id>"]` (primeiro com `.active`), sem `data-spa-link` — `pages/portfolio/portfolio.astro`
+- [X] T008 [US2] Renderizar `main.portfolio-body` com 7 `section.category-section#section-<id>` + `h2.category-section-title`, gerando `div.project-grid` apenas quando `projects.length > 0` — `pages/portfolio/portfolio.astro`
 - [X] T009 [US2] Renderizar cada `article.project-card` com `.project-image-wrap` (link) > `img.project-image[alt][loading="lazy"][width][height]`, `.project-content` > `h3.project-name > a.project-link` + `p.project-resume`, e `.habilities-list` com `span.hability-tag-HS`/`span.hability-tag-SS` — `pages/portfolio/portfolio.astro`
 - [X] T010 [US3] Aplicar a regra de links: `href` iniciado por `https://` recebe `target="_blank" rel="noopener noreferrer"`; links internos ficam sem `target` para o roteador interceptar — `pages/portfolio/portfolio.astro`
 - [X] T011 [P] Criar o wrapper SPA que importa `../portfolio/assets/css/portfolio.css` no frontmatter e renderiza `<PortfolioContent />` — `pages/spa/portfolio.astro`
@@ -51,9 +51,9 @@
 **Purpose**: Tokens da §3 e responsividade da §4, todos escopados por classes da página (SC-004).
 
 - [X] T012 [US1] Adicionar `@import` do Google Fonts (`Barlow Condensed` 600/700, `Inter` 400/500) no topo e estilizar `.portfolio-page-wrapper` (gradiente `#DAEBF2→#A8CCD9`, `min-height:100%`, flex coluna, sem `overflow`) — `pages/portfolio/assets/css/portfolio.css`
-- [X] T013 [US1] Estilizar `.portfolio-header` (`position:sticky; top:0; z-index:100`, fundo opaco), `.portfolio-title` (Barlow 700, 36px, `#000000`) e `.category-selection` (gradiente `#2C4855→#1E333D`, flex wrap) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T013 [US1] Estilizar `.portfolio-header` (`position:sticky; top:0; z-index:100`, fundo opaco), `.page-title` (Barlow 700, 36px, `#000000`) e `.category-selection` (gradiente `#2C4855→#1E333D`, flex wrap) — `pages/portfolio/assets/css/portfolio.css`
 - [X] T014 [US1] Estilizar `.selection-button` (padrão translúcido, 14px, `text-decoration:none`) e `.selection-button.active` (`#22D3EE`, 16px, bg `rgba(34,211,238,.2)`, glow `0 0 8px rgba(34,211,238,.4)`) — `pages/portfolio/assets/css/portfolio.css`
-- [X] T015 [US2] Estilizar `.category-section` (`scroll-margin-top:185px`) e `.category-title` (Barlow 700, 24px, `#1E333D`) — `pages/portfolio/assets/css/portfolio.css`
+- [X] T015 [US2] Estilizar `.category-section` (`scroll-margin-top:185px`) e `.category-section-title` (Barlow 700, 24px, `#1E333D`) — `pages/portfolio/assets/css/portfolio.css`
 - [X] T016 [US2] Estilizar `.project-grid` (`grid; repeat(2,1fr); gap:20px`) e `.project-card` (gradiente `#FFEFBA→#FFFFFF`, borda `#0381B0`, raio 12px, sombra; hover `translateY(-4px)` + sombra realçada) — `pages/portfolio/assets/css/portfolio.css`
 - [X] T017 [US2] Estilizar `.project-image-wrap` (`aspect-ratio:16/9`, `overflow:hidden`, `cursor:pointer`), `.project-image` (`object-fit:cover`, hover `scale(1.02)`), `.project-name`, `.project-link`, `.project-resume` (Inter 14px `#333`, clamp 3 linhas) — `pages/portfolio/assets/css/portfolio.css`
 - [X] T018 [US2] Estilizar `.habilities-list`, `.hability-tag-HS` (`#386312` / bg `#E2F0D9`) e `.hability-tag-SS` (texto `#4B7725`, borda `#497225`) — `pages/portfolio/assets/css/portfolio.css`
@@ -108,5 +108,5 @@
 - SPA (desktop): 7 seções, 3 cards; 7/7 botões com `.active` correto, título visível abaixo do header, 1 `pushState` por clique; idempotente após 3 ciclos Portfólio ↔ Sobre; sem erros de console.
 - US3: AES1 injetado sem reload, menu "Portfólio" ativo, breadcrumbs corretos, `history.back()` restaura o portfólio; links externos com `target="_blank"`; `pagina_teste` injetada via fallback `<body>`.
 - US4: no shell a 375px, grade em 1 coluna, gap/padding 12px e barra de categorias com rolagem horizontal. **Pendência do shell (spec-01)**: a sidebar mantém 300px no mobile e o `#page-content-host` fica com ~80px em todas as páginas.
-- Colisão de CSS encontrada: `sobre.css` define `.category-title` globalmente (carregado no shell); neutralizada em `portfolio.css` com `.portfolio-page-wrapper .category-title`.
+- Colisão de CSS encontrada: `sobre.css` definia `.category-title` globalmente (carregado no shell); neutralizada em `portfolio.css` com `.portfolio-page-wrapper .category-section-title`.
 - Regressão: Sobre, Histórico, Formação e Contatos carregam com menu ativo correto após as mudanças no `router.js`.
