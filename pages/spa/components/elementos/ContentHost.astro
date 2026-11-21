@@ -1,0 +1,6 @@
+---
+// EL-32 content-host — .specify/catalog/elementos.md (moldura da SPA)
+// Área com rolagem onde o roteador injeta o #page-content da página da rota atual.
+const { estilo = 'padrao' } = Astro.props;
+---
+<section id="page-content-host" class={`content-host content-host--${estilo}`} tabindex="-1"><slot /></section>

@@ -1,17 +1,14 @@
 /**
- * Utilitário de Formatação e Atualização da Régua de Breadcrumbs
+ * Régua de breadcrumbs da moldura da SPA (spec-01 FR-008)
+ *
+ * Trilha: "Início" (→ /spa), um nível por segmento da rota (ignorando 'pages' e 'spa'),
+ * com rótulos do menu (pages/spa/data/navegacao.json) quando existirem, e o último
+ * nível igual ao data-page-title da página injetada.
  */
+import navegacao from '../../data/navegacao.json';
 
-const SEGMENT_LABELS = {
-  spa: 'Início',
-  sobre: 'Sobre',
-  historico: 'Histórico',
-  portfolio: 'Portfólio',
-  artigos: 'Artigos',
-  contatos: 'Contatos',
-  'subpagina-demo': 'Detalhes do Projeto',
-  default: 'Página não encontrada',
-};
+// Rótulos dos segmentos: fonte única = itens do menu (spec-01 FR-009)
+const SEGMENT_LABELS = Object.fromEntries(navegacao.navegacao.map((item) => [item.id, item.rotulo]));
 
 /**
  * Converte um pathname em uma lista de segmentos estruturados
@@ -60,7 +57,7 @@ export function parseBreadcrumbs(pathname, customTitle = null) {
 }
 
 /**
- * Renderiza os Breadcrumbs no elemento #breadcrumbs-list
+ * Renderiza a trilha no elemento #breadcrumbs-list (elemento breadcrumbs do catálogo)
  * @param {string} pathname
  * @param {string} [customTitle]
  */
@@ -74,19 +71,19 @@ export function updateBreadcrumbsDOM(pathname, customTitle = null) {
     .map((item, idx) => {
       const isLast = idx === items.length - 1;
       const content = item.isCurrent || !item.url
-        ? `<span class="breadcrumb-current-text">${item.label}</span>`
-        : `<a href="${item.url}" class="breadcrumb-link">${item.label}</a>`;
+        ? `<span class="breadcrumbs-current">${item.label}</span>`
+        : `<a href="${item.url}" class="breadcrumbs-link">${item.label}</a>`;
 
       const separator = !isLast
-        ? `<span class="breadcrumb-separator" aria-hidden="true">/</span>`
+        ? `<span class="breadcrumbs-sep" aria-hidden="true">/</span>`
         : '';
 
-      return `<li class="breadcrumb-item ${item.isCurrent ? 'current' : ''}">${content}${separator}</li>`;
+      return `<li class="breadcrumbs-item${item.isCurrent ? ' is-atual' : ''}">${content}${separator}</li>`;
     })
     .join('');
 }
 
-// Endpoint GET para compatibilidade com file-based routing do Astro
+// Endpoint GET para compatibilidade com file-based routing do Astro (arquivo sob pages/)
 export function GET() {
   return new Response(JSON.stringify({ module: 'breadcrumbs' }), {
     headers: { 'content-type': 'application/json' },

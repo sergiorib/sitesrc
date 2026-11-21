@@ -1,0 +1,10 @@
+---
+// EL-31 breadcrumbs — .specify/catalog/elementos.md (moldura da SPA)
+// O HTML inicial traz só "Início"; breadcrumbs.js monta a trilha a cada navegação.
+const { estilo = 'discreto' } = Astro.props;
+---
+<nav id="breadcrumbs" class={`breadcrumbs breadcrumbs--${estilo}`} aria-label="Navegação Hierárquica">
+  <ol id="breadcrumbs-list" class="breadcrumbs-list">
+    <li class="breadcrumbs-item is-atual"><span class="breadcrumbs-current">Início</span></li>
+  </ol>
+</nav>

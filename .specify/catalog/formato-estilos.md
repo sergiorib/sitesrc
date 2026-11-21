@@ -28,6 +28,9 @@ site inteiro; o CSS de cada página é gerado a partir dela.
   `style="--colunas: 1; --colunas-768: 2; --colunas-1280: 3"`.
   Essas variáveis são registradas com `@property … { syntax: '*'; inherits: false; }`, para que
   um elemento aninhado (ex.: grid dentro de grid) não herde a configuração do pai.
+- **R-S07 — Base do documento e moldura.** Regras globais (reset, `html`, `body`) existem só na seção
+  "Base do documento" da spec de estilos e só no CSS da moldura (`pages/spa/assets/css/spa.css`), que fica
+  sempre carregado. Os elementos da moldura têm nomes próprios, que não colidem com os das páginas.
 
 ## 2. Tokens
 

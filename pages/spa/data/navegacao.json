@@ -1,0 +1,52 @@
+{
+  "identidade": {
+    "nome": "Sérgio Ribeiro Cerqueira",
+    "cargo": "Cientista de Dados",
+    "foto": "/pages/spa/assets/images/profile-photo.png"
+  },
+  "navegacao": [
+    {
+      "id": "sobre",
+      "rotulo": "Sobre",
+      "rota": "/spa/sobre/",
+      "icone_claro": "/pages/spa/assets/images/icone-sobre-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-sobre-escuro.png",
+      "padrao": true
+    },
+    {
+      "id": "historico",
+      "rotulo": "Histórico",
+      "rota": "/spa/historico/",
+      "icone_claro": "/pages/spa/assets/images/icone-historico-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-historico-escuro.png"
+    },
+    {
+      "id": "formacao",
+      "rotulo": "Formação",
+      "rota": "/spa/formacao/",
+      "icone_claro": "/pages/spa/assets/images/icone-formacao-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-formacao-escuro.png"
+    },
+    {
+      "id": "portfolio",
+      "rotulo": "Portfólio",
+      "rota": "/spa/portfolio/",
+      "icone_claro": "/pages/spa/assets/images/icone-portfolio-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-portfolio-escuro.png"
+    },
+    {
+      "id": "artigos",
+      "rotulo": "Artigos",
+      "rota": "/spa/artigos/",
+      "icone_claro": "/pages/spa/assets/images/icone-artigos-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-artigos-escuro.png"
+    },
+    {
+      "id": "contatos",
+      "rotulo": "Contatos",
+      "rota": "/spa/contatos/",
+      "icone_claro": "/pages/spa/assets/images/icone-contatos-claro.png",
+      "icone_escuro": "/pages/spa/assets/images/icone-contatos-escuro.png"
+    }
+  ]
+}

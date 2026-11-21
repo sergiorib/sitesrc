@@ -1,73 +1,24 @@
 /**
- * Navegação e controle de estados visuais da Sidebar
+ * Menu da moldura da SPA — item ativo (spec-01 FR-007)
+ *
+ * Os itens do menu vêm de pages/spa/data/navegacao.json e são renderizados pelo
+ * elemento nav-menu (pages/spa/components/elementos/NavMenu.astro).
  */
 
-export const NAV_ITEMS = [
-  {
-    id: 'sobre',
-    label: 'Sobre',
-    targetFile: 'sobre.astro',
-    targetRoute: '/spa/sobre',
-    iconLight: '/spa/assets/images/icone-sobre-claro.png',
-    iconDark: '/spa/assets/images/icone-sobre-escuro.png',
-    isDefault: true,
-  },
-  {
-    id: 'historico',
-    label: 'Histórico',
-    targetFile: 'historico.astro',
-    targetRoute: '/spa/historico',
-    iconLight: '/spa/assets/images/icone-historico-claro.png',
-    iconDark: '/spa/assets/images/icone-historico-escuro.png',
-    isDefault: false,
-  },
-
-  {
-    id: 'portfolio',
-    label: 'Portfólio',
-    targetFile: 'portfolio.astro',
-    targetRoute: '/spa/portfolio',
-    iconLight: '/spa/assets/images/icone-portfolio-claro.png',
-    iconDark: '/spa/assets/images/icone-portfolio-escuro.png',
-    isDefault: false,
-  },
-  {
-    id: 'artigos',
-    label: 'Artigos',
-    targetFile: 'artigos.astro',
-    targetRoute: '/spa/artigos',
-    iconLight: '/spa/assets/images/icone-artigos-claro.png',
-    iconDark: '/spa/assets/images/icone-artigos-escuro.png',
-    isDefault: false,
-  },
-  {
-    id: 'contatos',
-    label: 'Contatos',
-    targetFile: 'contatos.astro',
-    targetRoute: '/spa/contatos',
-    iconLight: '/spa/assets/images/icone-contatos-claro.png',
-    iconDark: '/spa/assets/images/icone-contatos-escuro.png',
-    isDefault: false,
-  },
-];
-
 /**
- * Atualiza o estado visual dos itens de navegação na Sidebar
- * @param {string} activeMenuId - ID do item ativo (ex: 'sobre', 'portfolio')
+ * Move o estado ativo (is-ativo + aria-current) para o item de menu da seção
+ * @param {string} activeMenuId - id do item ativo (ex.: 'sobre', 'portfolio')
  */
 export function setActiveNavItem(activeMenuId) {
   if (!activeMenuId) return;
 
-  const navItems = document.querySelectorAll('.nav-item');
+  const navItems = document.querySelectorAll('.nav-menu-item');
   navItems.forEach((item) => {
-    const itemId = item.getAttribute('data-menu-id');
-    const isTarget = itemId === activeMenuId;
-
+    const isTarget = item.getAttribute('data-menu-id') === activeMenuId;
+    item.classList.toggle('is-ativo', isTarget);
     if (isTarget) {
-      item.classList.add('active');
       item.setAttribute('aria-current', 'page');
     } else {
-      item.classList.remove('active');
       item.removeAttribute('aria-current');
     }
   });
@@ -76,12 +27,12 @@ export function setActiveNavItem(activeMenuId) {
 }
 
 /**
- * Abaixo de 1024px o menu é uma faixa horizontal com rolagem própria (spec-01 FR-022):
+ * Abaixo de 1024px o menu é uma faixa horizontal com rolagem própria (spec-01 FR-007):
  * rola apenas a faixa para manter o item ativo visível, sem mover a página.
  */
 export function revealActiveNavItem() {
-  const strip = document.querySelector('.sidebar-nav-container');
-  const active = strip ? strip.querySelector('.nav-item.active') : null;
+  const strip = document.querySelector('.nav-menu');
+  const active = strip ? strip.querySelector('.nav-menu-item.is-ativo') : null;
   if (!strip || !active || strip.scrollWidth <= strip.clientWidth) return;
 
   const stripRect = strip.getBoundingClientRect();
@@ -93,9 +44,9 @@ export function revealActiveNavItem() {
   strip.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
 }
 
-// Endpoint GET para compatibilidade com file-based routing do Astro
+// Endpoint GET para compatibilidade com file-based routing do Astro (arquivo sob pages/)
 export function GET() {
-  return new Response(JSON.stringify(NAV_ITEMS), {
+  return new Response(JSON.stringify({ module: 'nav' }), {
     headers: { 'content-type': 'application/json' },
   });
 }

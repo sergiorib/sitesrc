@@ -1,3 +1,7 @@
+> **Substituído.** A marcação da moldura da SPA agora é definida pela seção 4 (Estrutura) de
+> [spec.md](../spec.md), pelo catálogo [elementos.md](../../../catalog/elementos.md) e pelos estilos
+> [estilos.md](../../../catalog/estilos.md). Este contrato descreve a implementação anterior e é mantido apenas como histórico.
+
 # Contract: Contratos de Interface e Marcação UI
 
 **Feature**: `01-pagina-spa`  

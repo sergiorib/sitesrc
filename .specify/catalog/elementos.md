@@ -376,3 +376,116 @@ HTML:
   </div>
 Dados do item: src, alt
 Estilos: faixa (padrão)
+
+## 8. Moldura da SPA
+
+> Elementos que ficam fixos em volta de todas as páginas (spec-01). O CSS deles fica sempre carregado,
+> por isso têm nomes próprios, que não colidem com os elementos das páginas. Os **ids** são ganchos
+> estáveis do JS de navegação e não mudam.
+
+### app-layout
+ID: EL-26
+Descrição: Documento da SPA em tela cheia, com a sidebar e a área principal.
+HTML:
+  <div id="spa-layout" class="app-layout {estilo}">{filhos}</div>
+Filhos: sidebar, main-area
+Estilos: escuro (padrão)
+Comportamento:
+  - ocupa 100% da janela, sem rolagem do documento
+  - < 1024px: sidebar no topo e área principal abaixo; ≥ 1024px: sidebar à esquerda
+Regras:
+  - raiz do `<body>` de `pages/spa/spa.astro`; um por documento
+
+### sidebar
+ID: EL-27
+Descrição: Faixa de identidade e navegação da SPA.
+HTML:
+  <aside id="sidebar" class="sidebar {estilo}" aria-label="{config.rotulo}">{filhos}</aside>
+Filhos: identity-card, nav-menu
+Configurações:
+  rotulo: texto — rótulo acessível
+Estilos: escuro (padrão)
+Comportamento:
+  - < 1024px: cabeçalho compacto no topo, com borda inferior
+  - ≥ 1024px: coluna lateral com altura da janela e largura `--sidebar-width`, com borda direita
+
+### identity-card
+ID: EL-28
+Descrição: Identidade profissional: foto, nome e cargo.
+HTML:
+  <header id="identity-header" class="identity-card {estilo}">
+    <div class="identity-card-frame">
+      <img class="identity-card-photo" src="{item.foto}" alt="Foto de perfil de {item.nome}" width="160" height="160">
+    </div>
+    <div class="identity-card-strip">
+      <h1 class="identity-card-name">{item.nome}</h1>
+      <p class="identity-card-role">{item.cargo}</p>
+    </div>
+  </header>
+Dados do item: nome, cargo, foto
+Estilos: moldura (padrão)
+Comportamento:
+  - < 1024px: foto pequena ao lado do nome; ≥ 1024px: foto centralizada acima do nome
+
+### nav-menu
+ID: EL-29
+Descrição: Menu principal da SPA, com ícone claro/escuro por item e item ativo.
+HTML:
+  <nav id="sidebar-nav" class="nav-menu {estilo}" aria-label="{config.rotulo}">
+    <div class="nav-menu-items">
+      <a class="nav-menu-item" href="{item.rota}" data-menu-id="{item.id}">
+        <span class="nav-menu-icon">
+          <img class="nav-menu-icon-light" src="{item.icone_claro}" alt="" width="24" height="24" aria-hidden="true">
+          <img class="nav-menu-icon-dark" src="{item.icone_escuro}" alt="" width="24" height="24" aria-hidden="true">
+        </span>
+        <span class="nav-menu-label">{item.rotulo}</span>
+      </a> …
+    </div>
+  </nav>
+  ativo: classe `is-ativo` + `aria-current="page"` (R-E06)
+Dados do item: id, rotulo, rota, icone_claro, icone_escuro, padrao?
+Configurações:
+  rotulo: texto — rótulo acessível
+Estilos: escuro (padrão)
+Comportamento:
+  - o item com `padrao: true` começa ativo; o JS da moldura (`nav.js`) move `is-ativo` conforme a rota
+  - ativo mostra o ícone escuro; inativo, o claro
+  - < 1024px: faixa horizontal com rolagem própria, que rola sozinha para mostrar o item ativo
+  - ≥ 1024px: lista vertical
+
+### main-area
+ID: EL-30
+Descrição: Coluna principal da SPA: régua de breadcrumbs e área de conteúdo.
+HTML:
+  <div id="main-container" class="main-area {estilo}">{filhos}</div>
+Filhos: breadcrumbs, content-host
+Estilos: escuro (padrão)
+
+### breadcrumbs
+ID: EL-31
+Descrição: Trilha hierárquica da rota atual.
+HTML:
+  <nav id="breadcrumbs" class="breadcrumbs {estilo}" aria-label="Navegação Hierárquica">
+    <ol id="breadcrumbs-list" class="breadcrumbs-list">
+      <li class="breadcrumbs-item [is-atual]">
+        <a class="breadcrumbs-link" href="{url}">{rotulo}</a>      ← níveis anteriores
+        <span class="breadcrumbs-current">{rotulo}</span>         ← nível atual
+        <span class="breadcrumbs-sep" aria-hidden="true">/</span> ← entre níveis
+      </li> …
+    </ol>
+  </nav>
+Estilos: discreto (padrão)
+Comportamento:
+  - a trilha é montada pelo JS da moldura (`breadcrumbs.js`) a cada navegação: "Início" (→ `/spa`),
+    um nível por segmento da rota (rótulo do menu quando existir) e, no fim, o `data-page-title` da página
+  - o HTML inicial traz só "Início"
+
+### content-host
+ID: EL-32
+Descrição: Área com rolagem própria onde o roteador injeta o `#page-content` da página da rota atual.
+HTML:
+  <section id="page-content-host" class="content-host {estilo}" tabindex="-1">{página}</section>
+Estilos: padrao (padrão)
+Comportamento:
+  - é a área de rolagem das páginas (âncoras, scroll-spy)
+  - quando a página tem [page-header], o respiro superior é zerado para o cabeçalho colar no topo

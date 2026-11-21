@@ -1,0 +1,156 @@
+/* Página de fallback (404) — CSS gerado de .specify/catalog/estilos.md
+ * Contém apenas os elementos e estilos usados na seção 4.2 (Estrutura) de spec-01 (R-S02).
+ * Classes: .<elemento> (base) + .<elemento>--<estilo> (R-S01). Sem prefixo de página (R-S03).
+ * Tokens: pages/spa/assets/css/scale.css e pages/spa/assets/css/tokens.css.
+ */
+
+/* ── page-root ───────────────────────────────────────────── */
+.page-root {
+  min-height: 100%;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.page-root--petroleo {
+  background: var(--gradiente-pagina-petroleo);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── container ───────────────────────────────────────────── */
+.container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container--centralizado {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ── vertical-list ───────────────────────────────────────── */
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-list--amplo { gap: var(--space-md); }
+
+/* ── header ──────────────────────────────────────────────── */
+@property --direcao { syntax: '*'; inherits: false; }
+@property --direcao-768 { syntax: '*'; inherits: false; }
+@property --direcao-1024 { syntax: '*'; inherits: false; }
+@property --direcao-1280 { syntax: '*'; inherits: false; }
+@property --alinhamento { syntax: '*'; inherits: false; }
+@property --alinhamento-768 { syntax: '*'; inherits: false; }
+@property --alinhamento-1024 { syntax: '*'; inherits: false; }
+@property --alinhamento-1280 { syntax: '*'; inherits: false; }
+
+.header {
+  display: flex;
+  flex-direction: var(--direcao, column);
+  align-items: var(--alinhamento, flex-start);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.header-title {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  text-align: left;
+  margin: 0;
+}
+
+.header--painel {
+  margin-bottom: var(--space-md);
+}
+
+.header--painel .header-title {
+  font-size: var(--fs-3xl);
+  color: var(--cor-branco);
+}
+
+/* ── panel ───────────────────────────────────────────────── */
+.panel {
+  border: 1px solid var(--cor-destaque);
+  border-radius: var(--raio-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.panel--escuro {
+  background: var(--gradiente-painel-escuro);
+  box-shadow: var(--sombra-painel-interna);
+}
+
+/* ── link-item ───────────────────────────────────────────── */
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid;
+  border-radius: var(--raio-total);
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.link-item:focus-visible {
+  outline: 2px solid var(--cor-ciano-neon);
+  outline-offset: 2px;
+}
+
+.link-item:hover {
+  transform: translateX(3px);
+}
+
+.link-item--ciano {
+  background: var(--cor-pilula-fundo);
+  border-color: var(--cor-ciano-borda-fraca);
+  color: var(--cor-texto-ciano-palido);
+}
+
+.link-item--ciano .link-item-bullet {
+  color: var(--cor-ciano-neon);
+}
+
+.link-item--ciano:hover {
+  background: var(--cor-pilula-hover);
+  border-color: var(--cor-ciano-neon);
+  color: var(--cor-branco);
+}
+
+/* ── paragraph ───────────────────────────────────────────── */
+.paragraph {
+  margin: 0;
+}
+
+.paragraph--claro {
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-lg);
+  color: var(--cor-branco);
+  line-height: 1.4;
+  text-align: justify;
+}
+
+/* ── Responsivo (mobile-first, breakpoints R-S05) ────────── */
+@media (min-width: 768px) {
+  .header {
+    flex-direction: var(--direcao-768, var(--direcao, column));
+    align-items: var(--alinhamento-768, var(--alinhamento, flex-start));
+  }
+
+  .paragraph--claro {
+    line-height: 1.5;
+  }
+}

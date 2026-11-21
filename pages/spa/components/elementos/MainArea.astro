@@ -1,0 +1,5 @@
+---
+// EL-30 main-area — .specify/catalog/elementos.md (moldura da SPA)
+const { estilo = 'escuro' } = Astro.props;
+---
+<div id="main-container" class={`main-area main-area--${estilo}`}><slot /></div>

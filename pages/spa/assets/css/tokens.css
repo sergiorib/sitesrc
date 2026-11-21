@@ -1,9 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@400;600&display=swap');
 
-/* Tokens de cor, gradiente, sombra, raio e fonte.
+/* Tokens de cor, gradiente, sombra, raio, imagem e fonte.
  * Fonte: .specify/catalog/estilos.md §1 (R-S04). A escala fluida fica em scale.css.
+ * Tokens de imagem usam caminhos relativos a este arquivo.
  */
 :root {
+  /* Moldura da SPA (spec-01) */
+  --cor-fundo-app: #061B2A;
+  --cor-fundo-menu: #16222A;
+  --cor-borda-moldura: #69C4CE;
+  --cor-item-ativo: #B3CBDB;
+  --cor-item-hover: #0C2B42;
+  --cor-texto-moldura: #EDF2EE;
+  --cor-moldura-escura: #25797F;
+  --cor-faixa-identidade: rgba(6, 27, 42, 0.85);
+  --cor-fundo-breadcrumbs: rgba(6, 27, 42, 0.95);
+  --cor-borda-breadcrumbs: rgba(105, 196, 206, 0.2);
+  --cor-separador-breadcrumbs: rgba(179, 203, 219, 0.4);
+  --cor-breadcrumb-atual: rgba(237, 242, 238, 0.7);
+  --gradiente-moldura-foto: linear-gradient(to bottom, #3893BA, #25797F);
+  --sombra-foto: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --sombra-item-ativo: 0 2px 8px rgba(105, 196, 206, 0.25);
+  --raio-faixa: 0.5rem;
+  --raio-xs: 0.25rem;
+  --imagem-identidade: url('../images/profile-bg.png');
+  --imagem-menu: url('../images/menu-bg.png');
+
   --cor-branco: #FFFFFF;
   --cor-preto: #000000;
   --cor-azul-noite: #041E2F;
