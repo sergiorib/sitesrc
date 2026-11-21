@@ -328,19 +328,19 @@ Cada card temático (`.topic-group`) organiza-se internamente em duas regiões v
 
 ### 4.1. Breakpoints Principais
 
-- **Desktop / Telas Largas (`> 850px`)**:
+- **Desktop / Telas Largas (`>= 1024px`)**:
   - `.app`: `padding: 32px 36px`.
   - `.topic-columns`: 2 colunas (`repeat(2, minmax(0, 1fr))`), `gap: 16px`.
   - `footer`: Disposição horizontal (`display: flex; justify-content: space-between`).
-- **Tablet / Mobile (`<= 850px`)**:
+- **Tablet / Mobile (`< 1024px`)**:
   - `.app`: `padding: 24px 20px`.
   - `.topic-columns`: Coluna única (`grid-template-columns: 1fr`), mantendo `gap: 16px`.
-- **Mobile Estreito (`<= 540px`)**:
+- **Mobile Estreito (`< 480px`)**:
   - `footer`: Reorganiza-se em coluna vertical (`flex-direction: column; gap: 12px; align-items: flex-start`).
 
 ### 4.2. Ajustes Mobile
 
-Para viewports com largura igual ou inferior a `850px` e `540px`:
+Para viewports com largura inferior a `1024px` e `480px`:
 
 - Os cards da coluna direita (Grupos 7 a 13) fluem naturalmente abaixo dos cards da coluna esquerda (Grupos 1 a 6) em coluna única.
 - Todos os botões de acordeão (`.group-toggle`, `.subgroup-toggle`) e itens `.leaf` mantêm áreas de toque confortáveis sem provocar rolagem horizontal na página.
@@ -358,7 +358,7 @@ Como recrutador, gestor técnico ou visitante do portfólio, desejo visualizar o
 
 **Acceptance Scenarios**:
 1. **Given** que o usuário navega para a página de Artigos na SPA, **When** o fragmento é injetado em `#page-content-host`, **Then** o elemento `#page-content` exibe o cabeçalho com `h1` em fonte `Oswald` (`clamp(28px, 3.5vw, 40px)`, cor `#ffffff`), subtítulo `.intro` (`"Seleciona o tema."`, `#88a9bc`) e linha `.rule` com gradiente ciano.
-2. **Given** o layout principal em viewport `> 850px`, **When** renderizado, **Then** `.topic-columns` exibe 2 colunas (`repeat(2, minmax(0, 1fr))`, `gap: 16px`), distribuindo os grupos 1 a 6 na coluna esquerda e os grupos 7 a 13 na coluna direita.
+2. **Given** o layout principal em viewport `>= 1024px`, **When** renderizado, **Then** `.topic-columns` exibe 2 colunas (`repeat(2, minmax(0, 1fr))`, `gap: 16px`), distribuindo os grupos 1 a 6 na coluna esquerda e os grupos 7 a 13 na coluna direita.
 3. **Given** o rodapé da página (`footer`), **When** renderizado, **Then** exibe `"© 2026 — Portfólio de Dados"` e o lema `"ANALISAR / CONSTRUIR / EVOLUIR"` com os caracteres `/` destacados em `#00e5ff`.
 
 ### User Story 2 - Interação de Acordeão em Grupos e Subgrupos (Priority: P1)
@@ -388,11 +388,14 @@ Como usuário navegando pelos artigos, desejo clicar em qualquer subitem (`.leaf
 Como usuário acessando por tablet ou smartphone, desejo que o layout de artigos se adapte automaticamente para coluna única e ajuste seus espaçamentos internos e o rodapé para telas estreitas.
 
 - **Why this priority**: Assegura legibilidade e usabilidade sem quebras de layout em dispositivos móveis.
-- **Independent Test**: Redimensionar a viewport para `<= 850px` e `<= 540px`, verificando a conversão para 1 coluna e o empilhamento do rodapé.
+- **Independent Test**: Redimensionar a viewport para `< 1024px` e `< 480px`, verificando a conversão para 1 coluna e o empilhamento do rodapé.
 
 **Acceptance Scenarios**:
-1. **Given** viewport com largura `<= 850px`, **When** renderizada, **Then** `.app` ajusta o padding para `24px 20px` e `.topic-columns` reorganiza-se em 1 coluna (`grid-template-columns: 1fr`).
-2. **Given** viewport com largura `<= 540px`, **When** renderizada, **Then** `footer` reorganiza seus elementos em coluna (`flex-direction: column; gap: 12px; align-items: flex-start`).
+1. **Given** viewport com largura `< 1024px`, **When** renderizada, **Then** `.app` ajusta o padding para `24px 20px` e `.topic-columns` reorganiza-se em 1 coluna (`grid-template-columns: 1fr`).
+2. **Given** viewport com largura `< 480px`, **When** renderizada, **Then** `footer` reorganiza seus elementos em coluna (`flex-direction: column; gap: 12px; align-items: flex-start`).
+3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página de Artigos é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o cabeçalho, os grupos temáticos, os itens de artigo e o rodapé apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os grupos temáticos se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
+5. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a página é exibida, **Then** os textos dos grupos e dos itens de artigo são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
 
 ---
 
@@ -423,11 +426,19 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout de artigos
   3. **Garantir que os arquivos de imagem existam fisicamente** no diretório `pages/artigos/assets/images/`.
   4. **Validar a renderização e o empacotamento** executando `npm run build` ao finalizar.
 
+### 6.4. Dimensionamento Responsivo e Fluido
+
+- **FR-005**: A página de Artigos DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-006**: Os tamanhos de texto e os espaçamentos da página DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos; os tamanhos descritos na Seção 3 são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
+- **FR-007**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
+
 ---
 
 ## 7. Success Criteria *(measurable)*
 
 - **SC-001**: **Desempenho SPA**: A página de Artigos é injetada e renderizada no Main Container (`#page-content-host`) em menos de `150ms` sem recarregamento completo do navegador.
-- **SC-002**: **Fidelidade Visual e Taxonômica**: 100% dos elementos visuais, tokens de cor/tipografia, 13 grupos temáticos, 4 subgrupos e 42 artigos (`data-url`) especificados na Seção 2.4 são renderizados fielmente, com o Grupo 1 aberto por padrão.
+- **SC-002**: **Fidelidade Visual e Taxonômica**: 100% dos elementos visuais, tokens de cor/tipografia, 13 grupos temáticos, 4 subgrupos e 42 artigos (`data-url`) especificados na Seção 2.4 são renderizados fielmente (tamanhos como valores de referência, conforme FR-006), com o Grupo 1 aberto por padrão.
 - **SC-003**: **Interatividade Idempotente e Feedback Visual**: 100% dos cliques em `.group-toggle` e `.subgroup-toggle` alternam `.open` e `aria-expanded` sem duplicação de listeners após múltiplas navegações SPA, e 100% dos cliques em `.leaf` exibem `.selected` + `✓` antes do redirecionamento em `150ms`.
-- **SC-004**: **Isolamento de Assets, Responsividade & Build**: CSS e JS permanecem estritamente isolados em `pages/artigos/assets/`, os breakpoints de `850px` e `540px` adaptam o layout sem overflow horizontal nenhuma regra CSS afeta elementos fora de `.artigos-page` (sidebar e breadcrumbs inalterados) e `npm run build` compila sem erros.
+- **SC-004**: **Isolamento de Assets, Responsividade & Build**: CSS e JS permanecem estritamente isolados em `pages/artigos/assets/`, os breakpoints de `1024px` e `480px` adaptam o layout sem overflow horizontal nenhuma regra CSS afeta elementos fora de `.artigos-page` (sidebar e breadcrumbs inalterados) e `npm run build` compila sem erros.
+- **SC-005**: **Proporção em Telas Desktop**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página de Artigos exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-006**: **Proporção em Celular e Tablet**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página de Artigos apresenta layout adaptado e legível, sem rolagem horizontal.

@@ -11,8 +11,7 @@
   --gradient-frame-top: #3893BA;
   --gradient-frame-base: #25797F;
   --font-family-primary: 'Barlow Condensed', sans-serif;
-  --sidebar-width: 300px;
-  --identity-header-height: 275px;
+  /* Tokens de dimensão: pages/spa/assets/css/scale.css */
 }
 
 *, *::before, *::after {
@@ -22,7 +21,7 @@
 }
 
 html, body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -33,9 +32,18 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Mobile-first: arranjo vertical abaixo de 1024px (FR-022) */
 .spa-layout {
   display: flex;
-  width: 100vw;
+  flex-direction: column;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
+}
+
+/* Arranjo lateral a partir de 1024px (FR-002) */
+@media (min-width: 1024px) {
+  .spa-layout {
+    flex-direction: row;
+  }
 }

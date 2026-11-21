@@ -1,19 +1,25 @@
 <!--
 Sync Impact Report:
-- Version change: Template -> 1.0.0
+- Version change: 1.0.0 -> 1.1.0 (MINOR: novo princípio adicionado)
+- Justificativa: garantir legibilidade e proporção consistentes em qualquer
+  resolução/escala de SO, com escala centralizada e respeito à acessibilidade.
 - List of modified principles:
-  - [PRINCIPLE_1_NAME] -> I. Stack Tecnológica Mandatória (Astro + Vanilla)
-  - [PRINCIPLE_2_NAME] -> II. Estrutura de Páginas e Separação de Preocupações
-  - [PRINCIPLE_3_NAME] -> III. Arquitetura de Design e UI (Dark Tech Dashboard)
-  - [PRINCIPLE_4_NAME] -> IV. Regras de Workflow, Versionamento e Automação
-  - [PRINCIPLE_5_NAME] -> V. Convenção de Nomenclatura de Especificações (.specify)
+  - None (princípios I–V preservados integralmente)
 - Added sections:
-  - Diretrizes de Qualidade e Desempenho
-  - Fluxo de Desenvolvimento e Governança de Código
+  - VI. Apresentação Responsiva e Fluida
 - Removed sections:
   - None
+- Templates requiring updates:
+  - ✅ .specify/templates/plan-template.md (Constitution Check é derivado dinamicamente; sem alteração)
+  - ✅ .specify/templates/spec-template.md (sem referência a princípios específicos)
+  - ✅ .specify/templates/tasks-template.md (sem referência a princípios específicos)
 - Follow-up TODOs:
-  - None (All placeholders fully resolved)
+  - Specs existentes (spec-01 a spec-07) e o CSS atual devem ser auditados quanto
+    à conformidade com o Princípio VI (tamanhos fixos em px, ausência de tokens
+    globais de escala).
+
+Histórico:
+- 1.0.0 (2026-10-29): ratificação inicial (princípios I–V).
 -->
 
 # Portfólio de Data Science Constitution
@@ -56,6 +62,15 @@ A rastreabilidade dos ciclos de especificação conduzidos via Spec-Kit é obrig
 - **Padrão de Nomenclatura**: Todos os arquivos de especificação gerados a partir do comando `/speckit.specify` DEVEM obrigatoriamente seguir o padrão de nomenclatura `spec-[numero_sequencial]_[nome_da_feature].md` (exemplo: `spec-01_spa.md`, `spec-02_sobre.md`).
 - **Localização Obrigatória**: Todas as especificações devem ser armazenadas estritamente no diretório `.specify/specs/`.
 
+### VI. Apresentação Responsiva e Fluida
+O site deve manter boa legibilidade e proporção visual em qualquer combinação de dispositivo, resolução e escala de exibição:
+- **Cobertura de Ambientes**: A apresentação DEVE ser legível e proporcional em larguras de viewport desde celulares (~375px) até monitores de 1920px ou mais, em qualquer escala de tela do sistema operacional (100%, 125%, 150%), com o navegador em 100% de zoom.
+- **Dimensionamento Fluido com Limites**: Tamanhos de fonte, espaçamentos e larguras de contêineres DEVEM se adaptar à largura disponível, sempre com limites mínimos e máximos explícitos (ex: `clamp(min, preferido, max)`).
+- **Proibições**: São PROIBIDOS tamanhos fixos globais (ex: `font-size` em `px` no `html`/`body` ou contêineres principais com largura fixa em `px`) e qualquer redução artificial de escala da página (ex: `zoom`, `transform: scale()` aplicado ao layout, ou manipulação da `meta viewport` para encolher o conteúdo).
+- **Fonte Única de Escala**: A escala tipográfica e de espaçamento DEVE ser centralizada em um único ponto ajustável (conjunto de tokens/variáveis CSS globais em `:root`). Alterar esse ponto deve reajustar proporcionalmente todo o site.
+- **Adesão Obrigatória**: Toda página e todo componente DEVEM consumir esse sistema de escala; valores ad hoc que o contornem não são permitidos, salvo exceção justificada na spec da respectiva página.
+- **Respeito à Acessibilidade**: O dimensionamento DEVE respeitar as preferências do usuário, em especial o tamanho de fonte padrão configurado no navegador. Para isso, as escalas devem usar unidades relativas (`rem`/`em`) como base dos limites, sem sobrescrever o tamanho raiz com valores absolutos.
+
 ## Diretrizes de Qualidade e Desempenho
 
 - **Zero Bloat de Runtime**: Nenhum código deve ser entregue ao cliente sem necessidade estrita. O bundle final de produção deve conter apenas HTML estático compilado, CSS minificado e Vanilla JS estritamente isolado.
@@ -75,4 +90,4 @@ A rastreabilidade dos ciclos de especificação conduzidos via Spec-Kit é obrig
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-10-29
+**Version**: 1.1.0 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-17

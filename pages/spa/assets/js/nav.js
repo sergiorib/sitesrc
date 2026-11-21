@@ -71,6 +71,26 @@ export function setActiveNavItem(activeMenuId) {
       item.removeAttribute('aria-current');
     }
   });
+
+  revealActiveNavItem();
+}
+
+/**
+ * Abaixo de 1024px o menu é uma faixa horizontal com rolagem própria (spec-01 FR-022):
+ * rola apenas a faixa para manter o item ativo visível, sem mover a página.
+ */
+export function revealActiveNavItem() {
+  const strip = document.querySelector('.sidebar-nav-container');
+  const active = strip ? strip.querySelector('.nav-item.active') : null;
+  if (!strip || !active || strip.scrollWidth <= strip.clientWidth) return;
+
+  const stripRect = strip.getBoundingClientRect();
+  const itemRect = active.getBoundingClientRect();
+  if (itemRect.left >= stripRect.left && itemRect.right <= stripRect.right) return;
+
+  const target = strip.scrollLeft + (itemRect.left - stripRect.left)
+    - (strip.clientWidth - itemRect.width) / 2;
+  strip.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
 }
 
 // Endpoint GET para compatibilidade com file-based routing do Astro

@@ -73,3 +73,24 @@ Acessar a URL local fornecida pelo Astro (geralmente `http://localhost:4321/spa`
   - O roteador intercepta a resposta de erro e carrega o conteúdo de `pages/spa/default.astro`.
   - A mensagem "Página não encontrada" é exibida com elegância no Main Container.
   - A aplicação e a Sidebar permanecem totalmente estáveis e funcionais.
+
+### Cenário 6: Dimensionamento Fluido em Desktop (FR-019, FR-020, SC-007)
+- **Ação**: Com o navegador em 100% de zoom, abrir o DevTools em modo responsivo e percorrer as 6 páginas nas larguras 1280, 1366, 1536 e 1920px (equivalentes a 1920px com escala do sistema em 150%, 125% e 100%).
+- **Validação Esperada**:
+  - `document.documentElement.scrollWidth <= innerWidth` em todas as páginas (sem rolagem horizontal).
+  - Títulos de página crescem de ~26px (1280px) a 32px (1920px); a Sidebar vai de 240px a 300px; textos e espaçamentos permanecem equilibrados.
+  - O nome "Sérgio Ribeiro Cerqueira" cabe em uma linha na Sidebar.
+
+### Cenário 7: Celular e Tablet com Sidebar Compacta (FR-022, SC-008)
+- **Ação**: Repetir o percurso em 375px e 768px.
+- **Validação Esperada**:
+  - A Sidebar aparece no topo como cabeçalho compacto (foto reduzida, nome e cargo) e o menu como faixa horizontal com rolagem própria; Breadcrumbs no topo do Main Container.
+  - Ao navegar para "Artigos" ou "Contatos", a faixa rola sozinha até o item ativo; a página não tem rolagem horizontal.
+  - Grades das páginas em 1 coluna (375px) e 2 colunas (768px).
+
+### Cenário 8: Fonte do Navegador Ampliada (FR-021)
+- **Ação**: Definir a fonte padrão do navegador em 20px (ou, no DevTools, `document.documentElement.style.fontSize = '125%'`) e percorrer as páginas em 1280px e 375px.
+- **Validação Esperada**:
+  - Todos os textos ampliam ~25% (ex.: títulos de 26px → 32,5px em 1280px); nenhuma sobreposição nem rolagem horizontal.
+  - No celular, o nome no cabeçalho compacto quebra em duas linhas equilibradas em vez de ultrapassar a tela.
+  - No Portfólio, após clicar em uma categoria, o título da categoria fica visível abaixo do cabeçalho fixo.

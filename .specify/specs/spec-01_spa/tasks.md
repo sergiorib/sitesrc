@@ -124,6 +124,57 @@ description: "Lista de tarefas executáveis para a implementação da Página Pr
 
 ---
 
+## Phase 8: Dimensionamento Fluido (FR-019 a FR-022, SC-007, SC-008 — Constituição v1.1.0, Princípio VI)
+
+**Goal**: Centralizar a escala da aplicação em `pages/spa/assets/css/scale.css` e refatorar todo o CSS já implementado (shell da SPA e as 6 páginas) para consumir os tokens fluidos, com breakpoints mobile-first e arranjo vertical da Sidebar abaixo de 1024px. Referência técnica: seção **Dimensionamento Fluido** do [plan.md](./plan.md).
+
+**Independent Test**: Em DevTools (modo responsivo, zoom 100%), percorrer as 6 páginas em 375, 768, 1280, 1366, 1536 e 1920px: nenhuma rolagem horizontal, textos e espaçamentos equilibrados; abaixo de 1024px a Sidebar aparece como cabeçalho compacto com menu horizontal; com fonte padrão do navegador em 20px, os textos ampliam sem sobreposição.
+
+### 8.1 Estrutura e Assets
+
+- [X] T031 Criar `pages/spa/assets/css/scale.css` com, em `:root` e abordagem mobile-first: tokens de tipografia `--fs-sm`, `--fs-base`, `--fs-md`, `--fs-lg`, `--fs-xl`, `--fs-2xl`, `--fs-3xl`, `--fs-hero`; tokens de espaçamento `--space-xs`, `--space-sm`, `--space-md`, `--space-lg`, `--space-xl`, `--space-2xl`; `--container-max: min(1200px, 92vw)`; tokens de layout `--sidebar-width`, `--identity-header-height`, `--profile-photo-size`, `--nav-item-height` e `--portfolio-header-h` (valor inicial para antes da medição); tokens de ícones e logos `--icon-xs`, `--icon-sm`, `--icon-md`, `--icon-lg` e `--logo-h`; valores por faixa conforme as tabelas do plano (`clamp()` em `rem`, calibrado 1280px → 1920px); comentário de convenção dos breakpoints 480/768/1024/1280/1536/1920px; regra base `img { max-width: 100%; height: auto; }`
+- [X] T032 Remover de `pages/spa/assets/css/spa-layout.css` os tokens `--sidebar-width` e `--identity-header-height` (migrados para `scale.css`), substituir `width: 100vw` por `width: 100%` em `html, body` e garantir ausência de `font-size` em px, `zoom` e `transform: scale()` em `html`/`body`
+
+### 8.2 Markup Astro
+
+- [X] T033 Importar `./assets/css/scale.css` no frontmatter de `pages/spa/spa.astro`, antes de `./assets/css/spa-layout.css`
+- [X] T034 [P] Importar `./assets/css/scale.css` no frontmatter dos wrappers `pages/spa/sobre.astro`, `pages/spa/historico.astro`, `pages/spa/formacao.astro`, `pages/spa/portfolio.astro`, `pages/spa/artigos.astro` e `pages/spa/contatos.astro` (tokens disponíveis também com o fragmento aberto isoladamente)
+
+### 8.3 Estilização CSS — Shell da SPA
+
+- [X] T035 [P] Refatorar `pages/spa/assets/css/sidebar.css` substituindo tamanhos fixos pelos tokens: nome (30px) e cargo (25px) → `--fs-2xl`/`--fs-xl`, rótulos do menu (22px) → `--fs-lg`, foto e moldura (160/168px) → `--profile-photo-size`, altura dos itens (50px) → `--nav-item-height`, ícones do menu (24px) → `--icon-md`, `border-radius` (20px) → `rem`, paddings/margins/gaps → `--space-*`; fallbacks `var(--sidebar-width, 300px)` passam a usar só o token
+- [X] T036 Implementar o arranjo vertical abaixo de 1024px (FR-022) em `pages/spa/assets/css/spa-layout.css` e `pages/spa/assets/css/sidebar.css`: base mobile-first com `.spa-layout` em coluna, Sidebar como cabeçalho compacto (foto reduzida, nome e cargo) e menu em faixa horizontal com `overflow-x: auto` própria e itens com largura ajustada ao conteúdo (`width: auto`, `white-space: nowrap`), altura `--nav-item-height`, raio do FR-007 e `gap: var(--space-sm)`, preservando estados ativo/inativo e ícones; Breadcrumbs permanecem no topo do Main Container; `@media (min-width: 1024px)` restaura o arranjo lateral com `--sidebar-width` (depende de T035)
+- [X] T037 [P] Refatorar `pages/spa/assets/css/main-container.css`: paddings `32px 40px` e `padding-left/right: 40px` (modo portfólio) → `--space-*`, mantendo rolagem vertical interna nos dois arranjos e `padding-top: 0` do modo portfólio
+- [X] T038 [P] Refatorar `pages/spa/assets/css/breadcrumbs.css`: fontes 15px/14px → `--fs-base`/`--fs-sm`, espaçamentos → `--space-*`
+
+### 8.4 Estilização CSS — Páginas existentes
+
+- [X] T039 [P] Refatorar `pages/sobre/assets/css/sobre.css`: fontes, paddings, margins e gaps → tokens (títulos 32px → `--fs-3xl`, biografia 22px → `--fs-lg`, subtítulos 24px → `--fs-xl`, cards 15/14px → `--fs-base`/`--fs-sm`); ícones de tecnologia 18px → `--icon-sm` (com a reserva de espaço do ícone ausente), estrelas SVG 13px → `--icon-xs`, `border-radius` → `rem`; converter `max-width: 1200px`/`767px` para `min-width: 768px` (2 colunas) e `min-width: 1280px` (4 colunas Hard-Skills)
+- [X] T040 [P] Refatorar `pages/historico/assets/css/historico.css`: título 32px → `--fs-3xl`, cargo 30px → `--fs-2xl`, descrição 22px e badges/escudos 20px → `--fs-lg`, logo 100/80px → `--logo-h`, `border-radius` → `rem`, paddings/gaps → `--space-*`; converter `767px` e `768–1023px` para `min-width: 768px` e `min-width: 1024px`
+- [X] T041 [P] Refatorar `pages/formacao/assets/css/formacao.css`: títulos 32/28/24px → `--fs-3xl`/`--fs-2xl`/`--fs-xl`, badge 20px → `--fs-lg`, paddings/gaps → `--space-*`, `max-width: 1200px` → `var(--container-max)`; converter `767px` e `768–1023px` para `min-width: 768px` e `min-width: 1024px`
+- [X] T042 [P] Refatorar `pages/portfolio/assets/css/portfolio.css`: título 36px → `--fs-hero`, categoria 24px → `--fs-xl`, botões 14/16px → `--fs-base`/`--fs-md`, nome 18px → `--fs-md`, resumo 14px → `--fs-base`, tags 12px → `--fs-sm`, paddings/gaps → `--space-*`; `scroll-margin-top: 185px` → `calc(var(--portfolio-header-h) + 35px)`; manter `transform: scale(1.02)` do hover da imagem; converter `767px`/`768–1023px` para `min-width: 768px`/`1024px`
+- [X] T043 [P] Refatorar `pages/artigos/assets/css/artigos.css`: `h1 clamp(28px, 3.5vw, 40px)` → `--fs-hero`, base 15px → `--fs-base`, grupos 17px → `--fs-md`, itens 14px e rodapé 12px → `--fs-sm`, ícones/chevron 18px → `--fs-md`, `.app` `max-width: 1200px` e `padding: 32px 36px` → `--container-max`/`--space-*`, margens do cabeçalho/rodapé → `--space-*`; converter `850px`/`540px` para `min-width: 1024px` (2 colunas) e `min-width: 480px` (rodapé horizontal)
+- [X] T044 [P] Refatorar `pages/contatos/assets/css/contatos.css`: título 32px → `--fs-3xl`, valor 32px → `--fs-3xl`, rótulo 24px → `--fs-xl`, detalhe 15/11px → `--fs-base`/`--fs-sm`, padding `clamp()` local da `.contacts-page` → `--space-*`, contêiner de ícone 48/42px → `--icon-lg`, SVG 23px → `--icon-md`, `border-radius` → `rem`; converter `719px`/`379px` para `min-width: 768px` (2 colunas) e `min-width: 480px` (ícone 48px)
+
+### 8.5 Interatividade JS
+
+- [X] T045 Atualizar `pages/portfolio/assets/js/portfolio.js` para medir `header.offsetHeight`, publicar o valor em `--portfolio-header-h` no `.portfolio-page-wrapper` e derivar o `rootMargin` do scroll-spy (hoje `SPY_ROOT_MARGIN = '-160px 0px -40% 0px'`) de `-(offsetHeight + HEADER_GAP)`; recalcular e recriar o `IntersectionObserver` quando a altura do cabeçalho mudar (`ResizeObserver`), mantendo a idempotência de `initPortfolioNavigation` (depende de T042)
+- [X] T046 [P] Revisar `scrollToAnchor()` em `pages/spa/assets/js/router.js` para que a folga use exclusivamente `header.offsetHeight + 35px` medido no momento da rolagem (o valor `140` permanece apenas como fallback sem cabeçalho)
+- [X] T053 Atualizar `pages/spa/assets/js/nav.js` para, após cada troca do item ativo, manter o item ativo visível na faixa horizontal de navegação abaixo de 1024px (`scrollIntoView({ inline: 'nearest', block: 'nearest' })` limitado ao contêiner do menu), sem alterar estados nem ícones (FR-022; depende de T036)
+
+### 8.6 Validação e Build
+
+- [X] T047 Executar `npm run build` e confirmar compilação sem erros após T031–T046 e T053
+- [X] T048 [P] Varredura estática em `pages/spa/assets/css/`, `pages/{sobre,historico,formacao,portfolio,artigos,contatos}/assets/css/`: zero `font-size` em px, zero px em `padding`/`margin`/`gap`/`border-radius`/larguras e alturas de componentes (px aceito apenas na espessura de `border`/`outline`, em `box-shadow`/`text-shadow` e nos breakpoints das media queries) e zero `zoom`/`transform: scale()` em `html`/`body`
+- [X] T049 Validar em DevTools (modo responsivo, zoom 100%) as 6 páginas em 375, 768, 1280, 1366, 1536 e 1920px: `document.documentElement.scrollWidth <= innerWidth`, textos e espaçamentos equilibrados, Sidebar compacta abaixo de 1024px e lateral a partir de 1024px (SC-007, SC-008, FR-022)
+- [X] T050 Validar com a fonte padrão do navegador em 20px que os textos da Sidebar, Breadcrumbs e páginas ampliam proporcionalmente sem sobreposição (FR-021), e que o título da categoria do portfólio permanece visível abaixo do cabeçalho fixo após a navegação por âncora
+- [X] T051 [P] Adicionar os cenários de dimensionamento fluido (larguras de validação, arranjo vertical da Sidebar e fonte ampliada) em `.specify/specs/spec-01_spa/quickstart.md`
+- [X] T052 Validar conformidade com a Constituição v1.1.0, Princípio VI, em todo o CSS da aplicação (escala centralizada em `scale.css`, adesão de todas as páginas, respeito à fonte do navegador)
+
+**Checkpoint**: Aplicação inteira com dimensionamento fluido centralizado, sem tamanhos fixos globais e com layout adaptado do celular ao Full HD.
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -135,6 +186,7 @@ description: "Lista de tarefas executáveis para a implementação da Página Pr
 - **User Story 3 (Phase 5 - P2)**: Depende do roteador de User Story 2 para sincronizar a régua de Breadcrumbs.
 - **User Story 4 (Phase 6 - P2)**: Depende do roteador de User Story 2 para integrar o fallback 404 e subpáginas em cascata.
 - **Polish (Phase 7)**: Depende da conclusão de todas as User Stories anteriores.
+- **Dimensionamento Fluido (Phase 8)**: Depende das Fases 1–7 (refatora código já entregue). Internamente: 8.1 (T031–T032) → 8.2 (T033–T034) → 8.3/8.4 (T035–T044) → 8.5 (T045–T046, T053) → 8.6 (T047–T052). T036 depende de T035 (mesmo arquivo); T045 depende de T042 (`--portfolio-header-h`); T053 depende de T036 (faixa horizontal). Em todas as refatorações T035–T044, `border-radius` passa a `rem` e px fica restrito à espessura de bordas e às sombras.
 
 ### Parallel Opportunities
 
@@ -144,6 +196,7 @@ description: "Lista de tarefas executáveis para a implementação da Página Pr
 - **Fase 4 (User Story 2)**: `T015` (criação das páginas estáticas) pode ser feita em paralelo com `T016` (nav.js).
 - **Fase 5 (User Story 3)**: `T020` (Breadcrumbs.astro) e `T021` (breadcrumbs.css) podem rodar em paralelo.
 - **Fase 6 (User Story 4)**: `T024` (default.astro) e `T027` (subpagina-demo.astro) podem ser criadas em paralelo.
+- **Fase 8 (Dimensionamento Fluido)**: após T031–T034, as refatorações `T035`, `T037`, `T038` e `T039`–`T044` atuam em arquivos distintos e podem rodar em paralelo; `T046` e `T053` são independentes de `T045`; `T048` e `T051` podem rodar em paralelo após `T047`.
 
 ---
 
@@ -175,3 +228,4 @@ Task T013: "Criar a página de conteúdo inicial padrão em pages/spa/sobre.astr
 3. **Incremento 3**: Régua dinâmica de Breadcrumbs em linha única com retorno navegável (US3).
 4. **Incremento 4**: Descoberta dinâmica de subpáginas em cascata e fallback resiliente 404 com `default.astro` (US4).
 5. **Incremento 5**: Polimento final, auditoria constitucional e testes de aceitação (Polish).
+6. **Incremento 6**: Escala fluida centralizada em `scale.css`, refatoração do shell e das 6 páginas para os tokens, breakpoints mobile-first e Sidebar compacta abaixo de 1024px (Phase 8). Sugestão de entrega: shell da SPA primeiro (T031–T038), validando em 375/1280/1920px, depois uma página por vez (T039–T044).

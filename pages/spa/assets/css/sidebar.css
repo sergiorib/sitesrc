@@ -1,36 +1,42 @@
+/*
+ * Sidebar — mobile-first (tokens em scale.css)
+ * < 1024px : cabeçalho compacto no topo + faixa de navegação horizontal (FR-022)
+ * ≥ 1024px : Sidebar lateral com cabeçalho de identidade e menu vertical (FR-002 a FR-007)
+ */
+
 /* Sidebar Estrutural */
 .sidebar {
-  width: var(--sidebar-width, 300px);
-  min-width: var(--sidebar-width, 300px);
-  height: 100vh;
+  width: var(--sidebar-width);
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border-right: 2px solid var(--color-border-cyan, #69C4CE);
+  border-bottom: 2px solid var(--color-border-cyan, #69C4CE);
   background-color: var(--color-bg-primary, #061B2A);
   overflow: hidden;
   user-select: none;
   z-index: 10;
 }
 
-/* Cabeçalho de Identidade (Topo - 275px) */
+/* Cabeçalho de Identidade (compacto no celular/tablet) */
 .identity-header {
-  height: var(--identity-header-height, 275px);
-  min-height: var(--identity-header-height, 275px);
+  min-height: var(--identity-header-height);
   background-image: url('../images/profile-bg.png');
   background-size: cover;
   background-position: center;
   border-bottom: 2px solid var(--color-border-cyan, #69C4CE);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 16px 12px 10px 12px;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
   position: relative;
 }
 
 .profile-photo-wrapper {
-  width: 168px;
-  height: 168px;
+  width: calc(var(--profile-photo-size) * 1.05);
+  height: calc(var(--profile-photo-size) * 1.05);
+  flex-shrink: 0;
   border-radius: 50%;
   background: linear-gradient(to bottom, #3893BA, #25797F);
   display: flex;
@@ -40,87 +46,90 @@
 }
 
 .profile-photo {
-  width: 160px;
-  height: 160px;
+  width: var(--profile-photo-size);
+  height: var(--profile-photo-size);
   border-radius: 50%;
   object-fit: cover;
   display: block;
 }
 
 .identity-contrast-strip {
-  width: 100%;
-  margin-top: 10px;
+  min-width: 0;
   background-color: rgba(6, 27, 42, 0.85);
-  border-radius: 8px;
-  padding: 4px 8px;
-  text-align: center;
+  border-radius: 0.5rem;
+  padding: var(--space-xs) var(--space-sm);
+  text-align: left;
   backdrop-filter: blur(2px);
 }
 
 .profile-name {
   font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
   font-weight: 600;
-  font-size: 30px;
+  font-size: var(--fs-2xl);
   color: var(--color-white, #FFFFFF);
   line-height: 1.1;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
+  letter-spacing: 0.03em;
+  /* Uma linha nos tamanhos de referência; quebra equilibrada se a fonte do navegador for ampliada */
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .profile-role {
   font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
   font-weight: 600;
-  font-size: 25px;
+  font-size: var(--fs-xl);
   color: var(--color-white, #FFFFFF);
   line-height: 1.1;
-  margin-top: 2px;
-  letter-spacing: 0.5px;
+  margin-top: calc(var(--space-xs) / 2);
+  letter-spacing: 0.03em;
 }
 
-/* Área de Navegação e Menu Lateral */
+/* Área de Navegação — faixa horizontal com rolagem própria (FR-022) */
 .sidebar-nav-container {
-  flex: 1;
   background-color: var(--color-bg-nav, #16222A);
   background-image: url('../images/menu-bg.png');
   background-size: cover;
   background-position: center;
   display: flex;
-  flex-direction: column;
-  padding: 24px 0;
-  overflow-y: auto;
+  padding: var(--space-sm) var(--space-lg);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 .sidebar-nav-container::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 
 .sidebar-nav-container::-webkit-scrollbar-thumb {
   background: #25797F;
-  border-radius: 2px;
+  border-radius: 0.125rem;
 }
 
 .nav-items-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-direction: row;
+  gap: var(--space-sm);
   align-items: center;
-  width: 100%;
+  width: max-content;
 }
 
-/* Itens de Navegação (Padrão: ~93% largura, 50px altura, 20px border-radius) */
+/* Itens de Navegação — na faixa: largura pelo conteúdo, mesma altura e raio */
 .nav-item {
-  width: 93%;
-  height: 50px;
-  border-radius: 20px;
+  width: auto;
+  height: var(--nav-item-height);
+  border-radius: 1.25rem;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  gap: 16px;
+  padding: 0 var(--space-lg);
+  gap: var(--space-sm);
   text-decoration: none;
+  white-space: nowrap;
   font-family: var(--font-family-primary, 'Barlow Condensed', sans-serif);
   font-weight: 600;
-  font-size: 22px;
-  letter-spacing: 0.5px;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.03em;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -142,7 +151,6 @@
 
 .nav-item:not(.active):hover {
   background-color: #0c2b42;
-  transform: translateX(2px);
 }
 
 /* Estado Selecionado (Ativo) */
@@ -165,18 +173,71 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--icon-md);
+  height: var(--icon-md);
   flex-shrink: 0;
 }
 
 .nav-icon {
-  width: 24px;
-  height: 24px;
+  width: var(--icon-md);
+  height: var(--icon-md);
   object-fit: contain;
 }
 
 .nav-label {
   flex: 1;
   text-align: left;
+}
+
+/* Arranjo lateral a partir de 1024px */
+@media (min-width: 1024px) {
+  .sidebar {
+    min-width: var(--sidebar-width);
+    height: 100vh;
+    border-bottom: none;
+    border-right: 2px solid var(--color-border-cyan, #69C4CE);
+  }
+
+  .identity-header {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+    padding: var(--space-lg) var(--space-xs) var(--space-sm);
+  }
+
+  .identity-contrast-strip {
+    width: 100%;
+    margin-top: var(--space-sm);
+    padding: var(--space-xs);
+    text-align: center;
+  }
+
+  .profile-name,
+  .profile-role {
+    letter-spacing: 0.02em;
+  }
+
+  .sidebar-nav-container {
+    flex: 1;
+    flex-direction: column;
+    padding: var(--space-xl) 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .nav-items-wrapper {
+    flex-direction: column;
+    gap: var(--space-lg);
+    width: 100%;
+  }
+
+  .nav-item {
+    width: 93%;
+    padding: 0 var(--space-xl);
+    gap: var(--space-lg);
+  }
+
+  .nav-item:not(.active):hover {
+    transform: translateX(2px);
+  }
 }

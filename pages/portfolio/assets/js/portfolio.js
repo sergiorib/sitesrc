@@ -7,10 +7,27 @@
 
 const HEADER_GAP = 35;          // folga abaixo do cabeçalho fixo (FR-003)
 const SPY_PAUSE_MS = 600;       // suspensão do scroll-spy após clique (FR-003.4)
-const SPY_ROOT_MARGIN = '-160px 0px -40% 0px';
+const DEFAULT_HEADER_H = 150;   // usado apenas se o cabeçalho não existir
 
 function getScrollHost() {
   return document.getElementById('page-content-host');
+}
+
+/**
+ * Mede a altura atual do cabeçalho fixo e a publica em --portfolio-header-h
+ * (consumida por scroll-margin-top em portfolio.css). O cabeçalho é fluido
+ * (tokens de scale.css), então a altura varia com a largura e a fonte do navegador.
+ */
+function publishHeaderHeight(wrapper) {
+  const header = wrapper.querySelector('.portfolio-header');
+  const height = header ? header.offsetHeight : DEFAULT_HEADER_H;
+  wrapper.style.setProperty('--portfolio-header-h', `${height}px`);
+  return height;
+}
+
+// rootMargin superior derivado da altura medida (spec-05 FR-003.4)
+function spyRootMargin(headerHeight) {
+  return `-${headerHeight + HEADER_GAP}px 0px -40% 0px`;
 }
 
 function setActiveButton(buttons, sectionId) {
@@ -44,6 +61,7 @@ function setupScrollSpy(wrapper, buttons, sections, state) {
   const host = getScrollHost();
   const root = host && host.contains(wrapper) ? host : null;
   const header = wrapper.querySelector('.portfolio-header');
+  const headerHeight = publishHeaderHeight(wrapper);
 
   // Seção ativa = a última cujo topo já alcançou a linha logo abaixo do cabeçalho fixo.
   // (Categorias vazias são curtas; "primeira seção visível" escolheria a seção errada.)
@@ -60,7 +78,7 @@ function setupScrollSpy(wrapper, buttons, sections, state) {
 
   const observer = new IntersectionObserver(updateActive, {
     root,
-    rootMargin: SPY_ROOT_MARGIN,
+    rootMargin: spyRootMargin(headerHeight),
     threshold: [0, 0.25, 0.5, 0.75, 1],
   });
   sections.forEach((section) => observer.observe(section));
@@ -126,6 +144,29 @@ function initPortfolioNavigation() {
   });
 
   setupScrollSpy(wrapper, buttons, sections, state);
+
+  // Recria o scroll-spy quando a altura do cabeçalho muda (largura da janela,
+  // quebra dos botões de categoria ou fonte do navegador ampliada).
+  if (window.__portfolioHeaderObserver) {
+    window.__portfolioHeaderObserver.disconnect();
+    window.__portfolioHeaderObserver = null;
+  }
+  const header = wrapper.querySelector('.portfolio-header');
+  if (header && 'ResizeObserver' in window) {
+    let lastHeight = header.offsetHeight;
+    const headerObserver = new ResizeObserver(() => {
+      if (!wrapper.isConnected) {
+        headerObserver.disconnect();
+        return;
+      }
+      const height = header.offsetHeight;
+      if (height === lastHeight) return;
+      lastHeight = height;
+      setupScrollSpy(wrapper, buttons, sections, state);
+    });
+    headerObserver.observe(header);
+    window.__portfolioHeaderObserver = headerObserver;
+  }
 
   // Âncora inicial (#section-*) vinda da URL.
   const initialHash = window.location.hash.slice(1);

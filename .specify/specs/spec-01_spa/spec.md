@@ -24,6 +24,10 @@ Como visitante ou recrutador acessando o portfólio de Data Science, desejo visu
 1. **Given** que o usuário acessa a raiz da SPA (`spa.astro`), **When** o documento é renderizado pelo navegador, **Then** a janela exibe o layout dividido horizontalmente entre uma Sidebar de 300px à esquerda e o Main Container ocupando todo o espaço restante à direita em 100vw e 100vh.
 2. **Given** o carregamento da Sidebar, **When** inspecionado o cabeçalho superior (275px), **Then** deve ser exibida a imagem de perfil circular (160px) centralizada com moldura em gradiente vertical (`#3893BA` a `#25797F`), com faixa de contraste escura (`#061B2A`), apresentando o nome "Sérgio Ribeiro Cerqueira" e o cargo "Cientista de Dados" em tipografia Barlow Condensed 600.
 3. **Given** o estado inicial da navegação, **When** a página termina de carregar, **Then** o item "Sobre" é exibido no estado ativo (fundo `#B3CBDB`, texto `#061B2A`, ícone escuro) e o conteúdo inicial de "Sobre" é renderizado dentro do Main Container.
+4. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a aplicação é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** a Sidebar, os Breadcrumbs e o conteúdo de qualquer página carregada no Main Container apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+5. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a aplicação é exibida, **Then** o layout base e todas as páginas carregadas no Main Container se apresentam adaptados à tela, legíveis e sem rolagem horizontal.
+6. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a aplicação é exibida, **Then** os textos da Sidebar, dos Breadcrumbs e das páginas são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
+7. **Given** uma largura de tela inferior a 1024px, **When** a aplicação é exibida, **Then** a Sidebar aparece no topo como cabeçalho compacto com a faixa de navegação horizontal logo abaixo, o item ativo permanece destacado e o Main Container ocupa toda a largura restante abaixo, sem rolagem horizontal da página.
 
 ---
 
@@ -79,7 +83,7 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 - **Tentativa de navegação rápida sucessiva (duplo clique ou múltiplos cliques em itens do menu)**: O roteador deve tratar requisições concorrentes ou cancelar a anterior, garantindo que o Main Container renderize exatamente o último estado solicitado pelo usuário.
 - **Falha de conectividade ou rede ao buscar nova rota**: A aplicação deve exibir graciosamente a página de fallback (`default.astro`) ou mensagem contextual no Main Container sem travar a Sidebar.
 - **Clique em links externos**: Links apontando para domínios externos não devem ser interceptados pelo roteador da SPA, permitindo comportamento padrão do navegador (abertura externa ou em nova aba conforme especificado no link).
-- **Redimensionamento da janela do navegador**: O layout deve se manter estável ocupando 100vw e 100vh, com a Sidebar mantendo seus 300px de largura e o Main Container preenchendo a área remanescente com rolagem interna de conteúdo quando o conteúdo ultrapassar a altura da viewport.
+- **Redimensionamento da janela do navegador**: O layout deve se manter estável ocupando 100vw e 100vh, alternando entre o arranjo lateral (a partir de 1024px) e o arranjo vertical do FR-022 (abaixo de 1024px) sem perda do item ativo nem do conteúdo carregado, com a Sidebar mantendo sua largura proporcional à tela (referência de 300px em desktop, dentro de limites mínimo e máximo) e o Main Container preenchendo a área remanescente com rolagem interna de conteúdo quando o conteúdo ultrapassar a altura da viewport.
 - **Navegação direta por URL ou refresh**: O sistema deve manter coerência com o roteamento estático do Astro ao inicializar o estado da aplicação.
 
 ---
@@ -89,12 +93,12 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 ### Functional Requirements
 
 - **FR-001**: O sistema DEVE fornecer o layout mestre da aplicação SPA estruturado no arquivo `pages/spa/spa.astro`, ocupando exatamente 100% da largura e altura da janela (100vw e 100vh).
-- **FR-002**: O sistema DEVE dividir horizontalmente a janela em duas áreas principais: uma Sidebar fixa à esquerda com 300px de largura e um Main Container dinâmico à direita preenchendo todo o espaço restante.
-- **FR-003**: A Sidebar DEVE ser subdividida verticalmente em Cabeçalho de Identidade com altura fixa de 275px no topo e Área de Navegação no espaço restante inferior.
+- **FR-002**: Em larguras a partir de 1024px, o sistema DEVE dividir horizontalmente a janela em duas áreas principais: uma Sidebar fixa à esquerda com 300px de largura e um Main Container dinâmico à direita preenchendo todo o espaço restante. Abaixo de 1024px, vale o arranjo vertical do FR-022.
+- **FR-003**: A Sidebar DEVE ser subdividida verticalmente em Cabeçalho de Identidade com altura de referência de 275px no topo e Área de Navegação no espaço restante inferior.
 - **FR-004**: O Cabeçalho de Identidade DEVE exibir a imagem de fundo `pages/spa/assets/images/profile-bg.png` (`background-size: cover`) com borda `#69C4CE`, foto de perfil circular com 160px de diâmetro (`pages/spa/assets/images/profile-photo.png`, `object-fit: cover`) centralizada com moldura em gradiente vertical de `#3893BA` (topo) a `#25797F` (base).
 - **FR-005**: O Cabeçalho de Identidade DEVE conter o nome "Sérgio Ribeiro Cerqueira" (Barlow Condensed, peso 600, tamanho 30px, cor `#FFFFFF`, centralizado) e a profissão "Cientista de Dados" (Barlow Condensed, peso 600, tamanho 25px, cor `#FFFFFF`, centralizado), suportados por uma faixa de contraste escuro (`#061B2A`) com baixa opacidade para assegurar legibilidade sobre a imagem de fundo.
 - **FR-006**: A Área de Navegação DEVE possuir contêiner com cor de fundo `#16222A`, borda `#69C4CE` e imagem de fundo `pages/spa/assets/images/menu-bg.png`.
-- **FR-007**: Os itens do menu lateral DEVEM ter largura de aproximadamente 93% da Sidebar, altura de 50px, espaçamento vertical de 16px e cantos arredondados com raio de 20px.
+- **FR-007**: Em larguras a partir de 1024px, os itens do menu lateral DEVEM ter largura de aproximadamente 93% da Sidebar, altura de 50px, espaçamento vertical de 16px e cantos arredondados com raio de 20px. Abaixo de 1024px, valem as dimensões da faixa de navegação definidas no FR-022.
 - **FR-008**: O sistema DEVE mapear os seguintes itens de menu com seus respectivos arquivos de destino e pares de ícones (localizados em `pages/spa/assets/images/`):
   1. "Sobre" -> `sobre.astro` (ícones: `icone-sobre-claro.png` / `icone-sobre-escuro.png`);
   2. "Histórico" -> `historico.astro` (ícones: `icone-historico-claro.png` / `icone-historico-escuro.png`);
@@ -114,12 +118,16 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 - **FR-016**: O sistema DEVE sincronizar o histórico de navegação com a History API (`window.history.pushState` e evento `popstate`), permitindo pleno funcionamento dos botões nativos de "Voltar" e "Avançar" do navegador. O ouvinte de `popstate` DEVE distinguir navegação entre rotas (`pathname`) de navegação por fragmento/âncora (`hash`) na mesma página. Quando o `pathname` não for alterado, o roteador NÃO DEVE recarregar o conteúdo da página nem resetar o scroll para o topo (`scrollTop = 0`), devendo apenas acionar a rolagem suave até a âncora especificada dentro do Main Container `#page-content-host`.
 - **FR-017**: O sistema DEVE fornecer o arquivo de fallback `pages/spa/default.astro` indicando "Página não encontrada" e renderizá-lo dentro do Main Container sempre que uma rota interna solicitada for inválida ou inexistente (erro 404).
 - **FR-018**: O roteador SPA DEVE executar tags `<script>` presentes nos fragmentos HTML injetados via `innerHTML` através de re-criação dinâmica de nós (`executeIncomingScripts`), e disparar o evento customizado `window.dispatchEvent(new CustomEvent('spa:page-loaded', ...))` garantindo que a interatividade e os listeners dos módulos carregados sejam devidamente inicializados após a injeção do fragmento.
+- **FR-019**: A aplicação (layout base e todas as páginas exibidas no Main Container) DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-020**: Os tamanhos de texto e os espaçamentos da aplicação DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos, de forma uniforme em todas as páginas; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
+- **FR-021**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos de toda a aplicação, sem sobreposição ou perda de conteúdo.
+- **FR-022**: Em larguras inferiores a 1024px (tablets e celulares), o layout DEVE ser organizado verticalmente: a Sidebar é apresentada no topo como um cabeçalho compacto (foto de perfil reduzida, nome e cargo) seguido da Área de Navegação em faixa horizontal com rolagem lateral própria, e o Main Container ocupa toda a largura abaixo. Os 6 itens de menu, seus estados ativo/inativo e os pares de ícones claro/escuro DEVEM ser preservados, e a rolagem lateral da faixa de navegação NÃO DEVE provocar rolagem horizontal da página. Na faixa, cada item DEVE ter largura ajustada ao próprio conteúdo (ícone e rótulo em uma linha), a mesma altura e o mesmo raio de canto do FR-007, e espaçamento horizontal uniforme entre itens; o item ativo DEVE ficar visível na faixa ao carregar a página. A régua de Breadcrumbs permanece no topo do Main Container.
 
 ---
 
 ### Key Entities
 
-- **LayoutBase**: Representa a moldura estrutural da SPA composta pela divisão rígida entre a Sidebar (300px) e a Área de Conteúdo Principal (Main Container), gerenciando o ciclo de vida da tela cheia (100vw x 100vh).
+- **LayoutBase**: Representa a moldura estrutural da SPA composta pela divisão estável entre a Sidebar (referência de 300px; cabeçalho compacto no topo abaixo de 1024px) e a Área de Conteúdo Principal (Main Container), gerenciando o ciclo de vida da tela cheia (100vw x 100vh).
 - **IdentityHeader**: Estrutura do cabeçalho da Sidebar (275px de altura) contendo foto de perfil (160px), moldura com gradiente, faixa de contraste escuro, tipografia Barlow Condensed, nome profissional e profissão.
 - **NavigationMenu**: Contêiner de navegação que gerencia a lista dos itens de menu primários, controle de estado ativo/inativo, estilização contrastante e troca dinâmica de pares de ícones (claro vs escuro).
 - **NavigationItem**: Entidade individual de cada opção de navegação, contendo rótulo, rota associada, ícone claro, ícone escuro e estado de seleção.
@@ -137,7 +145,9 @@ Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, dese
 - **SC-003**: 100% das tentativas de navegação via links internos sob `pages/` preservam a Sidebar estável e sem recarregamento da janela (*zero full page reloads*).
 - **SC-004**: 100% das rotas internas inexistentes ou inválidas exibem a página de fallback padronizada `pages/spa/default.astro` no Main Container sem travar a interface da aplicação.
 - **SC-005**: 100% das interações com os botões "Voltar" e "Avançar" do navegador restauram fidedignamente o estado do conteúdo e o estado visual do menu e breadcrumbs correspondentes, preservando âncoras internas e posições de scroll sem recargas indevidas da rota.
-- **SC-006**: A interface permanece perfeitamente enquadrada em 100% da viewport (100vw e 100vh) em qualquer resolução de tela desktop, mantendo a Sidebar fixa em 300px de largura e o Main Container com barra de rolagem interna dedicada quando o conteúdo exceder a altura visível.
+- **SC-006**: A interface permanece perfeitamente enquadrada em 100% da viewport (100vw e 100vh) em qualquer resolução de tela desktop, mantendo a Sidebar fixa à esquerda com largura proporcional (referência de 300px, conforme FR-020) e o Main Container com barra de rolagem interna dedicada quando o conteúdo exceder a altura visível.
+- **SC-007**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, 100% das páginas da aplicação exibem textos e espaçamentos equilibrados e nenhuma apresenta rolagem horizontal.
+- **SC-008**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), 100% das páginas da aplicação apresentam layout adaptado e legível, sem rolagem horizontal.
 
 ---
 
