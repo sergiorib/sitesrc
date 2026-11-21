@@ -1,0 +1,23 @@
+---
+// EL-29 nav-menu — .specify/catalog/elementos.md (moldura da SPA)
+// O item com `padrao: true` começa ativo; nav.js move `is-ativo` conforme a rota.
+const { itens = [], rotulo = '', estilo = 'escuro' } = Astro.props;
+---
+<nav id="sidebar-nav" class={`nav-menu nav-menu--${estilo}`} aria-label={rotulo || undefined}>
+  <div class="nav-menu-items">
+    {itens.map((item) => (
+      <a
+        class:list={['nav-menu-item', { 'is-ativo': item.padrao }]}
+        href={item.rota}
+        data-menu-id={item.id}
+        aria-current={item.padrao ? 'page' : undefined}
+      >
+        <span class="nav-menu-icon">
+          <img class="nav-menu-icon-light" src={item.icone_claro} alt="" width="24" height="24" aria-hidden="true" />
+          <img class="nav-menu-icon-dark" src={item.icone_escuro} alt="" width="24" height="24" aria-hidden="true" />
+        </span>
+        <span class="nav-menu-label">{item.rotulo}</span>
+      </a>
+    ))}
+  </div>
+</nav>

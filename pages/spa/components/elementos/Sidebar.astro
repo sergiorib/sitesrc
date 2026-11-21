@@ -1,0 +1,5 @@
+---
+// EL-27 sidebar — .specify/catalog/elementos.md (moldura da SPA)
+const { rotulo = '', estilo = 'escuro' } = Astro.props;
+---
+<aside id="sidebar" class={`sidebar sidebar--${estilo}`} aria-label={rotulo || undefined}><slot /></aside>

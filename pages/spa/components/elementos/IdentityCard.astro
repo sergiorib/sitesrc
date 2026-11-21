@@ -1,0 +1,21 @@
+---
+// EL-28 identity-card — .specify/catalog/elementos.md (moldura da SPA)
+const { item, estilo = 'moldura' } = Astro.props;
+---
+{item && (
+  <header id="identity-header" class={`identity-card identity-card--${estilo}`}>
+    <div class="identity-card-frame">
+      <img
+        class="identity-card-photo"
+        src={item.foto}
+        alt={`Foto de perfil de ${item.nome}`}
+        width="160"
+        height="160"
+      />
+    </div>
+    <div class="identity-card-strip">
+      <h1 class="identity-card-name">{item.nome}</h1>
+      <p class="identity-card-role">{item.cargo}</p>
+    </div>
+  </header>
+)}

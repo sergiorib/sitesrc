@@ -1,13 +1,18 @@
 ---
-import Sidebar from './components/Sidebar.astro';
-import MainContainer from './components/MainContainer.astro';
-import SobreContent from './sobre.astro';
-
+// Documento da SPA — moldura montada a partir da seção 4.1 (Estrutura) de .specify/specs/spec-01_spa/spec.md
 import './assets/css/scale.css';
-import './assets/css/spa-layout.css';
-import './assets/css/sidebar.css';
-import './assets/css/breadcrumbs.css';
-import './assets/css/main-container.css';
+import './assets/css/tokens.css';
+import './assets/css/spa.css';
+
+import navegacao from './data/navegacao.json';
+import AppLayout from './components/elementos/AppLayout.astro';
+import Sidebar from './components/elementos/Sidebar.astro';
+import IdentityCard from './components/elementos/IdentityCard.astro';
+import NavMenu from './components/elementos/NavMenu.astro';
+import MainArea from './components/elementos/MainArea.astro';
+import Breadcrumbs from './components/elementos/Breadcrumbs.astro';
+import ContentHost from './components/elementos/ContentHost.astro';
+import SobreContent from './sobre.astro';
 ---
 
 <!DOCTYPE html>
@@ -19,14 +24,20 @@ import './assets/css/main-container.css';
     <meta name="description" content="Portfólio de Data Science de Sérgio Ribeiro Cerqueira" />
   </head>
   <body>
-    <div id="spa-layout" class="spa-layout">
-      <Sidebar />
-      <MainContainer>
-        <SobreContent />
-      </MainContainer>
-    </div>
+    <AppLayout estilo="escuro">
+      <Sidebar estilo="escuro" rotulo="Identidade e Navegação">
+        <IdentityCard estilo="moldura" item={navegacao.identidade} />
+        <NavMenu estilo="escuro" rotulo="Menu Principal" itens={navegacao.navegacao} />
+      </Sidebar>
+      <MainArea estilo="escuro">
+        <Breadcrumbs estilo="discreto" />
+        <ContentHost estilo="padrao">
+          <SobreContent />
+        </ContentHost>
+      </MainArea>
+    </AppLayout>
 
-    <!-- Script Client-Side com Roteador Vanilla JS -->
+    <!-- Roteador client-side (Vanilla JS) -->
     <script>
       import './assets/js/router.js';
     </script>

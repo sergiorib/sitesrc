@@ -1,0 +1,5 @@
+---
+// EL-26 app-layout — .specify/catalog/elementos.md (moldura da SPA)
+const { estilo = 'escuro' } = Astro.props;
+---
+<div id="spa-layout" class={`app-layout app-layout--${estilo}`}><slot /></div>

@@ -1,159 +1,253 @@
-# Feature Specification: Estrutura da Página Principal SPA (Layout Base, Sidebar e Main Container)
+# Feature Specification: Moldura da SPA (Layout Base, Sidebar, Breadcrumbs e Área de Conteúdo)
 
 **Feature Branch**: `01-pagina-spa`
 
-**Created**: 2026-10-29
-**Updated**: 2026-11-16
+**Created**: 2026-10-29 (Updated: 2026-11-20 — migração para o modelo em camadas)
 
-**Status**: Draft
+**Status**: Em Execução
 
 **Input**: User description: "Criar a estrutura da Página Principal SPA (Layout Base, Sidebar e Main Container) com Sidebar fixa à esquerda com identidade profissional e navegação, e Área de Conteúdo Principal (Main Container) dinâmica à direita, capaz de carregar páginas primárias e subpáginas em cascata de forma transparente, com suporte a navegação por Breadcrumbs."
 
-## User Scenarios & Testing *(mandatory)*
+---
 
-### User Story 1 - Acesso Inicial e Renderização do Layout Base (Priority: P1)
+## 1. Objetivo
 
-Como visitante ou recrutador acessando o portfólio de Data Science, desejo visualizar imediatamente uma interface imersiva em tela cheia (100vw/100vh) contendo o cabeçalho de identidade do profissional, o menu lateral com o item inicial ativo e a área de conteúdo já carregada com a página padrão ("Sobre"), para que eu tenha uma experiência fluida de carregamento instantâneo sem elementos desalinhados ou piscamento de tela.
+Este documento define de forma unificada a **moldura** da SPA — o que fica fixo em volta de todas as páginas: layout em tela cheia, sidebar (identidade e menu), régua de breadcrumbs e área de conteúdo — além do roteamento client-side e da página de fallback (404). Cobre a organização de arquivos, a composição (elementos, hierarquia e fontes de dados), os cenários de teste, os requisitos funcionais e os critérios de aceite. O HTML e a aparência de cada elemento vêm do catálogo [elementos.md](../../catalog/elementos.md) e da spec [estilos.md](../../catalog/estilos.md), referenciados na seção 4. O registro da migração para este modelo está em [migracao.md](migracao.md).
 
-**Why this priority**: É a espinha dorsal de toda a aplicação. Sem o layout base estável, a identidade profissional e o contêiner de exibição carregados, nenhuma outra interação ou navegação subsequente é possível.
+---
 
-**Independent Test**: Carregar a aplicação diretamente no navegador. Verificar se a tela ocupa 100% da altura e largura da janela, a Sidebar de 300px está renderizada com o cabeçalho de identidade do Sérgio Ribeiro Cerqueira, o item "Sobre" está com estilo visual ativo, e o Main Container à direita exibe a página "Sobre".
+## 2. Hierarquia de Páginas e Roteamento Aninhado na SPA
+
+O documento da SPA é `pages/spa/spa.astro`, servido em `/` (via `pages/index.astro`) e em `/spa`. Ele monta a moldura e carrega a página "Sobre" como conteúdo inicial. A partir daí, o roteador client-side (`router.js`) intercepta os links internos, busca a página da rota (`/spa/<pagina>/` ou qualquer subpágina sob `pages/`), extrai o `#page-content` e o injeta no `[content-host]`, sem recarregar a moldura. Rotas inexistentes exibem a página de fallback `pages/spa/default.astro`.
+
+### 2.1 Árvore Hierárquica da Moldura da SPA
+
+```text
+pages/
+├── index.astro                       ← "/" → renderiza spa.astro
+└── spa/
+    ├── spa.astro                     ← documento da SPA (moldura + página inicial)
+    ├── default.astro                 ← página de fallback (404)
+    ├── sobre.astro · historico.astro · formacao.astro · portfolio.astro · artigos.astro · contatos.astro
+    ├── subpagina-demo.astro          (página de demonstração; fora do modelo)
+    ├── assets/
+    │   ├── css/
+    │   │   ├── scale.css             ← tokens de escala
+    │   │   ├── tokens.css            ← tokens visuais e fontes
+    │   │   ├── spa.css               ← CSS da moldura (base do documento + elementos da moldura)
+    │   │   └── default.css           ← CSS da página de fallback
+    │   ├── images/
+    │   │   ├── profile-photo.png · profile-bg.png · menu-bg.png
+    │   │   └── icone-<item>-claro.png · icone-<item>-escuro.png (6 pares)
+    │   └── js/
+    │       ├── router.js             ← roteador client-side
+    │       ├── nav.js                ← item ativo do menu
+    │       └── breadcrumbs.js        ← trilha de breadcrumbs
+    ├── components/
+    │   └── elementos/                ← componentes dos elementos do catálogo (moldura e páginas)
+    └── data/
+        └── navegacao.json            ← identidade e itens do menu (fonte única)
+```
+
+---
+
+## 3. User Scenarios & Testing *(mandatory)*
+
+### 3.1 User Story 1 - Acesso Inicial e Renderização da Moldura (Priority: P1)
+
+Como visitante ou recrutador, desejo ver imediatamente a interface em tela cheia com a identidade do profissional, o menu com o item inicial ativo e a página "Sobre" já carregada.
+
+**Why this priority**: É a espinha dorsal da aplicação; nenhuma navegação é possível sem a moldura estável.
+
+**Independent Test**: Carregar a aplicação. Verificar se a moldura corresponde à seção 4.1 (Estrutura): sidebar com `[identity-card]` e `[nav-menu]`, área principal com `[breadcrumbs]` e `[content-host]` exibindo a página "Sobre".
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário acessa a raiz da SPA (`spa.astro`), **When** o documento é renderizado pelo navegador, **Then** a janela exibe o layout dividido horizontalmente entre uma Sidebar de 300px à esquerda e o Main Container ocupando todo o espaço restante à direita em 100vw e 100vh.
-2. **Given** o carregamento da Sidebar, **When** inspecionado o cabeçalho superior (275px), **Then** deve ser exibida a imagem de perfil circular (160px) centralizada com moldura em gradiente vertical (`#3893BA` a `#25797F`), com faixa de contraste escura (`#061B2A`), apresentando o nome "Sérgio Ribeiro Cerqueira" e o cargo "Cientista de Dados" em tipografia Barlow Condensed 600.
-3. **Given** o estado inicial da navegação, **When** a página termina de carregar, **Then** o item "Sobre" é exibido no estado ativo (fundo `#B3CBDB`, texto `#061B2A`, ícone escuro) e o conteúdo inicial de "Sobre" é renderizado dentro do Main Container.
-4. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a aplicação é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** a Sidebar, os Breadcrumbs e o conteúdo de qualquer página carregada no Main Container apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
-5. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a aplicação é exibida, **Then** o layout base e todas as páginas carregadas no Main Container se apresentam adaptados à tela, legíveis e sem rolagem horizontal.
-6. **Given** que o usuário aumentou o tamanho de fonte padrão nas preferências do navegador, **When** a aplicação é exibida, **Then** os textos da Sidebar, dos Breadcrumbs e das páginas são ampliados proporcionalmente, sem sobreposição ou perda de conteúdo.
-7. **Given** uma largura de tela inferior a 1024px, **When** a aplicação é exibida, **Then** a Sidebar aparece no topo como cabeçalho compacto com a faixa de navegação horizontal logo abaixo, o item ativo permanece destacado e o Main Container ocupa toda a largura restante abaixo, sem rolagem horizontal da página.
+1. **Given** que o usuário acessa `/` ou `/spa`, **When** o documento é renderizado, **Then** a moldura ocupa a janela inteira, sem rolagem do documento, com a sidebar à esquerda (≥ 1024px) ou no topo (< 1024px) e a área principal no espaço restante.
+2. **Given** o carregamento da sidebar, **When** inspecionada, **Then** exibe a foto, o nome e o cargo de `@dados.identidade` (seção 6).
+3. **Given** o estado inicial, **When** a página termina de carregar, **Then** o item de menu com `padrao: true` ("Sobre") está ativo e a página "Sobre" aparece na área de conteúdo.
+4. **Given** largura < 1024px, **When** a aplicação é exibida, **Then** a sidebar aparece no topo como cabeçalho compacto, com o menu em faixa horizontal de rolagem própria logo abaixo e o item ativo visível na faixa, sem rolagem horizontal da página.
+5. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a aplicação é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** a moldura e a página carregada apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
+6. **Given** o acesso por celular (~375px) ou tablet (~768px), **When** a aplicação é exibida, **Then** a moldura e a página carregada se apresentam adaptadas e legíveis, sem rolagem horizontal.
+7. **Given** que o usuário aumentou o tamanho de fonte padrão do navegador, **When** a aplicação é exibida, **Then** os textos da moldura e da página são ampliados proporcionalmente, sem sobreposição.
 
 ---
 
-### User Story 2 - Navegação Fluida entre Páginas Primárias sem Recarregamento (Priority: P1)
+### 3.2 User Story 2 - Navegação entre Páginas sem Recarregamento (Priority: P1)
 
-Como visitante, desejo alternar entre as seções primárias ("Sobre", "Histórico", "Formação", "Portfólio", "Artigos", "Contatos") clicando nos itens da Sidebar, para que o conteúdo do Main Container se atualize imediatamente sem recarregar a Sidebar ou provocar recarregamento completo da página (Full Page Reload).
+Como visitante, desejo alternar entre as seções do menu sem recarregar a moldura.
 
-**Why this priority**: A promessa central de uma Single Page Application (SPA) é a transição fluida e contínua de conteúdo, garantindo estabilidade perceptual e performance ao navegar pelas seções do portfólio.
+**Why this priority**: É a promessa central de uma Single Page Application.
 
-**Independent Test**: Clicar sequencialmente nos 6 itens do menu lateral. Verificar se cada clique atualiza o estado visual do botão selecionado, carrega o conteúdo correspondente no Main Container, atualiza a URL do navegador e a Sidebar permanece perfeitamente estática.
+**Independent Test**: Clicar nos 6 itens do menu. Verificar se cada clique ativa o item, troca o conteúdo do `[content-host]`, atualiza a URL e mantém a sidebar estática.
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário está visualizando a seção "Sobre", **When** o usuário clica no item "Portfólio" da Sidebar, **Then** o evento de navegação é interceptado sem recarregar a página, a Sidebar permanece imóvel, o item "Portfólio" adquire o estilo ativo, o item anterior volta ao estilo inativo e o conteúdo de `portfolio.astro` é injetado no Main Container.
-2. **Given** a navegação para uma seção primária, **When** o conteúdo é carregado no Main Container, **Then** a URL no navegador é sincronizada via History API sem recarregar a aplicação.
-3. **Given** que o usuário clica no botão "Voltar" ou "Avançar" do navegador, **When** o evento de histórico é disparado, **Then** a SPA restaura o conteúdo da página correspondente no Main Container e ajusta o item ativo da Sidebar de forma sincronizada.
+1. **Given** a página "Sobre", **When** o usuário clica em "Portfólio", **Then** o clique é interceptado, a sidebar não recarrega, "Portfólio" fica ativo (`is-ativo` + `aria-current="page"`), o item anterior fica inativo e a página do Portfólio é injetada no `[content-host]`.
+2. **Given** a navegação para uma seção, **When** o conteúdo é carregado, **Then** a URL é sincronizada via History API, sem recarregar a aplicação.
+3. **Given** os botões Voltar/Avançar do navegador, **When** acionados, **Then** o conteúdo e o item ativo do menu são restaurados de forma sincronizada.
+4. **Given** largura < 1024px, **When** um item fora da área visível da faixa fica ativo, **Then** a faixa rola sozinha até mostrá-lo, sem mover a página.
 
 ---
 
-### User Story 3 - Navegação Hierárquica por Breadcrumbs em Páginas e Subpáginas (Priority: P2)
+### 3.3 User Story 3 - Breadcrumbs em Páginas e Subpáginas (Priority: P2)
 
-Como usuário navegando por páginas profundas ou subpáginas em cascata (por exemplo, detalhes de um projeto de Data Science em `pages/portfolio/projeto-01`), desejo visualizar uma trilha hierárquica (Breadcrumbs) discreta no topo do Main Container e poder clicar em níveis anteriores para retornar com facilidade.
+Como usuário em páginas profundas, desejo ver a trilha hierárquica no topo da área principal e voltar aos níveis anteriores.
 
-**Why this priority**: Dá contexto de localização ao usuário dentro de páginas com subníveis, permitindo retornar facilmente ao contexto pai sem depender exclusivamente dos controles do navegador.
+**Why this priority**: Dá contexto de localização em páginas com subníveis.
 
-**Independent Test**: Navegar para uma subpágina aninhada e verificar se o componente Breadcrumbs exibe a trilha horizontal formatada (ex: `portfolio / projeto-01`), permitindo clicar no nível `portfolio` para retornar à página principal da seção.
+**Independent Test**: Abrir uma subpágina de projeto do Portfólio e verificar a trilha e a navegação pelos níveis anteriores.
 
 **Acceptance Scenarios**:
 
-1. **Given** que o usuário acessa uma página primária (ex: "Sobre"), **When** o Main Container é renderizado, **Then** o componente de Breadcrumbs no topo exibe a indicação do nível atual de forma sutil e integrada ao tema visual.
-2. **Given** que o usuário acessa uma subpágina em cascata (ex: detalhes de projeto), **When** a rota é resolvida, **Then** a régua de Breadcrumbs exibe o caminho hierárquico `pagina-pai / subpagina`, onde todos os níveis anteriores são links clicáveis e o nível terminal representa a página atual ativa.
-3. **Given** que o usuário clica em um nível pai na régua de Breadcrumbs, **When** a ação é executada, **Then** a SPA intercepta a navegação, atualiza o Main Container com a página pai e sincroniza os estados da Sidebar e do histórico.
+1. **Given** uma página do menu, **When** carregada, **Then** a trilha mostra "Início / <data-page-title da página>".
+2. **Given** uma subpágina (ex.: projeto do Portfólio), **When** carregada, **Then** a trilha mostra todos os níveis da rota, com os anteriores clicáveis (rótulos do menu quando existirem) e o último igual ao `data-page-title`.
+3. **Given** o clique num nível anterior, **When** acionado, **Then** a SPA navega para ele e sincroniza menu e histórico; "Início" leva a `/spa` (página "Sobre").
 
 ---
 
-### User Story 4 - Descoberta Dinâmica de Subpáginas e Tratamento de Rota Inexistente / Fallback (Priority: P2)
+### 3.4 User Story 4 - Subpáginas Dinâmicas e Página de Fallback (Priority: P2)
 
-Como visitante ou desenvolvedor adicionando novos conteúdos no portfólio, desejo que qualquer link interno sob a estrutura de `pages/` seja automaticamente carregado e renderizado no Main Container, e que qualquer rota inexistente exiba uma página padronizada de fallback (`default.astro`), mantendo a estabilidade global do sistema.
+Como visitante ou desenvolvedor, desejo que qualquer link interno sob `pages/` abra na área de conteúdo e que rotas inexistentes mostrem uma página de fallback.
 
-**Why this priority**: Evita listas engessadas ou *hardcoded* de rotas no roteador, viabilizando a expansão do portfólio com novos projetos, artigos ou páginas secundárias com tratamento resiliente de erros 404.
+**Why this priority**: Permite crescer o portfólio sem listas fixas de rotas e trata erros sem quebrar a aplicação.
 
-**Independent Test**: Disparar navegação para uma subpágina válida existente e para uma rota inexistente. Verificar se a primeira injeta o conteúdo normalmente e a segunda renderiza graciosamente a interface de `default.astro` ("Página não encontrada") sem quebrar a aplicação.
+**Independent Test**: Navegar para uma subpágina existente e para uma rota inexistente.
 
 **Acceptance Scenarios**:
 
-1. **Given** um link interno apontando para uma subpágina existente dentro da árvore `pages/`, **When** o usuário aciona o link, **Then** o roteador realiza a requisição assíncrona da página solicitada e a renderiza dentro do Main Container mantendo a Sidebar com o menu pai visualmente selecionado.
-2. **Given** uma requisição de link interno para uma página inexistente ou que retorne erro de carregamento (404), **When** a requisição falhar, **Then** o roteador intercepta a falha e renderiza o conteúdo do arquivo `pages/spa/default.astro` indicando "Página não encontrada" dentro do Main Container.
+1. **Given** um link interno para uma subpágina existente sob `pages/`, **When** acionado, **Then** o roteador a busca e injeta no `[content-host]`, mantendo ativo o item de menu pai.
+2. **Given** um link interno para uma rota inexistente (ou falha de carregamento), **When** acionado, **Then** o roteador exibe a página de fallback (seção 4.2) e a trilha "Início / Página não encontrada".
+3. **Given** a página de fallback, **When** o usuário clica em "Retornar à Página Inicial", **Then** a SPA navega para a página "Sobre".
 
 ---
 
-### Edge Cases
+### 3.5 Edge Cases
 
-- **Tentativa de navegação rápida sucessiva (duplo clique ou múltiplos cliques em itens do menu)**: O roteador deve tratar requisições concorrentes ou cancelar a anterior, garantindo que o Main Container renderize exatamente o último estado solicitado pelo usuário.
-- **Falha de conectividade ou rede ao buscar nova rota**: A aplicação deve exibir graciosamente a página de fallback (`default.astro`) ou mensagem contextual no Main Container sem travar a Sidebar.
-- **Clique em links externos**: Links apontando para domínios externos não devem ser interceptados pelo roteador da SPA, permitindo comportamento padrão do navegador (abertura externa ou em nova aba conforme especificado no link).
-- **Redimensionamento da janela do navegador**: O layout deve se manter estável ocupando 100vw e 100vh, alternando entre o arranjo lateral (a partir de 1024px) e o arranjo vertical do FR-022 (abaixo de 1024px) sem perda do item ativo nem do conteúdo carregado, com a Sidebar mantendo sua largura proporcional à tela (referência de 300px em desktop, dentro de limites mínimo e máximo) e o Main Container preenchendo a área remanescente com rolagem interna de conteúdo quando o conteúdo ultrapassar a altura da viewport.
-- **Navegação direta por URL ou refresh**: O sistema deve manter coerência com o roteamento estático do Astro ao inicializar o estado da aplicação.
-
----
-
-## Requirements *(mandatory)*
-
-### Functional Requirements
-
-- **FR-001**: O sistema DEVE fornecer o layout mestre da aplicação SPA estruturado no arquivo `pages/spa/spa.astro`, ocupando exatamente 100% da largura e altura da janela (100vw e 100vh).
-- **FR-002**: Em larguras a partir de 1024px, o sistema DEVE dividir horizontalmente a janela em duas áreas principais: uma Sidebar fixa à esquerda com 300px de largura e um Main Container dinâmico à direita preenchendo todo o espaço restante. Abaixo de 1024px, vale o arranjo vertical do FR-022.
-- **FR-003**: A Sidebar DEVE ser subdividida verticalmente em Cabeçalho de Identidade com altura de referência de 275px no topo e Área de Navegação no espaço restante inferior.
-- **FR-004**: O Cabeçalho de Identidade DEVE exibir a imagem de fundo `pages/spa/assets/images/profile-bg.png` (`background-size: cover`) com borda `#69C4CE`, foto de perfil circular com 160px de diâmetro (`pages/spa/assets/images/profile-photo.png`, `object-fit: cover`) centralizada com moldura em gradiente vertical de `#3893BA` (topo) a `#25797F` (base).
-- **FR-005**: O Cabeçalho de Identidade DEVE conter o nome "Sérgio Ribeiro Cerqueira" (Barlow Condensed, peso 600, tamanho 30px, cor `#FFFFFF`, centralizado) e a profissão "Cientista de Dados" (Barlow Condensed, peso 600, tamanho 25px, cor `#FFFFFF`, centralizado), suportados por uma faixa de contraste escuro (`#061B2A`) com baixa opacidade para assegurar legibilidade sobre a imagem de fundo.
-- **FR-006**: A Área de Navegação DEVE possuir contêiner com cor de fundo `#16222A`, borda `#69C4CE` e imagem de fundo `pages/spa/assets/images/menu-bg.png`.
-- **FR-007**: Em larguras a partir de 1024px, os itens do menu lateral DEVEM ter largura de aproximadamente 93% da Sidebar, altura de 50px, espaçamento vertical de 16px e cantos arredondados com raio de 20px. Abaixo de 1024px, valem as dimensões da faixa de navegação definidas no FR-022.
-- **FR-008**: O sistema DEVE mapear os seguintes itens de menu com seus respectivos arquivos de destino e pares de ícones (localizados em `pages/spa/assets/images/`):
-  1. "Sobre" -> `sobre.astro` (ícones: `icone-sobre-claro.png` / `icone-sobre-escuro.png`);
-  2. "Histórico" -> `historico.astro` (ícones: `icone-historico-claro.png` / `icone-historico-escuro.png`);
-  3. "Formação" -> `formacao.astro` (ícones: `icone-formacao-claro.png` / `icone-formacao-escuro.png`);
-  4. "Portfólio" -> `portfolio.astro` (ícones: `icone-portfolio-claro.png` / `icone-portfolio-escuro.png`);
-  5. "Artigos" -> `artigos.astro` (ícones: `icone-artigos-claro.png` / `icone-artigos-escuro.png`);
-  6. "Contatos" -> `contatos.astro` (ícones: `icone-contatos-claro.png` / `icone-contatos-escuro.png`).
-- **FR-009**: O item de menu "Sobre" DEVE ser o item selecionado por padrão na inicialização do sistema.
-- **FR-010**: Os itens de menu DEVEM alternar visualmente entre dois estados estritos:
-  - Estado Não Selecionado: Fundo `#061B2A`, Borda `#69C4CE`, Texto `#EDF2EE`, exibição do ícone na versão clara.
-  - Estado Selecionado (Ativo): Fundo `#B3CBDB`, Borda `#69C4CE`, Texto `#061B2A`, exibição do ícone na versão escura.
-- **FR-011**: O Main Container DEVE ser o alvo exclusivo de injeção de conteúdo (`single content target`) para todas as páginas primárias e subpáginas em cascata, preservando a Sidebar e a moldura do layout perfeitamente estáveis sem recarregamento da página (*no full page reload*).
-- **FR-012**: O sistema DEVE disponibilizar um componente de Breadcrumbs posicionado no topo do Main Container, exibido em linha horizontal no formato `Início / pagina1 / pagina2 / ...`, onde o primeiro elo "Início" aponta obrigatoriamente para a rota raiz (`/spa`), disparando navegação SPA para a view inicial padrão (`sobre.astro`) dentro do Main Container sem gerar erros 404 ou barras duplicadas na URL.
-- **FR-013**: O sistema de roteamento client-side DEVE implementar delegação global de eventos (`document.addEventListener('click', ...)`) para interceptar cliques em links (`<a>`) internos sob a estrutura `pages/`, cancelando o reload padrão com `e.preventDefault()`.
-- **FR-014**: O roteador DEVE ser dinâmico e capaz de carregar assincronamente páginas e subpáginas adicionadas dentro de `pages/` (ex: subpáginas de portfólio), sem depender de listas estritamente restritas aos 6 itens do menu.
-- **FR-015**: Ao navegar para uma subpágina aninhada em cascata, o sistema DEVE manter o item de menu primário pai visualmente selecionado na Sidebar.
-- **FR-016**: O sistema DEVE sincronizar o histórico de navegação com a History API (`window.history.pushState` e evento `popstate`), permitindo pleno funcionamento dos botões nativos de "Voltar" e "Avançar" do navegador. O ouvinte de `popstate` DEVE distinguir navegação entre rotas (`pathname`) de navegação por fragmento/âncora (`hash`) na mesma página. Quando o `pathname` não for alterado, o roteador NÃO DEVE recarregar o conteúdo da página nem resetar o scroll para o topo (`scrollTop = 0`), devendo apenas acionar a rolagem suave até a âncora especificada dentro do Main Container `#page-content-host`.
-- **FR-017**: O sistema DEVE fornecer o arquivo de fallback `pages/spa/default.astro` indicando "Página não encontrada" e renderizá-lo dentro do Main Container sempre que uma rota interna solicitada for inválida ou inexistente (erro 404).
-- **FR-018**: O roteador SPA DEVE executar tags `<script>` presentes nos fragmentos HTML injetados via `innerHTML` através de re-criação dinâmica de nós (`executeIncomingScripts`), e disparar o evento customizado `window.dispatchEvent(new CustomEvent('spa:page-loaded', ...))` garantindo que a interatividade e os listeners dos módulos carregados sejam devidamente inicializados após a injeção do fragmento.
-- **FR-019**: A aplicação (layout base e todas as páginas exibidas no Main Container) DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
-- **FR-020**: Os tamanhos de texto e os espaçamentos da aplicação DEVEM se adaptar à largura disponível, respeitando limites mínimos e máximos, de forma uniforme em todas as páginas; os tamanhos descritos nesta especificação são valores de referência para a faixa de tela em que são indicados (telas desktop, quando não houver indicação), a partir dos quais o dimensionamento se adapta.
-- **FR-021**: O aumento do tamanho de fonte configurado nas preferências do navegador (recurso de acessibilidade) DEVE ampliar proporcionalmente os textos de toda a aplicação, sem sobreposição ou perda de conteúdo.
-- **FR-022**: Em larguras inferiores a 1024px (tablets e celulares), o layout DEVE ser organizado verticalmente: a Sidebar é apresentada no topo como um cabeçalho compacto (foto de perfil reduzida, nome e cargo) seguido da Área de Navegação em faixa horizontal com rolagem lateral própria, e o Main Container ocupa toda a largura abaixo. Os 6 itens de menu, seus estados ativo/inativo e os pares de ícones claro/escuro DEVEM ser preservados, e a rolagem lateral da faixa de navegação NÃO DEVE provocar rolagem horizontal da página. Na faixa, cada item DEVE ter largura ajustada ao próprio conteúdo (ícone e rótulo em uma linha), a mesma altura e o mesmo raio de canto do FR-007, e espaçamento horizontal uniforme entre itens; o item ativo DEVE ficar visível na faixa ao carregar a página. A régua de Breadcrumbs permanece no topo do Main Container.
+- **Cliques rápidos sucessivos no menu**: o `[content-host]` mostra exatamente o último destino solicitado.
+- **Falha de rede**: exibe a página de fallback sem travar a sidebar.
+- **Links externos**: não são interceptados (comportamento nativo do navegador).
+- **Redimensionamento**: a moldura alterna entre os arranjos < 1024px e ≥ 1024px sem perder o item ativo nem o conteúdo.
+- **Acesso direto por URL ou refresh**: o estado inicial (item ativo, breadcrumbs) é coerente com a rota.
+- **`popstate` só de âncora** (mesmo `pathname`): mantém o conteúdo e só rola até a âncora.
 
 ---
 
-### Key Entities
+## 4. Estrutura
 
-- **LayoutBase**: Representa a moldura estrutural da SPA composta pela divisão estável entre a Sidebar (referência de 300px; cabeçalho compacto no topo abaixo de 1024px) e a Área de Conteúdo Principal (Main Container), gerenciando o ciclo de vida da tela cheia (100vw x 100vh).
-- **IdentityHeader**: Estrutura do cabeçalho da Sidebar (275px de altura) contendo foto de perfil (160px), moldura com gradiente, faixa de contraste escuro, tipografia Barlow Condensed, nome profissional e profissão.
-- **NavigationMenu**: Contêiner de navegação que gerencia a lista dos itens de menu primários, controle de estado ativo/inativo, estilização contrastante e troca dinâmica de pares de ícones (claro vs escuro).
-- **NavigationItem**: Entidade individual de cada opção de navegação, contendo rótulo, rota associada, ícone claro, ícone escuro e estado de seleção.
-- **BreadcrumbTrail**: Representação da hierarquia de navegação ativa, composta por uma sequência de segmentos navegáveis que refletem a profundidade da página atual em relação à sua seção raiz.
-- **ContentRoute**: Entidade que encapsula a rota de destino requisitada, seu resolvedor de conteúdo assíncrono, a identificação do nó pai para ativação visual no menu e o tratamento de fallback para rotas não encontradas.
+> Notação: [.specify/catalog/notacao-estrutura.md](../../catalog/notacao-estrutura.md) ·
+> Elementos: [.specify/catalog/elementos.md](../../catalog/elementos.md) ·
+> Estilos: [.specify/catalog/estilos.md](../../catalog/estilos.md)
+
+### 4.1 Moldura
+
+```
+[app-layout:escuro]
+  [sidebar:escuro] {rotulo: 'Identidade e Navegação'}
+    [identity-card:moldura] @dados.identidade
+    [nav-menu:escuro] *@dados.navegacao {rotulo: 'Menu Principal'}
+  [main-area:escuro]
+    [breadcrumbs:discreto]
+    [content-host]                     ← recebe o [page-root] da página da rota atual
+```
+
+O documento também aplica a **Base do documento** de [estilos.md](../../catalog/estilos.md) (§1.1).
+
+### 4.2 Página de fallback (404)
+
+```
+[page-root:petroleo] default {titulo: 'Página não encontrada'}
+  [container:centralizado]
+    [panel:escuro] '⚠️ Página Não Encontrada (404)'
+      [vertical-list:amplo]
+        [paragraph:claro] 'A rota ou recurso solicitado não foi localizado na estrutura do portfólio.'
+        [link-item:ciano] @dados.retorno
+```
+
+## 5. Textos
+
+A moldura e a página de fallback não possuem textos longos.
+
+## 6. Fontes de dados
+
+| Referência          | Origem                                     | Campos usados |
+|---------------------|--------------------------------------------|---------------|
+| @dados.identidade   | pages/spa/data/navegacao.json#identidade   | nome, cargo, foto |
+| @dados.navegacao    | pages/spa/data/navegacao.json#navegacao    | id, rotulo, rota, icone_claro, icone_escuro, padrao? |
+| @dados.retorno      | inline (abaixo)                            | titulo, url |
+
+Identidade: **Sérgio Ribeiro Cerqueira** · Cientista de Dados · `/pages/spa/assets/images/profile-photo.png`.
+
+Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
+
+| id | rótulo | rota | ícones |
+|---|---|---|---|
+| sobre (**padrão**) | Sobre | `/spa/sobre/` | `icone-sobre-claro.png` / `icone-sobre-escuro.png` |
+| historico | Histórico | `/spa/historico/` | `icone-historico-claro.png` / `icone-historico-escuro.png` |
+| formacao | Formação | `/spa/formacao/` | `icone-formacao-claro.png` / `icone-formacao-escuro.png` |
+| portfolio | Portfólio | `/spa/portfolio/` | `icone-portfolio-claro.png` / `icone-portfolio-escuro.png` |
+| artigos | Artigos | `/spa/artigos/` | `icone-artigos-claro.png` / `icone-artigos-escuro.png` |
+| contatos | Contatos | `/spa/contatos/` | `icone-contatos-claro.png` / `icone-contatos-escuro.png` |
+
+@dados.retorno: `titulo` "← Retornar à Página Inicial (Sobre)", `url` `/spa/sobre/`.
 
 ---
 
-## Success Criteria *(mandatory)*
+## 7. Requirements *(mandatory)*
 
-### Measurable Outcomes
+### 7.1 Functional Requirements
 
-- **SC-001**: O layout inicial da SPA é completamente carregado e visível pelo usuário em menos de 1 segundo em conexões padrão de banda larga.
-- **SC-002**: A alternância entre quaisquer seções primárias ou subpáginas ocorre em menos de 300ms a partir do clique do usuário, sem qualquer oscilação visual (*layout shift* ou recarregamento total da tela).
-- **SC-003**: 100% das tentativas de navegação via links internos sob `pages/` preservam a Sidebar estável e sem recarregamento da janela (*zero full page reloads*).
-- **SC-004**: 100% das rotas internas inexistentes ou inválidas exibem a página de fallback padronizada `pages/spa/default.astro` no Main Container sem travar a interface da aplicação.
-- **SC-005**: 100% das interações com os botões "Voltar" e "Avançar" do navegador restauram fidedignamente o estado do conteúdo e o estado visual do menu e breadcrumbs correspondentes, preservando âncoras internas e posições de scroll sem recargas indevidas da rota.
-- **SC-006**: A interface permanece perfeitamente enquadrada em 100% da viewport (100vw e 100vh) em qualquer resolução de tela desktop, mantendo a Sidebar fixa à esquerda com largura proporcional (referência de 300px, conforme FR-020) e o Main Container com barra de rolagem interna dedicada quando o conteúdo exceder a altura visível.
-- **SC-007**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, 100% das páginas da aplicação exibem textos e espaçamentos equilibrados e nenhuma apresenta rolagem horizontal.
-- **SC-008**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), 100% das páginas da aplicação apresentam layout adaptado e legível, sem rolagem horizontal.
+- **FR-001**: O sistema DEVE fornecer o documento `pages/spa/spa.astro` (servido em `/` por `pages/index.astro`), montado com os componentes da moldura e os dados de `pages/spa/data/navegacao.json`, com o CSS da moldura `pages/spa/assets/css/spa.css` gerado a partir de [estilos.md](../../catalog/estilos.md) (Base do documento + elementos da moldura) e os tokens de `scale.css` e `tokens.css`.
+- **FR-002**: A composição da moldura DEVE seguir a seção 4.1; a da página de fallback, a seção 4.2. A aparência de cada elemento é a do estilo indicado.
+- **FR-003**: Os **ids** da moldura são ganchos estáveis do JS e NÃO DEVEM mudar: `#spa-layout`, `#sidebar`, `#identity-header`, `#sidebar-nav`, `#main-container`, `#breadcrumbs`, `#breadcrumbs-list`, `#page-content-host`.
+- **FR-004**: O item do menu com `padrao: true` DEVE estar ativo na inicialização.
+- **FR-005**: O `[content-host]` DEVE ser o alvo único de injeção de conteúdo para todas as páginas e subpáginas, preservando a moldura sem recarregamento.
+- **FR-006**: **Roteador** (`router.js`):
+  - **FR-006.1**: delegação global de cliques (`document.addEventListener('click', …)`) para links internos, cancelando o reload (`preventDefault()`); links com `#`, `target="_blank"`, externos (`http(s)`, `mailto:`, `tel:`) ou `data-native` não são interceptados;
+  - **FR-006.2**: carregamento assíncrono de qualquer página ou subpágina sob `pages/`, sem lista fixa de rotas; URLs internas com `.html`/`.htm` são normalizadas antes do `fetch`;
+  - **FR-006.3**: o item de menu ativo é o da rota (mapa de rotas) ou o de `data-parent-route` do fragmento injetado; subpáginas mantêm o item pai ativo;
+  - **FR-006.4**: sincronização com a History API (`pushState` e `popstate`); `popstate` sem mudança de `pathname` NÃO recarrega o conteúdo nem volta ao topo, apenas rola até a âncora (folga = altura do `.page-header` + 35px, quando houver);
+  - **FR-006.5**: rota inválida ou erro de carregamento exibe `pages/spa/default.astro` no `[content-host]`;
+  - **FR-006.6**: scripts presentes no fragmento injetado são reexecutados (`executeIncomingScripts`) e o evento `spa:page-loaded` é disparado após a injeção; estilos dinâmicos da página anterior são removidos.
+- **FR-007**: **Menu** (`nav.js`): ao trocar de rota, move `is-ativo` e `aria-current="page"` para o `nav-menu-item` da seção (por `data-menu-id`) e, abaixo de 1024px, rola apenas a faixa do menu para manter o item ativo visível.
+- **FR-008**: **Breadcrumbs** (`breadcrumbs.js`): monta a trilha em `#breadcrumbs-list` a cada navegação — "Início" (→ `/spa`), um nível por segmento da rota (ignorando `pages` e `spa`), com rótulos do menu de `navegacao.json` quando existirem, e o último nível igual ao `data-page-title` da página.
+- **FR-009**: Os dados do menu e da identidade DEVEM ter uma única fonte (`navegacao.json`), lida pelo menu e pelos breadcrumbs.
+- **FR-010**: A aplicação DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
+- **FR-011**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), com limites mínimos e máximos, de forma uniforme em toda a aplicação.
+- **FR-012**: O aumento do tamanho de fonte configurado no navegador DEVE ampliar proporcionalmente os textos de toda a aplicação, sem sobreposição ou perda de conteúdo.
+
+### 7.2 Key Entities
+
+- Os elementos da moldura (`app-layout`, `sidebar`, `identity-card`, `nav-menu`, `main-area`, `breadcrumbs`, `content-host`) e os da página de fallback (`page-root`, `container`, `panel`, `vertical-list`, `paragraph`, `link-item`) estão definidos em [elementos.md](../../catalog/elementos.md).
+- **Identidade** (dados): `nome`, `cargo`, `foto`; **Item de menu**: `id`, `rotulo`, `rota`, `icone_claro`, `icone_escuro`, `padrao?` — ver `pages/spa/data/navegacao.json`.
 
 ---
 
-## Assumptions
+## 8. Success Criteria *(mandatory)*
 
-- O projeto segue as diretrizes mandatadas na Constituição v1.0.0: Astro para estruturação estática, Vanilla CSS puro para estilização (sem Tailwind/Bootstrap) e Vanilla JavaScript puro para interatividade no cliente (sem React/Vue/Svelte).
-- Os assets visuais especificados (`profile-bg.png`, `profile-photo.png`, `menu-bg.png`, pares de ícones claros/escuros) estarão disponíveis sob o diretório de assets da página em `pages/spa/assets/images/`.
-- A tipografia `Barlow Condensed` estará disponível e carregada globalmente ou importada via CSS na página da SPA.
-- As páginas de destino das seções (`sobre.astro`, `historico.astro`, `formacao.astro`, `portfolio.astro`, `artigos.astro`, `contatos.astro`) terão sua marcação inicial compatível com injeção assíncrona ou carregamento modular no Main Container.
+### 8.1 Measurable Outcomes
+
+- **SC-001**: A moldura inicial é carregada e visível em menos de 1 segundo em conexões de banda larga.
+- **SC-002**: A troca entre seções ou subpáginas ocorre em menos de 300ms após o clique, sem *layout shift* nem recarregamento.
+- **SC-003**: 100% das navegações por links internos sob `pages/` preservam a moldura sem recarregar a janela.
+- **SC-004**: 100% das rotas internas inexistentes exibem a página de fallback sem travar a interface.
+- **SC-005**: 100% das interações com Voltar/Avançar restauram conteúdo, item ativo e breadcrumbs, preservando âncoras e posições de rolagem.
+- **SC-006**: A moldura permanece enquadrada em 100% da janela em qualquer resolução, com rolagem apenas dentro do `[content-host]` (e da faixa do menu < 1024px).
+- **SC-007**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a aplicação exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
+- **SC-008**: Em celular (~375px) e tablet (~768px), a aplicação apresenta layout adaptado e legível, sem rolagem horizontal da página.
+
+---
+
+## 9. Assumptions
+
+- O projeto segue a Constituição v2.0.1: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- As fontes `Barlow` e `Barlow Condensed` são carregadas do Google Fonts por `tokens.css`.
+- `subpagina-demo.astro` é uma página de demonstração do roteamento aninhado e fica fora do modelo em camadas.
+- As subpáginas de projeto do Portfólio (HTML estático legado) seguem a exceção do Princípio VII.
+
+---
+
+## 10. Asset Resolution Convention (SPA Pages)
+
+- **Caminhos Absolutos para Assets Estáticos**: imagens e ícones referenciados no markup DEVEM usar caminhos absolutos (ex.: `/pages/spa/assets/images/<arquivo>`), pois caminhos relativos falham nas rotas aninhadas da SPA. Imagens de fundo referenciadas em CSS usam caminhos relativos ao arquivo CSS (resolvidos no build).
+- **Garanta que os arquivos existam fisicamente** em `pages/spa/assets/images/` e **valide** executando `npm run build` ao finalizar.

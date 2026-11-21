@@ -155,6 +155,7 @@ Sugestão de ordem (apenas referência):
 | 3 | Histórico (spec-03) | [migracao.md](../specs/spec-03_historico/migracao.md) | `tag-list`; estilos `badge:ardosia`/`turquesa` (M-03) |
 | 4 | Artigos (spec-06) | [migracao.md](../specs/spec-06_artigos/migracao.md) | `accordion`, `link-item`, `page-footer` |
 | 5 | Portfólio (spec-05) | [migracao.md](../specs/spec-05_portfolio/migracao.md) | `page-header`, `anchor-nav`, `media-card` |
+| 6 | Moldura da SPA (spec-01) + página 404 | [migracao.md](../specs/spec-01_spa/migracao.md) | `app-layout`, `sidebar`, `identity-card`, `nav-menu`, `main-area`, `breadcrumbs`, `content-host`; seção "Base do documento" |
 
 Encerramento (§6):
 - `catalogo-elementos.md` e `elementos-por-pagina.md` arquivados em `.specify/catalog/arquivo/`.
