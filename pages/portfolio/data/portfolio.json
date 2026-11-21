@@ -1,0 +1,117 @@
+{
+  "categorias": [
+    {
+      "titulo": "Análise de Dados e BI",
+      "ancora": "section-bi-analytics",
+      "projetos": [
+        {
+          "titulo": "Customer Lifecycle Analytics (CLA)",
+          "resumo": "Projeto de análise CLA completa (RFM, LTV, Cohort, CAC e Churn) em um contexto de e-commerce de cosméticos.",
+          "link": "/pages/portfolio/projetos/AES1/AES1.html",
+          "imagem": "/pages/portfolio/assets/images/projeto_CLA.avif",
+          "tags": [
+            {
+              "nome": "PowerBI",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Python",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "SQL",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "DuckDB",
+              "estilo": "ardosia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Machine Learning",
+      "ancora": "section-machine-learning",
+      "projetos": []
+    },
+    {
+      "titulo": "Deep Learning",
+      "ancora": "section-deep-learning",
+      "projetos": []
+    },
+    {
+      "titulo": "Engenharia de Dados",
+      "ancora": "section-data-engineering",
+      "projetos": [
+        {
+          "titulo": "Pipeline de dados de Transações de Fintech",
+          "resumo": "Projeto de criação de uma pipeline utilizando uma arquitetura do tipo MDS (Modern Data Stack).",
+          "link": "https://github.com/sergiorib/cla-omnibox/blob/main/README.md",
+          "imagem": "/pages/portfolio/assets/images/projeto_pipeline1.avif",
+          "tags": [
+            {
+              "nome": "Apache Airflow",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Delta Lake",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Spark",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "DBT",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Python",
+              "estilo": "ardosia"
+            }
+          ]
+        },
+        {
+          "titulo": "Projeto de teste",
+          "resumo": "Projeto apenas para teste da especificação.",
+          "link": "/pages/portfolio/projetos/testes/pagina_teste.html",
+          "imagem": "/pages/portfolio/assets/images/projeto_CLA.avif",
+          "tags": [
+            {
+              "nome": "Tecnologia 1",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Tecnologia 2",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Tecnologia 3",
+              "estilo": "ardosia"
+            },
+            {
+              "nome": "Tecnologia 4",
+              "estilo": "ardosia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Cloud & MLOps",
+      "ancora": "section-cloud-devops",
+      "projetos": []
+    },
+    {
+      "titulo": "IA Generativa & LLMs",
+      "ancora": "section-gen-ai",
+      "projetos": []
+    },
+    {
+      "titulo": "Modelagem Estatística",
+      "ancora": "section-stat-modeling",
+      "projetos": []
+    }
+  ]
+}

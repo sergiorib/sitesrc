@@ -1,0 +1,293 @@
+{
+  "colunas": [
+    {
+      "grupos": [
+        {
+          "icone": "▥",
+          "titulo": "Análise de dados e BI",
+          "aberto": true,
+          "artigos": [
+            {
+              "titulo": "Séries temporais",
+              "url": "/spa/artigos/series_temporais"
+            },
+            {
+              "titulo": "Gráficos",
+              "url": "/spa/artigos/graficos"
+            },
+            {
+              "titulo": "KPIs",
+              "url": "/spa/artigos/kpis"
+            }
+          ]
+        },
+        {
+          "icone": "⚙",
+          "titulo": "Engenharia de dados",
+          "artigos": [
+            {
+              "titulo": "Pipelines",
+              "url": "/spa/artigos/pipelines"
+            }
+          ]
+        },
+        {
+          "icone": "☧",
+          "titulo": "Machine Learning",
+          "artigos": [
+            {
+              "titulo": "Modelos de otimização",
+              "url": "/spa/artigos/modelo_otimizacao"
+            },
+            {
+              "titulo": "Sistemas de Recomendação",
+              "url": "/spa/artigos/sistemas_recomendacao"
+            },
+            {
+              "titulo": "Aprendizado por Reforço",
+              "url": "/spa/artigos/aprendizado_reforco"
+            }
+          ]
+        },
+        {
+          "icone": "✣",
+          "titulo": "Deep Learning",
+          "artigos": [
+            {
+              "titulo": "Redes Neurais Artificiais (ANN)",
+              "url": "/spa/artigos/redes_neurais_artificiais"
+            },
+            {
+              "titulo": "Processamento de Linguagem Natural (NLP)",
+              "url": "/spa/artigos/processamento_linguagem_natural"
+            }
+          ],
+          "subgrupos": [
+            {
+              "icone": "›",
+              "titulo": "Redes Neurais Recorrentes",
+              "artigos": [
+                {
+                  "titulo": "RNN",
+                  "url": "/spa/artigos/rnn"
+                },
+                {
+                  "titulo": "LSTM",
+                  "url": "/spa/artigos/lstm"
+                },
+                {
+                  "titulo": "GRU",
+                  "url": "/spa/artigos/gru"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "icone": "◼",
+          "titulo": "IA",
+          "artigos": [
+            {
+              "titulo": "Agentes",
+              "url": "/spa/artigos/agentes"
+            },
+            {
+              "titulo": "Transformers e IA Generativa",
+              "url": "/spa/artigos/transformers_ia_generativa"
+            },
+            {
+              "titulo": "Prompt patterns",
+              "url": "/spa/artigos/prompt_patterns"
+            },
+            {
+              "titulo": "GSK",
+              "url": "/spa/artigos/gsk"
+            }
+          ]
+        },
+        {
+          "icone": "☁",
+          "titulo": "Nuvem",
+          "subgrupos": [
+            {
+              "icone": "›",
+              "titulo": "GCP",
+              "artigos": [
+                {
+                  "titulo": "Armazenamento de dados",
+                  "url": "/spa/artigos/gcp_armazenamento_dados"
+                },
+                {
+                  "titulo": "Integração e processamento",
+                  "url": "/spa/artigos/gcp_integracao_processamento"
+                },
+                {
+                  "titulo": "Data warehouse e análise",
+                  "url": "/spa/artigos/gcp_data_warehouse_analise"
+                }
+              ]
+            },
+            {
+              "icone": "›",
+              "titulo": "AWS",
+              "artigos": [
+                {
+                  "titulo": "Armazenamento de dados",
+                  "url": "/spa/artigos/aws_armazenamento_dados"
+                },
+                {
+                  "titulo": "Integração e processamento",
+                  "url": "/spa/artigos/aws_integracao_processamento"
+                },
+                {
+                  "titulo": "Data warehouse e análise",
+                  "url": "/spa/artigos/aws_data_warehouse_analise"
+                }
+              ]
+            },
+            {
+              "icone": "›",
+              "titulo": "AZURE",
+              "artigos": [
+                {
+                  "titulo": "Armazenamento de dados",
+                  "url": "/spa/artigos/azure_armazenamento_dados"
+                },
+                {
+                  "titulo": "Integração e processamento",
+                  "url": "/spa/artigos/azure_integracao_processamento"
+                },
+                {
+                  "titulo": "Data warehouse e análise",
+                  "url": "/spa/artigos/azure_data_warehouse_analise"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "grupos": [
+        {
+          "icone": "☧",
+          "titulo": "Conceitos",
+          "artigos": [
+            {
+              "titulo": "Arquitetura medalhão",
+              "url": "/spa/artigos/arquitetura_medalhao"
+            },
+            {
+              "titulo": "Big Data",
+              "url": "/spa/artigos/big_data"
+            },
+            {
+              "titulo": "ETL/ELT",
+              "url": "/spa/artigos/etl_elt"
+            }
+          ]
+        },
+        {
+          "icone": "▥",
+          "titulo": "Apresentação",
+          "artigos": [
+            {
+              "titulo": "Power BI",
+              "url": "/spa/artigos/power_bi"
+            },
+            {
+              "titulo": "Tableau",
+              "url": "/spa/artigos/tableau"
+            }
+          ]
+        },
+        {
+          "icone": "‹›",
+          "titulo": "Linguagens",
+          "artigos": [
+            {
+              "titulo": "Python",
+              "url": "/spa/artigos/python"
+            },
+            {
+              "titulo": "R",
+              "url": "/spa/artigos/r"
+            },
+            {
+              "titulo": "SQL",
+              "url": "/spa/artigos/sql"
+            }
+          ]
+        },
+        {
+          "icone": "▤",
+          "titulo": "Databases e formatos de dados",
+          "artigos": [
+            {
+              "titulo": "SQL Server",
+              "url": "/spa/artigos/sql_server"
+            },
+            {
+              "titulo": "Oracle",
+              "url": "/spa/artigos/oracle"
+            },
+            {
+              "titulo": "MySQL",
+              "url": "/spa/artigos/mysql"
+            },
+            {
+              "titulo": "PostgreSQL",
+              "url": "/spa/artigos/postgresql"
+            },
+            {
+              "titulo": "Parquet",
+              "url": "/spa/artigos/parquet"
+            },
+            {
+              "titulo": "Delta Lake",
+              "url": "/spa/artigos/delta_lake"
+            }
+          ]
+        },
+        {
+          "icone": "±",
+          "titulo": "Plataformas",
+          "artigos": [
+            {
+              "titulo": "Databricks",
+              "url": "/spa/artigos/databricks"
+            }
+          ]
+        },
+        {
+          "icone": "∑",
+          "titulo": "Matemática",
+          "artigos": [
+            {
+              "titulo": "Estatística",
+              "url": "/spa/artigos/estatistica"
+            }
+          ]
+        },
+        {
+          "icone": "☆",
+          "titulo": "Outros",
+          "artigos": [
+            {
+              "titulo": "GitHub",
+              "url": "/spa/artigos/github"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rodape": {
+    "texto": "© 2026 — Portfólio de Dados",
+    "lema": [
+      "ANALISAR",
+      "CONSTRUIR",
+      "EVOLUIR"
+    ]
+  }
+}

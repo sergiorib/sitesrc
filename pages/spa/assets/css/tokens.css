@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap');
+
+/* Tokens de cor, gradiente, sombra, raio e fonte.
+ * Fonte: .specify/catalog/estilos.md §1 (R-S04). A escala fluida fica em scale.css.
+ */
+:root {
+  --cor-branco: #FFFFFF;
+  --cor-preto: #000000;
+  --cor-azul-noite: #041E2F;
+  --cor-destaque: #0381B0;
+  --cor-destaque-suave: rgba(3, 129, 176, 0.3);
+  --cor-destaque-sutil: rgba(3, 129, 176, 0.2);
+  --cor-titulo-subsecao: #FFF1C3;
+  --cor-titulo-card: #386312;
+  --cor-verde-escuro: #2D4A22;
+  --cor-texto-grupo: #1F382B;
+  --cor-texto-legenda: #263238;
+  --cor-borda-legenda: #C5E1A5;
+  --cor-estrela-inativa: #CCCCCC;
+  --cor-fundo-legenda: rgba(255, 255, 255, 0.85);
+  --cor-fundo-grupo: rgba(255, 255, 255, 0.4);
+
+  --gradiente-pagina-petroleo: linear-gradient(to bottom, #16222A 0%, #3A6073 100%);
+  --gradiente-painel-escuro: linear-gradient(to right, #041E2F 0%, #607D8B 100%);
+  --gradiente-painel-claro: linear-gradient(to right, #E0EAFC 0%, #CFDEF3 100%);
+  --gradiente-card-amarelo: linear-gradient(to right, #FFEFBA 0%, #FFFFFF 100%);
+  --gradiente-card-verde: linear-gradient(to right, #C6E9BC 0%, #FFFFFF 100%);
+
+  --sombra-painel-interna: inset 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+
+  --raio-md: 0.625rem;
+  --raio-sm: 0.375rem;
+  --raio-lg: 0.8125rem;
+  --raio-icone: 0.75rem;
+
+  --cor-ciano: #19C6E6;
+  --cor-ciano-suave: #8EDDEB;
+  --cor-ciano-rotulo: #81D3E7;
+  --cor-ciano-borda: rgba(102, 218, 238, 0.44);
+  --cor-ciano-borda-suave: rgba(102, 218, 238, 0.25);
+  --cor-ciano-fundo: rgba(102, 218, 238, 0.1);
+  --cor-texto-gelo: #F2FBFD;
+  --cor-texto-nevoa: #A9C4CE;
+  --gradiente-card-ciano: linear-gradient(135deg, rgba(3, 28, 42, 0.82) 0%, rgba(5, 37, 52, 0.64) 100%);
+  --gradiente-badge-claro: linear-gradient(to bottom, #FFFFFF 0%, #EFEFEF 100%);
+  --sombra-badge: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --raio-pilula: 1.25rem;
+  --raio-tag: 0.75rem;
+  --cor-ardosia: #5E718D;
+  --cor-turquesa: #3CA296;
+
+  --cor-ciano-neon: #00E5FF;
+  --cor-ciano-borda-fraca: rgba(0, 229, 255, 0.15);
+  --cor-ciano-borda-media: rgba(0, 229, 255, 0.25);
+  --cor-ciano-borda-forte: rgba(0, 229, 255, 0.45);
+  --cor-ciano-divisoria: rgba(0, 229, 255, 0.1);
+  --cor-ciano-trilho: rgba(0, 229, 255, 0.2);
+  --cor-vidro: rgba(10, 25, 38, 0.75);
+  --cor-vidro-interno: rgba(4, 12, 18, 0.3);
+  --cor-vidro-hover: rgba(20, 48, 70, 0.85);
+  --cor-pilula-fundo: rgba(12, 30, 44, 0.6);
+  --cor-pilula-hover: rgba(20, 50, 72, 0.9);
+  --cor-texto-azulado: #E2F1F8;
+  --cor-texto-acinzentado: #88A9BC;
+  --cor-texto-ciano-palido: #B0D3E5;
+  --cor-selecao: #DBEAF0;
+  --cor-texto-selecao: #091A24;
+  --sombra-vidro: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --sombra-vidro-aberto: 0 0 15px rgba(0, 229, 255, 0.15);
+  --sombra-selecao: 0 0 12px rgba(255, 255, 255, 0.3);
+  --raio-vidro: 1.125rem;
+  --raio-total: 999em;
+
+  --raio-card: 0.75rem;
+  --cor-ciano-claro: #22D3EE;
+  --cor-ciano-claro-fundo: rgba(34, 211, 238, 0.2);
+  --cor-branco-10: rgba(255, 255, 255, 0.1);
+  --cor-branco-18: rgba(255, 255, 255, 0.18);
+  --cor-branco-20: rgba(255, 255, 255, 0.2);
+  --cor-branco-40: rgba(255, 255, 255, 0.4);
+  --cor-fundo-imagem: #1E333D;
+  --cor-texto-grafite: #333333;
+  --gradiente-cabecalho-claro: linear-gradient(to bottom, #DAEBF2, #CFE4EE);
+  --gradiente-barra-escura: linear-gradient(to bottom, #2C4855, #1E333D);
+  --gradiente-card-amarelo-vertical: linear-gradient(to bottom, #FFEFBA, #FFFFFF);
+  --sombra-cabecalho: 0 4px 10px rgba(30, 51, 61, 0.15);
+  --sombra-ativo: 0 0 8px rgba(34, 211, 238, 0.4);
+  --sombra-card: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --sombra-card-hover: 0 10px 20px rgba(0, 0, 0, 0.16);
+  --gradiente-card-ciano-hover:linear-gradient(135deg, rgba(4, 35, 52, 0.92) 0%, rgba(7, 46, 64, 0.78) 100%);
+
+  --fonte-titulo: 'Barlow Condensed', sans-serif;
+  --fonte-texto: 'Barlow', sans-serif;
+  --fonte-mono: 'Consolas', 'Courier New', monospace;
+}

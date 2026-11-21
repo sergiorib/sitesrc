@@ -1,0 +1,23 @@
+---
+// EL-15 link-card — .specify/catalog/elementos.md
+const { item, estilo = 'ciano' } = Astro.props;
+
+const href = item?.href ?? '#';
+const externo = /^https?:\/\//.test(href);
+---
+{item && (
+  <a
+    class={`link-card link-card--${estilo}`}
+    href={href}
+    target={externo ? '_blank' : undefined}
+    rel={externo ? 'noopener noreferrer' : undefined}
+  >
+    <span class="link-card-icon"><img src={item.icone} alt="" width="23" height="23" /></span>
+    <span class="vertical-list vertical-list--compacto link-card-body">
+      <span class="link-card-label">{item.rotulo}</span>
+      <span class="link-card-value">{item.valor}</span>
+      {item.detalhe && <span class="link-card-detail">{item.detalhe}</span>}
+    </span>
+    <span class="link-card-action" aria-hidden="true">↗</span>
+  </a>
+)}

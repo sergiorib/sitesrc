@@ -19,8 +19,8 @@
   outline: none;
 }
 
-/* Limite superior sem gap vertical para portfolio, mantendo as margens laterais seguras contra sobreposição do menu */
-.page-content-host:has(.portfolio-page-wrapper) {
+/* Limite superior sem gap vertical para páginas com cabeçalho fixo ([page-header]), mantendo as margens laterais seguras contra sobreposição do menu */
+.page-content-host:has(.page-header) {
   padding-top: 0;
   padding-left: var(--space-2xl);
   padding-right: var(--space-2xl);

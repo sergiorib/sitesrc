@@ -1,0 +1,8 @@
+---
+// EL-11 legend-item — .specify/catalog/elementos.md
+const { estrelas = 0, descricao = '', estilo = 'padrao' } = Astro.props;
+const n = Math.max(0, Math.min(5, Number(estrelas) || 0));
+---
+<div class={`legend-item legend-item--${estilo}`}>
+  <span class="legend-item-stars">{'★'.repeat(n)}{'☆'.repeat(5 - n)}</span> — {descricao}
+</div>

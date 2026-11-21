@@ -1,0 +1,8 @@
+---
+// EL-02 grid — .specify/catalog/elementos.md
+import { cssVars } from './_config.js';
+
+const { colunas, estilo = 'padrao' } = Astro.props;
+const style = cssVars('colunas', colunas);
+---
+<div class={`grid grid--${estilo}`} style={style}><slot /></div>

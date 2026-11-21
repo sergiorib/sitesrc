@@ -1,0 +1,273 @@
+{
+  "experiencias": [
+    {
+      "logo": {
+        "src": "/pages/historico/assets/images/logo_frete.png",
+        "alt": "Frete.com"
+      },
+      "cargo": "Analista de BI",
+      "badges": [
+        "maio 2025 a março 2026",
+        "10 meses",
+        "PJ",
+        "Remoto",
+        "Logística"
+      ],
+      "descricao": "Em parceria com a equipe de dados do cliente, conduzi a reestruturação dos processos de extração, transformação e carga (ETL) oriundos de diversas fontes. Ao substituir processos manuais por pipelines automatizados e implementar validações rigorosas de qualidade, conseguimos reduzir o tempo de preparação dos dados em 80%. O impacto direto dessa nova arquitetura foi elevar a maturidade da área de planejamento, permitindo que a equipe dedicasse seu tempo a análises preditivas e direcionamento estratégico do negócio.",
+      "stack": [
+        {
+          "nome": "Microsoft SQL Server",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Python",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "DuckDB",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "n8n",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "dbt",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "API REST (Consumo)",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Postman",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Swagger",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Microsoft Excel",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Drawio",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "SCRUM",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Github",
+          "estilo": "ardosia"
+        }
+      ]
+    },
+    {
+      "logo": {
+        "src": "/pages/historico/assets/images/logo_verity.png",
+        "alt": "Verity Consultoria em Tecnologia"
+      },
+      "cargo": "Analista de BI",
+      "badges": [
+        "março 2023 a março 2025",
+        "2 anos",
+        "CLT",
+        "Remoto",
+        "Seguros"
+      ],
+      "descricao": "Atuei na modelagem de dados e arquitetura de integração em projeto estratégico para uma seguradora de grande porte, visando o lançamento de um novo produto de seguro agrícola. O grande desafio superado foi traduzir regras de negócio complexas em um modelo de dados robusto que garantisse a comunicação fluida entre os sistemas legados da companhia e as APIs de um parceiro internacional. O produto foi implantado em produção com sucesso, destravando a entrada da empresa em um novo e altamente rentável segmento de mercado.",
+      "stack": [
+        {
+          "nome": "Progress 4GL",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "SQL",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Excel",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Integração com APIS",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Swagger",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Postman",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "DrawIO",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Jira",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Scrum",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Bitbucket",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Service Now",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Análise de Sistema",
+          "estilo": "turquesa"
+        },
+        {
+          "nome": "Modelagem de dados",
+          "estilo": "turquesa"
+        }
+      ]
+    },
+    {
+      "logo": {
+        "src": "/pages/historico/assets/images/logo_arezzo.png",
+        "alt": "Arezzo&Co"
+      },
+      "cargo": "Analista de dados",
+      "badges": [
+        "janeiro 2021 a outubro 2022",
+        "1 ano e 6 meses",
+        "PJ",
+        "Remoto",
+        "Varejo"
+      ],
+      "descricao": "Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.",
+      "stack": [
+        {
+          "nome": "Databricks",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "SQL",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "PySpark",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Delta Lake",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Power BI",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Python",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Excel",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Git",
+          "estilo": "ardosia"
+        }
+      ]
+    },
+    {
+      "logo": {
+        "src": "/pages/historico/assets/images/logo_cvc.png",
+        "alt": "CVC Viagens e Turismo"
+      },
+      "cargo": "Especialista em TI",
+      "badges": [
+        "janeiro 2018 a janeiro 2021",
+        "3 anos",
+        "CLT",
+        "Presencial",
+        "e-commerce de turismo"
+      ],
+      "descricao": "Coordenei por 2 anos e meio equipe de TI de sustentação de ERP financeiro (Oracle EBS) na qual implementei rotina de apuração de indicadores operacionais para identificar gargalos sistêmicos e propor planos de ação que resultou em ganho significativo de tempo em atendimentos e redução dos custos de suporte em mais de 60%. Desenvolvi painéis analíticos (Grafana) e soluções de observabilidade cruzando dados de vendas com métricas de infraestrutura em nuvem (AWS CloudWatch) para alimentar sistemas internos de observabilidade (Zabbix). Também fui responsável por apurar e disponibilizar indicadores de disponibilidade do site e preparar o material para apresentações executivas.",
+      "stack": [
+        {
+          "nome": "SQL Server",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Oracle",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Excel",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "C#",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Databricks",
+          "estilo": "ardosia"
+        }
+      ]
+    },
+    {
+      "logo": {
+        "src": "/pages/historico/assets/images/logo_submarino.png",
+        "alt": "Submarino e B2W Digital"
+      },
+      "cargo": "Analista de dados",
+      "badges": [
+        "janeiro 2015 a dezembro 2017",
+        "3 anos",
+        "PJ",
+        "Presencial",
+        "ecommerce"
+      ],
+      "descricao": "Atuei em projetos de construção de soluções analíticas para acompanhamento da operação de varejo da empresa Arezzo, utilizando dados corporativos disponibilizados em ambiente Databricks. Desenvolvi consultas e processos de preparação de dados para integrar informações de vendas, produtos, clientes, lojas e canais digitais, transformando grandes volumes de dados em indicadores confiáveis para as áreas Comercial, Operações e Gestão. A estruturação das análises permitiu ampliar a visibilidade sobre desempenho de vendas, comportamento dos clientes e performance por loja e canal, apoiando decisões mais rápidas e orientadas por dados.",
+      "stack": [
+        {
+          "nome": "Databricks",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "SQL",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "PySpark",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Delta Lake",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Power BI",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Python",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Excel",
+          "estilo": "ardosia"
+        },
+        {
+          "nome": "Git",
+          "estilo": "ardosia"
+        }
+      ]
+    }
+  ]
+}

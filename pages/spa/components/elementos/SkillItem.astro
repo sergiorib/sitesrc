@@ -1,0 +1,44 @@
+---
+// EL-12 skill-item — .specify/catalog/elementos.md (recursivo)
+import StarRating from './StarRating.astro';
+
+const { item, iconeHerdado, estilo = 'padrao' } = Astro.props;
+
+function estrelasDe(no) {
+  if (!no) return 0;
+  if (typeof no.estrelas === 'number') return no.estrelas;
+  if (Array.isArray(no.skills) && no.skills.length > 0) {
+    const soma = no.skills.reduce((t, filho) => t + estrelasDe(filho), 0);
+    return Math.floor(soma / no.skills.length);
+  }
+  return 0;
+}
+
+const nome = item?.nome ?? '';
+const icone = item?.icone ?? iconeHerdado ?? null;
+const estrelas = estrelasDe(item);
+const grupo = Array.isArray(item?.skills) && item.skills.length > 0;
+---
+{item && grupo && (
+  <details class={`skill-item skill-item-group skill-item--${estilo}`}>
+    <summary class="skill-item-summary">
+      {icone
+        ? <img class="skill-item-icon" src={icone} alt={nome} width="22" height="22" />
+        : <span class="skill-item-icon skill-item-fallback">☆</span>}
+      <span class="skill-item-name">{nome}</span>
+      <StarRating n={estrelas} />
+    </summary>
+    <div class="vertical-list vertical-list--compacto skill-item-children">
+      {item.skills.map((filho) => <Astro.self item={filho} iconeHerdado={icone} estilo={estilo} />)}
+    </div>
+  </details>
+)}
+{item && !grupo && (
+  <div class={`skill-item skill-item-leaf skill-item--${estilo}`}>
+    {icone
+      ? <img class="skill-item-icon" src={icone} alt={nome} width="22" height="22" />
+      : <span class="skill-item-icon skill-item-fallback">☆</span>}
+    <span class="skill-item-name">{nome}</span>
+    <StarRating n={estrelas} />
+  </div>
+)}

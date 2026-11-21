@@ -1,0 +1,10 @@
+---
+// EL-21 link-item — .specify/catalog/elementos.md
+// O estado "selecionado" (is-selecionado + .link-item-check) é aplicado pelo JS da página.
+const { item, estilo = 'ciano' } = Astro.props;
+---
+{item && (
+  <a class={`link-item link-item--${estilo}`} href={item.url}>
+    <span class="link-item-bullet" aria-hidden="true">•</span>{item.titulo}
+  </a>
+)}

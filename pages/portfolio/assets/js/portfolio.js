@@ -1,12 +1,12 @@
 /**
- * Página "Portfólio" — navegação por categorias (spec-05_portfolio, FR-003.x)
+ * Página "Portfólio" — navegação por categorias (spec-05_portfolio, FR-006)
  *
  * Entregue ao navegador como <script is:inline type="module"> dentro de #page-content
  * (import `?raw` em portfolio.astro), para ser re-executado pelo roteador SPA a cada injeção.
  */
 
-const HEADER_GAP = 35;          // folga abaixo do cabeçalho fixo (FR-003)
-const SPY_PAUSE_MS = 600;       // suspensão do scroll-spy após clique (FR-003.4)
+const HEADER_GAP = 35;          // folga abaixo do cabeçalho fixo (FR-006.1)
+const SPY_PAUSE_MS = 600;       // suspensão do scroll-spy após clique (FR-006.3)
 const DEFAULT_HEADER_H = 150;   // usado apenas se o cabeçalho não existir
 
 function getScrollHost() {
@@ -14,30 +14,30 @@ function getScrollHost() {
 }
 
 /**
- * Mede a altura atual do cabeçalho fixo e a publica em --portfolio-header-h
- * (consumida por scroll-margin-top em portfolio.css). O cabeçalho é fluido
+ * Mede a altura atual do cabeçalho fixo e a publica em --page-header-h
+ * (consumida pelo scroll-margin-top de .subsection[id] em portfolio.css). O cabeçalho é fluido
  * (tokens de scale.css), então a altura varia com a largura e a fonte do navegador.
  */
 function publishHeaderHeight(wrapper) {
-  const header = wrapper.querySelector('.portfolio-header');
+  const header = wrapper.querySelector('.page-header');
   const height = header ? header.offsetHeight : DEFAULT_HEADER_H;
-  wrapper.style.setProperty('--portfolio-header-h', `${height}px`);
+  wrapper.style.setProperty('--page-header-h', `${height}px`);
   return height;
 }
 
-// rootMargin superior derivado da altura medida (spec-05 FR-003.4)
+// rootMargin superior derivado da altura medida (spec-05 FR-006.3)
 function spyRootMargin(headerHeight) {
   return `-${headerHeight + HEADER_GAP}px 0px -40% 0px`;
 }
 
 function setActiveButton(buttons, sectionId) {
   buttons.forEach((button) => {
-    button.classList.toggle('active', button.dataset.section === sectionId);
+    button.classList.toggle('is-ativo', (button.getAttribute('href') || '').slice(1) === sectionId);
   });
 }
 
 function scrollToSection(wrapper, section) {
-  const header = wrapper.querySelector('.portfolio-header');
+  const header = wrapper.querySelector('.page-header');
   const offset = (header ? header.offsetHeight : 150) + HEADER_GAP;
   const host = getScrollHost();
 
@@ -60,7 +60,7 @@ function setupScrollSpy(wrapper, buttons, sections, state) {
 
   const host = getScrollHost();
   const root = host && host.contains(wrapper) ? host : null;
-  const header = wrapper.querySelector('.portfolio-header');
+  const header = wrapper.querySelector('.page-header');
   const headerHeight = publishHeaderHeight(wrapper);
 
   // Seção ativa = a última cujo topo já alcançou a linha logo abaixo do cabeçalho fixo.
@@ -116,18 +116,18 @@ function setupScrollSpy(wrapper, buttons, sections, state) {
 function initPortfolioNavigation() {
   if (typeof document === 'undefined') return;
 
-  const wrapper = document.querySelector('.portfolio-page-wrapper');
+  const wrapper = document.querySelector('.portfolio-page');
   if (!wrapper || wrapper.dataset.listenerAttached === 'true') return;
   wrapper.dataset.listenerAttached = 'true';
 
-  const buttons = Array.from(wrapper.querySelectorAll('.selection-button'));
-  const sections = Array.from(wrapper.querySelectorAll('.category-section'));
+  const buttons = Array.from(wrapper.querySelectorAll('.anchor-nav-link'));
+  const sections = Array.from(wrapper.querySelectorAll('.subsection[id]'));
   const state = { pausedUntil: 0, locked: false };
 
   buttons.forEach((button) => {
     button.addEventListener('click', (event) => {
       event.preventDefault();
-      const sectionId = button.dataset.section || (button.getAttribute('href') || '').slice(1);
+      const sectionId = (button.getAttribute('href') || '').slice(1);
       const section = sectionId ? document.getElementById(sectionId) : null;
       if (!section) return;
 
@@ -136,7 +136,7 @@ function initPortfolioNavigation() {
       setActiveButton(buttons, sectionId);
       scrollToSection(wrapper, section);
 
-      // Sincroniza o fragmento sem disparar recarga de rota (FR-003.2).
+      // Sincroniza o fragmento sem disparar recarga de rota (FR-006.1).
       if (window.location.hash !== `#${sectionId}`) {
         history.pushState(history.state, '', `#${sectionId}`);
       }
@@ -151,7 +151,7 @@ function initPortfolioNavigation() {
     window.__portfolioHeaderObserver.disconnect();
     window.__portfolioHeaderObserver = null;
   }
-  const header = wrapper.querySelector('.portfolio-header');
+  const header = wrapper.querySelector('.page-header');
   if (header && 'ResizeObserver' in window) {
     let lastHeight = header.offsetHeight;
     const headerObserver = new ResizeObserver(() => {

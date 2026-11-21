@@ -1,0 +1,9 @@
+---
+// EL-17 logo — .specify/catalog/elementos.md
+const { item, estilo = 'faixa' } = Astro.props;
+---
+{item && (
+  <div class={`logo logo--${estilo}`}>
+    <img class="logo-image" src={item.src} alt={item.alt ?? ''} />
+  </div>
+)}

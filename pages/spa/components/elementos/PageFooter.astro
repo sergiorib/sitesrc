@@ -1,0 +1,15 @@
+---
+// EL-22 page-footer — .specify/catalog/elementos.md
+const { item, estilo = 'ciano' } = Astro.props;
+const lema = item?.lema ?? [];
+---
+{item && (
+  <footer class={`page-footer page-footer--${estilo}`}>
+    <p class="page-footer-text">{item.texto}</p>
+    <p class="page-footer-motto">
+      {lema.map((palavra, i) => (
+        <>{i > 0 && <span class="page-footer-sep">/</span>}{palavra}</>
+      ))}
+    </p>
+  </footer>
+)}

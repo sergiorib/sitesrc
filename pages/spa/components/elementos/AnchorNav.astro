@@ -1,0 +1,10 @@
+---
+// EL-24 anchor-nav — .specify/catalog/elementos.md
+// O primeiro link começa ativo; o JS da página move `is-ativo` (clique e scroll-spy).
+const { itens = [], rotulo = '', estilo = 'escuro' } = Astro.props;
+---
+<nav class={`anchor-nav anchor-nav--${estilo}`} aria-label={rotulo || undefined}>
+  {itens.map((item, i) => (
+    <a class:list={['anchor-nav-link', { 'is-ativo': i === 0 }]} href={`#${item.ancora}`}>{item.titulo}</a>
+  ))}
+</nav>

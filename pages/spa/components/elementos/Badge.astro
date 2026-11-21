@@ -1,0 +1,5 @@
+---
+// EL-18 badge — .specify/catalog/elementos.md
+const { estilo = 'pilula' } = Astro.props;
+---
+<span class={`badge badge--${estilo}`}><slot /></span>

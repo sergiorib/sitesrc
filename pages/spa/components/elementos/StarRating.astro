@@ -1,0 +1,12 @@
+---
+// EL-13 star-rating — .specify/catalog/elementos.md
+const { n = 0, estilo = 'padrao' } = Astro.props;
+const ativas = Math.max(0, Math.min(5, Number(n) || 0));
+---
+<div class={`star-rating star-rating--${estilo}`} aria-label={`Avaliação: ${ativas} de 5 estrelas`}>
+  {Array.from({ length: 5 }).map((_, i) => (
+    <svg class={`star-rating-star ${i < ativas ? 'is-ativa' : 'is-inativa'}`} viewBox="0 0 24 24">
+      <polygon points="12,2 15,8.5 22,9.3 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.3 9,8.5" />
+    </svg>
+  ))}
+</div>

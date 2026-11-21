@@ -1,0 +1,8 @@
+---
+// EL-10 legend — .specify/catalog/elementos.md
+const { titulo = '', estilo = 'claro' } = Astro.props;
+---
+<details class={`legend legend--${estilo}`}>
+  <summary class="legend-summary">{titulo}</summary>
+  <div class="vertical-list vertical-list--compacto legend-content"><slot /></div>
+</details>

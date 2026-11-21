@@ -1,0 +1,31 @@
+{
+  "academica": [
+    {
+      "logo": { "src": "/pages/formacao/assets/images/logo-estacio.png", "alt": "Estácio" },
+      "titulo": "Superior em Ciência de Dados",
+      "badge": "2024 a 2026"
+    },
+    {
+      "logo": { "src": "/pages/formacao/assets/images/logo-estacio-uniradial.png", "alt": "Estácio Uniradial" },
+      "titulo": "Superior em Análise e Desenvolvimento de Sistemas",
+      "badge": "2013 a 2016"
+    }
+  ],
+  "idiomas": [
+    {
+      "logo": { "src": "/pages/formacao/assets/images/logo_ingles.png", "alt": "Inglês" },
+      "titulo": "Inglês - Intermediário"
+    },
+    {
+      "logo": { "src": "/pages/formacao/assets/images/logo_espanhol.png", "alt": "Espanhol" },
+      "titulo": "Espanhol - Avançado"
+    }
+  ],
+  "treinamentos": [
+    {
+      "logo": { "src": "/pages/formacao/assets/images/logo_enap.png", "alt": "ENAP" },
+      "titulo": "Estatística Descritiva, Probabilidades e Técnicas de Amostragem",
+      "badge": "2024"
+    }
+  ]
+}

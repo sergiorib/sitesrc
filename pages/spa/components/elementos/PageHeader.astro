@@ -1,0 +1,5 @@
+---
+// EL-23 page-header — .specify/catalog/elementos.md (cabeçalho fixo da página)
+const { estilo = 'claro' } = Astro.props;
+---
+<header class={`page-header page-header--${estilo}`}><slot /></header>

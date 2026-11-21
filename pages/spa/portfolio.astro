@@ -1,7 +1,47 @@
 ---
+// Página Portfólio — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-05_portfolio/spec.md
 import './assets/css/scale.css';
-import PortfolioContent from '../portfolio/portfolio.astro';
+import './assets/css/tokens.css';
 import '../portfolio/assets/css/portfolio.css';
+
+import portfolio from '../portfolio/data/portfolio.json';
+import portfolioScript from '../portfolio/assets/js/portfolio.js?raw';
+import PageHeader from './components/elementos/PageHeader.astro';
+import PageTitle from './components/elementos/PageTitle.astro';
+import AnchorNav from './components/elementos/AnchorNav.astro';
+import Subsection from './components/elementos/Subsection.astro';
+import Grid from './components/elementos/Grid.astro';
+import MediaCard from './components/elementos/MediaCard.astro';
+import TagList from './components/elementos/TagList.astro';
+import Badge from './components/elementos/Badge.astro';
 ---
 
-<PortfolioContent />
+<div
+  id="page-content"
+  class="page-content-wrapper page-root page-root--petroleo portfolio-page"
+  data-page-id="portfolio"
+  data-page-title="Portfólio de Projetos"
+>
+  <PageHeader estilo="claro">
+    <PageTitle estilo="escuro">Portfólio de Projetos</PageTitle>
+    <AnchorNav estilo="escuro" rotulo="Categorias do portfólio" itens={portfolio.categorias} />
+  </PageHeader>
+
+  {portfolio.categorias.map((categoria) => (
+    <Subsection estilo="destaque" nivel={2} titulo={categoria.titulo} ancora={categoria.ancora}>
+      {categoria.projetos.length > 0 && (
+        <Grid colunas={{ base: 1, 768: 2 }}>
+          {categoria.projetos.map((projeto) => (
+            <MediaCard estilo="amarelo" item={projeto}>
+              <TagList>
+                {projeto.tags.map((tag) => <Badge estilo={tag.estilo}>{tag.nome}</Badge>)}
+              </TagList>
+            </MediaCard>
+          ))}
+        </Grid>
+      )}
+    </Subsection>
+  ))}
+
+  <script is:inline type="module" set:html={portfolioScript}></script>
+</div>

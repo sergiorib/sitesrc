@@ -1,7 +1,58 @@
 ---
+// Página Artigos — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-06_artigos/spec.md
 import './assets/css/scale.css';
-import ArtigosContent from '../artigos/artigos.astro';
+import './assets/css/tokens.css';
 import '../artigos/assets/css/artigos.css';
+
+import artigos from '../artigos/data/artigos.json';
+import artigosScript from '../artigos/assets/js/artigos.js?raw';
+import Container from './components/elementos/Container.astro';
+import PageTitle from './components/elementos/PageTitle.astro';
+import Paragraph from './components/elementos/Paragraph.astro';
+import Divider from './components/elementos/Divider.astro';
+import Grid from './components/elementos/Grid.astro';
+import VerticalList from './components/elementos/VerticalList.astro';
+import Accordion from './components/elementos/Accordion.astro';
+import LinkItem from './components/elementos/LinkItem.astro';
+import PageFooter from './components/elementos/PageFooter.astro';
 ---
 
-<ArtigosContent />
+<div
+  id="page-content"
+  class="page-content-wrapper page-root page-root--petroleo artigos-page"
+  data-page-id="artigos"
+  data-page-title="Artigos técnicos"
+>
+  <Container estilo="centralizado">
+    <PageTitle estilo="claro">Artigos técnicos</PageTitle>
+    <Paragraph estilo="claro">Seleciona o tema.</Paragraph>
+    <Divider estilo="sublinhado" />
+
+    <Grid colunas={{ base: 1, 1024: 2 }}>
+      {artigos.colunas.map((coluna) => (
+        <VerticalList estilo="amplo">
+          {coluna.grupos.map((grupo) => (
+            <Accordion estilo="vidro" item={grupo}>
+              {grupo.artigos?.length > 0 && (
+                <VerticalList estilo="compacto">
+                  {grupo.artigos.map((artigo) => <LinkItem estilo="ciano" item={artigo} />)}
+                </VerticalList>
+              )}
+              {grupo.subgrupos?.map((subgrupo) => (
+                <Accordion estilo="pilula" item={subgrupo}>
+                  <VerticalList estilo="compacto">
+                    {subgrupo.artigos.map((artigo) => <LinkItem estilo="ciano" item={artigo} />)}
+                  </VerticalList>
+                </Accordion>
+              ))}
+            </Accordion>
+          ))}
+        </VerticalList>
+      ))}
+    </Grid>
+
+    <PageFooter estilo="ciano" item={artigos.rodape} />
+  </Container>
+
+  <script is:inline type="module" set:html={artigosScript}></script>
+</div>

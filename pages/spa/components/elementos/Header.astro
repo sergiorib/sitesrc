@@ -1,0 +1,16 @@
+---
+// EL-06 header — .specify/catalog/elementos.md
+import { cssVars } from './_config.js';
+
+const { titulo = '', estilo = 'painel', nivel = 2, direcao } = Astro.props;
+const Titulo = `h${nivel}`;
+const DIRECOES = {
+  coluna: { direcao: 'column', alinhamento: 'flex-start' },
+  linha: { direcao: 'row', alinhamento: 'center' },
+};
+const style = cssVars('direcao', direcao, (v) => DIRECOES[v] ?? DIRECOES.coluna);
+---
+<header class={`header header--${estilo}`} style={style}>
+  <Titulo class="header-title">{titulo}</Titulo>
+  <slot />
+</header>

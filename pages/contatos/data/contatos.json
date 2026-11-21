@@ -1,0 +1,28 @@
+[
+  {
+    "rotulo": "Telefone / WhatsApp",
+    "valor": "(11) 98368-0639",
+    "href": "tel:+5511983680639",
+    "icone": "/pages/contatos/assets/images/phone.svg"
+  },
+  {
+    "rotulo": "E-mail",
+    "valor": "Sergio.rib@live.com",
+    "href": "mailto:Sergio.rib@live.com",
+    "icone": "/pages/contatos/assets/images/mail.svg"
+  },
+  {
+    "rotulo": "LinkedIn",
+    "valor": "https://www.linkedin.com/in/sergio-ribeiro-cerqueira",
+    "detalhe": "Conecte-se comigo profissionalmente",
+    "href": "https://www.linkedin.com/in/sergio-ribeiro-cerqueira",
+    "icone": "/pages/contatos/assets/images/linkedin.svg"
+  },
+  {
+    "rotulo": "GitHub",
+    "valor": "https://github.com/sergiorib/sergiorib",
+    "detalhe": "Veja meus códigos e projetos",
+    "href": "https://github.com/sergiorib/sergiorib",
+    "icone": "/pages/contatos/assets/images/github.svg"
+  }
+]

@@ -1,0 +1,5 @@
+---
+// EL-09 paragraph — .specify/catalog/elementos.md
+const { estilo = 'claro' } = Astro.props;
+---
+<p class={`paragraph paragraph--${estilo}`}><slot /></p>

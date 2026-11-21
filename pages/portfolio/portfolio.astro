@@ -1,121 +1,47 @@
 ---
-/**
- * Página "Portfólio" — spec-05_portfolio
- * Fragmento SPA injetado em #page-content-host (ver .specify/specs/spec-05_portfolio/).
- */
+// Página Portfólio — montada a partir da seção 4 (Estrutura) de .specify/specs/spec-05_portfolio/spec.md
+import '../spa/assets/css/scale.css';
+import '../spa/assets/css/tokens.css';
+import './assets/css/portfolio.css';
+
+import portfolio from './data/portfolio.json';
 import portfolioScript from './assets/js/portfolio.js?raw';
-
-type Skill = { label: string; kind: 'HS' | 'SS' };
-type Project = { name: string; resume: string; link: string; image: string; skills: Skill[] };
-type Category = { id: string; title: string; projects: Project[] };
-
-const hs = (label: string): Skill => ({ label, kind: 'HS' });
-
-// Ordem e conteúdo estritamente conforme a §2.4 da spec.
-// Apenas 'bi-analytics' (1 card) e 'data-engineering' (2 cards) possuem projetos.
-const categories: Category[] = [
-  {
-    id: 'bi-analytics',
-    title: 'Análise de Dados e BI',
-    projects: [
-      {
-        name: 'Customer Lifecycle Analytics (CLA)',
-        resume: 'Projeto de análise CLA completa (RFM, LTV, Cohort, CAC e Churn) em um contexto de e-commerce de cosméticos.',
-        link: '/pages/portfolio/projetos/AES1/AES1.html',
-        image: '/pages/portfolio/assets/images/projeto_CLA.avif',
-        skills: [hs('PowerBI'), hs('Python'), hs('SQL'), hs('DuckDB')],
-      },
-    ],
-  },
-  { id: 'machine-learning', title: 'Machine Learning', projects: [] },
-  { id: 'deep-learning', title: 'Deep Learning', projects: [] },
-  {
-    id: 'data-engineering',
-    title: 'Engenharia de Dados',
-    projects: [
-      {
-        name: 'Pipeline de dados de Transações de Fintech',
-        resume: 'Projeto de criação de uma pipeline utilizando uma arquitetura do tipo MDS (Modern Data Stack).',
-        link: 'https://github.com/sergiorib/cla-omnibox/blob/main/README.md',
-        image: '/pages/portfolio/assets/images/projeto_pipeline1.avif',
-        skills: [hs('Apache Airflow'), hs('Delta Lake'), hs('Spark'), hs('DBT'), hs('Python')],
-      },
-      {
-        name: 'Projeto de teste',
-        resume: 'Projeto apenas para teste da especificação.',
-        link: '/pages/portfolio/projetos/testes/pagina_teste.html',
-        image: '/pages/portfolio/assets/images/projeto_CLA.avif',
-        skills: [hs('Tecnologia 1'), hs('Tecnologia 2'), hs('Tecnologia 3'), hs('Tecnologia 4')],
-      },
-    ],
-  },
-  { id: 'cloud-devops', title: 'Cloud & MLOps', projects: [] },
-  { id: 'gen-ai', title: 'IA Generativa & LLMs', projects: [] },
-  { id: 'stat-modeling', title: 'Modelagem Estatística', projects: [] },
-];
-
-const isExternal = (href: string) => /^https?:\/\//i.test(href);
-const linkAttrs = (href: string) =>
-  isExternal(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+import PageHeader from '../spa/components/elementos/PageHeader.astro';
+import PageTitle from '../spa/components/elementos/PageTitle.astro';
+import AnchorNav from '../spa/components/elementos/AnchorNav.astro';
+import Subsection from '../spa/components/elementos/Subsection.astro';
+import Grid from '../spa/components/elementos/Grid.astro';
+import MediaCard from '../spa/components/elementos/MediaCard.astro';
+import TagList from '../spa/components/elementos/TagList.astro';
+import Badge from '../spa/components/elementos/Badge.astro';
 ---
 
 <div
   id="page-content"
-  class="page-content-wrapper portfolio-page-wrapper"
+  class="page-content-wrapper page-root page-root--petroleo portfolio-page"
   data-page-id="portfolio"
   data-page-title="Portfólio de Projetos"
 >
-  <header class="portfolio-header">
-    <h1 class="portfolio-title">Portfólio de Projetos</h1>
-    <nav class="category-selection" aria-label="Categorias do portfólio">
-      {categories.map((category, index) => (
-        <a
-          href={`#section-${category.id}`}
-          class:list={['selection-button', { active: index === 0 }]}
-          data-section={`section-${category.id}`}
-        >
-          {category.title}
-        </a>
-      ))}
-    </nav>
-  </header>
+  <PageHeader estilo="claro">
+    <PageTitle estilo="escuro">Portfólio de Projetos</PageTitle>
+    <AnchorNav estilo="escuro" rotulo="Categorias do portfólio" itens={portfolio.categorias} />
+  </PageHeader>
 
-  <main class="portfolio-body">
-    {categories.map((category) => (
-      <section id={`section-${category.id}`} class="category-section">
-        <h2 class="category-title">{category.title}</h2>
-        {category.projects.length > 0 && (
-          <div class="project-grid">
-            {category.projects.map((project) => (
-              <article class="project-card">
-                <a href={project.link} class="project-image-wrap" aria-label={project.name} {...linkAttrs(project.link)}>
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    class="project-image"
-                    loading="lazy"
-                    width="640"
-                    height="360"
-                  />
-                </a>
-                <div class="project-content">
-                  <h3 class="project-name">
-                    <a href={project.link} class="project-link" {...linkAttrs(project.link)}>{project.name}</a>
-                  </h3>
-                  <p class="project-resume">{project.resume}</p>
-                </div>
-                <div class="habilities-list">
-                  {project.skills.map((skill) => (
-                    <span class={`hability-tag-${skill.kind}`}>{skill.label}</span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-    ))}
-  </main>
+  {portfolio.categorias.map((categoria) => (
+    <Subsection estilo="destaque" nivel={2} titulo={categoria.titulo} ancora={categoria.ancora}>
+      {categoria.projetos.length > 0 && (
+        <Grid colunas={{ base: 1, 768: 2 }}>
+          {categoria.projetos.map((projeto) => (
+            <MediaCard estilo="amarelo" item={projeto}>
+              <TagList>
+                {projeto.tags.map((tag) => <Badge estilo={tag.estilo}>{tag.nome}</Badge>)}
+              </TagList>
+            </MediaCard>
+          ))}
+        </Grid>
+      )}
+    </Subsection>
+  ))}
 
   <script is:inline type="module" set:html={portfolioScript}></script>
 </div>

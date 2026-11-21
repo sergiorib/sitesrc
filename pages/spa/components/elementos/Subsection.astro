@@ -1,0 +1,11 @@
+---
+// EL-04 subsection — .specify/catalog/elementos.md
+// nivel (R-E03): 3 dentro de [panel]; 2 quando filho de [page-root] ou [container]
+// ancora (opcional): id da sub-seção, alvo de links #ancora
+const { titulo = '', estilo = 'destaque', nivel = 3, ancora } = Astro.props;
+const Titulo = `h${nivel}`;
+---
+<div class={`subsection subsection--${estilo}`} id={ancora || undefined}>
+  <Titulo class="subsection-title">{titulo}</Titulo>
+  <slot />
+</div>

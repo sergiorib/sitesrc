@@ -1,130 +1,170 @@
-/* Estilos da Página "Meus Contatos" (contatos.css)
- * Dimensionamento: tokens de pages/spa/assets/css/scale.css (mobile-first)
+/* Página "Meus Contatos" — CSS gerado de .specify/catalog/estilos.md
+ * Contém apenas os elementos e estilos usados na seção 4 (Estrutura) de spec-07 (R-S02).
+ * Classes: .<elemento> (base) + .<elemento>--<estilo> (R-S01). Sem prefixo de página (R-S03).
+ * Tokens: pages/spa/assets/css/scale.css e pages/spa/assets/css/tokens.css.
  */
 
-.contacts-page {
-  position: relative;
-  min-height: 100vh;
-  border-radius: 0.875rem;
+/* ── page-root ───────────────────────────────────────────── */
+.page-root {
+  min-height: 100%;
   padding: var(--space-xl);
-  background: radial-gradient(circle at top left, #142b36 0%, #244653 50%, #31596a 100%);
-  color: #ffffff;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.contacts-page h1 {
-  font-family: 'Barlow Condensed', sans-serif;
+.page-root--petroleo {
+  background: var(--gradiente-pagina-petroleo);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── grid ────────────────────────────────────────────────── */
+/* Variáveis de configuração não herdam: um grid aninhado não recebe as colunas do pai (R-S06). */
+@property --colunas { syntax: '*'; inherits: false; }
+@property --colunas-768 { syntax: '*'; inherits: false; }
+@property --colunas-1024 { syntax: '*'; inherits: false; }
+@property --colunas-1280 { syntax: '*'; inherits: false; }
+
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(var(--colunas, 1), 1fr);
+}
+
+/* ── vertical-list (usado no molde de link-card) ─────────── */
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-list--compacto { gap: var(--space-xs); }
+
+/* ── page-title ──────────────────────────────────────────── */
+.page-title {
+  font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: var(--fs-3xl);
-  line-height: 1.2;
-  color: #ffffff;
-  margin: 0 0 var(--space-2xl) 0;
-  letter-spacing: 0.03em;
+  margin: 0 0 var(--space-lg) 0;
+  text-align: left;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-md);
-  box-sizing: border-box;
-}
+.page-title--claro { color: var(--cor-branco); }
 
-.contact-card {
+/* ── link-card ───────────────────────────────────────────── */
+.link-card {
   display: flex;
   align-items: flex-start;
   gap: var(--space-lg);
   padding: var(--space-xl);
-  background: linear-gradient(135deg, rgba(3, 28, 42, 0.82) 0%, rgba(5, 37, 52, 0.64) 100%);
-  border: 1px solid rgba(102, 218, 238, 0.44);
-  border-radius: 0.8125rem;
+  border: 1px solid;
+  border-radius: var(--raio-lg);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  box-sizing: border-box;
   position: relative;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
-.contact-card:hover {
+.link-card:hover {
   transform: translateY(-3px);
-  border-color: #19c6e6;
-  background: linear-gradient(135deg, rgba(4, 35, 52, 0.92) 0%, rgba(7, 46, 64, 0.78) 100%);
 }
 
-.icon-wrap {
+.link-card-icon {
   flex-shrink: 0;
   width: var(--icon-lg);
   height: var(--icon-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(102, 218, 238, 0.1);
-  border: 1px solid rgba(102, 218, 238, 0.25);
-  border-radius: 0.75rem;
-  color: #8eddeb;
+  border: 1px solid;
+  border-radius: var(--raio-icone);
   box-sizing: border-box;
 }
 
-.icon-wrap svg {
-  width: var(--icon-md);
-  height: var(--icon-md);
-  stroke: #8eddeb;
-}
-
-.contact-info {
+.link-card-body {
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
   min-width: 0;
 }
 
-.contact-label {
-  font-family: 'Barlow Condensed', sans-serif;
+.link-card-label {
+  font-family: var(--fonte-titulo);
   font-weight: 600;
   font-size: var(--fs-xl);
   text-transform: uppercase;
-  color: #81d3e7;
   letter-spacing: 0.03em;
 }
 
-.contact-value {
-  font-family: 'Barlow Condensed', sans-serif;
+.link-card-value {
+  font-family: var(--fonte-titulo);
   font-weight: 600;
   font-size: var(--fs-3xl);
   line-height: 1.15;
-  color: #f2fbfd;
   word-break: break-all;
 }
 
-.contact-detail {
-  font-family: 'Inter', sans-serif;
+.link-card-detail {
+  font-family: var(--fonte-texto);
   font-weight: 400;
   font-size: var(--fs-sm);
-  color: #a9c4ce;
   margin-top: calc(var(--space-xs) / 2);
 }
 
-.contact-action {
+.link-card-action {
   margin-left: auto;
-  font-size: var(--fs-lg);
-  color: #8eddeb;
-  transition: transform 0.2s ease, color 0.2s ease;
   align-self: center;
   flex-shrink: 0;
+  font-size: var(--fs-lg);
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.contact-card:hover .contact-action {
+.link-card:hover .link-card-action {
   transform: translate(2px, -2px);
-  color: #19c6e6;
 }
 
-/* Responsividade (mobile-first) */
-@media (min-width: 768px) {
-  .contacts-page {
-    padding: calc(var(--space-2xl) * 1.5) calc(var(--space-2xl) * 1.9);
-  }
+.link-card--ciano {
+  background: var(--gradiente-card-ciano);
+  border-color: var(--cor-ciano-borda);
+}
 
-  .contact-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.link-card--ciano .link-card-icon {
+  background: var(--cor-ciano-fundo);
+  border-color: var(--cor-ciano-borda-suave);
+}
+
+.link-card--ciano .link-card-label { color: var(--cor-ciano-rotulo); }
+.link-card--ciano .link-card-value { color: var(--cor-texto-gelo); }
+.link-card--ciano .link-card-detail { color: var(--cor-texto-nevoa); }
+.link-card--ciano .link-card-action { color: var(--cor-ciano-suave); }
+
+.link-card--ciano:hover {
+  border-color: var(--cor-ciano);
+  background: var(--gradiente-card-ciano-hover);
+}
+
+.link-card--ciano:hover .link-card-action {
+  color: var(--cor-ciano);
+}
+
+/* ── Responsivo (mobile-first, breakpoints R-S05) ────────── */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(var(--colunas-768, var(--colunas, 1)), 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(var(--colunas-1024, var(--colunas-768, var(--colunas, 1))), 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(var(--colunas-1280, var(--colunas-1024, var(--colunas-768, var(--colunas, 1)))), 1fr);
   }
 }
