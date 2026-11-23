@@ -1,5 +1,8 @@
 ---
 // EL-08 card — .specify/catalog/elementos.md
-const { estilo = 'amarelo' } = Astro.props;
+// alinhamento: inicio (padrão, sem variável) | centro → --card-alinhamento: center
+// --card-alinhamento não é registrada com @property: é herdada de propósito por header e badge.
+const { estilo = 'amarelo', alinhamento = 'inicio' } = Astro.props;
+const style = alinhamento === 'centro' ? '--card-alinhamento: center' : undefined;
 ---
-<div class={`card card--${estilo}`}><slot /></div>
+<div class={`card card--${estilo}`} style={style}><slot /></div>

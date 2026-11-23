@@ -90,7 +90,7 @@
 .header {
   display: flex;
   flex-direction: var(--direcao, column);
-  align-items: var(--alinhamento, flex-start);
+  align-items: var(--alinhamento, var(--card-alinhamento, flex-start));
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-md);
@@ -99,7 +99,7 @@
 .header-title {
   font-family: var(--fonte-titulo);
   font-weight: 700;
-  text-align: left;
+  text-align: var(--card-alinhamento, left);
   margin: 0;
 }
 
@@ -130,7 +130,7 @@
 /* ── badge ───────────────────────────────────────────────── */
 .badge {
   display: inline-block;
-  align-self: flex-start;
+  align-self: var(--card-alinhamento, flex-start);
   margin-top: auto;
   padding: var(--space-xs) var(--space-md);
   border: 1px solid;
@@ -175,7 +175,7 @@
 
   .header {
     flex-direction: var(--direcao-768, var(--direcao, column));
-    align-items: var(--alinhamento-768, var(--alinhamento, flex-start));
+    align-items: var(--alinhamento-768, var(--alinhamento, var(--card-alinhamento, flex-start)));
   }
 
   .badge {

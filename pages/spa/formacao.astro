@@ -27,7 +27,7 @@ import Badge from './components/elementos/Badge.astro';
     <Subsection estilo="destaque" nivel={2} titulo="Acadêmica">
       <Grid colunas={{ base: 1, 768: 2 }}>
         {formacao.academica.map((item) => (
-          <Card estilo="amarelo">
+          <Card estilo="amarelo" alinhamento="centro">
             <Logo estilo="faixa" item={item.logo} />
             <Header estilo="card" nivel={3} titulo={item.titulo} />
             <Badge estilo="pilula">{item.badge}</Badge>
@@ -39,7 +39,7 @@ import Badge from './components/elementos/Badge.astro';
     <Subsection estilo="destaque" nivel={2} titulo="Idiomas">
       <Grid colunas={{ base: 1, 768: 2, 1024: 3 }}>
         {formacao.idiomas.map((item) => (
-          <Card estilo="amarelo">
+          <Card estilo="amarelo" alinhamento="centro">
             <Logo estilo="faixa" item={item.logo} />
             <Header estilo="card" nivel={3} titulo={item.titulo} />
           </Card>
@@ -50,7 +50,7 @@ import Badge from './components/elementos/Badge.astro';
     <Subsection estilo="destaque" nivel={2} titulo="Treinamentos">
       <Grid colunas={{ base: 1, 768: 2, 1024: 3 }}>
         {formacao.treinamentos.map((item) => (
-          <Card estilo="amarelo">
+          <Card estilo="amarelo" alinhamento="centro">
             <Logo estilo="faixa" item={item.logo} />
             <Header estilo="card" nivel={3} titulo={item.titulo} />
             <Badge estilo="pilula">{item.badge}</Badge>

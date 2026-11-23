@@ -255,18 +255,18 @@ estilos:
 base:
   display: flex
   flex-direction: var(--direcao, column)
-  align-items: var(--alinhamento, flex-start)
+  align-items: var(--alinhamento, var(--card-alinhamento, flex-start))
   justify-content: space-between
   flex-wrap: wrap
   gap: --space-md
 @768:
   flex-direction: var(--direcao-768, var(--direcao, column))
-  align-items: var(--alinhamento-768, var(--alinhamento, flex-start))
+  align-items: var(--alinhamento-768, var(--alinhamento, var(--card-alinhamento, flex-start)))
 partes:
   header-title:
     font-family: --fonte-titulo
     font-weight: 700
-    text-align: left
+    text-align: var(--card-alinhamento, left)
     margin: 0
 estilos:
   painel:
@@ -657,7 +657,7 @@ estilos:
 ### badge
 base:
   display: inline-block
-  align-self: flex-start
+  align-self: var(--card-alinhamento, flex-start)
   margin-top: auto
   padding: --space-xs --space-md
   border: 1px solid
