@@ -9,62 +9,42 @@
           "skills": [
             {
               "nome": "Fundamentos",
-              "skills": [
-                {
-                  "nome": "Modularização",
-                  "estrelas": 5
-                },
-                {
-                  "nome": "OOP",
-                  "estrelas": 4
-                },
-                {
-                  "nome": "Estruturas de dados e algoritmos",
-                  "estrelas": 4
-                },
-                {
-                  "nome": "Tratamento de exceções",
-                  "estrelas": 5
-                },
-                {
-                  "nome": "Paralelismo e concorrência",
-                  "estrelas": 4
-                },
-                {
-                  "nome": "Programação funcional",
-                  "estrelas": 3
-                }
-              ]
-            },
-            {
-              "nome": "Testes automatizados",
-              "estrelas": 3
+              "estrelas": 5
             },
             {
               "nome": "Manipulação de dados",
               "skills": [
                 {
-                  "nome": "Pandas",
+                  "nome": "Pandas/Numpy",
                   "estrelas": 5
                 },
                 {
-                  "nome": "NumPy",
+                  "nome": "DuckDB",
                   "estrelas": 5
                 },
                 {
                   "nome": "Polars",
                   "estrelas": 4
-                },
-                {
-                  "nome": "Dask",
-                  "estrelas": 3
-                },
-                {
-                  "nome": "PyArrow",
-                  "estrelas": 4
                 }
               ]
             },
+            {
+              "nome": "ML/DL",
+              "skills": [
+                {
+                  "nome": "Scikit-learn",
+                  "estrelas": 4
+                },
+                {
+                  "nome": "PyTorch",
+                  "estrelas": 4
+                },
+                {
+                  "nome": "TensorFlow (com Keras)",
+                  "estrelas": 5
+                }
+              ]
+            },            
             {
               "nome": "Ciencia e matemáticas",
               "skills": [
@@ -74,7 +54,7 @@
                 },
                 {
                   "nome": "SymPy",
-                  "estrelas": 3
+                  "estrelas": 4
                 }
               ]
             },
@@ -96,33 +76,19 @@
               ]
             },
             {
-              "nome": "Interfaces de dados",
+              "nome": "Outras",
               "skills": [
                 {
                   "nome": "Streamlit",
                   "estrelas": 3
-                }
-              ]
-            },
-            {
-              "nome": "Dev. de APIs",
-              "skills": [
+                }, 
                 {
                   "nome": "FastAPI",
                   "estrelas": 3
-                }
-              ]
-            },
-            {
-              "nome": "Web scraping",
-              "skills": [
+                }, 
                 {
-                  "nome": "Beautiful Soup",
-                  "estrelas": 4
-                },
-                {
-                  "nome": "Selenium",
-                  "estrelas": 4
+                  "nome": "Selenium/B.Soup",
+                  "estrelas": 3
                 }
               ]
             }
@@ -133,14 +99,6 @@
           "icone": "/pages/sobre/assets/images/sql.svg",
           "skills": [
             {
-              "nome": "Consultas avançadas",
-              "estrelas": 5
-            },
-            {
-              "nome": "Joins e subconsultas",
-              "estrelas": 5
-            },
-            {
               "nome": "CTEs e consultas recursivas",
               "estrelas": 5
             },
@@ -149,40 +107,20 @@
               "estrelas": 5
             },
             {
-              "nome": "Views e Materialized Views",
-              "estrelas": 4
+              "nome": "Agregações Multidimensionais",
+              "estrelas": 5
             },
             {
-              "nome": "Stored Procedures e Functions",
-              "estrelas": 4
+              "nome": "Análise Temporal e de Séries",
+              "estrelas": 5
             },
             {
-              "nome": "Triggers",
-              "estrelas": 4
-            },
-            {
-              "nome": "Transações e controle de concorrência",
+              "nome": "Views, SPs, Functions e Triggers",
               "estrelas": 4
             },
             {
               "nome": "Otimização de consultas",
-              "estrelas": 4
-            },
-            {
-              "nome": "Índices e planos de execução",
-              "estrelas": 4
-            },
-            {
-              "nome": "SQL analítico",
-              "estrelas": 4
-            },
-            {
-              "nome": "PL/SQL",
-              "estrelas": 4
-            },
-            {
-              "nome": "T-SQL",
-              "estrelas": 4
+              "estrelas": 5
             }
           ]
         },
@@ -192,116 +130,62 @@
           "skills": [
             {
               "nome": "Programação estatística",
-              "estrelas": 3
+              "estrelas": 4
             },
             {
               "nome": "Manipulação de dados",
-              "skills": [
-                {
-                  "nome": "dplyr",
-                  "estrelas": 3
-                },
-                {
-                  "nome": "tidyr",
-                  "estrelas": 3
-                },
-                {
-                  "nome": "data.table",
-                  "estrelas": 3
-                }
-              ]
+              "estrelas": 4
             },
             {
               "nome": "Visualização",
-              "skills": [
-                {
-                  "nome": "ggplot2",
-                  "estrelas": 3
-                },
-                {
-                  "nome": "Shiny",
-                  "estrelas": 2
-                }
-              ]
+              "estrelas": 4
             },
             {
               "nome": "Modelagem estatística",
               "estrelas": 3
-            },
-            {
-              "nome": "R Markdown / Quarto",
-              "estrelas": 3
             }
           ]
         },
         {
-          "nome": "Versionamento",
-          "icone": "/pages/sobre/assets/images/git.svg",
-          "skills": [
-            {
-              "nome": "GitHub",
-              "estrelas": 5
-            },
-            {
-              "nome": "Bitbucket",
-              "estrelas": 4
-            }
-          ]
-        },
-        {
-          "nome": "Conceitos gerais",
+          "nome": "Progress 4GL",
           "icone": "/pages/sobre/assets/images/conceito.svg",
           "skills": [
             {
-              "nome": "Clean Code",
+              "nome": "Manipulação de Dados",
+              "estrelas": 5
+            },
+            {
+              "nome": "Transações e Buffers",
               "estrelas": 4
             },
             {
-              "nome": "SOLID",
-              "estrelas": 3
-            },
-            {
-              "nome": "Design Patterns",
-              "estrelas": 4
-            },
-            {
-              "nome": "Arquitetura em camadas",
-              "estrelas": 4
+              "nome": "Temp-Tables e ProDataSets",
+              "estrelas": 5
             },
             {
               "nome": "Modularização",
+              "estrelas": 4
+            }
+          ]
+        }, 
+        {
+          "nome": "GIT",
+          "icone": "/pages/sobre/assets/images/conceito.svg",
+          "skills": [
+            {
+              "nome": "GITHUB",
               "estrelas": 5
             },
             {
-              "nome": "Documentação de código",
+              "nome": "BITBUCKET",
               "estrelas": 4
             },
             {
-              "nome": "Testes unitários",
-              "estrelas": 3
-            },
-            {
-              "nome": "Testes de integração",
-              "estrelas": 2
-            },
-            {
-              "nome": "Testes de contrato",
-              "estrelas": 2
-            },
-            {
-              "nome": "CI/CD",
-              "estrelas": 4
-            },
-            {
-              "nome": "Versionamento semântico",
-              "estrelas": 5
-            },
-            {
-              "nome": "Gerenciamento de dependências",
+              "nome": "GITFLOW",
               "estrelas": 5
             }
           ]
-        }
+        }      
       ]
     },
     {
@@ -313,11 +197,11 @@
           "skills": [
             {
               "nome": "SQL Server",
-              "estrelas": 3
+              "estrelas": 5
             },
             {
               "nome": "Oracle",
-              "estrelas": 3
+              "estrelas": 4
             },
             {
               "nome": "MySQL",
@@ -335,15 +219,15 @@
           "skills": [
             {
               "nome": "InfluxDB",
-              "estrelas": 3
+              "estrelas": 5
             },
             {
               "nome": "Graphite",
-              "estrelas": 3
+              "estrelas": 5
             },
             {
               "nome": "Prometheus",
-              "estrelas": 2
+              "estrelas": 3
             }
           ]
         },
@@ -367,7 +251,7 @@
           "skills": [
             {
               "nome": "Redis",
-              "estrelas": 3
+              "estrelas": 5
             },
             {
               "nome": "DynamoDB",
@@ -398,20 +282,14 @@
           ]
         },
         {
-          "nome": "Colunar",
+          "nome": "Colunares e Grafos",
           "icone": "/pages/sobre/assets/images/database.svg",
           "skills": [
             {
               "nome": "Cassandra",
               "estrelas": 3
-            }
-          ]
-        },
-        {
-          "nome": "Grafos",
-          "icone": "/pages/sobre/assets/images/database.svg",
-          "skills": [
-            {
+            }, 
+           {
               "nome": "Neo4j",
               "estrelas": 3
             }
@@ -425,7 +303,7 @@
         {
           "nome": "Análise Exploratória (EDA)",
           "icone": "/pages/sobre/assets/images/analise.svg",
-          "estrelas": 4
+          "estrelas": 5
         },
         {
           "nome": "Business Intelligence (BI)",
@@ -581,25 +459,7 @@
     {
       "titulo": "CLOUD E INFRAESTRUTURA",
       "skills": [
-        {
-          "nome": "Fundamentos para Dados",
-          "icone": "/pages/sobre/assets/images/cloud.svg",
-          "skills": [
-            {
-              "nome": "Armazenamento vs. Computação (Desacoplamento)",
-              "estrelas": 3
-            },
-            {
-              "nome": "Data Lake, Data Warehouse e Lakehouse na nuvem",
-              "estrelas": 3
-            },
-            {
-              "nome": "FinOps (Monitoramento de custos)",
-              "estrelas": 3
-            }
-          ]
-        },
-        {
+       {
           "nome": "Amazon Web Services (AWS)",
           "icone": "/pages/sobre/assets/images/cloud.svg",
           "skills": [
@@ -665,16 +525,6 @@
             },
             {
               "nome": "Microsoft Fabric / Synapse",
-              "estrelas": 3
-            }
-          ]
-        },
-        {
-          "nome": "DataOps",
-          "icone": "/pages/sobre/assets/images/cloud.svg",
-          "skills": [
-            {
-              "nome": "Terraform",
               "estrelas": 3
             }
           ]
@@ -752,12 +602,12 @@
         {
           "nome": "CRISP-DM",
           "icone": "/pages/sobre/assets/images/tool.svg",
-          "estrelas": 4
+          "estrelas": 5
         },
         {
           "nome": "Jira",
           "icone": "/pages/sobre/assets/images/tool.svg",
-          "estrelas": 3
+          "estrelas": 4
         },
         {
           "nome": "Draw.io",
@@ -767,7 +617,7 @@
         {
           "nome": "Figma",
           "icone": "/pages/sobre/assets/images/tool.svg",
-          "estrelas": 3
+          "estrelas": 4
         },
         {
           "nome": "Swagger",
@@ -789,7 +639,7 @@
         {
           "nome": "Pensamento Analítico",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 4
+          "estrelas": 5
         },
         {
           "nome": "Visão Estratégica de Negócio",
@@ -804,12 +654,12 @@
         {
           "nome": "Visão Sistêmica",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 4
+          "estrelas": 5
         },
         {
           "nome": "Tomada de Decisão Orientada por Dados",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 4
+          "estrelas": 3
         }
       ]
     },
@@ -829,12 +679,12 @@
         {
           "nome": "Colaboração Interdisciplinar",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 3
+          "estrelas": 4
         },
         {
           "nome": "Compartilhamento de Conhecimento",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 3
+          "estrelas": 4
         }
       ]
     },
@@ -844,12 +694,12 @@
         {
           "nome": "Liderança Técnica",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 3
+          "estrelas": 4
         },
         {
           "nome": "Gestão de Projetos",
           "icone": "/pages/sobre/assets/images/brain.svg",
-          "estrelas": 2
+          "estrelas": 3
         },
         {
           "nome": "Organização e Planejamento",

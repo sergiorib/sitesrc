@@ -181,9 +181,10 @@ Como visitante navegando pela SPA, desejo que a página "Sobre mim" carregue ins
 
 @textos.bio
   - Sou um Cientista de Dados com sólida base em matemática, estatística e programação, aplicadas à análise de dados e ao desenvolvimento de soluções de Analise de Dados e Machine Learning.
-  - Tenho mais de 25 anos de experiência profissional como desenvolvedor, analista de sistemas e analista de dados, atuando em empresas líderes de seus segmentos, em ambientes de elevada exigência técnica e profissional. Minha trajetória me proporcionou uma visão abrangente dos processos, sistemas e desafios de negócio, que hoje aplico na construção de soluções analíticas precisas, escaláveis e orientadas a resultados.
-  - Valorizo o aprendizado contínuo, a colaboração e a inteligência coletiva como elementos fundamentais para transformar conhecimento em resultados reais.
-  - Convido você a explorar minhas experiências profissionais, formação acadêmica e projetos, que refletem minha trajetória e evolução na área de dados
+  - Tenho mais de 25 anos de experiência profissional em desenvolvimento, análise de sistemas e dados, atuando em empresas de destaque em seus segmentos e em ambientes de elevada exigência técnica.
+  - Essa trajetória me proporcionou uma visão abrangente dos processos, sistemas e desafios de negócio, que hoje utilizo no desenvolvimento de soluções de dados e analíticas, combinando conhecimento técnico e visão de negócio para gerar resultados.
+  - Acredito que o aprendizado contínuo, a troca de experiências e o trabalho colaborativo são essenciais para enfrentar desafios e alcançar resultados consistentes.
+  - Convido você a conhecer minha trajetória profissional, formação e projetos desenvolvidos na área de dados.
 
 ## 6. Fontes de dados
 
