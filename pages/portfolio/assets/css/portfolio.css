@@ -171,7 +171,7 @@
 /* ── badge ───────────────────────────────────────────────── */
 .badge {
   display: inline-block;
-  align-self: flex-start;
+  align-self: var(--card-alinhamento, flex-start);
   margin-top: auto;
   padding: var(--space-xs) var(--space-md);
   border: 1px solid;

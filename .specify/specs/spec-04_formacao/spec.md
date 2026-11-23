@@ -81,7 +81,7 @@ Como gestor ou avaliador técnico, desejo examinar as 3 seções da página ('Ac
 
 1. **Given** a página carregada, **When** inspecionada, **Then** exibe as seções 'Acadêmica', 'Idiomas' e 'Treinamentos', nessa ordem, cada uma com título `h2`.
 2. **Given** cada seção, **When** renderizada, **Then** exibe exatamente um card por item da fonte de dados correspondente, na ordem do arquivo.
-3. **Given** um card, **When** renderizado, **Then** exibe o logo da instituição (`[logo]`), o título da formação (`[header:card]`) e, quando a fonte de dados informar, o selo de período (`[badge]`).
+3. **Given** um card, **When** renderizado, **Then** exibe o logo da instituição (`[logo]`), o título da formação (`[header:card]`) e, quando a fonte de dados informar, o selo de período (`[badge]`), com o título e o selo centralizados no card (`{alinhamento: centro}`).
 4. **Given** os cards de 'Idiomas', **When** renderizados, **Then** não exibem selo.
 5. **Given** cada faixa de largura, **When** a página é exibida, **Then** cada grid assume o número de colunas configurado na seção 4 para aquela faixa.
 
@@ -141,20 +141,20 @@ Como usuário acessando por tablet ou smartphone, desejo que o layout se ajuste 
 
     [subsection:destaque] 'Acadêmica'
       [grid] {colunas: 1 → 2 @768}
-        [card:amarelo] *@dados.academica
+        [card:amarelo] *@dados.academica {alinhamento: centro}
           [logo:faixa] $item.logo
           [header:card] $item.titulo
           [badge:pilula] $item.badge
 
     [subsection:destaque] 'Idiomas'
       [grid] {colunas: 1 → 2 @768 → 3 @1024}
-        [card:amarelo] *@dados.idiomas
+        [card:amarelo] *@dados.idiomas {alinhamento: centro}
           [logo:faixa] $item.logo
           [header:card] $item.titulo
 
     [subsection:destaque] 'Treinamentos'
       [grid] {colunas: 1 → 2 @768 → 3 @1024}
-        [card:amarelo] *@dados.treinamentos
+        [card:amarelo] *@dados.treinamentos {alinhamento: centro}
           [logo:faixa] $item.logo
           [header:card] $item.titulo
           [badge:pilula] $item.badge

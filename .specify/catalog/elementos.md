@@ -136,6 +136,7 @@ Regras:
   - primeiro filho do container; num [card], pode vir depois de um [logo]
   - nivel (R-E03): h2 em panel da página; h3 em card; h4 em panel dentro de card
   - substitui o antigo `card-title` (R-E04)
+  - num [card] com `{alinhamento: centro}`, o título fica centralizado (lê `--card-alinhamento`)
 
 ## 3. Containers
 
@@ -157,9 +158,18 @@ Regras:
 ID: EL-08
 Descrição: Cartão de conteúdo dentro de um grid.
 HTML:
-  <div class="card {estilo}">{filhos}</div>
+  <div class="card {estilo}" style="{config}">{filhos}</div>
 Filhos: header (primeiro), vertical-list, …
+Configurações:
+  alinhamento: inicio | centro, sem breakpoints (padrão: inicio)
+    inicio → (nenhuma variável; o HTML e a aparência atuais não mudam)
+    centro → `--card-alinhamento: center`
 Estilos: amarelo (padrão) | verde
+Regras:
+  - `{alinhamento: centro}` centraliza o título (`[header]`) e os selos (`[badge]`) do card;
+    o `[logo]` já é centralizado
+  - exceção a R-S06: `--card-alinhamento` NÃO é registrada com `@property` e é herdada de
+    propósito pelos descendentes do card, que a leem em suas fichas de estilo (header, badge)
 
 ### link-card
 ID: EL-15
@@ -329,7 +339,8 @@ HTML:
 Texto principal: obrigatório
 Estilos: pilula (padrão) | ardosia | turquesa
 Regras:
-  - dentro de contêiner em coluna (ex.: [card]), fica no fim e alinhado ao início
+  - dentro de contêiner em coluna (ex.: [card]), fica no fim e alinhado ao início;
+    num [card] com `{alinhamento: centro}`, fica no fim e centralizado
   - em [tag-list], o estilo pode vir de um campo do item (`[badge:$item.estilo]`, R-N05)
 
 ### anchor-nav
