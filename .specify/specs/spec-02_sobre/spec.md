@@ -35,7 +35,6 @@ pages/sobre/
 │       ├── conceito.svg
 │       ├── database.svg
 │       ├── engenharia.svg
-│       ├── git.svg
 │       ├── ia.svg
 │       ├── linux.svg
 │       ├── python_verde.svg
