@@ -241,3 +241,13 @@ Task T013: "Criar a página de conteúdo inicial padrão em pages/spa/sobre.astr
 - [X] T056 [US3] Documentar o comportamento no elemento `breadcrumbs` — `.specify/catalog/elementos.md`
 - [X] T057 [US3] Validar: páginas sem `data-breadcrumbs` mantêm a trilha por segmentos ("Início / Artigos técnicos"); subpáginas com o atributo exibem os níveis declarados, clicáveis; Voltar/Avançar restauram a trilha — `/spa`
 - [X] T058 Executar `npm run build` sem erros — raiz do projeto
+
+---
+
+## Phase 10: Publicação das Imagens das Páginas no Build (FR-013 — 2026-11-26)
+
+**Objetivo**: o site compilado (`dist/`) exibe as mesmas imagens que o servidor de desenvolvimento.
+
+- [X] T059 Criar a integração `copiar-imagens-das-paginas` (hook `astro:build:done`) que copia cada `pages/<modulo>/assets/images/` para `dist/pages/<modulo>/assets/images/`, sem arquivos ocultos — `astro.config.mjs`
+- [X] T060 [P] Adicionar a configuração `astro-preview` (porta 4330) para servir o `dist/` — `.claude/launch.json`
+- [X] T061 Executar `npm run build` e, com `astro preview`, confirmar que todas as imagens das páginas carregam (nenhum 404 em `/pages/...`) — `dist/`

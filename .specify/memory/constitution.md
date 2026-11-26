@@ -1,6 +1,8 @@
 <!--
 Sync Impact Report:
-- Version change: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
+- Version change: 2.0.2 -> 2.0.3 (PATCH: Convenção de Resolução de Assets — publicação das imagens
+  das páginas no build e validação do site compilado com astro preview)
+- Anterior: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
   em pages/artigos/artigos_pages/, com contrato de fragmento e isolamento obrigatórios)
 - Anterior: 2.0.0 -> 2.0.1 (PATCH: remoção da cláusula de transição, já cumprida)
 - Justificativa: todas as páginas (spec-02 a spec-07) foram convertidas para o modelo em
@@ -57,7 +59,8 @@ A organização do código fonte deve garantir total isolamento e modularidade p
   1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../modulo/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/<modulo>/`).
   2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/<modulo>/assets/images/<arquivo>`).
   3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/<modulo>/assets/images/`).
-  4. **Valide a renderização** executando `npm run build` ao finalizar.
+  4. **Valide a renderização** executando `npm run build` ao finalizar e conferindo o site compilado com `astro preview` (o servidor de desenvolvimento entrega qualquer arquivo do projeto e não revela imagens ausentes do build).
+  5. **Publicação no build**: o Astro só leva para `dist/` o que está em `public/` ou é importado no código. Por isso, a integração `copiar-imagens-das-paginas` em `astro.config.mjs` copia, ao fim do build, cada `pages/<modulo>/assets/images/` para `dist/pages/<modulo>/assets/images/`, preservando os caminhos absolutos do item 2 (spec-01 FR-013).
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 O site segue a estética Dark Tech Dashboard, com identidade visual consistente entre as páginas:
@@ -115,4 +118,4 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 2.0.2 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
+**Version**: 2.0.3 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
