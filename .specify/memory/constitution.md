@@ -1,6 +1,8 @@
 <!--
 Sync Impact Report:
-- Version change: 2.0.3 -> 2.0.4 (PATCH: Princípio IV — finais de linha normalizados em LF
+- Version change: 2.0.4 -> 2.0.5 (PATCH: Princípio I — ambiente de build fixado: .nvmrc, engines,
+  engine-strict e instalação com npm ci)
+- Anterior: 2.0.3 -> 2.0.4 (PATCH: Princípio IV — finais de linha normalizados em LF
   via .gitattributes, para builds idênticos em qualquer sistema operacional)
 - Anterior: 2.0.2 -> 2.0.3 (PATCH: Convenção de Resolução de Assets — publicação das imagens
   das páginas no build e validação do site compilado com astro preview)
@@ -41,6 +43,7 @@ O projeto deve adotar uma base estritamente minimalista, rápida e livre de over
 - **Framework Estático**: Astro deve ser utilizado EXCLUSIVAMENTE para a estruturação de componentes `.astro`, layouts reutilizáveis, build estático (SSG) e roteamento baseado em arquivos (*file-based routing*).
 - **Estilização**: Exclusivamente CSS3 Puro / Vanilla CSS. É expressamente PROIBIDA a instalação ou utilização de utilitários como Tailwind CSS, frameworks como Bootstrap ou bibliotecas de CSS-in-JS.
 - **Interatividade no Navegador**: Exclusivamente Vanilla JavaScript puro. É expressamente PROIBIDA a adição ou instalação de frameworks ou bibliotecas de UI reativas client-side (como React, Vue, Svelte, Angular ou similares).
+- **Ambiente de Build Fixado**: A versão do Node.js fica em `.nvmrc` (versão exata) e, junto com a do npm, no campo `engines` do `package.json`; o `.npmrc` liga `engine-strict`, então a instalação falha em versões fora da faixa. As dependências são instaladas SEMPRE com `npm ci` (respeita o `package-lock.json`), nunca com `npm install`, salvo ao adicionar ou atualizar uma dependência de propósito. Atualizar Node, npm ou dependências é uma mudança do projeto: altera esses arquivos no mesmo commit e é validada com `npm run build` e `astro preview`.
 
 ### II. Estrutura de Páginas e Separação de Preocupações
 A organização do código fonte deve garantir total isolamento e modularidade por página:
@@ -121,4 +124,4 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 2.0.4 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
+**Version**: 2.0.5 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
