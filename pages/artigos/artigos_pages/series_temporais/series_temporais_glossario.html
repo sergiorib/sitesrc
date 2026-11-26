@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossário Técnico de Séries Temporais (A–Z)</title>
+  
+  <!-- Fontes modernas do Google Fonts: Inter para leitura e JetBrains Mono para fórmulas/siglas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!--
+    Página de artigo em HTML estático (exceção do Princípio VII; contrato em spec-06 §2).
+    Na SPA, o roteador copia só os <link>/<style> do <head>: o Tailwind e sua configuração
+    são carregados pelo script no início do <body> (executado também pelo roteador).
+    Todo estilo fica restrito à raiz .st-glossario (Tailwind com preflight desligado e
+    important: '.st-glossario'), para não alterar a moldura nem as outras páginas.
+  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body:has(> #page-content.st-glossario) {
+      margin: 0;
+    }
+
+    /* Variáveis CSS obrigatórias (restritas à página) */
+    .st-glossario {
+      --punch-red: #e63946ff;
+      --honeydew: #f1faeeff;
+      --frosted-blue: #a8dadcff;
+      --cerulean: #457b9dff;
+      --oxford-navy: #1d3557ff;
+
+      background-color: var(--honeydew);
+      color: var(--oxford-navy);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    /* Base mínima restrita à página (substitui o preflight global do Tailwind) */
+    .st-glossario *,
+    .st-glossario *::before,
+    .st-glossario *::after {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb;
+    }
+
+    .st-glossario h1,
+    .st-glossario h2,
+    .st-glossario h3,
+    .st-glossario p {
+      margin: 0;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    .st-glossario a {
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+    .st-glossario button,
+    .st-glossario input,
+    .st-glossario select {
+      font: inherit;
+      color: inherit;
+      margin: 0;
+    }
+
+    .st-glossario button {
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    .st-glossario svg {
+      display: block;
+    }
+
+    /* Barra de rolagem customizada e discreta para a navegação alfabética em telas menores */
+    .st-glossario .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .st-glossario .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Destaque para termo encontrado na busca */
+    .st-glossario mark {
+      background-color: var(--frosted-blue);
+      color: var(--oxford-navy);
+      padding: 0.1rem 0.25rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+
+    /* Compensação do scroll para o cabeçalho fixo */
+    .st-glossario .letter-anchor {
+      scroll-margin-top: 135px;
+    }
+
+    @media (min-width: 768px) {
+      .st-glossario .letter-anchor {
+        scroll-margin-top: 115px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div
+    id="page-content"
+    class="page-content-wrapper st-glossario"
+    data-page-id="artigos-series-temporais-glossario"
+    data-page-title="Glossário"
+    data-parent-route="/artigos"
+    data-breadcrumbs='[{"rotulo": "Artigos", "url": "/spa/artigos/"}, {"rotulo": "Séries temporais", "url": "/pages/artigos/artigos_pages/series_temporais/series_temporais.html"}]'
+  >
+  <!-- Tailwind: configuração restrita à página; carrega o CDN se ainda não estiver no documento (SPA) -->
+  <script>
+    (function () {
+      var config = {
+        important: '.st-glossario',
+        corePlugins: { preflight: false },
+        theme: {
+          extend: {
+            colors: {
+              'punch-red': 'var(--punch-red)',
+              'honeydew': 'var(--honeydew)',
+              'frosted-blue': 'var(--frosted-blue)',
+              'cerulean': 'var(--cerulean)',
+              'oxford-navy': 'var(--oxford-navy)',
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      };
+      if (window.tailwind) {
+        // Revisita na SPA: reaplica a configuração depois que o script do glossário
+        // renderizar os cards, para o Tailwind remontar o CSS com todas as classes da página
+        setTimeout(function () { window.tailwind.config = config; }, 0);
+        return;
+      }
+      var cdn = document.createElement('script');
+      cdn.src = 'https://cdn.tailwindcss.com';
+      cdn.onload = function () { window.tailwind.config = config; };
+      document.head.appendChild(cdn);
+    })();
+  </script>
+
+  <div class="min-h-screen flex flex-col antialiased selection:bg-punch-red selection:text-white">
+
+  <!-- Cabeçalho Principal (Hero) -->
+  <header class="bg-oxford-navy text-honeydew border-b-4 border-punch-red">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cerulean/30 border border-frosted-blue/40 text-frosted-blue text-xs font-mono uppercase tracking-wider mb-4">
+            <span class="w-2 h-2 rounded-full bg-punch-red animate-pulse"></span>
+            Referência Técnica • Estatística & Econometria
+          </div>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Glossário de <span class="text-frosted-blue">Séries Temporais</span>
+          </h1>
+          <p class="mt-3 text-base sm:text-lg text-honeydew/85 leading-relaxed">
+            Compêndio técnico em ordem alfabética (A–Z) reunindo fundamentos estatísticos, decomposição estrutural, testes de hipóteses, modelos clássicos e métricas de avaliação preditiva.
+          </p>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        <div class="flex items-center gap-4 bg-oxford-navy/80 border border-cerulean/50 rounded-xl p-4 shrink-0 shadow-inner">
+          <div class="text-center px-2">
+            <span id="total-count" class="block text-2xl sm:text-3xl font-bold font-mono text-frosted-blue">41</span>
+            <span class="text-xs uppercase tracking-wider text-honeydew/70">Termos Técnicos</span>
+          </div>
+          <div class="h-8 w-px bg-cerulean/40"></div>
+          <div class="text-center px-2">
+            <span class="block text-2xl sm:text-3xl font-bold font-mono text-punch-red">A–Z</span>
+            <span class="text-xs uppercase tracking-wider text-honeydew/70">Indexação</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de Navegação Alfabética e Busca Fixa (Sticky) -->
+  <nav aria-label="Navegação Alfabética e Busca" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-frosted-blue shadow-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      
+      <!-- Linha 1: Busca Instantânea e Filtro por Categoria -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-3">
+        <!-- Campo de Busca -->
+        <div class="relative flex-grow">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <svg class="h-4 w-4 text-cerulean" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Buscar termo, sigla (ex: ARIMA, PACF, GARCH) ou conceito..." 
+            class="w-full pl-10 pr-10 py-2 bg-white border border-frosted-blue text-[#111111] placeholder-cerulean/70 text-sm font-medium rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-punch-red focus:border-transparent transition-all"
+            autocomplete="off"
+          >
+          <button 
+            id="clear-search" 
+            type="button" 
+            title="Limpar busca"
+            class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-cerulean hover:text-punch-red transition-colors"
+          >
+            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Seletor de Categoria -->
+        <div class="sm:w-64 shrink-0">
+          <select 
+            id="category-filter" 
+            aria-label="Filtrar por categoria"
+            class="w-full px-3.5 py-2 bg-oxford-navy text-white border border-oxford-navy text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-punch-red cursor-pointer transition-all"
+          >
+            <option value="all">Todas as Categorias</option>
+            <option value="Conceito Fundamental">Conceito Fundamental</option>
+            <option value="Modelo">Modelo</option>
+            <option value="Teste Estatístico">Teste Estatístico</option>
+            <option value="Decomposição">Decomposição</option>
+            <option value="Métrica">Métrica</option>
+            <option value="Transformação">Transformação</option>
+            <option value="Metodologia">Metodologia</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Linha 2: Índice Alfabético (A-Z) -->
+      <div id="alphabet-nav" class="flex items-center justify-between gap-1 overflow-x-auto no-scrollbar px-2 py-1.5 rounded-lg bg-frosted-blue/35 border border-frosted-blue/80">
+        <!-- Botões de letras gerados dinamicamente via JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+    
+    <!-- Barra de Status de Resultados -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-6 pb-3 border-b border-frosted-blue">
+      <p id="results-status" class="text-sm font-medium text-cerulean">
+        Exibindo todos os <strong class="text-oxford-navy font-bold">41</strong> termos em ordem alfabética.
+      </p>
+      <button 
+        id="reset-filters-btn" 
+        type="button" 
+        class="hidden text-xs font-semibold text-punch-red hover:underline flex items-center gap-1"
+      >
+        <span>Restaurar filtros</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+      </button>
+    </div>
+
+    <!-- Container do Glossário -->
+    <div id="glossary-container" class="space-y-10">
+      <!-- Seções por letra e cards inseridos via JavaScript -->
+    </div>
+
+    <!-- Estado Vazio (Nenhum resultado encontrado) -->
+    <div id="empty-state" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-frosted-blue shadow-sm">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-honeydew border border-frosted-blue text-punch-red mb-4">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h2 class="text-xl font-bold text-oxford-navy mb-2">Nenhum termo encontrado</h2>
+      <p class="text-cerulean max-w-md mx-auto text-sm mb-6">
+        Não encontramos correspondências para os critérios de busca ou categoria selecionados. Tente buscar por outra palavra-chave ou sigla.
+      </p>
+      <button 
+        id="empty-reset-btn" 
+        type="button" 
+        class="px-5 py-2.5 bg-punch-red hover:bg-oxford-navy text-white text-sm font-semibold rounded-lg shadow-sm transition-colors"
+      >
+        Limpar Busca e Filtros
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Botão Flutuante "Voltar ao Topo" -->
+  <button 
+    id="back-to-top" 
+    type="button" 
+    aria-label="Voltar ao topo"
+    title="Voltar ao topo"
+    class="fixed bottom-6 right-6 z-50 p-3.5 rounded-full bg-punch-red hover:bg-oxford-navy text-white shadow-lg border-2 border-white opacity-0 pointer-events-none translate-y-4 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-oxford-navy"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    </svg>
+  </button>
+
+  <!-- Rodapé -->
+  <footer class="bg-oxford-navy text-honeydew/80 border-t border-cerulean/40 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-punch-red"></span>
+        <span class="font-semibold text-white">Glossário de Séries Temporais</span>
+      </div>
+      <p class="text-xs text-frosted-blue/80 text-center sm:text-right">
+        Material de consulta técnica sobre análise estatística, econometria e previsão (Forecasting).
+      </p>
+    </div>
+  </footer>
+  </div>
+
+  <!-- Dados Técnicos e Lógica Interativa (encapsulada: o roteador SPA reexecuta o script a cada visita) -->
+  <script>
+  (function () {
+    // Base de dados completa com 41 termos técnicos rigorosamente estruturados
+    const glossaryData = [
+      {
+        term: "ACF (Função de Autocorrelação / Autocorrelation Function)",
+        category: "Conceito Fundamental",
+        formula: "ρ(k) = Cov(Yₜ, Yₜ₋ₖ) / Var(Yₜ)",
+        definition: "Função que mede a correlação linear entre observações de uma série temporal separadas por diferentes intervalos de tempo (lags k). O gráfico da ACF (correlograma) é essencial para identificar a ordem de processos de Média Móvel (MA) e detectar padrões de sazonalidade ou não estacionariedade."
+      },
+      {
+        term: "AIC (Critério de Informação de Akaike / Akaike Information Criterion)",
+        category: "Métrica",
+        formula: "AIC = 2k - 2ln(L̂)",
+        definition: "Métrica estatística utilizada para seleção e comparação entre modelos concorrentes ajustados aos mesmos dados. Penaliza a adição de parâmetros extras (k) para evitar o sobreajuste (overfitting), equilibrando a qualidade do ajuste (verossimilhança L̂) com a parcimônia. Quanto menor o valor do AIC, melhor o modelo."
+      },
+      {
+        term: "AR (Modelo Autorregressivo / Autoregressive Model)",
+        category: "Modelo",
+        formula: "Yₜ = c + φ₁Yₜ₋₁ + ... + φₚYₜ₋ₚ + εₜ",
+        definition: "Classe de modelos estocásticos em que o valor atual da série temporal é expresso como uma combinação linear de seus próprios p valores passados (defasagens), somados a um termo de erro aleatório (ruído branco). A ordem p é tipicamente identificada pela análise da função de autocorrelação parcial (PACF)."
+      },
+      {
+        term: "ARCH (Heterocedasticidade Condicional Autorregressiva / Autoregressive Conditional Heteroskedasticity)",
+        category: "Modelo",
+        formula: "σₜ² = α₀ + α₁εₜ₋₁² + ... + αqεₜ₋q²",
+        definition: "Modelo introduzido por Robert Engle para capturar agrupamentos de volatilidade (volatility clustering) em séries financeiras e econômicas. Modela a variância condicional dos erros atuais como uma função linear dos quadrados dos erros observados em períodos anteriores."
+      },
+      {
+        term: "ARIMA (Autorregressivo Integrado de Médias Móveis / Autoregressive Integrated Moving Average)",
+        category: "Modelo",
+        formula: "ARIMA(p, d, q)",
+        definition: "Um dos modelos lineares mais clássicos para previsão de séries temporais univariadas. Combina componentes autorregressivos (p), diferenciação para atingir estacionariedade (d) e médias móveis dos erros passados (q), sendo indicado para séries não sazonais que podem ser tornadas estacionárias."
+      },
+      {
+        term: "ARMA (Autorregressivo de Médias Móveis / Autoregressive Moving Average)",
+        category: "Modelo",
+        formula: "ARMA(p, q)",
+        definition: "Modelo estocástico estacionário que combina um processo autorregressivo de ordem p (AR) e um processo de médias móveis de ordem q (MA). Pressupõe que a série já apresenta média e variância constantes ao longo do tempo, dispensando o passo de diferenciação."
+      },
+      {
+        term: "Autocorrelação (Autocorrelation / Serial Correlation)",
+        category: "Conceito Fundamental",
+        formula: "Corr(Yₜ, Yₜ₋ₖ)",
+        definition: "Grau de dependência linear entre uma série temporal e uma versão defasada dela mesma ao longo de intervalos sucessivos de tempo. A presença de autocorrelação viola a suposição clássica de independência das observações, exigindo métodos específicos de modelagem temporal."
+      },
+      {
+        term: "Autocorrelação Parcial (PACF / Partial Autocorrelation Function)",
+        category: "Conceito Fundamental",
+        formula: "φₖₖ = Corr(Yₜ, Yₜ₋ₖ | Yₜ₋₁, ..., Yₜ₋ₖ₊₁)",
+        definition: "Mede a correlação direta entre observações separadas por k defasagens após remover o efeito linear de todas as defasagens intermediárias (1 a k-1). É a principal ferramenta diagnóstica para determinar a ordem p de um modelo Autorregressivo (AR)."
+      },
+      {
+        term: "Backtesting (Validação Cruzada Temporal / Walk-Forward Validation)",
+        category: "Metodologia",
+        formula: "Treino [1..t] → Teste [t+1..t+h]",
+        definition: "Técnica de avaliação preditiva que respeita rigorosamente a ordem cronológica dos dados, evitando vazamento de informações futuras (data leakage). Consiste em treinar o modelo em janelas históricas (expansíveis ou deslizantes) e avaliar previsões fora da amostra em horizontes subsequentes."
+      },
+      {
+        term: "BIC (Critério de Informação Bayesiano / Bayesian Information Criterion)",
+        category: "Métrica",
+        formula: "BIC = k·ln(n) - 2ln(L̂)",
+        definition: "Critério de seleção de modelos semelhante ao AIC, mas que aplica uma penalidade mais severa à complexidade (número de parâmetros k) à medida que o tamanho da amostra (n) aumenta. Tende a selecionar modelos mais parcimoniosos que o AIC."
+      },
+      {
+        term: "Box-Cox (Transformação de Box-Cox)",
+        category: "Transformação",
+        formula: "y(λ) = (y^λ - 1)/λ se λ ≠ 0; ln(y) se λ = 0",
+        definition: "Família de transformações de potência aplicada a séries estritamente positivas com o objetivo de estabilizar a variância ao longo do tempo e aproximar a distribuição dos dados de uma normalidade, facilitando o ajuste de modelos lineares."
+      },
+      {
+        term: "Box-Jenkins (Metodologia Box-Jenkins)",
+        category: "Metodologia",
+        formula: "Identificação → Estimação → Diagnóstico",
+        definition: "Abordagem sistemática iterativa em três etapas para construir modelos ARIMA: (1) Identificação da estacionariedade e das ordens p, d, q via ACF/PACF; (2) Estimação dos parâmetros por máxima verossimilhança; e (3) Verificação diagnóstica dos resíduos (garantindo que sejam ruído branco)."
+      },
+      {
+        term: "Ciclo (Componente Cíclico / Cyclical Component)",
+        category: "Decomposição",
+        formula: "Flutuações > 1 ano (duração variável)",
+        definition: "Oscilações de médio a longo prazo em torno da tendência que não possuem período fixo ou calendário rígido, geralmente associadas a fenômenos macroeconômicos, expansão e contração de mercados. Diferencia-se da sazonalidade pela irregularidade na duração e amplitude."
+      },
+      {
+        term: "Cointegração (Cointegration)",
+        category: "Conceito Fundamental",
+        formula: "Yₜ ~ I(1), Xₜ ~ I(1) ⇒ Yₜ - βXₜ ~ I(0)",
+        definition: "Propriedade estatística de duas ou mais séries temporais não estacionárias (geralmente integradas de ordem 1) que compartilham uma tendência estocástica comum, de modo que uma combinação linear entre elas seja estacionária. Impede regressões espúrias e fundamenta modelos VECM."
+      },
+      {
+        term: "Decomposição Aditiva e Multiplicativa",
+        category: "Decomposição",
+        formula: "Aditiva: Yₜ = Tₜ + Sₜ + Rₜ | Mult.: Yₜ = Tₜ × Sₜ × Rₜ",
+        definition: "Métodos estruturais para separar uma série temporal em Tendência (T), Sazonalidade (S) e Resíduo (R). O modelo aditivo é adequado quando a amplitude das variações sazonais permanece constante; o multiplicativo é indicado quando a amplitude sazonal cresce proporcionalmente ao nível da série."
+      },
+      {
+        term: "Diferenciação (Differencing)",
+        category: "Transformação",
+        formula: "ΔYₜ = Yₜ - Yₜ₋₁",
+        definition: "Operação matemática que calcula a variação entre observações consecutivas (ou separadas por um período sazonal s) para remover tendências determinísticas ou estocásticas, estabilizando a média e tornando uma série não estacionária em estacionária."
+      },
+      {
+        term: "Drift (Tendência Determinística / Deriva)",
+        category: "Conceito Fundamental",
+        formula: "Yₜ = c + Yₜ₋₁ + εₜ",
+        definition: "Constante não nula adicionada a um processo de passeio aleatório ou modelo diferenciado que representa a taxa média de variação por unidade de tempo. Graficamente, faz com que as previsões de longo prazo sigam uma inclinação linear ascendente ou descendente."
+      },
+      {
+        term: "Estacionariedade (Stationarity - Fraca e Forte)",
+        category: "Conceito Fundamental",
+        formula: "E[Yₜ] = μ, Var(Yₜ) = σ², Cov(Yₜ, Yₜ₋ₖ) = γ(k)",
+        definition: "Condição fundamental em que as propriedades estatísticas de um processo não mudam ao longo do tempo. Na estacionariedade fraca (de segunda ordem), média, variância e autocovariância dependem apenas da defasagem k; na forte, toda a distribuição conjunta é invariante no tempo."
+      },
+      {
+        term: "Exogeneidade e Variáveis Exógenas (ARIMAX / SARIMAX)",
+        category: "Modelo",
+        formula: "Yₜ = βXₜ + ηₜ (onde ηₜ segue ARIMA)",
+        definition: "Incorporação de variáveis preditoras externas (Xₜ), como feriados, temperatura, promoções ou taxas de juros, que influenciam a série alvo sem serem afetadas por ela. Modelos ARIMAX/SARIMAX combinam regressão linear com erros autocorrelacionados."
+      },
+      {
+        term: "Filtro de Kalman (Kalman Filter)",
+        category: "Modelo",
+        formula: "Predição de Estado → Atualização Bayesiana",
+        definition: "Algoritmo recursivo ótimo utilizado em modelos de espaço de estados (State-Space Models) para estimar variáveis latentes não observadas (como nível e tendência dinâmicos) a partir de medições ruidosas, atualizando as estimativas sequencialmente a cada nova observação."
+      },
+      {
+        term: "GARCH (Heterocedasticidade Condicional Autorregressiva Generalizada)",
+        category: "Modelo",
+        formula: "σₜ² = ω + ∑αᵢεₜ₋ᵢ² + ∑βⱼσₜ₋ⱼ²",
+        definition: "Extensão do modelo ARCH proposta por Tim Bollerslev que permite que a variância condicional dependa tanto dos choques quadráticos passados quanto das próprias variâncias condicionais anteriores, capturando persistência de volatilidade com menor número de parâmetros."
+      },
+      {
+        term: "Heterocedasticidade (Heteroskedasticity)",
+        category: "Conceito Fundamental",
+        formula: "Var(εₜ | Xₜ) = σₜ² ≠ constante",
+        definition: "Fenômeno em que a variância dos erros ou da própria série temporal não é constante ao longo do tempo, manifestando-se frequentemente como períodos de alta turbulência alternados com períodos de estabilidade ou crescimento da dispersão conforme o nível da série aumenta."
+      },
+      {
+        term: "Holt-Winters (Suavização Exponencial Tripla)",
+        category: "Modelo",
+        formula: "Nível (ℓₜ) + Tendência (bₜ) + Sazonalidade (sₜ)",
+        definition: "Método clássico de previsão baseado em médias ponderadas exponencialmente que atualiza três componentes estruturais: nível, tendência e sazonalidade (em versões aditiva ou multiplicativa), atribuindo pesos decrescentes às observações mais antigas."
+      },
+      {
+        term: "Horizonte de Previsão (Forecast Horizon)",
+        category: "Conceito Fundamental",
+        formula: "h ∈ {1, 2, ..., H}",
+        definition: "Número de passos futuros (h) para os quais o modelo gera estimativas a partir da última observação disponível (origem da previsão). À medida que o horizonte aumenta, a incerteza acumulada cresce e os intervalos de predição tornam-se mais amplos."
+      },
+      {
+        term: "Irregularidade / Ruído (Componente Aleatório / Remainder)",
+        category: "Decomposição",
+        formula: "Rₜ = Yₜ - Tₜ - Sₜ",
+        definition: "Parcela residual de uma série temporal que permanece após a extração dos padrões sistemáticos de tendência, ciclo e sazonalidade. Representa flutuações imprevisíveis de curto prazo, choques pontuais ou erros de medição."
+      },
+      {
+        term: "KPSS (Teste Kwiatkowski-Phillips-Schmidt-Shin)",
+        category: "Teste Estatístico",
+        formula: "H₀: Série estacionária vs. H₁: Raiz unitária",
+        definition: "Teste de hipóteses complementar ao teste ADF utilizado para avaliar estacionariedade. Ao contrário do ADF, a hipótese nula (H₀) do teste KPSS pressupõe que a série é estacionária em torno de uma média ou tendência determinística, contra a alternativa de presença de raiz unitária."
+      },
+      {
+        term: "Lag (Defasagem)",
+        category: "Conceito Fundamental",
+        formula: "LᵏYₜ = Yₜ₋ₖ",
+        definition: "Deslocamento temporal de uma série por k períodos anteriores. O operador de defasagem (Backshift ou Lag operator) é a base algébrica para formular equações autorregressivas, médias móveis e operações de diferenciação."
+      },
+      {
+        term: "Ljung-Box (Teste de Ljung-Box)",
+        category: "Teste Estatístico",
+        formula: "Q = n(n+2) ∑ [ρ̂ₖ² / (n-k)] ~ χ²",
+        definition: "Teste estatístico portmanteau aplicado aos resíduos de um modelo ajustado para verificar se existe autocorrelação significativa em um conjunto de defasagens. Um p-valor alto indica que os resíduos se comportam como ruído branco, validando a adequação do modelo."
+      },
+      {
+        term: "MA (Média Móvel / Moving Average Model)",
+        category: "Modelo",
+        formula: "Yₜ = μ + εₜ + θ₁εₜ₋₁ + ... + θqεₜ₋q",
+        definition: "Processo estocástico estacionário em que o valor atual da série é modelado como uma combinação linear do termo de erro atual e de q choques aleatórios passados. Não deve ser confundido com a média móvel simples usada para suavização visual."
+      },
+      {
+        term: "MAE, MAPE, RMSE e SMAPE (Métricas de Erro de Previsão)",
+        category: "Métrica",
+        formula: "RMSE = √[mean((yₜ - ŷₜ)²)] | MAPE = mean(|yₜ - ŷₜ|/yₜ)",
+        definition: "Conjunto de métricas padrão para avaliar a acurácia de previsões: MAE (Erro Absoluto Médio) mede o erro médio na escala original; RMSE (Raiz do Erro Quadrático Médio) penaliza fortemente grandes desvios; MAPE e SMAPE expressam o erro em termos percentuais relativos."
+      },
+      {
+        term: "Passeio Aleatório (Random Walk)",
+        category: "Modelo",
+        formula: "Yₜ = Yₜ₋₁ + εₜ",
+        definition: "Processo estocástico não estacionário fundamental em que o valor atual equivale ao valor imediatamente anterior somado a um choque aleatório de ruído branco. Sua variância cresce linearmente com o tempo, tornando a melhor previsão pontual futura igual ao último valor observado (modelo Naive)."
+      },
+      {
+        term: "Periodograma e Análise Espectral (Transformada de Fourier)",
+        category: "Decomposição",
+        formula: "I(f) = (1/n) |∑ Yₜ e^(-i2πft)|²",
+        definition: "Técnica no domínio da frequência que decompõe uma série temporal em uma soma de ondas senoidais e cossenoidais por meio da Transformada Rápida de Fourier (FFT). O periodograma exibe a densidade espectral de potência, revelando ciclos ocultos e frequências sazonais dominantes."
+      },
+      {
+        term: "Prophet",
+        category: "Modelo",
+        formula: "y(t) = g(t) + s(t) + h(t) + εₜ",
+        definition: "Modelo aditivo generalizado (GAM) desenvolvido pela Meta para previsão em escala de séries de negócios. Decompõe a série em tendência linear ou logística por partes g(t), múltiplas sazonalidades via séries de Fourier s(t) e efeitos de feriados/eventos irregulares h(t)."
+      },
+      {
+        term: "Raiz Unitária e Teste ADF (Augmented Dickey-Fuller)",
+        category: "Teste Estatístico",
+        formula: "H₀: γ = 0 (Raiz unitária) vs. H₁: γ < 0",
+        definition: "Uma raiz unitária ocorre quando a equação característica de um processo autorregressivo possui raiz igual a 1, tornando a série não estacionária e sujeita a choques permanentes. O teste ADF verifica formalmente a presença de raiz unitária sob a hipótese nula (H₀)."
+      },
+      {
+        term: "Ruído Branco (White Noise)",
+        category: "Conceito Fundamental",
+        formula: "εₜ ~ (0, σ²), Cov(εₜ, εₜ₋ₖ) = 0 ∀ k ≠ 0",
+        definition: "Sequência de variáveis aleatórias não correlacionadas serialmente com média zero e variância constante e finita. Representa o comportamento ideal esperado dos resíduos de um modelo bem especificado, indicando que toda informação previsível foi extraída."
+      },
+      {
+        term: "SARIMA (ARIMA Sazonal / Seasonal ARIMA)",
+        category: "Modelo",
+        formula: "SARIMA(p, d, q)(P, D, Q)ₛ",
+        definition: "Extensão multiplicativa do modelo ARIMA que incorpora termos autorregressivos sazonais (P), diferenciação sazonal (D) e médias móveis sazonais (Q) aplicados em múltiplos do período sazonal s (ex: s = 12 para dados mensais, s = 7 para dados diários)."
+      },
+      {
+        term: "Sazonalidade (Seasonality)",
+        category: "Decomposição",
+        formula: "Padrão periódico fixo de frequência s",
+        definition: "Variações regulares, previsíveis e recorrentes que ocorrem em intervalos de tempo fixos e conhecidos (como hora do dia, dia da semana, mês ou trimestre), impulsionadas por fatores climáticos, institucionais ou comportamentais."
+      },
+      {
+        term: "STL (Seasonal and Trend decomposition using Loess)",
+        category: "Decomposição",
+        formula: "Yₜ = Tₜ + Sₜ + Rₜ (via regressão local LOESS)",
+        definition: "Método versátil e robusto de decomposição de séries temporais baseado em suavização por regressão local ponderada (LOESS). Permite que o componente sazonal evolua suavemente ao longo do tempo, lida com qualquer frequência sazonal e oferece resistência a outliers."
+      },
+      {
+        term: "Suavização Exponencial (SES / Holt)",
+        category: "Modelo",
+        formula: "ŷₜ₊₁|ₜ = αYₜ + (1 - α)ŷₜ|ₜ₋₁",
+        definition: "Família de métodos de previsão que estima estados latentes usando médias ponderadas exponencialmente decrescentes. A Suavização Exponencial Simples (SES) modela séries sem tendência ou sazonalidade, enquanto o método de Holt adiciona uma equação linear para capturar tendência."
+      },
+      {
+        term: "Tendência (Trend)",
+        category: "Decomposição",
+        formula: "Direção subjacente de longo prazo",
+        definition: "Movimento sistemático de crescimento, declínio ou estagnação de longo prazo no nível médio de uma série temporal, persistindo ao longo de múltiplos ciclos e ignorando flutuações sazonais ou ruídos de curto prazo."
+      },
+      {
+        term: "VAR (Autorregressão Vetorial / Vector Autoregression)",
+        category: "Modelo",
+        formula: "Yₜ = c + A₁Yₜ₋₁ + ... + AₚYₜ₋ₚ + εₜ",
+        definition: "Modelo multivariado que generaliza o processo AR univariado para um vetor de múltiplas séries temporais interdependentes. Cada variável é modelada como uma função linear de seus próprios valores passados e dos valores passados de todas as demais variáveis do sistema."
+      }
+    ];
+
+    // Mapeamento de cores para badges de categoria usando a paleta definida
+    const categoryStyles = {
+      "Conceito Fundamental": "bg-frosted-blue/40 text-oxford-navy border-cerulean/40",
+      "Modelo": "bg-oxford-navy text-honeydew border-oxford-navy",
+      "Teste Estatístico": "bg-punch-red/10 text-punch-red border-punch-red/30",
+      "Decomposição": "bg-cerulean/15 text-cerulean border-cerulean/40",
+      "Métrica": "bg-honeydew text-oxford-navy border-oxford-navy/30",
+      "Transformação": "bg-frosted-blue/60 text-oxford-navy border-oxford-navy/20",
+      "Metodologia": "bg-cerulean text-white border-cerulean"
+    };
+
+    // Referências do DOM
+    const glossaryContainer = document.getElementById('glossary-container');
+    const alphabetNav = document.getElementById('alphabet-nav');
+    const searchInput = document.getElementById('search-input');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const categoryFilter = document.getElementById('category-filter');
+    const resultsStatus = document.getElementById('results-status');
+    const resetFiltersBtn = document.getElementById('reset-filters-btn');
+    const emptyState = document.getElementById('empty-state');
+    const emptyResetBtn = document.getElementById('empty-reset-btn');
+    const backToTopBtn = document.getElementById('back-to-top');
+    const pageRoot = document.querySelector('.st-glossario');
+    const scrollHost = document.getElementById('page-content-host');
+    const scroller = scrollHost || window;
+    const scrollTop = () => (scrollHost ? scrollHost.scrollTop : window.scrollY);
+    const scrollerTop = () => (scrollHost ? scrollHost.getBoundingClientRect().top : 0);
+
+    // Ordenação alfabética rigorosa em Português
+    const sortedData = [...glossaryData].sort((a, b) => 
+      a.term.localeCompare(b.term, 'pt-BR', { sensitivity: 'base' })
+    );
+
+    // Alfabeto completo A-Z
+    const fullAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    // Função auxiliar para destacar texto pesquisado
+    function highlightText(text, query) {
+      if (!query) return text;
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedQuery})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    // Normalização de string para busca sem acentos
+    function normalizeStr(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Renderiza a barra de navegação alfabética A-Z
+    function renderAlphabetNav(availableLetters) {
+      alphabetNav.innerHTML = fullAlphabet.map(letter => {
+        const hasTerms = availableLetters.has(letter);
+        if (hasTerms) {
+          return `
+            <a 
+              href="#letra-${letter}" 
+              data-letter="${letter}"
+              class="alpha-link w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center rounded-md font-mono text-xs sm:text-sm font-bold text-[#111111] hover:bg-punch-red hover:text-white transition-colors"
+            >
+              ${letter}
+            </a>
+          `;
+        } else {
+          return `
+            <span 
+              class="w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center rounded-md font-mono text-xs sm:text-sm font-medium text-[#9ca3af] cursor-default select-none"
+              title="Nenhum termo com a letra ${letter}"
+            >
+              ${letter}
+            </span>
+          `;
+        }
+      }).join('');
+    }
+
+    // Renderiza os cards do glossário agrupados por letra inicial
+    function renderGlossary() {
+      const rawQuery = searchInput.value.trim();
+      const normalizedQuery = normalizeStr(rawQuery);
+      const selectedCategory = categoryFilter.value;
+
+      // Controle visual do botão limpar busca
+      clearSearchBtn.classList.toggle('hidden', rawQuery.length === 0);
+      resetFiltersBtn.classList.toggle('hidden', rawQuery.length === 0 && selectedCategory === 'all');
+
+      // Filtragem dos termos
+      const filtered = sortedData.filter(item => {
+        const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+        if (!matchesCategory) return false;
+
+        if (!normalizedQuery) return true;
+        const inTerm = normalizeStr(item.term).includes(normalizedQuery);
+        const inDef = normalizeStr(item.definition).includes(normalizedQuery);
+        const inFormula = item.formula && normalizeStr(item.formula).includes(normalizedQuery);
+        return inTerm || inDef || inFormula;
+      });
+
+      // Atualiza contador de resultados
+      if (filtered.length === sortedData.length) {
+        resultsStatus.innerHTML = `Exibindo todos os <strong class="text-oxford-navy font-bold">${sortedData.length}</strong> termos em ordem alfabética.`;
+      } else {
+        resultsStatus.innerHTML = `Exibindo <strong class="text-punch-red font-bold">${filtered.length}</strong> de <strong class="text-oxford-navy">${sortedData.length}</strong> termos encontrados.`;
+      }
+
+      // Agrupa por letra inicial
+      const grouped = {};
+      const availableLetters = new Set();
+
+      filtered.forEach(item => {
+        const firstLetter = item.term.charAt(0).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+        availableLetters.add(firstLetter);
+        if (!grouped[firstLetter]) {
+          grouped[firstLetter] = [];
+        }
+        grouped[firstLetter].push(item);
+      });
+
+      renderAlphabetNav(availableLetters);
+
+      // Exibe estado vazio se não houver resultados
+      if (filtered.length === 0) {
+        glossaryContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // Constrói o HTML das seções por letra
+      const sectionsHTML = Object.keys(grouped).sort().map(letter => {
+        const items = grouped[letter];
+        const cardsHTML = items.map(item => {
+          const badgeClass = categoryStyles[item.category] || "bg-frosted-blue/30 text-oxford-navy border-frosted-blue";
+          const highlightedTerm = highlightText(item.term, rawQuery);
+          const highlightedDef = highlightText(item.definition, rawQuery);
+
+          return `
+            <article class="group bg-white rounded-xl border border-frosted-blue p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-cerulean transition-all duration-200 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                  <h3 class="text-lg sm:text-xl font-bold text-oxford-navy group-hover:text-cerulean transition-colors leading-snug">
+                    ${highlightedTerm}
+                  </h3>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border shrink-0 ${badgeClass}">
+                    ${item.category}
+                  </span>
+                </div>
+
+                ${item.formula ? `
+                  <div class="mb-3.5 px-3 py-1.5 rounded-lg bg-honeydew border border-frosted-blue/80 inline-block max-w-full overflow-x-auto">
+                    <code class="font-mono text-xs sm:text-sm text-oxford-navy font-medium whitespace-nowrap">
+                      ${item.formula}
+                    </code>
+                  </div>
+                ` : ''}
+
+                <p class="text-sm sm:text-base text-oxford-navy/85 leading-relaxed">
+                  ${highlightedDef}
+                </p>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        return `
+          <section id="letra-${letter}" class="letter-anchor">
+            <div class="flex items-center gap-4 mb-5">
+              <div class="w-11 h-11 rounded-xl bg-oxford-navy text-white font-mono text-xl font-extrabold flex items-center justify-center shadow-sm border-b-2 border-punch-red shrink-0">
+                ${letter}
+              </div>
+              <div class="h-px flex-grow bg-frosted-blue"></div>
+              <span class="text-xs font-mono font-semibold text-cerulean uppercase tracking-wider">
+                ${items.length} ${items.length === 1 ? 'termo' : 'termos'}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              ${cardsHTML}
+            </div>
+          </section>
+        `;
+      }).join('');
+
+      glossaryContainer.innerHTML = sectionsHTML;
+    }
+
+    // Reseta todos os filtros
+    function resetFilters() {
+      searchInput.value = '';
+      categoryFilter.value = 'all';
+      renderGlossary();
+      searchInput.focus();
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', renderGlossary);
+    categoryFilter.addEventListener('change', renderGlossary);
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      renderGlossary();
+      searchInput.focus();
+    });
+    resetFiltersBtn.addEventListener('click', resetFilters);
+    emptyResetBtn.addEventListener('click', resetFilters);
+
+    // Controle do botão "Voltar ao Topo" e destaque da letra ativa na rolagem
+    function onScroll() {
+      // Página substituída pela navegação SPA: remove o listener
+      if (!pageRoot || !pageRoot.isConnected) {
+        scroller.removeEventListener('scroll', onScroll);
+        return;
+      }
+
+      if (scrollTop() > 400) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      } else {
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      }
+
+      // Realce da letra atual durante a rolagem
+      const sections = document.querySelectorAll('.letter-anchor');
+      const alphaLinks = document.querySelectorAll('.alpha-link');
+      let currentLetter = '';
+
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top - scrollerTop() <= 165) {
+          currentLetter = sec.id.replace('letra-', '');
+        }
+      });
+
+      alphaLinks.forEach(link => {
+        if (link.dataset.letter === currentLetter) {
+          link.classList.add('bg-punch-red', 'text-white');
+          link.classList.remove('text-[#111111]');
+        } else {
+          link.classList.remove('bg-punch-red', 'text-white');
+          link.classList.add('text-[#111111]');
+        }
+      });
+    }
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+
+    backToTopBtn.addEventListener('click', () => {
+      scroller.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Inicialização
+    renderGlossary();
+  })();
+  </script>
+  </div>
+</body>
+</html>

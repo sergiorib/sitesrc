@@ -4,7 +4,7 @@
  */
 
 import { setActiveNavItem } from './nav.js';
-import { updateBreadcrumbsDOM } from './breadcrumbs.js';
+import { updateBreadcrumbsDOM, readDeclaredTrail } from './breadcrumbs.js';
 
 // Mapeamento de rotas e seus respectivos itens de menu primário pai
 const ROUTE_PARENT_MAP = {
@@ -64,9 +64,10 @@ class SPARouter {
    * Sincroniza o estado inicial de menu e breadcrumbs
    */
   syncInitialState(pathname) {
-    const activeMenuId = this.resolveMenuFor(pathname, document.getElementById('page-content'));
+    const contentEl = document.getElementById('page-content');
+    const activeMenuId = this.resolveMenuFor(pathname, contentEl);
     setActiveNavItem(activeMenuId);
-    updateBreadcrumbsDOM(pathname);
+    updateBreadcrumbsDOM(pathname, null, readDeclaredTrail(contentEl));
   }
 
   /**
@@ -282,9 +283,10 @@ class SPARouter {
       this.currentPath = fetchUrl;
 
       // Sincronizar Breadcrumbs e estado do menu da Sidebar
-      const parentMenuId = this.resolveMenuFor(url, this.contentHost.querySelector('#page-content'));
+      const injectedContent = this.contentHost.querySelector('#page-content');
+      const parentMenuId = this.resolveMenuFor(url, injectedContent);
       setActiveNavItem(parentMenuId);
-      updateBreadcrumbsDOM(url, pageTitle);
+      updateBreadcrumbsDOM(url, pageTitle, readDeclaredTrail(injectedContent));
 
       // Sincronizar History API
       if (pushState) {

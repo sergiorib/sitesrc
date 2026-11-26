@@ -5,11 +5,10 @@
         {
           "icone": "▥",
           "titulo": "Análise de dados e BI",
-          "aberto": true,
           "artigos": [
             {
               "titulo": "Séries temporais",
-              "url": "/spa/artigos/series_temporais"
+              "url": "/pages/artigos/artigos_pages/series_temporais/series_temporais.html"
             },
             {
               "titulo": "Gráficos",

@@ -229,3 +229,15 @@ Task T013: "Criar a página de conteúdo inicial padrão em pages/spa/sobre.astr
 4. **Incremento 4**: Descoberta dinâmica de subpáginas em cascata e fallback resiliente 404 com `default.astro` (US4).
 5. **Incremento 5**: Polimento final, auditoria constitucional e testes de aceitação (Polish).
 6. **Incremento 6**: Escala fluida centralizada em `scale.css`, refatoração do shell e das 6 páginas para os tokens, breakpoints mobile-first e Sidebar compacta abaixo de 1024px (Phase 8). Sugestão de entrega: shell da SPA primeiro (T031–T038), validando em 375/1280/1920px, depois uma página por vez (T039–T044).
+
+---
+
+## Phase 9: Trilha Declarada nos Breadcrumbs (FR-008.1 — 2026-11-26)
+
+**Objetivo**: subpáginas cuja rota de arquivo tem diretórios que não são páginas (`pages/artigos/artigos_pages/…`, `pages/portfolio/projetos/…`) declaram os níveis anteriores da trilha, em vez de gerar níveis que levam ao 404.
+
+- [X] T054 [US3] Adicionar `readDeclaredTrail(contentEl)` (lê e valida o JSON de `data-breadcrumbs`) e o parâmetro `declaredTrail` em `parseBreadcrumbs()`/`updateBreadcrumbsDOM()`: trilha = "Início" + níveis declarados + `data-page-title` — `pages/spa/assets/js/breadcrumbs.js`
+- [X] T055 [US3] Passar a trilha declarada do `#page-content` injetado em `navigateTo()` e em `syncInitialState()` — `pages/spa/assets/js/router.js`
+- [X] T056 [US3] Documentar o comportamento no elemento `breadcrumbs` — `.specify/catalog/elementos.md`
+- [X] T057 [US3] Validar: páginas sem `data-breadcrumbs` mantêm a trilha por segmentos ("Início / Artigos técnicos"); subpáginas com o atributo exibem os níveis declarados, clicáveis; Voltar/Avançar restauram a trilha — `/spa`
+- [X] T058 Executar `npm run build` sem erros — raiz do projeto

@@ -110,3 +110,21 @@
 - US4: no shell a 375px, grade em 1 coluna, gap/padding 12px e barra de categorias com rolagem horizontal. **Pendência do shell (spec-01)**: a sidebar mantém 300px no mobile e o `#page-content-host` fica com ~80px em todas as páginas.
 - Colisão de CSS encontrada: `sobre.css` definia `.category-title` globalmente (carregado no shell); neutralizada em `portfolio.css` com `.portfolio-page-wrapper .category-section-title`.
 - Regressão: Sobre, Histórico, Formação e Contatos carregam com menu ativo correto após as mudanças no `router.js`.
+
+---
+
+## Fase 6: Subpáginas de Projeto na SPA (spec-05 §2.2, itens 4 e 5 — 2026-11-26)
+
+**Objetivo**: as subpáginas de projeto mantêm "Portfólio" ativo, exibem a trilha "Início / Portfólio / <título>" e não alteram a moldura.
+
+- [X] T035 [US1] Declarar `data-breadcrumbs` com "Portfólio" no `#page-content` — `pages/portfolio/projetos/AES1/AES1.html`
+- [X] T036 [US1] Envolver o `<body>` em `#page-content.pt-teste` (`data-page-id="portfolio-project-teste"`, `data-page-title="Projeto de teste"`, `data-parent-route="/portfolio"`, `data-breadcrumbs` com "Portfólio"); base mínima restrita a `.pt-teste`; Tailwind carregado pelo `<body>` com `preflight` desligado e `important: '.pt-teste'` — `pages/portfolio/projetos/testes/pagina_teste.html`
+- [X] T037 [US1] Executar o script na hora (sem `DOMContentLoaded`), encapsulado, encerrando o relógio e o listener de `resize` quando a página sair — `pages/portfolio/projetos/testes/pagina_teste.html`
+- [X] T038 Executar `npm run build` sem erros — raiz do projeto
+
+### Notas de Validação (2026-11-26)
+
+- AES1: trilha "Início / Portfólio / Customer Lifecycle Analytics (CLA)", menu "Portfólio" ativo; "Portfólio" na trilha volta à página.
+- Projeto de teste: estilizado dentro da moldura, relógio, resolução, User-Agent e botão de teste funcionando; trilha "Início / Portfólio / Projeto de teste".
+- Alternância com o glossário de Séries temporais (outra configuração de Tailwind): as duas páginas mantêm o CSS, sem erros de console.
+- Acesso direto à página de teste continua funcionando.

@@ -103,6 +103,7 @@ Como usuário em páginas profundas, desejo ver a trilha hierárquica no topo da
 1. **Given** uma página do menu, **When** carregada, **Then** a trilha mostra "Início / <data-page-title da página>".
 2. **Given** uma subpágina (ex.: projeto do Portfólio), **When** carregada, **Then** a trilha mostra todos os níveis da rota, com os anteriores clicáveis (rótulos do menu quando existirem) e o último igual ao `data-page-title`.
 3. **Given** o clique num nível anterior, **When** acionado, **Then** a SPA navega para ele e sincroniza menu e histórico; "Início" leva a `/spa` (página "Sobre").
+4. **Given** uma subpágina com `data-breadcrumbs` (ex.: glossário do artigo "Séries temporais"), **When** carregada, **Then** a trilha mostra "Início", os níveis declarados (clicáveis) e o `data-page-title`.
 
 ---
 
@@ -211,6 +212,7 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
   - **FR-006.6**: scripts presentes no fragmento injetado são reexecutados (`executeIncomingScripts`) e o evento `spa:page-loaded` é disparado após a injeção; estilos dinâmicos da página anterior são removidos.
 - **FR-007**: **Menu** (`nav.js`): ao trocar de rota, move `is-ativo` e `aria-current="page"` para o `nav-menu-item` da seção (por `data-menu-id`) e, abaixo de 1024px, rola apenas a faixa do menu para manter o item ativo visível.
 - **FR-008**: **Breadcrumbs** (`breadcrumbs.js`): monta a trilha em `#breadcrumbs-list` a cada navegação — "Início" (→ `/spa`), um nível por segmento da rota (ignorando `pages` e `spa`), com rótulos do menu de `navegacao.json` quando existirem, e o último nível igual ao `data-page-title` da página.
+  - **FR-008.1**: **Trilha declarada**: se o `#page-content` injetado declarar `data-breadcrumbs` (JSON: lista de `{"rotulo", "url"}` dos níveis anteriores, do mais alto ao pai), a trilha é "Início" + esses níveis (clicáveis) + o `data-page-title`, em vez dos segmentos da rota. Usado por subpáginas cuja rota de arquivo tem diretórios que não são páginas (ex.: `pages/artigos/artigos_pages/…`).
 - **FR-009**: Os dados do menu e da identidade DEVEM ter uma única fonte (`navegacao.json`), lida pelo menu e pelos breadcrumbs.
 - **FR-010**: A aplicação DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
 - **FR-011**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), com limites mínimos e máximos, de forma uniforme em toda a aplicação.
@@ -240,10 +242,10 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
 
 ## 9. Assumptions
 
-- O projeto segue a Constituição v2.0.1: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- O projeto segue a Constituição v2.0.2: Astro para estruturação estática, CSS3 puro e Vanilla JS.
 - As fontes `Barlow` e `Barlow Condensed` são carregadas do Google Fonts por `tokens.css`.
 - `subpagina-demo.astro` é uma página de demonstração do roteamento aninhado e fica fora do modelo em camadas.
-- As subpáginas de projeto do Portfólio (HTML estático legado) seguem a exceção do Princípio VII.
+- As subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e as páginas de artigo (`pages/artigos/artigos_pages/`), em HTML estático legado, seguem a exceção do Princípio VII; mesmo assim cumprem o contrato de fragmento (`#page-content`, `data-page-id`, `data-page-title`, `data-parent-route`), declaram a trilha em `data-breadcrumbs` (FR-008.1) e não alteram a moldura.
 
 ---
 

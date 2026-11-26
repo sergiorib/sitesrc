@@ -5,6 +5,7 @@ import './assets/css/tokens.css';
 import '../contatos/assets/css/contatos.css';
 
 import contatos from '../contatos/data/contatos.json';
+import contatosScript from '../contatos/assets/js/contatos.js?raw';
 import PageTitle from './components/elementos/PageTitle.astro';
 import Grid from './components/elementos/Grid.astro';
 import LinkCard from './components/elementos/LinkCard.astro';
@@ -18,7 +19,9 @@ import LinkCard from './components/elementos/LinkCard.astro';
 >
   <PageTitle estilo="claro">Meus Contatos</PageTitle>
 
-  <Grid colunas={{ base: 1, 768: 2 }}>
-    {contatos.map((item) => <LinkCard estilo="ciano" item={item} />)}
+  <Grid colunas={1}>
+    {contatos.map((item) => <LinkCard estilo="ciano" copiar item={item} />)}
   </Grid>
+
+  <script is:inline type="module" set:html={contatosScript}></script>
 </div>

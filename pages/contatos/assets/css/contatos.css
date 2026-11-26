@@ -105,6 +105,7 @@
   font-size: var(--fs-3xl);
   line-height: 1.15;
   word-break: break-all;
+  text-decoration: none;
 }
 
 .link-card-detail {
@@ -126,6 +127,79 @@
   transform: translate(2px, -2px);
 }
 
+/* o link (valor) cobre o cartão inteiro; o botão de copiar fica acima dele */
+.link-card .link-card-value::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.link-card .link-card-value:focus-visible {
+  outline: none;
+}
+
+.link-card .link-card-value:focus-visible::after {
+  outline: 2px solid var(--cor-ciano);
+  outline-offset: 2px;
+}
+
+.link-card-copy {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  border: 1px solid;
+  border-radius: var(--raio-total);
+  background: transparent;
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.link-card-copy:focus-visible {
+  outline: 2px solid var(--cor-ciano);
+  outline-offset: 2px;
+}
+
+.link-card-copy-icon,
+.link-card-copy-check {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex-shrink: 0;
+}
+
+.link-card-copy-check {
+  display: none;
+}
+
+.link-card-copy.is-copiado .link-card-copy-icon {
+  display: none;
+}
+
+.link-card-copy.is-copiado .link-card-copy-check {
+  display: block;
+}
+
+/* abaixo de 768px: só o ícone (rótulo apenas para leitores de tela) */
+.link-card-copy-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .link-card--ciano {
   background: var(--gradiente-card-ciano);
   border-color: var(--cor-ciano-borda);
@@ -141,6 +215,18 @@
 .link-card--ciano .link-card-detail { color: var(--cor-texto-nevoa); }
 .link-card--ciano .link-card-action { color: var(--cor-ciano-suave); }
 
+.link-card--ciano .link-card-copy {
+  color: var(--cor-ciano-suave);
+  border-color: var(--cor-ciano-borda-suave);
+}
+
+.link-card--ciano .link-card-copy:hover,
+.link-card--ciano .link-card-copy.is-copiado {
+  color: var(--cor-ciano);
+  border-color: var(--cor-ciano);
+  background: var(--cor-ciano-fundo);
+}
+
 .link-card--ciano:hover {
   border-color: var(--cor-ciano);
   background: var(--gradiente-card-ciano-hover);
@@ -154,6 +240,18 @@
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(var(--colunas-768, var(--colunas, 1)), 1fr);
+  }
+
+  .link-card-copy {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .link-card-copy-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
   }
 }
 

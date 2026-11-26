@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séries Temporais</title>
+  <!--
+    Página de artigo em HTML estático (exceção do Princípio VII; contrato em spec-06 §2).
+    O roteador SPA copia este <style> para o documento da SPA: todo seletor fica restrito
+    à raiz .st-artigo, para não alterar a moldura nem as outras páginas.
+  -->
+  <style>
+    body:has(> #page-content.st-artigo) {
+      margin: 0;
+    }
+
+    .st-artigo {
+      --punch-red: #e63946ff;
+      --honeydew: #f1faeeff;
+      --frosted-blue: #a8dadcff;
+      --cerulean: #457b9dff;
+      --oxford-navy: #1d3557ff;
+
+      min-height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: var(--honeydew);
+      color: var(--oxford-navy);
+      line-height: 1.6;
+    }
+
+    .st-artigo,
+    .st-artigo * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .st-artigo header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background-color: var(--oxford-navy);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+    }
+
+    .st-artigo nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px 20px;
+      padding: 15px 20px;
+    }
+
+    .st-artigo .logo {
+      color: var(--honeydew);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .st-artigo nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+    }
+
+    .st-artigo nav a {
+      color: var(--frosted-blue);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .st-artigo nav a:hover {
+      color: var(--punch-red);
+    }
+
+    .st-artigo main {
+      width: 100%;
+      max-width: none;
+      padding: 30px clamp(20px, 3vw, 48px) 40px;
+    }
+
+    .st-artigo section {
+      width: 100%;
+      background-color: #ffffff;
+      border-left: 6px solid var(--cerulean);
+      padding: 30px;
+      margin-bottom: 40px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      scroll-margin-top: 85px;
+    }
+
+    .st-artigo h2 {
+      color: var(--oxford-navy);
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--frosted-blue);
+      padding-bottom: 8px;
+    }
+
+    .st-artigo .tag {
+      display: inline-block;
+      background-color: var(--punch-red);
+      color: #ffffff;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .st-artigo p {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div
+    id="page-content"
+    class="page-content-wrapper st-artigo"
+    data-page-id="artigos-series-temporais"
+    data-page-title="Séries temporais"
+    data-parent-route="/artigos"
+    data-breadcrumbs='[{"rotulo": "Artigos", "url": "/spa/artigos/"}]'
+  >
+
+  <header>
+    <nav>
+      <div class="logo">Séries Temporais</div>
+      <ul>
+        <li><a href="#introducao">Introdução</a></li>
+        <li><a href="#componentes">Componentes</a></li>
+        <li><a href="#estacionariedade">Estacionariedade</a></li>
+        <li><a href="#modelos">Modelos</a></li>
+        <li><a href="/pages/artigos/artigos_pages/series_temporais/series_temporais_glossario.html">Glossário</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="introducao">
+      <span class="tag">Conceito Básico</span>
+      <h2>Introdução às Séries Temporais</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.</p>
+      <p>Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum.</p>
+    </section>
+
+    <section id="componentes">
+      <span class="tag">Estrutura</span>
+      <h2>Componentes: Tendência e Sazonalidade</h2>
+      <p>Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat.</p>
+      <p>Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit mauris, sed placerat ipsum urna sed risus.</p>
+      <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue.</p>
+    </section>
+
+    <section id="estacionariedade">
+      <span class="tag">Propriedade</span>
+      <h2>Estacionariedade e Autocorrelação</h2>
+      <p>Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede. Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. Sed pretium blandit orci. Ut eu diam at pede suscipit sodales.</p>
+      <p>Aenean lectus elit, fermentum non, convallis id, sagittis at, neque. Nullam mauris orci, aliquet et, iaculis et, viverra vitae, ligula. Nulla ut felis in purus aliquam imperdiet. Maecenas aliquet mollis lectus. Vivamus consectetuer risus et tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.</p>
+    </section>
+
+    <section id="modelos">
+      <span class="tag">Previsão</span>
+      <h2>Modelos ARIMA e Suavização Exponencial</h2>
+      <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis.</p>
+      <p>Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
+      <p>Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi.</p>
+    </section>
+  </main>
+
+  </div>
+</body>
+</html>

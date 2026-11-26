@@ -37,7 +37,7 @@ Reimplementar a página "Portfólio" (`pages/portfolio/portfolio.astro`) como fr
 | **IV. Workflow** | Git + `gh` | Branch `spec-05_portfolio`. | **PASS** |
 | **V. Nomenclatura** | `spec-NN_nome` em `.specify/specs/` | `spec-05_portfolio/`. | **PASS** |
 
-**Ressalva constitucional**: `pages/portfolio/projetos/testes/pagina_teste.html` carrega Tailwind via CDN (`cdn.tailwindcss.com`), o que viola o Princípio I. Não é tocado por este plano (é conteúdo legado de teste), mas está registrado em **Complexity Tracking**.
+**Ressalva constitucional**: `pages/portfolio/projetos/testes/pagina_teste.html` carrega Tailwind via CDN (`cdn.tailwindcss.com`), o que viola o Princípio I. Está registrado em **Complexity Tracking**. Atualização (2026-11-26): a página foi adaptada ao contrato de fragmento e ao isolamento (spec §2.2, itens 4 e 5; tasks Fase 6) — o Tailwind passou a ser carregado pelo `<body>`, restrito a `.pt-teste` e sem `preflight` —, mas continua usando o CDN; a violação do Princípio I permanece até a página ser reescrita.
 
 ---
 
@@ -237,5 +237,5 @@ Por que `type="module"`: o arquivo contém `export function GET()`; num `<script
 
 | Violação / Desvio | Por que é necessário | Alternativa rejeitada |
 |---|---|---|
-| `pagina_teste.html` usa Tailwind CDN (Princípio I) | Conteúdo legado de teste, fora do escopo | Reescrever agora — não especificado; sugerido como limpeza futura |
+| `pagina_teste.html` usa Tailwind CDN (Princípio I) | Conteúdo legado de teste; desde 2026-11-26 isolado em `.pt-teste` (sem `preflight`, `important` restrito), sem efeito na moldura | Reescrever agora — não especificado; sugerido como limpeza futura |
 | `export function GET()` em script client-side | `.js` sob `pages/` é tratado como endpoint pelo Astro; segue o padrão já adotado em `router.js` | Renomear com prefixo `_` — violaria nomes definidos na spec |

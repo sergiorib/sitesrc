@@ -348,6 +348,7 @@ partes:
     font-size: --fs-3xl
     line-height: 1.15
     word-break: break-all
+    text-decoration: none
   link-card-detail:
     font-family: --fonte-texto
     font-weight: 400
@@ -359,9 +360,30 @@ partes:
     flex-shrink: 0
     font-size: --fs-lg
     transition: transform 0.2s ease, color 0.2s ease
+  link-card-copy:
+    position: relative; z-index: 1; align-self: center; flex-shrink: 0
+    display: inline-flex; align-items: center; gap: --space-xs
+    padding: --space-sm; border: 1px solid; border-radius: --raio-total; background: transparent
+    font-family: --fonte-titulo; font-weight: 600; font-size: --fs-sm
+    text-transform: uppercase; letter-spacing: 0.06em; line-height: 1
+    cursor: pointer; transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease
+    @768: padding: --space-xs --space-md
+  link-card-copy-icon, link-card-copy-check:
+    width: --icon-sm; height: --icon-sm; flex-shrink: 0
+  link-card-copy-check:
+    display: none
+  link-card-copy-label:
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap
+    @768: position: static; width: auto; height: auto; overflow: visible; clip-path: none
 estados:
-  :hover:                     transform: translateY(-3px)
-  :hover .link-card-action:   transform: translate(2px, -2px)
+  :hover:                                              transform: translateY(-3px)
+  :hover .link-card-action:                            transform: translate(2px, -2px)
+  .link-card-value::after:                             content: ''; position: absolute; inset: 0; border-radius: inherit
+  .link-card-value:focus-visible:                      outline: none
+  .link-card-value:focus-visible::after:               outline: 2px solid --cor-ciano; outline-offset: 2px
+  .link-card-copy:focus-visible:                       outline: 2px solid --cor-ciano; outline-offset: 2px
+  .link-card-copy.is-copiado .link-card-copy-icon:     display: none
+  .link-card-copy.is-copiado .link-card-copy-check:    display: block
 estilos:
   ciano:
     background: --gradiente-card-ciano
@@ -371,8 +393,11 @@ estilos:
     link-card-value: color: --cor-texto-gelo
     link-card-detail: color: --cor-texto-nevoa
     link-card-action: color: --cor-ciano-suave
+    link-card-copy: color: --cor-ciano-suave; border-color: --cor-ciano-borda-suave
     :hover: border-color: --cor-ciano; background: --gradiente-card-ciano-hover
     :hover .link-card-action: color: --cor-ciano
+    .link-card-copy:hover: color: --cor-ciano; border-color: --cor-ciano; background: --cor-ciano-fundo
+    .link-card-copy.is-copiado: color: --cor-ciano; border-color: --cor-ciano; background: --cor-ciano-fundo
 
 ### media-card
 base:

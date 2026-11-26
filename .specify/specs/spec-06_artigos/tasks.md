@@ -110,3 +110,25 @@
 - US3: `.leaf` recebe `.selected` (`#dbeaf0`/`#091a24`) + `✓`; navegação via roteador sem reload, fallback 404 da SPA dentro do host (rotas ainda inexistentes), `history.back()` restaura a página. Corrigido durante a validação: cliques rápidos agora cancelam a navegação pendente (FR-003.2 atualizado).
 - US4: 820px → 1 coluna e `padding: 24px 20px`; 500px → rodapé em coluna; sem scroll horizontal.
 - Console: apenas os 404 esperados das rotas `/spa/artigos/<slug>`.
+
+---
+
+## Fase 6: Grupos Recolhidos e Primeiras Páginas de Artigo (2026-11-26)
+
+**Objetivo**: todos os grupos iniciam recolhidos (FR-004) e o artigo "Séries temporais" e seu glossário abrem na SPA com menu e trilha corretos (§2, US3 cenários 5 e 6).
+
+- [X] T034 [US2] Remover `aberto: true` do grupo "Análise de dados e BI" — `pages/artigos/data/artigos.json`
+- [X] T035 [US3] Apontar "Séries temporais" para `/pages/artigos/artigos_pages/series_temporais/series_temporais.html` — `pages/artigos/data/artigos.json`
+- [X] T036 [US3] Envolver o `<body>` em `#page-content.st-artigo` (`data-page-id="artigos-series-temporais"`, `data-page-title="Séries temporais"`, `data-parent-route="/artigos"`, `data-breadcrumbs` com "Artigos"); restringir os estilos a `.st-artigo` (cabeçalho `sticky` em vez de `fixed`); link absoluto para o glossário — `pages/artigos/artigos_pages/series_temporais/series_temporais.html`
+- [X] T037 [US3] Envolver o `<body>` em `#page-content.st-glossario` (`data-page-title="Glossário"`, `data-parent-route="/artigos"`, `data-breadcrumbs` com "Artigos" e "Séries temporais"); restringir os estilos a `.st-glossario` com base mínima própria; carregar o Tailwind pelo `<body>` com `preflight` desligado e `important: '.st-glossario'` (reaplicando a configuração após a montagem nas revisitas) — `pages/artigos/artigos_pages/series_temporais/series_temporais_glossario.html`
+- [X] T038 [US3] Encapsular o script do glossário (IIFE, reexecutável), rolar pelo `#page-content-host` quando existir e remover o listener de rolagem quando a página sair — `pages/artigos/artigos_pages/series_temporais/series_temporais_glossario.html`
+- [X] T039 Executar `npm run build` sem erros — raiz do projeto
+
+### Notas de Validação (2026-11-26)
+
+- Artigos: 17 `details` (13 grupos + 4 subgrupos), nenhum aberto.
+- Clique em "Séries temporais": trilha "Início / Artigos / Séries temporais", menu "Artigos" ativo, moldura sem alteração.
+- "Glossário": trilha "Início / Artigos / Séries temporais / Glossário", 41 termos, busca, índice A–Z e "Voltar ao topo" funcionando; 3 revisitas seguidas sem erro de console e com o CSS completo.
+- Trilha: "Séries temporais", "Artigos" e "Início" levam às páginas certas; Voltar/Avançar restauram conteúdo, menu e trilha.
+- Todas as regras geradas pelo Tailwind começam por `.st-glossario` (sem vazamento para a moldura ou outras páginas).
+- Acesso direto às duas páginas (fora da SPA) continua funcionando.

@@ -24,7 +24,7 @@ Correspondência com o código:
 - Configurações da página (`{colunas: …}`, `{direcao: …}`) → variáveis CSS inline (`--colunas-768`); breakpoints apenas 768, 1024 e 1280.
 - Fontes de dados → `pages/<pagina>/data/*.json`.
 
-A moldura da SPA (spec-01) e todas as páginas (spec-02 a spec-07) usam o modelo em camadas. Os elementos da moldura têm nomes próprios e seus ids são ganchos estáveis do JS de navegação (spec-01 FR-003). Exceção: as subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) são HTML estático legado e só adotam o modelo quando forem reescritas (Princípio VII). Documentos do modelo anterior ficam em `.specify/catalog/arquivo/` (só histórico).
+A moldura da SPA (spec-01) e todas as páginas (spec-02 a spec-07) usam o modelo em camadas. Os elementos da moldura têm nomes próprios e seus ids são ganchos estáveis do JS de navegação (spec-01 FR-003). Exceção: as subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e as páginas de artigo (`pages/artigos/artigos_pages/`) são HTML estático legado e só adotam o modelo quando forem reescritas (Princípio VII); mesmo assim seguem o contrato de fragmento da SPA e têm estilos/scripts restritos à própria página (ver spec-06 §2). Documentos do modelo anterior ficam em `.specify/catalog/arquivo/` (só histórico).
 - **Elemento ou estilo novo:** compare primeiro com o catálogo pelo critério de equivalência de `.specify/catalog/plano-migracao.md` (§3); só crie quando nenhum existente servir.
 
 ## Stack e Regras Arquiteturais
