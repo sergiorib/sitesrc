@@ -50,7 +50,7 @@ pages/spa/
 ├── assets/css/
 │   ├── scale.css                    ← tokens de escala (inclui --page-header-h)
 │   ├── tokens.css                   ← tokens visuais
-│   └── main-container.css           ← zera o padding-top do host para páginas com [page-header]
+│   └── spa.css                      ← CSS da moldura; inclui .content-host:has(.page-header), que zera o padding-top do host
 ├── assets/js/router.js              ← âncoras, subpáginas .html e data-parent-route
 └── components/elementos/            ← componentes dos elementos do catálogo
 ```
@@ -202,7 +202,7 @@ Todas as tags atuais são hard (`ardosia`).
 - **FR-002**: A página e as páginas de projeto DEVEM ser injetadas em `#page-content-host` pelo roteador SPA, via History API, sem recarregar a página. O elemento raiz DEVE conter `id="page-content"`, `data-page-id="portfolio"` e `data-page-title="Portfólio de Projetos"`; as subpáginas seguem o contrato da seção 2.2.
 - **FR-003**: A composição da página DEVE seguir a seção 4 (Estrutura); a aparência de cada elemento é a do estilo indicado, conforme [estilos.md](../../catalog/estilos.md).
 - **FR-004**: A página DEVE exibir todas as categorias de `@dados.categorias` e cards apenas para os projetos do arquivo (hoje 3), nunca cards fictícios.
-- **FR-005**: `#page-content-host` DEVE zerar o próprio `padding-top` quando a página tiver um `[page-header]` (`main-container.css`), mantendo os respiros laterais, para que o cabeçalho comece no topo da área de exibição.
+- **FR-005**: `#page-content-host` DEVE zerar o próprio `padding-top` quando a página tiver um `[page-header]` (estado `:has(.page-header)` do elemento `content-host` em [estilos.md](../../catalog/estilos.md), implementado em `pages/spa/assets/css/spa.css`), mantendo os respiros laterais, para que o cabeçalho comece no topo da área de exibição.
 - **FR-006**: **Navegação por categorias** (`portfolio.js`):
   - **FR-006.1**: o clique num `anchor-nav-link` DEVE impedir a ação padrão, mover `is-ativo` para o link clicado, rolar suavemente até a sub-seção (no `#page-content-host` na SPA; na janela em modo isolado) com folga de `altura do cabeçalho + 35px`, e sincronizar `#<ancora>` na URL via `history.pushState` sem disparar troca de rota;
   - **FR-006.2**: o script DEVE medir a altura do `.page-header` e publicá-la em `--page-header-h` (usada pela folga das sub-seções com âncora), remedindo quando ela mudar (`ResizeObserver`);
