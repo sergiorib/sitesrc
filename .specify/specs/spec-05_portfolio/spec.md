@@ -50,7 +50,7 @@ pages/spa/
 ├── assets/css/
 │   ├── scale.css                    ← tokens de escala (inclui --page-header-h)
 │   ├── tokens.css                   ← tokens visuais
-│   └── main-container.css           ← zera o padding-top do host para páginas com [page-header]
+│   └── spa.css                      ← CSS da moldura; inclui .content-host:has(.page-header), que zera o padding-top do host
 ├── assets/js/router.js              ← âncoras, subpáginas .html e data-parent-route
 └── components/elementos/            ← componentes dos elementos do catálogo
 ```
@@ -63,7 +63,7 @@ Toda página ou subpágina sob `/pages/portfolio/projetos/**` DEVE seguir o cont
 2. **Interceptação de cliques**: links internos dos cards (capa e título) e links internos das páginas de projeto que apontem para `/pages/portfolio/projetos/` são capturados pelo listener delegado global do roteador, que faz o `fetch`, extrai `#page-content` (com estilos e scripts declarados no fragmento), injeta em `#page-content-host` e atualiza a URL via `history.pushState()`.
 3. **HTML estático legado**: se a subpágina for um documento HTML completo sem a estrutura Astro, o roteador extrai o conteúdo de `<body>` (ou o envolve em `#page-content`) mantendo a renderização em `#page-content-host`.
 4. **Trilha de breadcrumbs**: a subpágina declara `data-breadcrumbs='[{"rotulo": "Portfólio", "url": "/spa/portfolio/"}]'` (spec-01 FR-008.1), para que a trilha seja "Início / Portfólio / <título>" em vez dos diretórios do arquivo (`projetos`, `testes`, …), que não são páginas.
-5. **Isolamento**: as mesmas regras das páginas de artigo (spec-06 §2) — estilos restritos à classe raiz da página (o roteador copia os `<style>` do `<head>` para a SPA), scripts encapsulados e reexecutáveis (sem depender de `DOMContentLoaded`, encerrando timers e listeners globais quando a página sai) e, se usar Tailwind (CDN), carregá-lo pelo `<body>` com `preflight` desligado e `important` restrito à classe raiz.
+5. **Isolamento**: as mesmas regras das páginas de artigo (spec-06 §2) — estilos restritos à classe raiz da página (o roteador copia os `<style>` do `<head>` para a SPA), scripts encapsulados e reexecutáveis (sem depender de `DOMContentLoaded`, encerrando timers e listeners globais quando a página sai) e, se usar Tailwind (CDN), carregá-lo pelo `<body>` com `preflight` desligado, `important` restrito à classe raiz e a mesma versão fixada na URL das páginas de artigo (hoje `https://cdn.tailwindcss.com/3.4.17`).
 
 As subpáginas atuais (`AES1.html`, `pagina_teste.html`) são HTML estático com estilos próprios e ainda não usam o modelo em camadas. Ambas seguem o item 4; `pagina_teste.html` (raiz `.pt-teste`) também segue o item 5 (`AES1.html` não tem `<style>` nem `<script>`).
 
@@ -202,7 +202,7 @@ Todas as tags atuais são hard (`ardosia`).
 - **FR-002**: A página e as páginas de projeto DEVEM ser injetadas em `#page-content-host` pelo roteador SPA, via History API, sem recarregar a página. O elemento raiz DEVE conter `id="page-content"`, `data-page-id="portfolio"` e `data-page-title="Portfólio de Projetos"`; as subpáginas seguem o contrato da seção 2.2.
 - **FR-003**: A composição da página DEVE seguir a seção 4 (Estrutura); a aparência de cada elemento é a do estilo indicado, conforme [estilos.md](../../catalog/estilos.md).
 - **FR-004**: A página DEVE exibir todas as categorias de `@dados.categorias` e cards apenas para os projetos do arquivo (hoje 3), nunca cards fictícios.
-- **FR-005**: `#page-content-host` DEVE zerar o próprio `padding-top` quando a página tiver um `[page-header]` (`main-container.css`), mantendo os respiros laterais, para que o cabeçalho comece no topo da área de exibição.
+- **FR-005**: `#page-content-host` DEVE zerar o próprio `padding-top` quando a página tiver um `[page-header]` (estado `:has(.page-header)` do elemento `content-host` em [estilos.md](../../catalog/estilos.md), implementado em `pages/spa/assets/css/spa.css`), mantendo os respiros laterais, para que o cabeçalho comece no topo da área de exibição.
 - **FR-006**: **Navegação por categorias** (`portfolio.js`):
   - **FR-006.1**: o clique num `anchor-nav-link` DEVE impedir a ação padrão, mover `is-ativo` para o link clicado, rolar suavemente até a sub-seção (no `#page-content-host` na SPA; na janela em modo isolado) com folga de `altura do cabeçalho + 35px`, e sincronizar `#<ancora>` na URL via `history.pushState` sem disparar troca de rota;
   - **FR-006.2**: o script DEVE medir a altura do `.page-header` e publicá-la em `--page-header-h` (usada pela folga das sub-seções com âncora), remedindo quando ela mudar (`ResizeObserver`);

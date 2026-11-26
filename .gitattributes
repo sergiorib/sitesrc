@@ -1,0 +1,18 @@
+# Finais de linha (constituição, Princípio IV): todo arquivo de texto em LF, no repositório
+# e na cópia de trabalho, em qualquer sistema operacional (sobrepõe o core.autocrlf local).
+# Assim um clone em Windows, Linux ou macOS gera o mesmo dist/, byte a byte.
+* text=auto eol=lf
+
+# Binários: nunca converter
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.avif  binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.pdf   binary

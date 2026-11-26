@@ -28,7 +28,7 @@ Toda página de artigo (e subpágina de artigo) DEVE:
 - usar só links internos absolutos;
 - ter estilos restritos à classe raiz da página (nenhum seletor global como `*`, `body`, `header`, `nav`, `p`), pois o roteador copia os `<style>` do `<head>` para o documento da SPA;
 - ter scripts reexecutáveis (encapsulados, sem `const`/`let` no escopo global), que rolem pelo `#page-content-host` quando ele existir (e pela janela no acesso direto) e não alterem a moldura;
-- se usar Tailwind (CDN), carregá-lo pelo próprio `<body>` (scripts do `<head>` não são executados pelo roteador), com `preflight` desligado e `important` restrito à classe raiz da página.
+- se usar Tailwind (CDN), carregá-lo pelo próprio `<body>` (scripts do `<head>` não são executados pelo roteador), com `preflight` desligado e `important` restrito à classe raiz da página, e sempre pela URL com versão fixada — hoje `https://cdn.tailwindcss.com/3.4.17`, nunca `https://cdn.tailwindcss.com` (que redireciona para a versão mais recente e pode mudar a aparência sem alteração no projeto). Todas as páginas usam a mesma versão: na SPA, o primeiro carregamento do Tailwind fica ativo para as páginas seguintes.
 
 ### 2.1 Árvore Hierárquica de Páginas da Artigos
 

@@ -2,6 +2,10 @@
   "name": "sitesrcds",
   "type": "module",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=24.21.0 <25",
+    "npm": ">=12.2.0 <13"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

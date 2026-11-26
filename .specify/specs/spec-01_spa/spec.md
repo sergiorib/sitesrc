@@ -217,6 +217,7 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
 - **FR-010**: A aplicação DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
 - **FR-011**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), com limites mínimos e máximos, de forma uniforme em toda a aplicação.
 - **FR-012**: O aumento do tamanho de fonte configurado no navegador DEVE ampliar proporcionalmente os textos de toda a aplicação, sem sobreposição ou perda de conteúdo.
+- **FR-013**: **Publicação das imagens no build**: o `npm run build` DEVE copiar cada `pages/<modulo>/assets/images/` para `dist/pages/<modulo>/assets/images/` (integração `copiar-imagens-das-paginas` em `astro.config.mjs`, hook `astro:build:done`), ignorando arquivos ocultos (ex.: `.gitkeep`), para que os caminhos absolutos `/pages/<modulo>/assets/images/<arquivo>` funcionem no site publicado como funcionam no servidor de desenvolvimento. Uma pasta `assets/images` nova em qualquer página é incluída sem alterar a configuração.
 
 ### 7.2 Key Entities
 
@@ -242,7 +243,7 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
 
 ## 9. Assumptions
 
-- O projeto segue a Constituição v2.0.2: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- O projeto segue a Constituição v2.0.5: Astro para estruturação estática, CSS3 puro e Vanilla JS.
 - As fontes `Barlow` e `Barlow Condensed` são carregadas do Google Fonts por `tokens.css`.
 - `subpagina-demo.astro` é uma página de demonstração do roteamento aninhado e fica fora do modelo em camadas.
 - As subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e as páginas de artigo (`pages/artigos/artigos_pages/`), em HTML estático legado, seguem a exceção do Princípio VII; mesmo assim cumprem o contrato de fragmento (`#page-content`, `data-page-id`, `data-page-title`, `data-parent-route`), declaram a trilha em `data-breadcrumbs` (FR-008.1) e não alteram a moldura.
@@ -253,3 +254,4 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
 
 - **Caminhos Absolutos para Assets Estáticos**: imagens e ícones referenciados no markup DEVEM usar caminhos absolutos (ex.: `/pages/spa/assets/images/<arquivo>`), pois caminhos relativos falham nas rotas aninhadas da SPA. Imagens de fundo referenciadas em CSS usam caminhos relativos ao arquivo CSS (resolvidos no build).
 - **Garanta que os arquivos existam fisicamente** em `pages/spa/assets/images/` e **valide** executando `npm run build` ao finalizar.
+- **Publicação**: as imagens referenciadas por caminho absoluto não são importadas pelo código; o build as copia para `dist/pages/...` (FR-013). Confira o site compilado com `astro preview` (configuração `astro-preview` em `.claude/launch.json`), pois o servidor de desenvolvimento encontra qualquer arquivo do projeto e esconde imagens ausentes do build.

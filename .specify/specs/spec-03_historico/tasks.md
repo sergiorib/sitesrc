@@ -127,3 +127,9 @@
 - T001, T002, T003 can run in parallel.
 - T015 to T019 (rendering the 5 experiences) can be implemented in parallel blocks.
 - T024, T025, T026 run in final polish phase.
+
+---
+
+## Remoção de Página Avulsa (2026-11-26)
+
+- [X] T027 Excluir `pages/historico.md` (criado pela T005): publicava em `/historico/` um texto cru, fora da SPA, com cargos fictícios que não correspondem a `@dados`; a página real é `pages/historico/historico.astro` (rota SPA `/spa/historico/`). Nenhum link, script ou build dependia dele — `pages/`

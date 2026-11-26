@@ -102,3 +102,10 @@ description: "Lista de tarefas executáveis para a implementação da Página 'S
 - [x] T018 [P] Executar o checklist de validação visual do [quickstart.md](./quickstart.md), inspecionando cores dos gradientes, borda `#0381B0`, sombra encastrada e cores das estrelas (`#2D4A22` e `#CCCCCC`)
 - [x] T019 Validar a compilação estática do projeto executando `npx astro build` e verificando que a rota `sobre` é gerada sem avisos ou quebras
 - [x] T020 Validar conformidade estrita com a Constituição v1.0.0 (zero dependências de frameworks de UI, CSS3 puro e isolamento em `pages/sobre/`)
+
+---
+
+## Remoção de Imagens sem Uso (2026-11-26)
+
+- [X] T021 Apagar as 13 imagens que nenhum arquivo do site usa: `git.svg` (a habilidade "GIT" usa `conceito.svg`), `icon-dax.png`, `icon-javascript.png`, `icon-python.png`, `icon-pytorch.png`, `icon-r.png`, `icon-scikit-learn.png`, `icon-sql.png`, `icon-tensorflow.png`, `icon-xgboost.png`, `math.svg`, `python-plain.svg` e `python.svg`; retirar `git.svg` da árvore da §2 — `pages/sobre/assets/images/`
+- [X] T022 Executar `npm run build` e confirmar que todas as imagens referenciadas pela página existem em `dist/pages/sobre/assets/images/`

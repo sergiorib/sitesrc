@@ -55,10 +55,24 @@
 			git branch -d feature/init-spec-kit
 
 
+# 2 Reproduzir o site em outra máquina (mesmo dist/, byte a byte)
 
+    ## 2.1 Versões fixadas no projeto
+		- Node.js 24.21.0 (arquivo .nvmrc; package.json "engines": >=24.21.0 <25)
+		- npm 12.2.0 ou superior na série 12 (package.json "engines": >=12.2.0 <13)
+		- .npmrc liga engine-strict: o "npm ci" falha se Node ou npm estiverem fora da faixa
+		- .gitattributes mantém todos os arquivos de texto em LF, em qualquer sistema operacional
 
+    ## 2.2 Passo a passo
+		git clone https://github.com/sergiorib/sitesrc.git
+		cd sitesrc
+		node -v        (deve mostrar v24.x; com nvm/fnm: "nvm use" ou "fnm use" lê o .nvmrc)
+		npm -v         (deve mostrar 12.x; se não: npm install -g npm@12.2.0)
+		npm ci         (instala exatamente as versões do package-lock.json; nunca "npm install")
+		npm run build  (gera dist/, incluindo dist/pages/ com as imagens das páginas)
+		npm run preview  (serve o dist/ como um serviço de hospedagem, para conferir)
 
+    ## 2.3 Observação sobre o npm 12
+		O npm 12 bloqueia scripts de instalação de pacotes não aprovados (aviso "install-scripts"
+		para esbuild e sharp). O build não depende desses scripts e gera o mesmo dist/.
 
-
-
-        

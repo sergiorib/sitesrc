@@ -1,6 +1,12 @@
 <!--
 Sync Impact Report:
-- Version change: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
+- Version change: 2.0.4 -> 2.0.5 (PATCH: Princípio I — ambiente de build fixado: .nvmrc, engines,
+  engine-strict e instalação com npm ci)
+- Anterior: 2.0.3 -> 2.0.4 (PATCH: Princípio IV — finais de linha normalizados em LF
+  via .gitattributes, para builds idênticos em qualquer sistema operacional)
+- Anterior: 2.0.2 -> 2.0.3 (PATCH: Convenção de Resolução de Assets — publicação das imagens
+  das páginas no build e validação do site compilado com astro preview)
+- Anterior: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
   em pages/artigos/artigos_pages/, com contrato de fragmento e isolamento obrigatórios)
 - Anterior: 2.0.0 -> 2.0.1 (PATCH: remoção da cláusula de transição, já cumprida)
 - Justificativa: todas as páginas (spec-02 a spec-07) foram convertidas para o modelo em
@@ -37,6 +43,7 @@ O projeto deve adotar uma base estritamente minimalista, rápida e livre de over
 - **Framework Estático**: Astro deve ser utilizado EXCLUSIVAMENTE para a estruturação de componentes `.astro`, layouts reutilizáveis, build estático (SSG) e roteamento baseado em arquivos (*file-based routing*).
 - **Estilização**: Exclusivamente CSS3 Puro / Vanilla CSS. É expressamente PROIBIDA a instalação ou utilização de utilitários como Tailwind CSS, frameworks como Bootstrap ou bibliotecas de CSS-in-JS.
 - **Interatividade no Navegador**: Exclusivamente Vanilla JavaScript puro. É expressamente PROIBIDA a adição ou instalação de frameworks ou bibliotecas de UI reativas client-side (como React, Vue, Svelte, Angular ou similares).
+- **Ambiente de Build Fixado**: A versão do Node.js fica em `.nvmrc` (versão exata) e, junto com a do npm, no campo `engines` do `package.json`; o `.npmrc` liga `engine-strict`, então a instalação falha em versões fora da faixa. As dependências são instaladas SEMPRE com `npm ci` (respeita o `package-lock.json`), nunca com `npm install`, salvo ao adicionar ou atualizar uma dependência de propósito. Atualizar Node, npm ou dependências é uma mudança do projeto: altera esses arquivos no mesmo commit e é validada com `npm run build` e `astro preview`.
 
 ### II. Estrutura de Páginas e Separação de Preocupações
 A organização do código fonte deve garantir total isolamento e modularidade por página:
@@ -57,7 +64,8 @@ A organização do código fonte deve garantir total isolamento e modularidade p
   1. **NÃO utilize caminhos relativos** (como `./assets/...` ou `../modulo/assets/...`), pois eles falham ao serem resolvidos dinamicamente pelo roteador SPA em rotas aninhadas (ex: `/spa/<modulo>/`).
   2. **Utilize SEMPRE o caminho absoluto** baseado na raiz do servidor estático do Astro seguindo o padrão já estabelecido no projeto (ex: `/pages/<modulo>/assets/images/<arquivo>`).
   3. **Garanta que o arquivo de imagem exista fisicamente** no diretório correspondente (`pages/<modulo>/assets/images/`).
-  4. **Valide a renderização** executando `npm run build` ao finalizar.
+  4. **Valide a renderização** executando `npm run build` ao finalizar e conferindo o site compilado com `astro preview` (o servidor de desenvolvimento entrega qualquer arquivo do projeto e não revela imagens ausentes do build).
+  5. **Publicação no build**: o Astro só leva para `dist/` o que está em `public/` ou é importado no código. Por isso, a integração `copiar-imagens-das-paginas` em `astro.config.mjs` copia, ao fim do build, cada `pages/<modulo>/assets/images/` para `dist/pages/<modulo>/assets/images/`, preservando os caminhos absolutos do item 2 (spec-01 FR-013).
 
 ### III. Arquitetura de Design e UI (Dark Tech Dashboard)
 O site segue a estética Dark Tech Dashboard, com identidade visual consistente entre as páginas:
@@ -69,6 +77,7 @@ O site segue a estética Dark Tech Dashboard, com identidade visual consistente 
 O ciclo de vida do repositório deve ser transparente, automatizado e rastreável:
 - **Versionamento Automatizado**: O versionamento de código e releases deve ocorrer automaticamente segundo as diretrizes estipuladas na especificação de cada tarefa.
 - **Ferramental Mandatório**: Devem ser utilizados o Git e o GitHub CLI (`gh`) para todas as operações de automação de versionamento, gerenciamento de branches, commits e sincronização com o repositório remoto.
+- **Finais de Linha (LF)**: O arquivo `.gitattributes` na raiz normaliza todo arquivo de texto para LF, no repositório e na cópia de trabalho, em qualquer sistema operacional e independentemente do `core.autocrlf` local; imagens e fontes são marcadas como binárias. Assim, um clone em Windows, Linux ou macOS gera o mesmo `dist/`, byte a byte. Arquivos novos de texto com outra extensão são cobertos pela regra geral (`* text=auto eol=lf`); um tipo binário novo DEVE ser acrescentado ao `.gitattributes`.
 
 ### V. Convenção de Nomenclatura de Especificações (.specify)
 A rastreabilidade dos ciclos de especificação conduzidos via Spec-Kit é obrigatória e padronizada:
@@ -115,4 +124,4 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 2.0.2 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
+**Version**: 2.0.5 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26

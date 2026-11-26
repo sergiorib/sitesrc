@@ -128,3 +128,16 @@
 - Projeto de teste: estilizado dentro da moldura, relógio, resolução, User-Agent e botão de teste funcionando; trilha "Início / Portfólio / Projeto de teste".
 - Alternância com o glossário de Séries temporais (outra configuração de Tailwind): as duas páginas mantêm o CSS, sem erros de console.
 - Acesso direto à página de teste continua funcionando.
+
+---
+
+## Fase 7: Versão Fixada do Tailwind (§2.2, item 5 — 2026-11-26)
+
+- [X] T039 Trocar `https://cdn.tailwindcss.com` por `https://cdn.tailwindcss.com/3.4.17` no `<head>` e no carregador do `<body>` — `pages/portfolio/projetos/testes/pagina_teste.html`
+- [X] T040 Validar na SPA e no site compilado (`astro preview`): página de teste estilizada, inclusive alternando com o glossário de Séries temporais
+
+---
+
+## Fase 8: Referência ao CSS da Moldura (FR-005 — 2026-11-26)
+
+- [X] T041 Trocar a referência ao extinto `main-container.css` (incorporado ao `spa.css` na migração da moldura, spec-01) pela regra `.content-host:has(.page-header)` na árvore da §2 e na FR-005; sem mudança de código — `.specify/specs/spec-05_portfolio/spec.md`
