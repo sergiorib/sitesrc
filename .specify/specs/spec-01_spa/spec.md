@@ -243,7 +243,7 @@ Menu (ordem de exibição; ícones em `/pages/spa/assets/images/`):
 
 ## 9. Assumptions
 
-- O projeto segue a Constituição v2.0.3: Astro para estruturação estática, CSS3 puro e Vanilla JS.
+- O projeto segue a Constituição v2.0.4: Astro para estruturação estática, CSS3 puro e Vanilla JS.
 - As fontes `Barlow` e `Barlow Condensed` são carregadas do Google Fonts por `tokens.css`.
 - `subpagina-demo.astro` é uma página de demonstração do roteamento aninhado e fica fora do modelo em camadas.
 - As subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e as páginas de artigo (`pages/artigos/artigos_pages/`), em HTML estático legado, seguem a exceção do Princípio VII; mesmo assim cumprem o contrato de fragmento (`#page-content`, `data-page-id`, `data-page-title`, `data-parent-route`), declaram a trilha em `data-breadcrumbs` (FR-008.1) e não alteram a moldura.

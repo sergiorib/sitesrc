@@ -1,6 +1,8 @@
 <!--
 Sync Impact Report:
-- Version change: 2.0.2 -> 2.0.3 (PATCH: Convenção de Resolução de Assets — publicação das imagens
+- Version change: 2.0.3 -> 2.0.4 (PATCH: Princípio IV — finais de linha normalizados em LF
+  via .gitattributes, para builds idênticos em qualquer sistema operacional)
+- Anterior: 2.0.2 -> 2.0.3 (PATCH: Convenção de Resolução de Assets — publicação das imagens
   das páginas no build e validação do site compilado com astro preview)
 - Anterior: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
   em pages/artigos/artigos_pages/, com contrato de fragmento e isolamento obrigatórios)
@@ -72,6 +74,7 @@ O site segue a estética Dark Tech Dashboard, com identidade visual consistente 
 O ciclo de vida do repositório deve ser transparente, automatizado e rastreável:
 - **Versionamento Automatizado**: O versionamento de código e releases deve ocorrer automaticamente segundo as diretrizes estipuladas na especificação de cada tarefa.
 - **Ferramental Mandatório**: Devem ser utilizados o Git e o GitHub CLI (`gh`) para todas as operações de automação de versionamento, gerenciamento de branches, commits e sincronização com o repositório remoto.
+- **Finais de Linha (LF)**: O arquivo `.gitattributes` na raiz normaliza todo arquivo de texto para LF, no repositório e na cópia de trabalho, em qualquer sistema operacional e independentemente do `core.autocrlf` local; imagens e fontes são marcadas como binárias. Assim, um clone em Windows, Linux ou macOS gera o mesmo `dist/`, byte a byte. Arquivos novos de texto com outra extensão são cobertos pela regra geral (`* text=auto eol=lf`); um tipo binário novo DEVE ser acrescentado ao `.gitattributes`.
 
 ### V. Convenção de Nomenclatura de Especificações (.specify)
 A rastreabilidade dos ciclos de especificação conduzidos via Spec-Kit é obrigatória e padronizada:
@@ -118,4 +121,4 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 2.0.3 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
+**Version**: 2.0.4 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26
