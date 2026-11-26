@@ -173,4 +173,5 @@ Pendências fora do escopo da migração:
 - Conversão das subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e das páginas de artigo
   (`pages/artigos/artigos_pages/`) quando forem reescritas; até lá seguem a exceção do Princípio VII
   (constituição v2.0.2), com contrato de fragmento, `data-breadcrumbs` e estilos/scripts restritos à página.
-  `pagina_teste.html` e `series_temporais_glossario.html` ainda usam Tailwind via CDN (Princípio I).
+  `pagina_teste.html` e `series_temporais_glossario.html` ainda usam Tailwind via CDN (Princípio I), com a
+  versão fixada na URL (`https://cdn.tailwindcss.com/3.4.17`).

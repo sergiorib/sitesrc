@@ -17,7 +17,7 @@
     Todo estilo fica restrito à raiz .st-glossario (Tailwind com preflight desligado e
     important: '.st-glossario'), para não alterar a moldura nem as outras páginas.
   -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
   <style>
     body:has(> #page-content.st-glossario) {
@@ -147,7 +147,7 @@
         return;
       }
       var cdn = document.createElement('script');
-      cdn.src = 'https://cdn.tailwindcss.com';
+      cdn.src = 'https://cdn.tailwindcss.com/3.4.17';
       cdn.onload = function () { window.tailwind.config = config; };
       document.head.appendChild(cdn);
     })();

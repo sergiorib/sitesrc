@@ -132,3 +132,10 @@
 - Trilha: "Séries temporais", "Artigos" e "Início" levam às páginas certas; Voltar/Avançar restauram conteúdo, menu e trilha.
 - Todas as regras geradas pelo Tailwind começam por `.st-glossario` (sem vazamento para a moldura ou outras páginas).
 - Acesso direto às duas páginas (fora da SPA) continua funcionando.
+
+---
+
+## Fase 7: Versão Fixada do Tailwind (§2 — 2026-11-26)
+
+- [X] T040 Trocar `https://cdn.tailwindcss.com` por `https://cdn.tailwindcss.com/3.4.17` no `<head>` e no carregador do `<body>` — `pages/artigos/artigos_pages/series_temporais/series_temporais_glossario.html`
+- [X] T041 Validar na SPA e no site compilado (`astro preview`): glossário estilizado, 41 termos, só a URL com versão requisitada
