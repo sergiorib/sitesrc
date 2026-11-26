@@ -139,3 +139,9 @@
 
 - [X] T040 Trocar `https://cdn.tailwindcss.com` por `https://cdn.tailwindcss.com/3.4.17` no `<head>` e no carregador do `<body>` — `pages/artigos/artigos_pages/series_temporais/series_temporais_glossario.html`
 - [X] T041 Validar na SPA e no site compilado (`astro preview`): glossário estilizado, 41 termos, só a URL com versão requisitada
+
+---
+
+## Remoção de Página Avulsa (2026-11-26)
+
+- [X] T042 Excluir `pages/artigos.md` (citado na T003): publicava em `/artigos/` a lista de temas em texto cru, fora da SPA; os temas estão em `pages/artigos/data/artigos.json` e a página real é `pages/artigos/artigos.astro` (rota SPA `/spa/artigos/`). Nenhum link, script ou build dependia dele — `pages/`
