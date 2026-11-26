@@ -170,4 +170,7 @@ Encerramento (§6):
 Pendências fora do escopo da migração:
 - Revisão geral de conteúdo ("pente fino"), incluindo as pendências da Histórico (spec-03, §6.1) e a
   divisória encostada no subtítulo da Artigos.
-- Conversão das subpáginas de projeto do Portfólio quando forem reescritas.
+- Conversão das subpáginas de projeto do Portfólio (`pages/portfolio/projetos/`) e das páginas de artigo
+  (`pages/artigos/artigos_pages/`) quando forem reescritas; até lá seguem a exceção do Princípio VII
+  (constituição v2.0.2), com contrato de fragmento, `data-breadcrumbs` e estilos/scripts restritos à página.
+  `pagina_teste.html` e `series_temporais_glossario.html` ainda usam Tailwind via CDN (Princípio I).

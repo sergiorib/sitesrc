@@ -4,28 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Teste • Status do Ambiente</title>
-    <!-- Carregando Tailwind CSS para estilização moderna e responsiva -->
+    <!--
+        Subpágina de projeto em HTML estático (exceção do Princípio VII; contrato em spec-05 §2.2).
+        Na SPA, o roteador copia só os <link>/<style> do <head>: o Tailwind e sua configuração
+        são carregados pelo script no início do <body> (executado também pelo roteador).
+        Todo estilo fica restrito à raiz .pt-teste (Tailwind com preflight desligado e
+        important: '.pt-teste'), para não alterar a moldura nem as outras páginas.
+    -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fonte Inter do Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <script>
-        // Configuração básica do Tailwind para suporte a tema e fonte padrão
-        tailwind.config = {
-            darkMode: 'media', // Adapta-se automaticamente ao modo claro/escuro do sistema
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
+    <style>
+        body:has(> #page-content.pt-teste) {
+            margin: 0;
         }
-    </script>
+
+        .pt-teste {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        /* Base mínima restrita à página (substitui o preflight global do Tailwind) */
+        .pt-teste *,
+        .pt-teste *::before,
+        .pt-teste *::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
+        }
+
+        .pt-teste h1,
+        .pt-teste h2,
+        .pt-teste p {
+            margin: 0;
+            font-size: inherit;
+            font-weight: inherit;
+        }
+
+        .pt-teste button {
+            font: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .pt-teste svg {
+            display: block;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-emerald-500/20 selection:text-emerald-600 transition-colors duration-300">
+<body>
+  <div
+    id="page-content"
+    class="page-content-wrapper pt-teste"
+    data-page-id="portfolio-project-teste"
+    data-page-title="Projeto de teste"
+    data-parent-route="/portfolio"
+    data-breadcrumbs='[{"rotulo": "Portfólio", "url": "/spa/portfolio/"}]'
+  >
+    <!-- Tailwind: configuração restrita à página; carrega o CDN se ainda não estiver no documento (SPA) -->
+    <script>
+        (function () {
+            var config = {
+                important: '.pt-teste',
+                corePlugins: { preflight: false },
+                darkMode: 'media', // Adapta-se automaticamente ao modo claro/escuro do sistema
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                        },
+                    }
+                }
+            };
+            if (window.tailwind) {
+                // Revisita na SPA: reaplica a configuração depois que a página for montada,
+                // para o Tailwind remontar o CSS com todas as classes da página
+                setTimeout(function () { window.tailwind.config = config; }, 0);
+                return;
+            }
+            var cdn = document.createElement('script');
+            cdn.src = 'https://cdn.tailwindcss.com';
+            cdn.onload = function () { window.tailwind.config = config; };
+            document.head.appendChild(cdn);
+        })();
+    </script>
+
+  <div class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-emerald-500/20 selection:text-emerald-600 transition-colors duration-300">
 
     <!-- Cabeçalho Superior -->
     <header class="w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-10">
@@ -153,10 +224,13 @@
     <footer class="w-full py-5 text-center text-xs text-slate-400 dark:text-slate-600">
         <p>Página de verificação estática • Sem dependências externas pesadas</p>
     </footer>
+  </div>
 
-    <!-- Lógica JavaScript de Diagnóstico e Interatividade -->
+    <!-- Lógica JavaScript de Diagnóstico e Interatividade
+         (encapsulada e executada na hora: na SPA o roteador reexecuta o script e não há DOMContentLoaded) -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        (function () {
+            const pageRoot = document.querySelector('.pt-teste');
             // Referências aos elementos do DOM
             const datetimeEl = document.getElementById('datetime-display');
             const resolutionEl = document.getElementById('resolution-display');
@@ -218,11 +292,25 @@
             updateResolution();
             loadUserAgent();
 
+            // Página substituída pela navegação SPA: encerra relógio e listener de redimensionamento
+            function isActive() {
+                if (pageRoot && pageRoot.isConnected) return true;
+                clearInterval(clockTimer);
+                window.removeEventListener('resize', onResize);
+                return false;
+            }
+
+            function onResize() {
+                if (isActive()) updateResolution();
+            }
+
             // Intervalo para manter o relógio em tempo real
-            setInterval(updateDateTime, 1000);
+            const clockTimer = setInterval(() => {
+                if (isActive()) updateDateTime();
+            }, 1000);
 
             // Atualiza a resolução caso a janela seja redimensionada
-            window.addEventListener('resize', updateResolution);
+            window.addEventListener('resize', onResize);
 
             // Evento do botão de teste interativo
             testBtn.addEventListener('click', () => {
@@ -268,7 +356,8 @@
                     document.body.removeChild(tempInput);
                 }
             });
-        });
+        })();
     </script>
+  </div>
 </body>
 </html>

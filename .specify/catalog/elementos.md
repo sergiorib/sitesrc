@@ -173,26 +173,42 @@ Regras:
 
 ### link-card
 ID: EL-15
-Descrição: Cartão clicável que leva a um destino (contato, perfil, página), com ícone, rótulo, valor, detalhe opcional e seta.
+Descrição: Cartão clicável que leva a um destino (contato, perfil, página), com ícone, rótulo, valor, detalhe opcional, botão de copiar opcional e seta.
 HTML:
-  <a class="link-card {estilo}" href="{item.href}" {destino}>
+  <div class="link-card {estilo}">
     <span class="link-card-icon"><img src="{item.icone}" alt="" width="23" height="23"></span>
     <span class="vertical-list vertical-list--compacto link-card-body">
       <span class="link-card-label">{item.rotulo}</span>
-      <span class="link-card-value">{item.valor}</span>
+      <a class="link-card-value" href="{item.href}" {destino}>{item.valor}</a>
       <span class="link-card-detail">{item.detalhe}</span>      ← só quando há detalhe
     </span>
+    <button type="button" class="link-card-copy" data-copiar="{item.valor}"
+            aria-label="Copiar {item.rotulo}">                   ← só com {copiar: sim}
+      <svg class="link-card-copy-icon" aria-hidden="true">…</svg>   ← dois retângulos sobrepostos
+      <svg class="link-card-copy-check" aria-hidden="true">…</svg>  ← marca ✓
+      <span class="link-card-copy-label" aria-live="polite">Copiar</span>
+    </button>
     <span class="link-card-action" aria-hidden="true">↗</span>
-  </a>
+  </div>
   {destino} =
     href http(s) → target="_blank" rel="noopener noreferrer"
     demais (tel:, mailto:, rotas internas) → nada (mesma aba)
 Dados do item: rotulo, valor, detalhe?, href, icone
+Configurações:
+  copiar: sim | não — exibe o botão que copia `item.valor` (padrão: não)
 Estilos: ciano (padrão)
 Comportamento:
+  - o link é o valor (`link-card-value`), estendido por pseudo-elemento sobre o cartão inteiro:
+    clicar em qualquer ponto abre o destino; o foco do teclado contorna o cartão
   - hover: o cartão sobe e realça borda e seta
+  - copiar (JS da página): o clique em `.link-card-copy` não navega; copia `data-copiar` para a área
+    de transferência (Clipboard API; se indisponível ou negada, fallback por seleção de texto), aplica `is-copiado` ao botão
+    (ícone ✓, rótulo "Copiado") por 1,8s e volta a "Copiar"; se a cópia falhar, o rótulo mostra
+    "Falhou" pelo mesmo tempo. O rótulo é `aria-live`, então a mudança é anunciada por leitores de tela
 Regras:
   - usado como filho de [grid], repetido por uma fonte de dados
+  - o contêiner é `div` (e não `a`) porque um `button` não pode ficar dentro de um link
+  - abaixo de 768px o botão mostra só o ícone (rótulo apenas para leitores de tela)
 
 ### accordion
 ID: EL-20
@@ -489,6 +505,8 @@ Estilos: discreto (padrão)
 Comportamento:
   - a trilha é montada pelo JS da moldura (`breadcrumbs.js`) a cada navegação: "Início" (→ `/spa`),
     um nível por segmento da rota (rótulo do menu quando existir) e, no fim, o `data-page-title` da página
+  - se o `#page-content` declarar `data-breadcrumbs` (JSON `[{"rotulo","url"}, …]`), os níveis
+    intermediários são os declarados, em vez dos segmentos da rota (spec-01 FR-008.1)
   - o HTML inicial traz só "Início"
 
 ### content-host

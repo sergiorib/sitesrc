@@ -62,8 +62,10 @@ Toda página ou subpágina sob `/pages/portfolio/projetos/**` DEVE seguir o cont
 1. **Contêiner raiz**: o documento expõe `#page-content` com `id="page-content"`, `data-page-id="portfolio-project-<slug>"`, `data-page-title="<Título do Projeto>"` e `data-parent-route="/portfolio"` (mantém o item "Portfólio" ativo no menu).
 2. **Interceptação de cliques**: links internos dos cards (capa e título) e links internos das páginas de projeto que apontem para `/pages/portfolio/projetos/` são capturados pelo listener delegado global do roteador, que faz o `fetch`, extrai `#page-content` (com estilos e scripts declarados no fragmento), injeta em `#page-content-host` e atualiza a URL via `history.pushState()`.
 3. **HTML estático legado**: se a subpágina for um documento HTML completo sem a estrutura Astro, o roteador extrai o conteúdo de `<body>` (ou o envolve em `#page-content`) mantendo a renderização em `#page-content-host`.
+4. **Trilha de breadcrumbs**: a subpágina declara `data-breadcrumbs='[{"rotulo": "Portfólio", "url": "/spa/portfolio/"}]'` (spec-01 FR-008.1), para que a trilha seja "Início / Portfólio / <título>" em vez dos diretórios do arquivo (`projetos`, `testes`, …), que não são páginas.
+5. **Isolamento**: as mesmas regras das páginas de artigo (spec-06 §2) — estilos restritos à classe raiz da página (o roteador copia os `<style>` do `<head>` para a SPA), scripts encapsulados e reexecutáveis (sem depender de `DOMContentLoaded`, encerrando timers e listeners globais quando a página sai) e, se usar Tailwind (CDN), carregá-lo pelo `<body>` com `preflight` desligado e `important` restrito à classe raiz.
 
-As subpáginas atuais (`AES1.html`, `pagina_teste.html`) são HTML estático com estilos próprios e ainda não usam o modelo em camadas.
+As subpáginas atuais (`AES1.html`, `pagina_teste.html`) são HTML estático com estilos próprios e ainda não usam o modelo em camadas. Ambas seguem o item 4; `pagina_teste.html` (raiz `.pt-teste`) também segue o item 5 (`AES1.html` não tem `<style>` nem `<script>`).
 
 ---
 

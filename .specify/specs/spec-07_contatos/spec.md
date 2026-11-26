@@ -28,6 +28,8 @@ pages/contatos/
 ├── assets/
 │   ├── css/
 │   │   └── contatos.css
+│   ├── js/
+│   │   └── contatos.js      (botão "Copiar" dos cartões; ver FR-010)
 │   └── images/
 │       ├── github.svg
 │       ├── linkedin.svg
@@ -81,6 +83,8 @@ Como avaliador ou cliente potencial, desejo ver todos os canais de contato em um
 2. **Given** um cartão cujo destino é `http(s)`, **When** clicado, **Then** o destino abre em nova aba (`target="_blank"`, `rel="noopener noreferrer"`).
 3. **Given** um cartão `tel:` ou `mailto:`, **When** clicado, **Then** o destino abre na mesma aba (discador ou cliente de e-mail).
 4. **Given** o ponteiro sobre um cartão, **When** em hover, **Then** o cartão apresenta o comportamento de hover descrito na ficha de `link-card` em [elementos.md](../../catalog/elementos.md).
+5. **Given** um cartão de contato, **When** o usuário clica em "Copiar", **Then** o valor do contato vai para a área de transferência, o destino não é aberto e o botão mostra "Copiado" (✓) por 1,8s antes de voltar a "Copiar".
+6. **Given** a página revisitada várias vezes na SPA, **When** o usuário clica em "Copiar", **Then** a cópia ocorre uma única vez por clique (sem listeners duplicados).
 
 ---
 
@@ -105,11 +109,11 @@ Como usuário acessando via smartphone ou tablet, desejo que a grade de contatos
 
 **Why this priority**: Garante acessibilidade e usabilidade em qualquer dispositivo.
 
-**Independent Test**: Exibir a página abaixo de 768px e a partir de 768px. Verificar se a grade segue a configuração responsiva da seção 4 e se os textos se ajustam pela escala fluida (`scale.css`).
+**Independent Test**: Exibir a página abaixo de 768px e a partir de 768px. Verificar se a grade mantém 1 cartão por linha em todas as larguras (seção 4) e se os textos se ajustam pela escala fluida (`scale.css`).
 
 **Acceptance Scenarios**:
 
-1. **Given** cada faixa de largura (< 768px, ≥ 768px), **When** a página é redimensionada, **Then** a grade assume o número de colunas configurado na seção 4 para aquela faixa.
+1. **Given** qualquer largura (< 768px ou ≥ 768px), **When** a página é redimensionada, **Then** a grade exibe 1 cartão por linha, conforme a seção 4.
 2. **Given** valores longos (URLs de LinkedIn e GitHub), **When** exibidos em telas estreitas, **Then** quebram dentro do cartão, sem rolagem horizontal.
 3. **Given** o navegador em 100% de zoom e o sistema operacional em escala de exibição de 100%, 125% ou 150%, **When** a página é exibida em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, **Then** o título e os cartões apresentam textos e espaçamentos equilibrados, sem rolagem horizontal.
 4. **Given** o acesso por celular (largura aproximada de 375 pixels) ou tablet (largura aproximada de 768 pixels), **When** a página é exibida, **Then** os cartões se apresentam adaptados à tela e legíveis, sem rolagem horizontal.
@@ -136,8 +140,8 @@ Como usuário acessando via smartphone ou tablet, desejo que a grade de contatos
 [page-root:petroleo] contatos
   [page-title:claro] 'Meus Contatos'
 
-  [grid] {colunas: 1 → 2 @768}
-    [link-card:ciano] *@dados.contatos
+  [grid] {colunas: 1}
+    [link-card:ciano] {copiar: sim} *@dados.contatos
 ```
 
 ## 5. Textos
@@ -174,6 +178,10 @@ Conteúdo de `@dados.contatos` (ordem de exibição):
 - **FR-007**: A página DEVE apresentar proporções confortáveis de leitura com o navegador em 100% de zoom, em qualquer escala de exibição do sistema operacional (100%, 125% e 150%).
 - **FR-008**: Os tamanhos de texto e os espaçamentos DEVEM se adaptar à largura disponível pela escala fluida (`scale.css`), respeitando limites mínimos e máximos.
 - **FR-009**: O aumento do tamanho de fonte configurado nas preferências do navegador DEVE ampliar proporcionalmente os textos da página, sem sobreposição ou perda de conteúdo.
+- **FR-010**: **Copiar contato** (`contatos.js`): cada cartão exibe o botão "Copiar" (`link-card` com `{copiar: sim}`), com o comportamento definido em [elementos.md](../../catalog/elementos.md):
+  - **FR-010.1**: o clique copia o `valor` do contato (telefone, e-mail ou URL) para a área de transferência, sem abrir o destino do cartão; usa a Clipboard API e, se ela estiver indisponível ou negar a permissão, o fallback por seleção de texto;
+  - **FR-010.2**: o botão confirma a cópia (`is-copiado`, ícone ✓ e rótulo "Copiado") por 1,8s e volta a "Copiar"; em falha, mostra "Falhou" pelo mesmo tempo; o rótulo é anunciado por leitores de tela (`aria-live`);
+  - **FR-010.3**: o script DEVE ser idempotente entre navegações SPA (um único listener delegado por `.contatos-page`), inicializar no carregamento e no evento `spa:page-loaded` (registrado uma única vez) e ser entregue como `<script is:inline type="module">` dentro de `#page-content` (conteúdo importado via `?raw`), exportando `GET()` por residir sob `pages/`.
 
 ### 7.2 Key Entities
 
@@ -189,7 +197,7 @@ Conteúdo de `@dados.contatos` (ordem de exibição):
 - **SC-001**: A injeção do conteúdo em `#page-content-host` em navegação SPA ocorre em menos de 150ms.
 - **SC-002**: 100% dos elementos da página exibem a aparência do estilo indicado na seção 4, conforme [estilos.md](../../catalog/estilos.md).
 - **SC-003**: 100% dos itens de `@dados.contatos` aparecem como cartões, com todos os links funcionais e abrindo no destino correto (FR-006).
-- **SC-004**: A grade segue as colunas configuradas na seção 4 (1 → 2 @768), sem transbordamento de texto ou elementos.
+- **SC-004**: A grade segue as colunas configuradas na seção 4 (1 cartão por linha em todas as larguras), sem transbordamento de texto ou elementos.
 - **SC-005**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
 - **SC-006**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página apresenta layout adaptado e legível, sem rolagem horizontal.
 

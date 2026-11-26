@@ -1,23 +1,42 @@
 ---
 // EL-15 link-card — .specify/catalog/elementos.md
-const { item, estilo = 'ciano' } = Astro.props;
+// O contêiner é <div> (um <button> não pode ficar dentro de <a>); o link é o valor, estendido
+// sobre o cartão por pseudo-elemento. O comportamento de "copiar" é aplicado pelo JS da página.
+const { item, estilo = 'ciano', copiar = false } = Astro.props;
 
 const href = item?.href ?? '#';
 const externo = /^https?:\/\//.test(href);
 ---
 {item && (
-  <a
-    class={`link-card link-card--${estilo}`}
-    href={href}
-    target={externo ? '_blank' : undefined}
-    rel={externo ? 'noopener noreferrer' : undefined}
-  >
+  <div class={`link-card link-card--${estilo}`}>
     <span class="link-card-icon"><img src={item.icone} alt="" width="23" height="23" /></span>
     <span class="vertical-list vertical-list--compacto link-card-body">
       <span class="link-card-label">{item.rotulo}</span>
-      <span class="link-card-value">{item.valor}</span>
+      <a
+        class="link-card-value"
+        href={href}
+        target={externo ? '_blank' : undefined}
+        rel={externo ? 'noopener noreferrer' : undefined}
+      >{item.valor}</a>
       {item.detalhe && <span class="link-card-detail">{item.detalhe}</span>}
     </span>
+    {copiar && (
+      <button
+        type="button"
+        class="link-card-copy"
+        data-copiar={item.valor}
+        aria-label={`Copiar ${item.rotulo}`}
+      >
+        <svg class="link-card-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="9" width="12" height="12" rx="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        <svg class="link-card-copy-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <span class="link-card-copy-label" aria-live="polite">Copiar</span>
+      </button>
+    )}
     <span class="link-card-action" aria-hidden="true">↗</span>
-  </a>
+  </div>
 )}

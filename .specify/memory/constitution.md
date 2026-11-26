@@ -1,6 +1,8 @@
 <!--
 Sync Impact Report:
-- Version change: 2.0.0 -> 2.0.1 (PATCH: remoção da cláusula de transição, já cumprida)
+- Version change: 2.0.1 -> 2.0.2 (PATCH: exceção do Princípio VII estendida às páginas de artigo
+  em pages/artigos/artigos_pages/, com contrato de fragmento e isolamento obrigatórios)
+- Anterior: 2.0.0 -> 2.0.1 (PATCH: remoção da cláusula de transição, já cumprida)
 - Justificativa: todas as páginas (spec-02 a spec-07) foram convertidas para o modelo em
   camadas e aprovadas (registros em .specify/specs/spec-XX_*/migracao.md). A cláusula de
   transição do Princípio III deixa de ser necessária; o catálogo antigo foi arquivado em
@@ -17,7 +19,8 @@ Sync Impact Report:
   - ✅ .specify/templates/plan-template.md (sem alteração)
   - ✅ .specify/templates/tasks-template.md (sem alteração)
 - Follow-up TODOs:
-  - Converter as subpáginas de projeto do Portfólio (pages/portfolio/projetos/) quando forem reescritas.
+  - Converter as subpáginas de projeto do Portfólio (pages/portfolio/projetos/) e as páginas de artigo
+    (pages/artigos/artigos_pages/) quando forem reescritas.
 
 Histórico:
 - 1.0.0 (2026-10-29): ratificação inicial (princípios I–V).
@@ -91,7 +94,7 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
 - **Spec de estilos** (`.specify/catalog/estilos.md`): define *como cada estilo de cada elemento se apresenta*, usando apenas tokens, no formato de `.specify/catalog/formato-estilos.md`.
 - **Fonte única**: Um elemento ou estilo é definido uma única vez e vale para todas as páginas. A classe CSS de um elemento é o seu nome (`.grid`) e a de um estilo é `.<elemento>--<estilo>`.
 - **Ordem de alteração**: Mudanças começam pela camada correspondente (página, catálogo ou estilos) e só depois chegam ao código.
-- **Exceção — HTML estático legado**: Subpáginas de conteúdo escritas como HTML estático completo (hoje, as páginas de projeto em `pages/portfolio/projetos/`) ficam fora do modelo até serem reescritas; quando forem, DEVEM adotá-lo.
+- **Exceção — HTML estático legado**: Subpáginas de conteúdo escritas como HTML estático completo (hoje, as páginas de projeto em `pages/portfolio/projetos/` e as páginas de artigo em `pages/artigos/artigos_pages/`) ficam fora do modelo até serem reescritas; quando forem, DEVEM adotá-lo. Mesmo fora do modelo, DEVEM seguir o contrato de fragmento da SPA (`#page-content` com `data-page-id`, `data-page-title`, `data-parent-route`) e não podem alterar a moldura (estilos e scripts restritos à própria página).
 
 ## Diretrizes de Qualidade e Desempenho
 
@@ -112,4 +115,4 @@ A especificação das páginas é dividida em três camadas, cada uma com uma ú
   3. Atualização das datas de ratificação e emenda.
 - **Verificação Contínua**: O Spec-Kit e todos os comandos de planejamento (`/speckit.plan`), tarefas (`/speckit.tasks`) e implementação (`/speckit.implement`) devem validar a conformidade das entregas contra os princípios aqui ratificados.
 
-**Version**: 2.0.1 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-20
+**Version**: 2.0.2 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-11-26

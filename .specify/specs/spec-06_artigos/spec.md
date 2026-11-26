@@ -20,7 +20,15 @@ Este documento define de forma unificada a página "Artigos técnicos": o roteam
 
 A página "Artigos técnicos" é exibida dentro da área de exibição (`#page-content-host`) ao acessar `/spa/artigos`, e mantém o item "Artigos" ativo no menu lateral (mapeamento `ROUTE_PARENT_MAP` em `pages/spa/assets/js/router.js`). O ponto de entrada da SPA é `pages/spa/artigos.astro`; `pages/artigos/artigos.astro` é a cópia da página no diretório da feature.
 
-Cada artigo é uma subpágina sob `/spa/artigos/<slug>`, aberta pelo roteador SPA dentro de `#page-content-host`. As páginas dos artigos ainda não existem: até serem criadas, a navegação exibe o fallback 404 da SPA. Quando criadas, DEVEM seguir o contrato de fragmento da SPA (`id="page-content"`, `data-page-id`, `data-page-title`) e declarar `data-parent-route="/artigos"`, para manter o item "Artigos" ativo no menu.
+Cada artigo é uma subpágina aberta pelo roteador SPA dentro de `#page-content-host`. Os artigos já escritos ficam em `pages/artigos/artigos_pages/<slug>/` como HTML estático completo (exceção do Princípio VII da constituição) e são referenciados por caminho absoluto com `/pages/` e `.html` (ex.: `/pages/artigos/artigos_pages/series_temporais/series_temporais.html`), normalizado pelo roteador antes do `fetch`; um artigo pode ter subpáginas no mesmo diretório (ex.: o glossário). Os artigos ainda não escritos mantêm o `url` provisório `/spa/artigos/<slug>` e, até serem criados, a navegação exibe o fallback 404 da SPA.
+
+Toda página de artigo (e subpágina de artigo) DEVE:
+- envolver o conteúdo do `<body>` no contêiner do contrato de fragmento da SPA: `id="page-content"`, `data-page-id`, `data-page-title` e `data-parent-route="/artigos"` (mantém "Artigos" ativo no menu);
+- declarar a trilha de breadcrumbs em `data-breadcrumbs` (spec-01 FR-008.1): "Artigos" (`/spa/artigos/`) e, numa subpágina, o artigo pai;
+- usar só links internos absolutos;
+- ter estilos restritos à classe raiz da página (nenhum seletor global como `*`, `body`, `header`, `nav`, `p`), pois o roteador copia os `<style>` do `<head>` para o documento da SPA;
+- ter scripts reexecutáveis (encapsulados, sem `const`/`let` no escopo global), que rolem pelo `#page-content-host` quando ele existir (e pela janela no acesso direto) e não alterem a moldura;
+- se usar Tailwind (CDN), carregá-lo pelo próprio `<body>` (scripts do `<head>` não são executados pelo roteador), com `preflight` desligado e `important` restrito à classe raiz da página.
 
 ### 2.1 Árvore Hierárquica de Páginas da Artigos
 
@@ -33,6 +41,10 @@ pages/artigos/
 │   ├── images/              (sem imagens no momento; .gitkeep)
 │   └── js/
 │       └── artigos.js       (seleção de artigos; ver 7.1)
+├── artigos_pages/           (artigos em HTML estático; exceção do Princípio VII)
+│   └── series_temporais/
+│       ├── series_temporais.html            ← artigo "Séries temporais"
+│       └── series_temporais_glossario.html  ← subpágina "Glossário" do artigo
 └── data/
     └── artigos.json
 ```
@@ -74,11 +86,11 @@ Como avaliador ou entusiasta de dados, desejo abrir e fechar os grupos de temas 
 
 **Why this priority**: Permite navegar por um catálogo extenso de artigos sem poluir a página.
 
-**Independent Test**: Carregar a página, confirmar que apenas o grupo marcado com `aberto` em `@dados.colunas` inicia aberto e abrir/fechar grupos e subgrupos.
+**Independent Test**: Carregar a página, confirmar que todos os grupos e subgrupos iniciam recolhidos e abrir/fechar grupos e subgrupos.
 
 **Acceptance Scenarios**:
 
-1. **Given** o carregamento inicial, **When** a página é exibida, **Then** só "Análise de dados e BI" está aberto; os demais grupos e todos os subgrupos estão fechados.
+1. **Given** o carregamento inicial, **When** a página é exibida, **Then** todos os grupos e subgrupos estão fechados (recolhidos).
 2. **Given** o clique no cabeçalho de um grupo ou subgrupo, **When** acionado, **Then** o conteúdo abre ou fecha e a seta indica o estado, conforme o comportamento de `accordion` em [elementos.md](../../catalog/elementos.md).
 3. **Given** o teclado, **When** o cabeçalho de um grupo recebe foco e o usuário pressiona Enter ou Espaço, **Then** o grupo abre ou fecha.
 
@@ -90,7 +102,7 @@ Como usuário navegando pelos artigos, desejo clicar em um artigo, ver qual esco
 
 **Why this priority**: Conecta o catálogo aos artigos com retorno visual claro.
 
-**Independent Test**: Clicar em um artigo (ex.: "Séries temporais"), confirmar a marcação de selecionado e a navegação para `/spa/artigos/<slug>` após 150ms.
+**Independent Test**: Clicar em um artigo (ex.: "Séries temporais"), confirmar a marcação de selecionado e a navegação para o `url` do artigo após 150ms, com a trilha "Início / Artigos / Séries temporais".
 
 **Acceptance Scenarios**:
 
@@ -98,6 +110,8 @@ Como usuário navegando pelos artigos, desejo clicar em um artigo, ver qual esco
 2. **Given** um artigo selecionado, **When** passam 150ms, **Then** o roteador SPA abre o `url` do artigo em `#page-content-host`, sem recarregar a página.
 3. **Given** cliques rápidos em artigos diferentes, **When** feitos em menos de 150ms, **Then** só o último artigo clicado é aberto.
 4. **Given** um artigo cuja página ainda não existe, **When** aberto, **Then** a SPA exibe o fallback 404 e o item "Artigos" continua ativo no menu.
+5. **Given** o artigo "Séries temporais" aberto, **When** o usuário clica em "Glossário", **Then** o glossário é injetado em `#page-content-host`, a trilha mostra "Início / Artigos / Séries temporais / Glossário" e "Artigos" continua ativo no menu.
+6. **Given** o glossário aberto, **When** o usuário clica em "Séries temporais" ou "Artigos" na trilha, **Then** a SPA volta à página correspondente, sem recarregar a moldura.
 
 ---
 
@@ -162,14 +176,14 @@ A página não possui textos longos.
 
 | Referência       | Origem                                   | Campos usados |
 |------------------|------------------------------------------|---------------|
-| @dados.colunas   | pages/artigos/data/artigos.json#colunas  | grupos[] (icone, titulo, aberto?, artigos[] (titulo, url), subgrupos[] (icone, titulo, artigos[])) |
+| @dados.colunas   | pages/artigos/data/artigos.json#colunas  | grupos[] (icone, titulo, artigos[] (titulo, url), subgrupos[] (icone, titulo, artigos[])) |
 | @dados.rodape    | pages/artigos/data/artigos.json#rodape   | texto, lema[] |
 
-Catálogo (13 grupos, 4 subgrupos, 42 artigos; `url` de cada artigo = `/spa/artigos/<slug>`):
+Catálogo (13 grupos, 4 subgrupos, 42 artigos; todos iniciam recolhidos; `url` de cada artigo = `/spa/artigos/<slug>`, exceto os já escritos — "Séries temporais" → `/pages/artigos/artigos_pages/series_temporais/series_temporais.html`):
 
 | Coluna | Grupo (ícone) | Artigos | Subgrupos |
 |---|---|---|---|
-| esq. | Análise de dados e BI (▥) — **aberto** | Séries temporais · Gráficos · KPIs | — |
+| esq. | Análise de dados e BI (▥) | Séries temporais · Gráficos · KPIs | — |
 | esq. | Engenharia de dados (⚙) | Pipelines | — |
 | esq. | Machine Learning (☧) | Modelos de otimização · Sistemas de Recomendação · Aprendizado por Reforço | — |
 | esq. | Deep Learning (✣) | Redes Neurais Artificiais (ANN) · Processamento de Linguagem Natural (NLP) | Redes Neurais Recorrentes: RNN · LSTM · GRU |
@@ -194,7 +208,7 @@ Rodapé: texto "© 2026 — Portfólio de Dados"; lema "ANALISAR", "CONSTRUIR", 
 - **FR-001**: O sistema DEVE fornecer a página `pages/spa/artigos.astro` (e a cópia `pages/artigos/artigos.astro`), com a folha `pages/artigos/assets/css/artigos.css` gerada a partir de [estilos.md](../../catalog/estilos.md) contendo apenas os elementos e estilos usados na página (R-S02), os dados em `pages/artigos/data/artigos.json` e o script `pages/artigos/assets/js/artigos.js`. Os elementos do catálogo são componentes compartilhados em `pages/spa/components/elementos/`.
 - **FR-002**: A página DEVE ser injetada em `#page-content-host` pelo roteador SPA, via History API, sem recarregar a página. O elemento raiz DEVE conter `id="page-content"`, `data-page-id="artigos"` e `data-page-title="Artigos técnicos"`.
 - **FR-003**: A composição da página DEVE seguir a seção 4 (Estrutura); a aparência de cada elemento é a do estilo indicado, conforme [estilos.md](../../catalog/estilos.md).
-- **FR-004**: O catálogo exibido DEVE corresponder exatamente a `@dados.colunas` (13 grupos, 4 subgrupos, 42 artigos), na ordem do arquivo; só o grupo com `aberto: true` inicia aberto.
+- **FR-004**: O catálogo exibido DEVE corresponder exatamente a `@dados.colunas` (13 grupos, 4 subgrupos, 42 artigos), na ordem do arquivo; todos os grupos e subgrupos iniciam recolhidos (nenhum declara `aberto`).
 - **FR-005**: Abrir e fechar grupos e subgrupos é comportamento nativo do `accordion` (sem JavaScript).
 - **FR-006**: **Seleção de artigos** (`artigos.js`):
   - **FR-006.1**: ao clicar num `link-item`, o script DEVE impedir a navegação imediata, desfazer a seleção anterior (classe `is-selecionado` e marca `link-item-check`), aplicar `is-selecionado` ao item clicado e anexar `<span class="link-item-check">✓</span>`;
@@ -208,7 +222,7 @@ Rodapé: texto "© 2026 — Portfólio de Dados"; lema "ANALISAR", "CONSTRUIR", 
 ### 7.2 Key Entities
 
 - Os elementos da página (`page-root`, `container`, `page-title`, `paragraph`, `divider`, `grid`, `vertical-list`, `accordion`, `link-item`, `page-footer`) estão definidos em [elementos.md](../../catalog/elementos.md).
-- **Grupo** (dados): `icone`, `titulo`, `aberto?`, `artigos[]`, `subgrupos[]`; **Artigo**: `titulo`, `url` — ver `pages/artigos/data/artigos.json`.
+- **Grupo** (dados): `icone`, `titulo`, `artigos[]`, `subgrupos[]`; **Artigo**: `titulo`, `url` — ver `pages/artigos/data/artigos.json`.
 
 ---
 
@@ -218,7 +232,7 @@ Rodapé: texto "© 2026 — Portfólio de Dados"; lema "ANALISAR", "CONSTRUIR", 
 
 - **SC-001**: A página é injetada em `#page-content-host` em menos de 150ms, sem recarregamento completo.
 - **SC-002**: 100% dos elementos da página exibem a aparência do estilo indicado na seção 4, conforme [estilos.md](../../catalog/estilos.md).
-- **SC-003**: 100% dos 13 grupos, 4 subgrupos e 42 artigos de `@dados.colunas` são exibidos, com "Análise de dados e BI" aberto por padrão.
+- **SC-003**: 100% dos 13 grupos, 4 subgrupos e 42 artigos de `@dados.colunas` são exibidos, todos recolhidos por padrão.
 - **SC-004**: 100% dos cliques em artigos exibem o estado selecionado e `✓` antes da navegação em 150ms, sem duplicação de listeners após várias navegações SPA.
 - **SC-005**: Em larguras efetivas de 1280, 1366, 1536 e 1920 pixels, com o navegador em 100% de zoom e o sistema operacional em escala de 100%, 125% ou 150%, a página exibe textos e espaçamentos equilibrados, sem rolagem horizontal.
 - **SC-006**: Em celular (largura aproximada de 375 pixels) e tablet (largura aproximada de 768 pixels), a página apresenta layout adaptado e legível, sem rolagem horizontal.

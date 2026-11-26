@@ -96,3 +96,26 @@ description: "Lista de tarefas executáveis para a implementação da Página 'M
 - [x] T013 [P] Verificar a conformidade estrita de caminhos absolutos de assets (`/pages/contatos/assets/images/...`) conforme a convenção SPA
 - [x] T014 Executar a validação completa de build estático (`npm run build`) para garantir zero erros de compilação
 - [x] T015 Validar todos os cenários E2E descritos em `quickstart.md`
+
+---
+
+## Phase 8: Um Cartão por Linha (2026-11-26)
+
+**Goal**: A grade de contatos passa de `{colunas: 1 → 2 @768}` para `{colunas: 1}` (seção 4), exibindo 1 cartão por linha em todas as larguras.
+
+- [x] T016 [US4] Trocar `colunas={{ base: 1, 768: 2 }}` por `colunas={1}` no `Grid` — `pages/contatos/contatos.astro` e `pages/spa/contatos.astro`
+- [x] T017 Executar `npm run build` e verificar na SPA, em larguras abaixo e acima de 768px, 1 cartão por linha sem rolagem horizontal
+
+---
+
+## Phase 9: Botão "Copiar" nos Cartões (FR-010 — 2026-11-26)
+
+**Goal**: Cada cartão de contato oferece um botão "Copiar" que copia o valor do contato sem abrir o destino.
+
+- [x] T018 [US2] Catálogo: `link-card` passa a `div` com o link no valor (estendido sobre o cartão), ganha a configuração `copiar` e o botão `.link-card-copy` — `.specify/catalog/elementos.md`
+- [x] T019 [US2] Estilos: partes `link-card-copy`, `link-card-copy-icon`, `link-card-copy-check`, `link-card-copy-label`, estados de foco e `is-copiado`, e cores no estilo `ciano` — `.specify/catalog/estilos.md`
+- [x] T020 [US2] Componente: nova marcação e prop `copiar` — `pages/spa/components/elementos/LinkCard.astro`
+- [x] T021 [US2] Página: `<LinkCard estilo="ciano" copiar …>` e script inline — `pages/contatos/contatos.astro` e `pages/spa/contatos.astro`
+- [x] T022 [US2] CSS gerado a partir de estilos.md — `pages/contatos/assets/css/contatos.css`
+- [x] T023 [US2] Script de cópia (delegação idempotente, Clipboard API + fallback, feedback de 1,8s) — `pages/contatos/assets/js/contatos.js`
+- [x] T024 Executar `npm run build` e validar na SPA: cópia, feedback, nenhum destino aberto ao copiar, clique no cartão ainda abre o destino, revisitas sem listener duplicado, 375px e 1366px sem rolagem horizontal
